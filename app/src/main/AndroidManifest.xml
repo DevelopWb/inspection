@@ -30,7 +30,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-
+        <activity android:name="com.juntai.wisdom.inspection.securityCheck.SecurityCheckSiteActivity"></activity>
         <activity
             android:name="com.juntai.wisdom.inspection.home_page.QRScanActivity"
             android:launchMode="singleTop" />

@@ -1,20 +1,41 @@
 package com.juntai.wisdom.inspection.home_page;
 
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.basecomponent.base.BaseMvpFragment;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
+import com.juntai.wisdom.inspection.bean.HomePageMenuBean;
 import com.juntai.wisdom.inspection.mine.MyCenterContract;
+import com.juntai.wisdom.inspection.securityCheck.SecurityCheckSiteActivity;
+import com.juntai.wisdom.inspection.utils.AppUtils;
+import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 /**
  * @aouther tobato
  * @description 描述  homepage
- * @date 2021/4/17 14:59
+ * @date 2021/4/18 14:59
  */
 public class HomePageFragment extends BaseMvpFragment<HomePagePresent> implements MyCenterContract.ICenterView,
         View.OnClickListener {
+
+    private View view;
+    private LinearLayout mSearchLl;
+    private ImageView mScanIv;
+    private RecyclerView mRecyclerview;
+    private SmartRefreshLayout mSmartrefreshlayout;
+    private HomePageMenuAdapter menuAdapter;
 
     @Override
     protected int getLayoutRes() {
@@ -23,6 +44,56 @@ public class HomePageFragment extends BaseMvpFragment<HomePagePresent> implement
 
     @Override
     protected void initView() {
+
+
+        mSearchLl = (LinearLayout) getView(R.id.search_ll);
+        mSearchLl.setOnClickListener(this);
+        mScanIv = (ImageView) getView(R.id.scan_iv);
+        mScanIv.setOnClickListener(this);
+        mRecyclerview = (RecyclerView) getView(R.id.recyclerview);
+        mSmartrefreshlayout = (SmartRefreshLayout) getView(R.id.smartrefreshlayout);
+        mSmartrefreshlayout.setEnableLoadMore(false);
+        mSmartrefreshlayout.setEnableRefresh(false);
+        menuAdapter = new HomePageMenuAdapter(R.layout.homepage_menu_item);
+        GridLayoutManager manager = new GridLayoutManager(mContext, 2);
+        mRecyclerview.setLayoutManager(manager);
+        mRecyclerview.setAdapter(menuAdapter);
+        menuAdapter.setNewData(mPresenter.getMenuList());
+        menuAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                HomePageMenuBean menuBean = (HomePageMenuBean) adapter.getData().get(position);
+                String menuName = menuBean.getMenuName();
+                if (TextUtils.isEmpty(menuName)) {
+                    return;
+                }
+                Intent intent = new Intent();
+                switch (menuName) {
+                    //                    case HomePageContract.HOMEPAGE_MENU_FIRE_CHECK:
+                    //                        //消防检查
+                    //                        intent.setClass(mContext,)
+                    //                        break;
+                    //                    case HomePageContract.HOMEPAGE_MENU_FIRE_CHECK:
+                    //                        //消防检查
+                    //                        intent.setClass(mContext,)
+                    //                        break;
+                    case HomePageContract.HOMEPAGE_MENU_SECURITY_CHECK:
+                        //消防检查
+                        intent.setClass(mContext, SecurityCheckSiteActivity.class);
+                        break;
+                    case HomePageContract.HOMEPAGE_MENU_FIRE_CHECK:
+                        //消防检查
+                        //                        intent.setClass(mContext,)
+                        break;
+                    default:
+                        break;
+                }
+                startActivity(intent);
+            }
+        });
+
+        mSearchLl = (LinearLayout) view.findViewById(R.id.search_ll);
+        mScanIv = (ImageView) view.findViewById(R.id.scan_iv);
     }
 
     @Override
@@ -51,10 +122,6 @@ public class HomePageFragment extends BaseMvpFragment<HomePagePresent> implement
 
 
     @Override
-    public void onClick(View v) {
-    }
-
-    @Override
     public void onSuccess(String tag, Object o) {
     }
 
@@ -63,4 +130,18 @@ public class HomePageFragment extends BaseMvpFragment<HomePagePresent> implement
         ToastUtils.error(mContext, String.valueOf(o));
     }
 
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            default:
+                break;
+            case R.id.search_ll:
+                break;
+            case R.id.scan_iv:
+                getActivity().startActivityForResult(new Intent(getActivity(),
+                        QRScanActivity.class), AppUtils.QR_SCAN_NOMAL);
+                break;
+        }
+    }
 }
