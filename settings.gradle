@@ -1,0 +1,4 @@
+include ':module_Base', ':module_Map', ':module_Video',
+        ':app', ':banner',
+        ':pushpermission',
+        ':zXingLiteLib',   ':jjdxm-ijkplayer'
