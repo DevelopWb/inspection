@@ -25,17 +25,17 @@ android {
     }
     android.applicationVariants.all { variant ->
         variant.outputs.all {
-            outputFileName = "智慧残联-" + variant.versionCode + "-" + variant.versionName + ".apk"
+            outputFileName = "基类-" + variant.versionCode + "-" + variant.versionName + ".apk"
         }
     }
     signingConfigs {
         release {
             //设置release的签名信息
             //c204528aaa01367971e36f2b06a2dc25
-            storeFile file('jingxiaobao.jks')
-            storePassword "juntai2254"
-            keyAlias "key0"
-            keyPassword "jxb3312"
+            storeFile file('juntaikey.jks')
+            storePassword "bugaosuni5156"
+            keyAlias "juntaikey"
+            keyPassword "bugaosuni5156"
             v1SigningEnabled true
             v2SigningEnabled true
         }
@@ -98,9 +98,7 @@ dependencies {
     implementation 'com.oginotihiro:cropview:1.0.0'
     implementation 'com.github.AlexLiuSheng:CheckVersionLib:2.3.3.1_appcompat'
     implementation project(':jjdxm-ijkplayer')
-    implementation 'com.afollestad.material-dialogs:core:0.9.6.0'
-    //打星控件
-    implementation 'com.hedgehog.ratingbar:app:1.1.2'
+
     //数据库框架
     implementation 'org.greenrobot:greendao:3.2.2'
     implementation 'com.haibin:calendarview:3.4.8'
