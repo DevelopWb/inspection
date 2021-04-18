@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/bg_white_only_bottom_gray_shape_1px"
-    tools:context=".entrance.LoginActivity">
+    tools:context="com.juntai.wisdom.inspection.entrance.LoginActivity">
 
     <ImageView
         android:id="@+id/close_iv"
