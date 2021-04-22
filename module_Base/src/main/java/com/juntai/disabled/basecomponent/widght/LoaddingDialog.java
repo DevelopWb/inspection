@@ -41,7 +41,7 @@ public class LoaddingDialog extends Dialog {
         WindowManager.LayoutParams lp = window.getAttributes();
 
         lp.width = BaseApplication.width;
-        lp.height = BaseApplication.H - BaseApplication.statusBarH;
+        lp.height = BaseApplication.HEIGHT - BaseApplication.statusBarH;
         window.setGravity(Gravity.CENTER);
         window.setAttributes(lp);
         window.setContentView(R.layout.loaddingdialog);

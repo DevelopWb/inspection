@@ -92,8 +92,8 @@ public class HomePageFragment extends BaseMvpFragment<HomePagePresent> implement
             }
         });
 
-        mSearchLl = (LinearLayout) view.findViewById(R.id.search_ll);
-        mScanIv = (ImageView) view.findViewById(R.id.scan_iv);
+        mSearchLl = (LinearLayout) getView(R.id.search_ll);
+        mScanIv = (ImageView) getView(R.id.scan_iv);
     }
 
     @Override

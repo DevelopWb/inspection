@@ -54,7 +54,7 @@ public abstract class BottomDialogFragment extends DialogFragment {
         WindowManager.LayoutParams wlp = window.getAttributes();
         wlp.gravity = Gravity.BOTTOM;
         wlp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        wlp.height = BaseApplication.H / 4 * 3 ;
+        wlp.height = BaseApplication.HEIGHT / 4 * 3 ;
         window.setAttributes(wlp);
         initView(view);
         return dialog;

@@ -382,7 +382,13 @@ public class SelectPhotosFragment extends BaseMvpFragment implements View.OnClic
 
     @Override
     protected void initData() {
-        GridLayoutManager managere = new GridLayoutManager(mContext, mSpanCount);
+        GridLayoutManager managere = new GridLayoutManager(mContext, mSpanCount)
+        {
+            @Override
+            public boolean canScrollVertically() {
+                return false;
+            }
+        };
         mSelectPhotosRv.setLayoutManager(managere);
         mSelectPhotosRv.setAdapter(selectedPicsAdapter);
         selectedPicsAdapter.setWidthAndHeigh(calculateImageHeight());

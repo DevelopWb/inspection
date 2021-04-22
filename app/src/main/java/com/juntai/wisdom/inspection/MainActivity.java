@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.graphics.Color;
 import android.os.Handler;
 import android.support.annotation.Nullable;
 import android.support.design.widget.TabLayout;
@@ -13,9 +14,13 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.util.Log;
 import android.util.SparseArray;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.google.gson.Gson;
@@ -43,8 +48,8 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
     List<LocationBean> cacheDatas = new ArrayList<>();//
 
     private TabLayout mainTablayout;
-    private String[] title = new String[]{"首页", "我的"};
-    private int[] tabDrawables = new int[]{R.drawable.home_index,R.drawable.home_msg};
+    private String[] title = new String[]{"首页", "添加","我的"};
+    private int[] tabDrawables = new int[]{R.drawable.home_index,R.drawable.home_index,R.drawable.home_msg};
     private SparseArray<Fragment> mFragments = new SparseArray<>();
     //
     CGBroadcastReceiver broadcastReceiver = new CGBroadcastReceiver();
@@ -106,14 +111,13 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
         mainTablayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                mainViewpager.setCurrentItem(tab.getPosition(), false);
-//                if (tab.getPosition() == 1) {
-//                    //条件弹窗
-//                    initPopType(mainTablayout);
-//                } else {
-//                    mainViewpager.setCurrentItem(tab.getPosition(), false);
-//
-//                }
+                if (tab.getPosition() == 1) {
+                    //条件弹窗
+                    add(mainTablayout);
+                } else {
+                    mainViewpager.setCurrentItem(tab.getPosition(), false);
+
+                }
 
             }
 
@@ -124,10 +128,10 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
 
             @Override
             public void onTabReselected(TabLayout.Tab tab) {
-//                if (tab.getPosition() == 1) {
-//                    //条件弹窗
-//                    initPopType(mainTablayout);
-//                }
+                if (tab.getPosition() == 1) {
+                    //条件弹窗
+                    add(mainTablayout);
+                }
             }
         });
 
@@ -150,7 +154,44 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
     public void onPageScrollStateChanged(int i) {
 
     }
-
+    /**
+     * 添加
+     *
+     * @param view
+     */
+    public void add(View view) {
+//        if (!MyApp.isLogin()) {
+//            MyApp.goLogin();
+//            return;
+//        }
+        View viewPop = LayoutInflater.from(mContext).inflate(R.layout.pop_add, null);
+        //背景颜色
+        view.setBackgroundColor(Color.WHITE);
+        TextView shadowTv = viewPop.findViewById(R.id.shadow_tv);
+        shadowTv.setOnClickListener(this);
+        popupWindow = new PopupWindow(viewPop, ViewGroup.LayoutParams.MATCH_PARENT,
+                MyApp.HEIGHT - mainTablayout.getLayoutParams().height - MyApp.statusBarH, true);
+        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+            @Override
+            public void onDismiss() {
+                mImmersionBar.statusBarColor(R.color.white).statusBarDarkFont(true).init();
+            }
+        });
+        //显示（自定义位置）
+        popupWindow.showAtLocation(mainTablayout, Gravity.TOP, 0, 0);
+        if (popupWindow.isShowing()) {
+            mImmersionBar.statusBarColor(R.color.gray_light).statusBarDarkFont(true).init();
+        }
+        viewPop.findViewById(R.id.anjian_btn).setOnClickListener(v -> {
+            popupWindow.dismiss();
+        });
+        viewPop.findViewById(R.id.zixun_btn).setOnClickListener(v -> {
+            popupWindow.dismiss();
+        });
+        viewPop.findViewById(R.id.site_iv).setOnClickListener(v -> {
+            popupWindow.dismiss();
+        });
+    }
 
     @Override
     public void onSuccess(String tag, Object o) {

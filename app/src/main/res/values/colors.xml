@@ -3,9 +3,9 @@
     <color name="colorPrimary">#ffffff</color>
     <color name="colorPrimaryDark">#ffffff</color>
     <color name="statusBarColor">#ffffff</color>
-    <color name="textColorPrimary">#5e000000</color>
-    <color name="colorAccent">#FB7D06</color>
-    <color name="colorTheme">#99FB7D06</color>
+    <color name="textColorPrimary">#286AE2</color>
+    <color name="colorAccent">#286AE2</color>
+    <color name="colorTheme">#286AE2</color>
     <color name="colorThemeDark">#FB7D06</color>
     <color name="color_bt_pressed">#AAFB7D06</color>
     <color name="gray_deeper">#8B8B8B</color>

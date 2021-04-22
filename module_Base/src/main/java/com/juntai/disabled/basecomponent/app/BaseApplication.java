@@ -29,7 +29,7 @@ import java.lang.ref.SoftReference;
 import java.util.ArrayList;
 
 public abstract class BaseApplication extends MultiDexApplication {
-    public static int H, width, statusBarH;
+    public static int HEIGHT, width, statusBarH;
     public static int navigationBarH;
     public static BaseApplication app;
     private RefWatcher mRefWatcher;
@@ -146,7 +146,7 @@ public abstract class BaseApplication extends MultiDexApplication {
     public void getScreen(Context aty) {
         //依赖于手机系统，获取到的是系统的屏幕信息；
         DisplayMetrics dm = aty.getResources().getDisplayMetrics();
-        H = dm.heightPixels;
+        HEIGHT = dm.heightPixels;
         width = dm.widthPixels;
         int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
         if (resourceId > 0) {

@@ -25,7 +25,7 @@ android {
     }
     android.applicationVariants.all { variant ->
         variant.outputs.all {
-            outputFileName = "基类-" + variant.versionCode + "-" + variant.versionName + ".apk"
+            outputFileName = "智慧巡检-" + variant.versionCode + "-" + variant.versionName + ".apk"
         }
     }
     signingConfigs {
