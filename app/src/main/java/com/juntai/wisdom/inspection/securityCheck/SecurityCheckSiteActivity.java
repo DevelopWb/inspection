@@ -1,7 +1,6 @@
 package com.juntai.wisdom.inspection.securityCheck;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
@@ -11,6 +10,8 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.base.BaseAppActivity;
+import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectContract;
+import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectPresent;
 import com.juntai.wisdom.inspection.utils.StringTools;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -19,7 +20,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
  * @description 描述  治安巡检
  * @date 2021/4/18 16:43
  */
-public class SecurityCheckSiteActivity extends BaseAppActivity<SecurityPresent> implements SecurityContract.ISecurityView {
+public class SecurityCheckSiteActivity extends BaseAppActivity<BaseInspectPresent> implements BaseInspectContract.IInspectView {
 
     private SearchView mSearchContentSv;
     private RecyclerView mRecyclerview;
@@ -27,7 +28,7 @@ public class SecurityCheckSiteActivity extends BaseAppActivity<SecurityPresent> 
     private SecurityCheckSiteAdapter adapter;
 
     @Override
-    protected SecurityPresent createPresenter() {
+    protected BaseInspectPresent createPresenter() {
         return null;
     }
 

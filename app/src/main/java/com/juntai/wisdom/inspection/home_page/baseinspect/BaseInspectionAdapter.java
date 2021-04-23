@@ -1,4 +1,4 @@
-package com.juntai.wisdom.inspection.base;
+package com.juntai.wisdom.inspection.home_page.baseinspect;
 
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
@@ -55,6 +55,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         addItemType(MultipleItem.ITEM_SELECT, R.layout.item_layout_type_select);
         addItemType(MultipleItem.ITEM_FRAGMENT, R.layout.item_layout_type_fragment);
         addItemType(MultipleItem.ITEM_NORMAL_RECYCLEVIEW, R.layout.item_layout_type_recyclerview);
+        addItemType(MultipleItem.ITEM_LOCATION, R.layout.item_layout_location);
         this.isDetail = isDetail;
     }
 
@@ -101,7 +102,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                     editText.setSingleLine(true);
                 } else {
                     lp.height = LinearLayout.LayoutParams.WRAP_CONTENT;
-                    editText.setMinimumHeight(DisplayUtil.dp2px(mContext, 150));
+                    editText.setMinimumHeight(DisplayUtil.dp2px(mContext, 100));
                     editText.setGravity(Gravity.TOP);
                     editText.setSingleLine(false);
                 }
@@ -221,29 +222,15 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 break;
             case MultipleItem.ITEM_NORMAL_RECYCLEVIEW:
                 //recycleview
-//                RecycleBean recycleBean = (RecycleBean) item.getObject();
-//                RecyclerView recyclerView = helper.getView(R.id.item_normal_rv);
-//                int layoutType = recycleBean.getLayoutManagerType();
-//                CheckBoxAdapter checkBoxAdapter = new CheckBoxAdapter(R.layout.item_business_checkboxes,
-//                        recycleBean.getData(), recycleBean.isSigleSelect(), isDetail);
-//                LinearLayoutManager manager = null;
-//                switch (layoutType) {
-//                    case 0:
-//                        manager = new LinearLayoutManager(mContext, LinearLayoutManager.HORIZONTAL
-//                                , false);
-//                        break;
-//                    case 1:
-//                        manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL
-//                                , false);
-//                        break;
-//                    case 2:
-//                        manager = new GridLayoutManager(mContext, recycleBean.getSpanCount());
-//                        break;
-//                    default:
-//                        break;
-//                }
-//                recyclerView.setAdapter(checkBoxAdapter);
-//                recyclerView.setLayoutManager(manager);
+
+                List<TextKeyValueBean> arrays = (List<TextKeyValueBean>) item.getObject();
+                RecyclerView recyclerView = helper.getView(R.id.item_normal_rv);
+                LinearLayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL
+                                                        , false);
+                TextKeyValueAdapter adapter = new TextKeyValueAdapter(R.layout.text_key_value_item);
+                adapter.setNewData(arrays);
+                recyclerView.setAdapter(adapter);
+                recyclerView.setLayoutManager(manager);
                 break;
 
             default:

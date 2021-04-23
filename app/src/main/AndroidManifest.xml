@@ -30,7 +30,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.juntai.wisdom.inspection.securityCheck.SecurityInspectionSiteMoreInfoActivity"></activity>
+        <activity android:name="com.juntai.wisdom.inspection.securityCheck.EditSecurityInspectSiteActivity"></activity>
+        <activity android:name="com.juntai.wisdom.inspection.securityCheck.SecurityInspectionSiteMoreInfoActivity" />
         <activity android:name="com.juntai.wisdom.inspection.securityCheck.SecurityInspectionInfoActivity" />
         <activity android:name="com.juntai.wisdom.inspection.securityCheck.SecurityCheckSiteActivity" />
         <activity

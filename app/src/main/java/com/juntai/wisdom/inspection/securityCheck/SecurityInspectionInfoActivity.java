@@ -1,7 +1,6 @@
 package com.juntai.wisdom.inspection.securityCheck;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.constraint.ConstraintLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -11,7 +10,9 @@ import android.widget.TextView;
 
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.base.BaseAppActivity;
-import com.juntai.wisdom.inspection.base.TextKeyValueAdapter;
+import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectContract;
+import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectPresent;
+import com.juntai.wisdom.inspection.home_page.baseinspect.TextKeyValueAdapter;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
 
 import java.util.ArrayList;
@@ -22,7 +23,7 @@ import java.util.List;
  * @description 描述  治安巡检信息
  * @date 2021/4/20 16:12
  */
-public class SecurityInspectionInfoActivity extends BaseAppActivity<SecurityPresent> implements SecurityContract.ISecurityView, View.OnClickListener {
+public class SecurityInspectionInfoActivity extends BaseAppActivity<BaseInspectPresent> implements BaseInspectContract.IInspectView, View.OnClickListener {
 
     private RecyclerView mRecyclerview;
     private ImageView mQrCodeIv;
@@ -41,7 +42,7 @@ public class SecurityInspectionInfoActivity extends BaseAppActivity<SecurityPres
     private TextView mStartInspectTv;
 
     @Override
-    protected SecurityPresent createPresenter() {
+    protected BaseInspectPresent createPresenter() {
         return null;
     }
 

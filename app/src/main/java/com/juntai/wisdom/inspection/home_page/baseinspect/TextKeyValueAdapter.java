@@ -1,4 +1,4 @@
-package com.juntai.wisdom.inspection.base;
+package com.juntai.wisdom.inspection.home_page.baseinspect;
 
 import android.view.Gravity;
 import android.widget.TextView;
