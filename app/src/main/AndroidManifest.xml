@@ -30,10 +30,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.juntai.wisdom.inspection.securityCheck.EditSecurityInspectSiteActivity"></activity>
-        <activity android:name="com.juntai.wisdom.inspection.securityCheck.SecurityInspectionSiteMoreInfoActivity" />
-        <activity android:name="com.juntai.wisdom.inspection.securityCheck.SecurityInspectionInfoActivity" />
-        <activity android:name="com.juntai.wisdom.inspection.securityCheck.SecurityCheckSiteActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.securityCheck.SecurityInspectRecordDetailActivity"></activity>
+        <activity android:name="com.juntai.wisdom.inspection.home_page.securityCheck.SecurityInspectRecordActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.securityCheck.StartSecurityInspectActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.securityCheck.EditSecurityInspectSiteActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.securityCheck.SecurityInspectionSiteMoreInfoActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.securityCheck.SecurityInspectionSiteInfoActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.securityCheck.SecurityInspectionSitesActivity" />
         <activity
             android:name="com.juntai.wisdom.inspection.home_page.QRScanActivity"
             android:launchMode="singleTop" />

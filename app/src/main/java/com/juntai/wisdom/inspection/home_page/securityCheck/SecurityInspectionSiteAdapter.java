@@ -1,4 +1,4 @@
-package com.juntai.wisdom.inspection.securityCheck;
+package com.juntai.wisdom.inspection.home_page.securityCheck;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -10,8 +10,8 @@ import com.chad.library.adapter.base.BaseViewHolder;
  * @UpdateUser: 更新者
  * @UpdateDate: 2021/4/20 14:14
  */
-public class SecurityCheckSiteAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
-    public SecurityCheckSiteAdapter(int layoutResId) {
+public class SecurityInspectionSiteAdapter extends BaseQuickAdapter<String, BaseViewHolder> {
+    public SecurityInspectionSiteAdapter(int layoutResId) {
         super(layoutResId);
     }
 

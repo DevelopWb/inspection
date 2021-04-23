@@ -19,6 +19,8 @@ public interface BaseInspectContract {
     public static  String INSPECTION_TEL = "联系电话";
     public static  String INSPECTION_SPARE_PERSON = "备用联系人";
     public static  String INSPECTION_SPARE_PERSON_TEL = "备用联系人电话";
+    public static  String INSPECTION_CHECK_TYPE = "检查类型";
+    public static  String INSPECTION_CHECK_PROBLEMS = "问题及巡查情况";
 
     interface IInspectView extends IView {}
 

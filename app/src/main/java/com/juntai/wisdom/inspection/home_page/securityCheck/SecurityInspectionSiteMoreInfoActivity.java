@@ -1,4 +1,4 @@
-package com.juntai.wisdom.inspection.securityCheck;
+package com.juntai.wisdom.inspection.home_page.securityCheck;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;

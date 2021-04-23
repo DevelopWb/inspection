@@ -2,13 +2,10 @@ package com.juntai.wisdom.inspection.home_page;
 
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
@@ -18,7 +15,7 @@ import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.bean.HomePageMenuBean;
 import com.juntai.wisdom.inspection.mine.MyCenterContract;
-import com.juntai.wisdom.inspection.securityCheck.SecurityCheckSiteActivity;
+import com.juntai.wisdom.inspection.home_page.securityCheck.SecurityInspectionSitesActivity;
 import com.juntai.wisdom.inspection.utils.AppUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -79,7 +76,7 @@ public class HomePageFragment extends BaseMvpFragment<HomePagePresent> implement
                     //                        break;
                     case HomePageContract.HOMEPAGE_MENU_SECURITY_CHECK:
                         //消防检查
-                        intent.setClass(mContext, SecurityCheckSiteActivity.class);
+                        intent.setClass(mContext, SecurityInspectionSitesActivity.class);
                         break;
                     case HomePageContract.HOMEPAGE_MENU_FIRE_CHECK:
                         //消防检查

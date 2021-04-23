@@ -1,4 +1,4 @@
-package com.juntai.wisdom.inspection.securityCheck;
+package com.juntai.wisdom.inspection.home_page.securityCheck;
 
 import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
@@ -17,15 +17,15 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 /**
  * @aouther tobato
- * @description 描述  治安巡检
+ * @description 描述  搜索所有的治安巡检点
  * @date 2021/4/18 16:43
  */
-public class SecurityCheckSiteActivity extends BaseAppActivity<BaseInspectPresent> implements BaseInspectContract.IInspectView {
+public class SecurityInspectionSitesActivity extends BaseAppActivity<BaseInspectPresent> implements BaseInspectContract.IInspectView {
 
     private SearchView mSearchContentSv;
     private RecyclerView mRecyclerview;
     private SmartRefreshLayout mSmartrefreshlayout;
-    private SecurityCheckSiteAdapter adapter;
+    private SecurityInspectionSiteAdapter adapter;
 
     @Override
     protected BaseInspectPresent createPresenter() {
@@ -42,7 +42,7 @@ public class SecurityCheckSiteActivity extends BaseAppActivity<BaseInspectPresen
         setTitleName("治安巡检点");
         mSearchContentSv = (SearchView) findViewById(R.id.search_content_sv);
         mRecyclerview = (RecyclerView) findViewById(R.id.recyclerview);
-        adapter = new SecurityCheckSiteAdapter(R.layout.check_item);
+        adapter = new SecurityInspectionSiteAdapter(R.layout.check_item);
         initRecyclerview(mRecyclerview, adapter, LinearLayoutManager.VERTICAL);
         adapter.setNewData(getTestData());
         mSmartrefreshlayout = (SmartRefreshLayout) findViewById(R.id.smartrefreshlayout);
@@ -69,7 +69,7 @@ public class SecurityCheckSiteActivity extends BaseAppActivity<BaseInspectPresen
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(mContext,SecurityInspectionInfoActivity.class));
+                startActivity(new Intent(mContext, SecurityInspectionSiteInfoActivity.class));
             }
         });
 

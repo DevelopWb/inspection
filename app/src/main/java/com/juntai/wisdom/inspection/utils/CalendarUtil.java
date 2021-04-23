@@ -14,7 +14,7 @@ import java.util.Locale;
  * @UpdateDate: 2020/4/3 15:58
  */
 public class CalendarUtil {
-    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.CHINA);
+    private static SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.CHINA);
 
     /**
      * 时间戳转 yyyy-MM-dd HH:mm:ss

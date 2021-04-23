@@ -5,6 +5,7 @@ import com.juntai.wisdom.inspection.base.BaseAppPresent;
 import com.juntai.wisdom.inspection.bean.ImportantTagBean;
 import com.juntai.wisdom.inspection.bean.MultipleItem;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
+import com.juntai.wisdom.inspection.utils.CalendarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,9 +37,38 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT,""));
         return arrays;
     }
+    /**
+     * 开始治安巡检数据
+     * @return
+     */
+    public List<MultipleItem> getSecurityInpsectData() {
+        List<MultipleItem> arrays = new ArrayList<>();
+        arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW,
+                getStartInspectBaseData()));
+        initTextType(arrays, MultipleItem.ITEM_SELECT, BaseInspectContract.INSPECTION_CHECK_TYPE, "", false, 0);
+        initTextType(arrays, MultipleItem.ITEM_SELECT, BaseInspectContract.INSPECTION_CHECK_PROBLEMS, "", false, 0);
+
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, "", false, 1);
+        arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传巡查图片"));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT,""));
+        return arrays;
+    }
+    /**
+     * 治安巡检记录详情
+     * @return
+     */
+    public List<MultipleItem> getSecurityInpsectRecordDetailData() {
+        List<MultipleItem> arrays = new ArrayList<>();
+        arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW,
+                getStartInspectBaseData()));
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, "", false, 1);
+        arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传巡查图片"));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT,""));
+        return arrays;
+    }
 
     /**
-     *
+     *编辑治安巡检点信息
      * @return
      */
     public List<MultipleItem> getEditSecurityInspectSiteInfo() {
@@ -56,7 +86,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         return arrays;
     }
 
-    private List<TextKeyValueBean> getData() {
+    public List<TextKeyValueBean> getData() {
         List<TextKeyValueBean> arrays = new ArrayList<>();
         arrays.add(new TextKeyValueBean("巡检点:", "暂无"));
         arrays.add(new TextKeyValueBean("巡检地址:", "暂无"));
@@ -64,6 +94,15 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         arrays.add(new TextKeyValueBean("联系电话:", "暂无"));
         arrays.add(new TextKeyValueBean("备用联系人:", "暂无"));
         arrays.add(new TextKeyValueBean("联系电话:", "暂无"));
+        return arrays;
+    }
+
+    private List<TextKeyValueBean> getStartInspectBaseData() {
+        List<TextKeyValueBean> arrays = new ArrayList<>();
+        arrays.add(new TextKeyValueBean("检查时间:", CalendarUtil.getCurrentTime()));
+        arrays.add(new TextKeyValueBean("检查人员:", "暂无"));
+        arrays.add(new TextKeyValueBean("责任人:", "暂无"));
+        arrays.add(new TextKeyValueBean("电话号码:", "暂无"));
         return arrays;
     }
 
@@ -79,12 +118,11 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                               boolean isImportant, int editHeightType) {
         switch (layoutType) {
             case MultipleItem.ITEM_SELECT:
-                //                arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL, new ImportantTagBean
-                //                (typeName,
-                //                        isImportant)));
-                //                arrays.add(new MultipleItem(MultipleItem.ITEM_SELECT,
-                //                        new BusinessTextValueBean(typeName, value, String.format("%s%s", "请选择",
-                //                                typeName), 0, isImportant)));
+                arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL, new ImportantTagBean
+                        (typeName,isImportant)));
+                arrays.add(new MultipleItem(MultipleItem.ITEM_SELECT,
+                        new TextKeyValueBean(typeName, value, String.format("%s%s", "请选择",
+                                                typeName), 0, isImportant)));
                 break;
             case MultipleItem.ITEM_EDIT:
                 arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL, new ImportantTagBean(typeName,

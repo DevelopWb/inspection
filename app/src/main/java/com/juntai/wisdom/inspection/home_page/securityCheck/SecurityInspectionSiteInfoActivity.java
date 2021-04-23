@@ -1,4 +1,4 @@
-package com.juntai.wisdom.inspection.securityCheck;
+package com.juntai.wisdom.inspection.home_page.securityCheck;
 
 import android.content.Intent;
 import android.support.constraint.ConstraintLayout;
@@ -23,7 +23,7 @@ import java.util.List;
  * @description 描述  治安巡检信息
  * @date 2021/4/20 16:12
  */
-public class SecurityInspectionInfoActivity extends BaseAppActivity<BaseInspectPresent> implements BaseInspectContract.IInspectView, View.OnClickListener {
+public class SecurityInspectionSiteInfoActivity extends BaseAppActivity<BaseInspectPresent> implements BaseInspectContract.IInspectView, View.OnClickListener {
 
     private RecyclerView mRecyclerview;
     private ImageView mQrCodeIv;
@@ -107,9 +107,12 @@ public class SecurityInspectionInfoActivity extends BaseAppActivity<BaseInspectP
                 break;
             case R.id.inspection_record_cl:
                 //巡检记录
+                startActivity(new Intent(mContext,SecurityInspectRecordActivity.class));
                 break;
             case R.id.start_inspect_tv:
                 //开始巡检
+
+                startActivity(new Intent(mContext,StartSecurityInspectActivity.class));
                 break;
         }
     }

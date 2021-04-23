@@ -202,23 +202,16 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
 //                }
                 break;
             case MultipleItem.ITEM_SELECT:
-//                TextKeyValueBean textValueSelectBean = (TextKeyValueBean) item.getObject();
-//                TextView textViewTv = helper.getView(R.id.select_value_tv);
-//                if (!isDetail) {
-//                    helper.addOnClickListener(R.id.select_value_tv);
-//                    helper.addOnClickListener(R.id.tool_pic_iv);
-//                }
-//                if (textValueSelectBean.getDataBean() != null && !TextUtils.isEmpty(textValueSelectBean.getDataBean().getImg())) {
-//                    helper.setGone(R.id.tool_pic_iv, true);
-//                    ImageLoadUtil.loadImageNoCache(mContext, textValueSelectBean.getDataBean().getImg(),
-//                            helper.getView(R.id.tool_pic_iv));
-//                } else {
-//                    helper.setGone(R.id.tool_pic_iv, false);
-//                }
-//                textViewTv.setTag(textValueSelectBean);
-//                TextKeyValueBean selectBean = (TextKeyValueBean) textViewTv.getTag();
-//                textViewTv.setHint(selectBean.getHint());
-//                textViewTv.setText(selectBean.getValue());
+                TextKeyValueBean textValueSelectBean = (TextKeyValueBean) item.getObject();
+                TextView textViewTv = helper.getView(R.id.select_value_tv);
+                if (!isDetail) {
+                    helper.addOnClickListener(R.id.select_value_tv);
+                    helper.addOnClickListener(R.id.tool_pic_iv);
+                }
+                textViewTv.setTag(textValueSelectBean);
+                TextKeyValueBean selectBean = (TextKeyValueBean) textViewTv.getTag();
+                textViewTv.setHint(selectBean.getHint());
+                textViewTv.setText(selectBean.getValue());
                 break;
             case MultipleItem.ITEM_NORMAL_RECYCLEVIEW:
                 //recycleview
