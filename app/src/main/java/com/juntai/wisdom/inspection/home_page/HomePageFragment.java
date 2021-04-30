@@ -14,6 +14,8 @@ import com.juntai.disabled.basecomponent.base.BaseMvpFragment;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.bean.HomePageMenuBean;
+import com.juntai.wisdom.inspection.home_page.firecheck.CompanysActivity;
+import com.juntai.wisdom.inspection.home_page.importantor.ImportantorsActivity;
 import com.juntai.wisdom.inspection.mine.MyCenterContract;
 import com.juntai.wisdom.inspection.home_page.securityCheck.SecurityInspectionSitesActivity;
 import com.juntai.wisdom.inspection.utils.AppUtils;
@@ -66,21 +68,21 @@ public class HomePageFragment extends BaseMvpFragment<HomePagePresent> implement
                 }
                 Intent intent = new Intent();
                 switch (menuName) {
-                    //                    case HomePageContract.HOMEPAGE_MENU_FIRE_CHECK:
-                    //                        //消防检查
-                    //                        intent.setClass(mContext,)
-                    //                        break;
-                    //                    case HomePageContract.HOMEPAGE_MENU_FIRE_CHECK:
-                    //                        //消防检查
-                    //                        intent.setClass(mContext,)
-                    //                        break;
-                    case HomePageContract.HOMEPAGE_MENU_SECURITY_CHECK:
-                        //消防检查
-                        intent.setClass(mContext, SecurityInspectionSitesActivity.class);
-                        break;
                     case HomePageContract.HOMEPAGE_MENU_FIRE_CHECK:
                         //消防检查
-                        //                        intent.setClass(mContext,)
+                        intent.setClass(mContext, CompanysActivity.class);
+                        break;
+                    case HomePageContract.HOMEPAGE_MENU_IMPORTANTER:
+                        //重点人员
+                        intent.setClass(mContext, ImportantorsActivity.class);
+                        break;
+                    case HomePageContract.HOMEPAGE_MENU_SECURITY_CHECK:
+                        //治安检查
+                        intent.setClass(mContext, SecurityInspectionSitesActivity.class);
+                        break;
+                    case HomePageContract.HOMEPAGE_MENU_FLOATING_POPULATION:
+                        //流动人口
+                        intent.setClass(mContext, SecurityInspectionSitesActivity.class);
                         break;
                     default:
                         break;

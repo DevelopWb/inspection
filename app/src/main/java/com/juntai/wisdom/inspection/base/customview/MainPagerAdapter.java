@@ -63,5 +63,15 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
         }
         return v;
     }
-
+    /**
+     * 自定义顶部消息tab
+     * @param position
+     * @return
+     */
+    public View getTabView(int position) {
+        View v = LayoutInflater.from(mContext).inflate(R.layout.custom_top_tabitem, null);
+        TextView title = v.findViewById(R.id.tabitem_text);
+        title.setText(titles[position]);
+        return v;
+    }
 }
