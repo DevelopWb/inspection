@@ -22,7 +22,7 @@ public class ImportantorInfoActivity extends BaseInspectionInfoActivity {
 
     @Override
     protected String getStartWorkName() {
-        return "开始走访";
+        return START_VISIT;
     }
 
     @Override

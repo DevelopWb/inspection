@@ -34,6 +34,9 @@ import com.juntai.wisdom.inspection.base.customview.MainPagerAdapter;
 import com.juntai.wisdom.inspection.bean.LocationBean;
 import com.juntai.wisdom.inspection.entrance.LoginActivity;
 import com.juntai.wisdom.inspection.home_page.HomePageFragment;
+import com.juntai.wisdom.inspection.home_page.add.SearchCompanyToAddActivity;
+import com.juntai.wisdom.inspection.home_page.add.SearchImportantorToAddActivity;
+import com.juntai.wisdom.inspection.home_page.add.SearchInspectSiteToAddActivity;
 import com.juntai.wisdom.inspection.mine.MyCenterFragment;
 
 import java.util.ArrayList;
@@ -182,13 +185,16 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
         if (popupWindow.isShowing()) {
             mImmersionBar.statusBarColor(R.color.gray_light).statusBarDarkFont(true).init();
         }
-        viewPop.findViewById(R.id.anjian_btn).setOnClickListener(v -> {
+        viewPop.findViewById(R.id.add_company_iv).setOnClickListener(v -> {
+            startActivity(new Intent(mContext, SearchCompanyToAddActivity.class));
             popupWindow.dismiss();
         });
-        viewPop.findViewById(R.id.zixun_btn).setOnClickListener(v -> {
+        viewPop.findViewById(R.id.add_importantor_iv).setOnClickListener(v -> {
+            startActivity(new Intent(mContext, SearchImportantorToAddActivity.class));
             popupWindow.dismiss();
         });
-        viewPop.findViewById(R.id.site_iv).setOnClickListener(v -> {
+        viewPop.findViewById(R.id.add_site_iv).setOnClickListener(v -> {
+            startActivity(new Intent(mContext, SearchInspectSiteToAddActivity.class));
             popupWindow.dismiss();
         });
     }

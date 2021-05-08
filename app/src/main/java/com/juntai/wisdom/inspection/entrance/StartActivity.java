@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 
 import com.juntai.wisdom.inspection.MainActivity;
+import com.juntai.wisdom.inspection.utils.UserInfoManager;
 import com.tbruyelle.rxpermissions2.RxPermissions;
 import com.trello.rxlifecycle2.android.ActivityEvent;
 import com.trello.rxlifecycle2.components.support.RxAppCompatActivity;
@@ -44,7 +45,12 @@ public class StartActivity extends RxAppCompatActivity {
                         } else {
                             //有一个权限没通过
                         }
-                        startActivity(new Intent(StartActivity.this, MainActivity.class));
+                        if (UserInfoManager.isLogin()) {
+                            startActivity(new Intent(StartActivity.this, MainActivity.class));
+                        }else {
+                            startActivity(new Intent(StartActivity.this, LoginActivity.class));
+                        }
+
                         finish();
 //                        if (SPTools.getBoolean(StartActivity.this, "first_start", true)) {
 //                            startActivity(new Intent(StartActivity.this, GuideActivity.class));

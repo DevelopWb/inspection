@@ -1,14 +1,22 @@
 package com.juntai.wisdom.inspection.home_page.baseinspect;
 
+import com.juntai.disabled.basecomponent.base.BaseObserver;
+import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.disabled.basecomponent.mvp.IModel;
+import com.juntai.disabled.basecomponent.utils.RxScheduler;
+import com.juntai.wisdom.inspection.AppNetModule;
 import com.juntai.wisdom.inspection.base.BaseAppPresent;
+import com.juntai.wisdom.inspection.bean.IdNameBean;
 import com.juntai.wisdom.inspection.bean.ImportantTagBean;
 import com.juntai.wisdom.inspection.bean.MultipleItem;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
+import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
 import com.juntai.wisdom.inspection.utils.CalendarUtil;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.RequestBody;
 
 /**
  * @Author: tobato
@@ -25,6 +33,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
 
     /**
      * 治安巡检点更多信息
+     *
      * @return
      */
     public List<MultipleItem> getMoreInfoDetail() {
@@ -34,11 +43,13 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, "", false, 1);
         arrays.add(new MultipleItem(MultipleItem.ITEM_LOCATION, "地址"));
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "现场图片"));
-        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT,""));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, ""));
         return arrays;
     }
+
     /**
      * 开始治安巡检数据
+     *
      * @return
      */
     public List<MultipleItem> getSecurityInpsectData() {
@@ -50,11 +61,72 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
 
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, "", false, 1);
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传巡查图片"));
-        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT,""));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, ""));
         return arrays;
     }
+
+    /**
+     * 开始走访
+     *
+     * @return
+     */
+    public List<MultipleItem> getVisitData() {
+        List<MultipleItem> arrays = new ArrayList<>();
+        arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW,
+                getStartInspectBaseData()));
+        initTextType(arrays, MultipleItem.ITEM_SELECT, BaseInspectContract.INSPECTION_CHECK_TYPE, "", false, 0);
+        initTextType(arrays, MultipleItem.ITEM_SELECT, BaseInspectContract.INSPECTION_CHECK_PROBLEMS, "", false, 0);
+
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, "", false, 1);
+        arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传走访图片"));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, ""));
+        return arrays;
+    }
+
+    /**
+     * 添加 单位详情
+     *
+     * @return
+     */
+    public List<MultipleItem> getUnitInfoData(SearchedUnitsBean.DataBean.DatasBean bean) {
+        List<MultipleItem> arrays = new ArrayList<>();
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_UNIT_NAME, bean == null ? "" :
+                        bean.getName(),
+                true,
+                0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_UNIT_ADDR, bean == null ? "" :
+                        bean.getAddress()
+                , true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_UNIT_UCC, bean == null ? "" :
+                        bean.getUnifiedCreditCode(), true
+                , 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_UNIT_LEGAL_PERSON, bean == null ?
+                "" :
+                bean.getLegal(), true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_UNIT_LEGAL_PERSON_TEL, bean == null
+                ? "" : bean.getLegalPhone(), true, 0);
+        initTextType(arrays, MultipleItem.ITEM_SELECT, BaseInspectContract.INSPECTION_UNIT_TYPE, bean == null ? "" :
+                bean.getTypeName(), true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_RESPONSIBLE, bean == null ? "" :
+                bean.getPersonLiable(), true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_RESPONSIBLE_TEL, bean == null ? "" :
+                bean.getLiablePhone(), true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_SPARE_PERSON, bean == null ? "" :
+                bean.getSparePerson(), false, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_SPARE_PERSON_TEL, bean == null ?
+                "" :
+                bean.getSparePhone(), false, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, bean == null ? "" :
+                bean.getRemarks(), false, 1);
+        arrays.add(new MultipleItem(MultipleItem.ITEM_LOCATION, "地址"));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传单位图片"));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, ""));
+        return arrays;
+    }
+
     /**
      * 治安巡检记录详情
+     *
      * @return
      */
     public List<MultipleItem> getSecurityInpsectRecordDetailData() {
@@ -63,12 +135,13 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 getStartInspectBaseData()));
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, "", false, 1);
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传巡查图片"));
-        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT,""));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, ""));
         return arrays;
     }
 
     /**
-     *编辑治安巡检点信息
+     * 编辑治安巡检点信息
+     *
      * @return
      */
     public List<MultipleItem> getEditSecurityInspectSiteInfo() {
@@ -82,7 +155,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, "", false, 1);
         arrays.add(new MultipleItem(MultipleItem.ITEM_LOCATION, "地址"));
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "现场图片"));
-        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT,""));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, ""));
         return arrays;
     }
 
@@ -119,10 +192,10 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         switch (layoutType) {
             case MultipleItem.ITEM_SELECT:
                 arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL, new ImportantTagBean
-                        (typeName,isImportant)));
+                        (typeName, isImportant)));
                 arrays.add(new MultipleItem(MultipleItem.ITEM_SELECT,
                         new TextKeyValueBean(typeName, value, String.format("%s%s", "请选择",
-                                                typeName), 0, isImportant)));
+                                typeName), 0, isImportant)));
                 break;
             case MultipleItem.ITEM_EDIT:
                 arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL, new ImportantTagBean(typeName,
@@ -143,4 +216,91 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
 
     }
 
+    @Override
+    public void searchCompanys(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .searchCompanys(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<SearchedUnitsBean>(getView()) {
+                    @Override
+                    public void onSuccess(SearchedUnitsBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void addOrEditUnit(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .addOrEditUnit(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void checkUnitUnique(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .checkUnitUnique(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getUnitType(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getUnitType(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<IdNameBean>(getView()) {
+                    @Override
+                    public void onSuccess(IdNameBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
 }

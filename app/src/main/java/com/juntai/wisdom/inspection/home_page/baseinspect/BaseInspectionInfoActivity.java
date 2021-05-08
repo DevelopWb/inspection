@@ -10,6 +10,7 @@ import android.widget.TextView;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.base.BaseAppActivity;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
+import com.juntai.wisdom.inspection.home_page.importantor.StartVisitActivity;
 import com.juntai.wisdom.inspection.home_page.securityCheck.SecurityInspectionSiteMoreInfoActivity;
 import com.juntai.wisdom.inspection.home_page.securityCheck.StartSecurityInspectActivity;
 
@@ -24,6 +25,9 @@ import java.util.List;
 public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseInspectPresent> implements BaseInspectContract.IInspectView, View.OnClickListener {
 
 
+    public final  static String START_VISIT="开始走访";//
+    public final static String START_CHECK="开始检查";//
+    public final static String START_INSPECT="开始巡检";//
 
     private RecyclerView mRecyclerview;
     private ImageView mQrCodeIv;
@@ -104,8 +108,21 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
                 startActivity(new Intent(mContext, SecurityInspectionSiteMoreInfoActivity.class));
                 break;
             case R.id.start_work_tv:
-                //开始巡检
-                startActivity(new Intent(mContext, StartSecurityInspectActivity.class));
+                switch (getStartWorkName()) {
+                    case START_CHECK:
+
+                        break;
+                    case START_INSPECT:
+                        //开始巡检
+                        startActivity(new Intent(mContext, StartSecurityInspectActivity.class));
+                        break;
+                    case START_VISIT:
+                        startActivity(new Intent(mContext, StartVisitActivity.class));
+                        break;
+                    default:
+                        break;
+                }
+
                 break;
         }
     }

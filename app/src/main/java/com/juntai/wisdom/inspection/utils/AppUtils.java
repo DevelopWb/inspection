@@ -31,7 +31,6 @@ public class AppUtils {
 
     public final static String SP_KEY_USER = BaseAppUtils.getAppName() + "login";
     public final static String SP_KEY_TOKEN = BaseAppUtils.getAppName() + "token";
-    public final static String SP_RONGYUN_TOKEN = BaseAppUtils.getAppName() + "rongYunToken";
     public final static String SP_FLOAT_PERMISSION = BaseAppUtils.getAppName() + "floatPermission";
     //资讯草稿
     public final static String SP_NEWS_SAVE_DRAFTS = BaseAppUtils.getAppName() +"save_drafts";

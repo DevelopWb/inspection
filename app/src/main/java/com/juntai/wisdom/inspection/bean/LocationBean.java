@@ -22,6 +22,12 @@ public class LocationBean {
     @Unique
     private String gmtCreate;
 
+    public LocationBean(String address, String longitude, String latitude) {
+        this.address = address;
+        this.longitude = longitude;
+        this.latitude = latitude;
+    }
+
     public LocationBean(String address, String posType, String longitude, String latitude, String gmtCreate) {
         this.address = address;
         this.posType = posType;

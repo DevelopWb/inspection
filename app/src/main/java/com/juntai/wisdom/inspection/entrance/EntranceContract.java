@@ -19,7 +19,7 @@ public interface EntranceContract {
     }
 
     interface IEntrancePresent {
-        void login(String account, String password, String weChatId, String qqId, String tag);
+        void login(String account, String password,  String tag);
 
 
 

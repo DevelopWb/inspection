@@ -23,7 +23,7 @@ public class UserInfoManager {
     public static int getAccountStatus() {
         int status = -1;
         if (isLogin()) {
-            String phoneNum = getUser().getData().getPhoneNumber();
+            String phoneNum = getUser().getData().getAccount();
             if ("未绑定".equals(phoneNum)) {
                 status = 2;
             } else {
@@ -58,12 +58,29 @@ public class UserInfoManager {
     }
 
     /**
+     * 退出登录清理缓存配置
+     */
+    public static void clearUserData() {
+        Hawk.delete(AppUtils.SP_KEY_USER);
+        Hawk.delete(AppUtils.SP_KEY_TOKEN);
+        Hawk.delete(AppUtils.SP_KEY_UNREAD_COUNT);
+    }
+
+    /**
      * 获取用户信息
      *
      * @return
      */
     public static String getPhoneNumber() {
-        return getUser() != null && getUser().getData() != null ? getUser().getData().getPhoneNumber() : "";
+        return getUser() != null && getUser().getData() != null ? getUser().getData().getAccount() : "";
+    }
+    /**
+     * 获取部门id
+     *
+     * @return
+     */
+    public static int getDepartmentId() {
+        return getUser() != null && getUser().getData() != null ? getUser().getData().getDepartmentId() : 0;
     }
     /**
      * 获取账户
@@ -91,22 +108,22 @@ public class UserInfoManager {
         return getUser() != null && getUser().getData() != null ? getUser().getData().getUserId() : -1;
     }
 
-    /**
-     * 获取getUserId
-     *
-     * @return
-     */
-    public static int getRealNameStatus() {
-        return getUser() != null && getUser().getData() != null ? getUser().getData().getRealNameStatus() : 0;
-    }
-    /**
-     * 获取用户信息
-     *
-     * @return
-     */
-    public static String getScore() {
-        return getUser() != null && getUser().getData() != null ? String.valueOf(getUser().getData().getScore()) : "";
-    }
+//    /**
+//     * 获取getUserId
+//     *
+//     * @return
+//     */
+//    public static int getRealNameStatus() {
+//        return getUser() != null && getUser().getData() != null ? getUser().getData().getRealNameStatus() : 0;
+//    }
+//    /**
+//     * 获取用户信息
+//     *
+//     * @return
+//     */
+//    public static String getScore() {
+//        return getUser() != null && getUser().getData() != null ? String.valueOf(getUser().getData().getScore()) : "";
+//    }
 
 
 }

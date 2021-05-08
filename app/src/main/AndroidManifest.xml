@@ -30,7 +30,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.CompanysActivity"></activity>
+        <activity android:name="com.juntai.wisdom.inspection.home_page.add.AddUnitActivity"></activity>
+        <activity android:name="com.juntai.wisdom.inspection.home_page.add.SearchCompanyToAddActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.add.SearchImportantorToAddActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.add.SearchInspectSiteToAddActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.StartVisitActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.CompanysActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.ImportantorsActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.securityCheck.SecurityInspectRecordDetailActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.securityCheck.SecurityInspectRecordActivity" />
@@ -87,6 +92,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name="com.juntai.wisdom.inspection.entrance.LoginActivity"
+            android:launchMode="singleTask" />
         <activity
             android:name="com.juntai.wisdom.inspection.MainActivity"
             android:exported="true"

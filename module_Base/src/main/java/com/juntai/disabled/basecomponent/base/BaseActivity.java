@@ -550,6 +550,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
         view.setFocusable(true);
         view.setFocusableInTouchMode(true);
         view.requestFocus();
+        hideKeyboardFromView(view);
     }
     /**
      * 显示软键盘

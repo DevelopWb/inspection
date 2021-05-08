@@ -101,6 +101,7 @@ public abstract class BaseAppActivity<P extends BasePresenter> extends BaseSelec
         builder.add("account", UserInfoManager.getUserAccount());
         builder.add("token", UserInfoManager.getUserToken());
         builder.add("userId", String.valueOf(UserInfoManager.getUserId()));
+        builder.add("departmentId", String.valueOf(UserInfoManager.getDepartmentId()));
         return builder;
     }
 
@@ -203,10 +204,6 @@ public abstract class BaseAppActivity<P extends BasePresenter> extends BaseSelec
 
     }
 
-
-    public  UserBean getUser() {
-        return Hawk.get(AppUtils.SP_KEY_USER);
-    }
     /**
      * 跳转登录
      */
@@ -214,13 +211,6 @@ public abstract class BaseAppActivity<P extends BasePresenter> extends BaseSelec
        startActivity(new Intent(this, LoginActivity.class));
     }
 
-    public  boolean isLogin() {
-        if (getUser() == null) {
-            return false;
-        } else {
-            return true;
-        }
-    }
     /**
      * 获取签名图片的路径
      *  必须返回null 要不不能判定有没有签名

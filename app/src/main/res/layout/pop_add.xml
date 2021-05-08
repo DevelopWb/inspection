@@ -19,13 +19,13 @@
         android:paddingBottom="20dp">
 
         <ImageView
-            android:id="@+id/anjian_btn"
+            android:id="@+id/add_company_iv"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:paddingTop="20dp"
             android:scaleType="fitCenter"
             android:src="@mipmap/default_user_head_icon"
-            app:layout_constraintEnd_toStartOf="@+id/site_iv"
+            app:layout_constraintEnd_toStartOf="@+id/add_site_iv"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -36,20 +36,20 @@
             android:text="单位"
             android:textColor="@color/colorAccent"
             android:textSize="14dp"
-            app:layout_constraintLeft_toLeftOf="@+id/anjian_btn"
-            app:layout_constraintRight_toRightOf="@+id/anjian_btn"
-            app:layout_constraintTop_toBottomOf="@+id/anjian_btn" />
+            app:layout_constraintLeft_toLeftOf="@+id/add_company_iv"
+            app:layout_constraintRight_toRightOf="@+id/add_company_iv"
+            app:layout_constraintTop_toBottomOf="@+id/add_company_iv" />
 
         <ImageView
-            android:id="@+id/site_iv"
+            android:id="@+id/add_site_iv"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:paddingTop="20dp"
             android:scaleType="fitCenter"
             android:src="@mipmap/default_user_head_icon"
-            app:layout_constraintEnd_toStartOf="@id/zixun_btn"
+            app:layout_constraintEnd_toStartOf="@id/add_importantor_iv"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/anjian_btn"
+            app:layout_constraintStart_toEndOf="@+id/add_company_iv"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -58,12 +58,12 @@
             android:text="治安巡检点"
             android:textColor="@color/colorAccent"
             android:textSize="14dp"
-            app:layout_constraintLeft_toLeftOf="@+id/site_iv"
-            app:layout_constraintRight_toRightOf="@+id/site_iv"
-            app:layout_constraintTop_toBottomOf="@+id/site_iv" />
+            app:layout_constraintLeft_toLeftOf="@+id/add_site_iv"
+            app:layout_constraintRight_toRightOf="@+id/add_site_iv"
+            app:layout_constraintTop_toBottomOf="@+id/add_site_iv" />
 
         <ImageView
-            android:id="@+id/zixun_btn"
+            android:id="@+id/add_importantor_iv"
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:paddingTop="20dp"
@@ -71,7 +71,7 @@
             android:src="@mipmap/default_user_head_icon"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
-            app:layout_constraintStart_toEndOf="@+id/site_iv"
+            app:layout_constraintStart_toEndOf="@+id/add_site_iv"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
@@ -80,9 +80,9 @@
             android:text="重点人员"
             android:textColor="@color/colorAccent"
             android:textSize="14dp"
-            app:layout_constraintLeft_toLeftOf="@+id/zixun_btn"
-            app:layout_constraintRight_toRightOf="@+id/zixun_btn"
-            app:layout_constraintTop_toBottomOf="@+id/zixun_btn" />
+            app:layout_constraintLeft_toLeftOf="@+id/add_importantor_iv"
+            app:layout_constraintRight_toRightOf="@+id/add_importantor_iv"
+            app:layout_constraintTop_toBottomOf="@+id/add_importantor_iv" />
 
     </android.support.constraint.ConstraintLayout>
 </LinearLayout>

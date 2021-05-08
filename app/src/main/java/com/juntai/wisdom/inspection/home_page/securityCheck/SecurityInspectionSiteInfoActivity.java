@@ -34,7 +34,7 @@ public class SecurityInspectionSiteInfoActivity extends BaseInspectionInfoActivi
 
     @Override
     protected String getStartWorkName() {
-        return "开始巡检";
+        return START_INSPECT;
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.juntai.wisdom.inspection.bean;
 
+import com.contrarywind.interfaces.IPickerViewData;
 import com.juntai.disabled.basecomponent.base.BaseResult;
 
 import java.util.List;
@@ -29,7 +30,7 @@ public class IdNameBean  extends BaseResult {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements IPickerViewData {
         /**
          * id : 1
          * name : 板厂
@@ -52,6 +53,11 @@ public class IdNameBean  extends BaseResult {
 
         public void setName(String name) {
             this.name = name;
+        }
+
+        @Override
+        public String getPickerViewText() {
+            return name;
         }
     }
 }

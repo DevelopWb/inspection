@@ -11,19 +11,29 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.basecomponent.base.BaseMvpFragment;
+import com.juntai.disabled.basecomponent.utils.ActionConfig;
 import com.juntai.disabled.basecomponent.utils.DialogUtil;
+import com.juntai.disabled.basecomponent.utils.EventManager;
+import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
+import com.juntai.disabled.basecomponent.utils.SPTools;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
+import com.juntai.wisdom.inspection.AppHttpPath;
+import com.juntai.wisdom.inspection.MyApp;
+import com.juntai.wisdom.inspection.base.BaseAppFragment;
 import com.juntai.wisdom.inspection.bean.UserBean;
+import com.juntai.wisdom.inspection.utils.AppUtils;
 import com.juntai.wisdom.inspection.utils.GridDividerItemDecoration;
 import com.juntai.wisdom.inspection.utils.UserInfoManager;
+import com.orhanobut.hawk.Hawk;
 
 /**
  * @aouther tobato
  * @description 描述
  * @date 2021/4/17 16:12
  */
-public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implements MyCenterContract.ICenterView, View.OnClickListener {
+public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implements MyCenterContract.ICenterView,
+        View.OnClickListener {
 
     private UserBean userBean;
     MyMenuAdapter myMenuAdapter;
@@ -102,8 +112,7 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
         super.onResume();
         if (UserInfoManager.isLogin()){
             mLoginOut.setVisibility(View.VISIBLE);
-//            mPresenter.getUserData(MyCenterContract.USER_DATA_TAG);
-            //            mPresenter.getUnReadCount(MyCenterContract.GET_UNREAD_COUNT);
+            mPresenter.getUserInfo(getBaseAppActivity().getBaseBuilder().build(),AppHttpPath.GET_USER_INFO);
         }else {
             mLoginOut.setVisibility(View.GONE);
         }
@@ -123,7 +132,7 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
     @Override
     public void onClick(View v) {
         if (!UserInfoManager.isLogin()){
-//            MyApp.goLogin();
+            getBaseAppActivity().goLogin();
             return;
         }
         switch (v.getId()) {
@@ -135,6 +144,7 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
                 DialogUtil.getMessageDialog(mContext, "是否退出登录", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        mPresenter.loginOut(getBaseAppActivity().getBaseBuilder().build(),AppHttpPath.LOGIN_OUT);
                         dialog.dismiss();
                     }
                 }).show();
@@ -144,6 +154,39 @@ public class MyCenterFragment extends BaseMvpFragment<MyCenterPresent> implement
 
     @Override
     public void onSuccess(String tag, Object o) {
+        switch (tag) {
+            case AppHttpPath.GET_USER_INFO:
+                userBean = (UserBean) o;
+                UserBean.DataBean dataBean = userBean.getData();
+                if (dataBean != null){
+                    mLoginOut.setVisibility(View.VISIBLE);
+                    mNickname.setText(dataBean.getNickname());
+                    mNickname.setAlpha(0.8f);
+                    mTelNumber.setText(userBean.getData().getAccount());
+                    mTelNumber.setVisibility(View.VISIBLE);
+                    if (!headUrl.equals(userBean.getData().getHeadPortrait())) {
+                        headUrl = userBean.getData().getHeadPortrait();
+                        ImageLoadUtil.loadCirImgNoCrash(mContext.getApplicationContext(), headUrl, mHeadImage, R.mipmap.default_user_head_icon, R.mipmap.default_user_head_icon);
+                    }
+                    Hawk.put(AppUtils.SP_KEY_USER,userBean);
+                }
+                break;
+            case AppHttpPath.LOGIN_OUT:
+                ToastUtils.success(mContext, "退出成功");
+                SPTools.saveString(mContext, "login", "");
+                UserInfoManager.clearUserData();//清理数据
+                //重置界面
+                mNickname.setText("点击头像登录");
+                mNickname.setAlpha(0.3f);
+                mTelNumber.setVisibility(View.GONE);
+                mLoginOut.setVisibility(View.GONE);
+                mPresenter.initList();
+                headUrl = "";
+                mHeadImage.setImageResource(R.mipmap.default_user_head_icon);
+                break;
+            default:
+                break;
+        }
     }
 
     @Override

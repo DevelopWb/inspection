@@ -11,8 +11,8 @@ import android.text.TextUtils;
  */
 public class TextKeyValueBean {
 
-    private  String key;
-    private  String value;
+    private String key;
+    private String value;
     private String hint;
     private int type;//0代表高度固定的edittext  1代表高度不固定的edittext
     private boolean isImportant;//是否必填
@@ -30,20 +30,37 @@ public class TextKeyValueBean {
         this.type = type;
         this.isImportant = isImportant;
     }
-    public boolean isValueGravityToRight() {
-        return valueGravityToRight;
+
+    public String getKey() {
+        return key == null ? "" : key;
     }
 
-    public void setValueGravityToRight(boolean valueGravityToRight) {
-        this.valueGravityToRight = valueGravityToRight;
+    public void setKey(String key) {
+        this.key = key == null ? "" : key;
+    }
+
+    public String getValue() {
+        return value == null ? "" : value;
+    }
+
+    public void setValue(String value) {
+        this.value = value == null ? "" : value;
     }
 
     public String getHint() {
-        return TextUtils.isEmpty(hint) ? "暂无" : hint;
+        return hint == null ? "" : hint;
     }
 
     public void setHint(String hint) {
         this.hint = hint == null ? "" : hint;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public boolean isImportant() {
@@ -54,27 +71,11 @@ public class TextKeyValueBean {
         isImportant = important;
     }
 
-    public String getKey() {
-        return TextUtils.isEmpty(key) ? "暂无" : key;
+    public boolean isValueGravityToRight() {
+        return valueGravityToRight;
     }
 
-    public void setKey(String key) {
-        this.key = key == null ? "" : key;
-    }
-
-    public String getValue() {
-        return TextUtils.isEmpty(value) ? "暂无" : value;
-    }
-
-    public void setValue(String value) {
-        this.value = value == null ? "" : value;
-    }
-
-    public int getType() {
-        return type;
-    }
-
-    public void setType(int type) {
-        this.type = type;
+    public void setValueGravityToRight(boolean valueGravityToRight) {
+        this.valueGravityToRight = valueGravityToRight;
     }
 }

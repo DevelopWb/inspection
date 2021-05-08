@@ -22,7 +22,7 @@ public class CompanyInfoActivity extends BaseInspectionInfoActivity {
 
     @Override
     protected String getStartWorkName() {
-        return "开始检查";
+        return START_CHECK;
     }
 
     @Override
