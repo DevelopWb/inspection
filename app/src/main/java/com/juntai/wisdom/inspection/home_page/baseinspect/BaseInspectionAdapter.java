@@ -1,5 +1,6 @@
 package com.juntai.wisdom.inspection.home_page.baseinspect;
 
+import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -23,7 +24,10 @@ import com.juntai.disabled.basecomponent.utils.DisplayUtil;
 import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
+import com.juntai.wisdom.inspection.base.selectPics.SelectPhotosFragment;
 import com.juntai.wisdom.inspection.bean.ImportantTagBean;
+import com.juntai.wisdom.inspection.bean.ItemFragmentBean;
+import com.juntai.wisdom.inspection.bean.LocationBean;
 import com.juntai.wisdom.inspection.bean.MultipleItem;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
 import com.juntai.wisdom.inspection.utils.StringTools;
@@ -39,7 +43,7 @@ import java.util.List;
  */
 public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleItem, BaseViewHolder> {
     private boolean isDetail = false;//是否是详情模式
-
+    private FragmentManager mFragmentManager;
     private OnCheckEdittextValueFormatCallBack checkEdittextValueFormatCallBack;
 
 
@@ -53,7 +57,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
      *
      * @param data A new list is created out of this one to avoid mutable list
      */
-    public BaseInspectionAdapter(List<MultipleItem> data, boolean isDetail) {
+    public BaseInspectionAdapter(List<MultipleItem> data, boolean isDetail, FragmentManager mFragmentManager) {
         super(data);
         addItemType(MultipleItem.ITEM_HEAD_PIC, R.layout.item_layout_type_head_pic);
         addItemType(MultipleItem.ITEM_TITILE_BIG, R.layout.item_layout_type_title_big);
@@ -65,6 +69,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         addItemType(MultipleItem.ITEM_NORMAL_RECYCLEVIEW, R.layout.item_layout_type_recyclerview);
         addItemType(MultipleItem.ITEM_LOCATION, R.layout.item_layout_location);
         this.isDetail = isDetail;
+        this.mFragmentManager = mFragmentManager;
     }
 
     @Override
@@ -138,67 +143,15 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                     @Override
                     public void onFocusChange(View v, boolean hasFocus) {
                         TextKeyValueBean editBean = (TextKeyValueBean) editText.getTag();
-                            if (!hasFocus) {
-                                if (checkEdittextValueFormatCallBack != null) {
-                                    checkEdittextValueFormatCallBack.checkEdittextValueFormat(editBean);
-                                }
+                        if (!hasFocus) {
+                            if (checkEdittextValueFormatCallBack != null) {
+                                checkEdittextValueFormatCallBack.checkEdittextValueFormat(editBean);
                             }
+                        }
                     }
                 });
                 editText.setHint(textValueEditBean.getHint());
                 editText.setText(textValueEditBean.getValue());
-                String editKey = ((TextKeyValueBean) editText.getTag()).getKey();
-                //                //正则
-                //                switch (editKey) {
-                //                    case BusinessContract.TABLE_TITLE_CONTACT_MODE:
-                //                        //联系方式
-                //                        editText.setInputType(InputType.TYPE_CLASS_PHONE);
-                //                        break;
-                //                    case BusinessContract.TABLE_TITLE_PHONE:
-                //                        //联系电话
-                //                        editText.setInputType(InputType.TYPE_CLASS_PHONE);
-                //                        break;
-                //                    case BusinessContract.TABLE_TITLE_MOBILE_NUM:
-                //                        //手机号码
-                //                        editText.setInputType(InputType.TYPE_CLASS_PHONE);
-                //                        break;
-                //                    case BusinessContract.TABLE_TITLE_HOUSE_PHONE:
-                //                        //住宅电话
-                //                        editText.setInputType(InputType.TYPE_CLASS_PHONE);
-                //                        break;
-                //                    case BusinessContract.TABLE_TITLE_WCHAT_PHONE:
-                //                        //微信手机号
-                //                        editText.setInputType(InputType.TYPE_CLASS_PHONE);
-                //                        break;
-                //                    case BusinessContract.TABLE_TITLE_CARD_NUM:
-                //                        //卡号
-                //                        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-                //                        break;
-                //                    case BusinessContract.TABLE_TITLE_IDCARD:
-                //                        //身份证号
-                //                        break;
-                //                    case BusinessContract.TABLE_TITLE_CHILD_IDCARD:
-                //                        //儿童身份证号
-                //                        break;
-                //                    case BusinessContract.TABLE_TITLE_GUARDIAN_ID_CARD:
-                //                        //监护人身份证号
-                //                        break;
-                //                    case BusinessContract.TABLE_TITLE_AGE_FAMILY:
-                //                        //F年龄
-                //                        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-                //                        break;
-                //                    case BusinessContract.TABLE_TITLE_AGE_PERSIONAL:
-                //                        //P年龄
-                //                        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
-                //                        break;
-                //                    case BusinessContract.TABLE_TITLE_DISABLE_CARD_ID:
-                //                        //残疾证号
-                //                        break;
-                //                    default:
-                //                        //输入类型为普通文本
-                //                        editText.setInputType(InputType.TYPE_CLASS_TEXT);
-                //                        break;
-                //                }
 
                 break;
             case MultipleItem.ITEM_EDIT2:
@@ -245,7 +198,29 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(manager);
                 break;
+            case MultipleItem.ITEM_LOCATION:
+                LocationBean locationBean = (LocationBean) item.getObject();
+                helper.addOnClickListener(R.id.location_ll);
+                if (!TextUtils.isEmpty(locationBean.getAddress())) {
+                    helper.setText(R.id.location_tv, locationBean.getAddress());
+                }
 
+                break;
+            case MultipleItem.ITEM_FRAGMENT:
+                ItemFragmentBean fragmentBean = (ItemFragmentBean) item.getObject();
+                //上传材料时 多选照片
+                SelectPhotosFragment fragment = (SelectPhotosFragment) mFragmentManager.findFragmentById(R.id.photo_fg);
+                fragment.setObject(fragmentBean);
+                fragment.setSpanCount(fragmentBean.getmSpanCount()).
+                        setPhotoDelateable(fragmentBean.isDeleteable()).setMaxCount(fragmentBean.getmMaxCount())
+                        .setShowTag(fragmentBean.isShowTag()).setOnPicLoadSuccessCallBack(new SelectPhotosFragment.OnPicLoadSuccessCallBack() {
+                    @Override
+                    public void loadSuccess(List<String> icons) {
+                        ItemFragmentBean picBean = (ItemFragmentBean) fragment.getObject();
+                        picBean.setFragmentPics(icons);
+                    }
+                });
+                break;
             default:
                 break;
         }
@@ -315,9 +290,9 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
     }
 
     /**
-     *   控件失去焦点后  检测edittext控件输入内容的格式
+     * 控件失去焦点后  检测edittext控件输入内容的格式
      */
-    interface  OnCheckEdittextValueFormatCallBack{
+    interface OnCheckEdittextValueFormatCallBack {
         void checkEdittextValueFormat(TextKeyValueBean keyValueBean);
     }
 }

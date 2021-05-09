@@ -1,5 +1,6 @@
 package com.juntai.wisdom.inspection.home_page.baseinspect;
 
+import android.content.Intent;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -13,6 +14,7 @@ import com.juntai.disabled.basecomponent.utils.FileCacheUtils;
 import com.juntai.disabled.basecomponent.utils.PickerManager;
 import com.juntai.disabled.basecomponent.utils.RuleTools;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
+import com.juntai.disabled.bdmap.act.LocateSelectionActivity;
 import com.juntai.disabled.bdmap.utils.DateUtil;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.AppHttpPath;
@@ -20,6 +22,8 @@ import com.juntai.wisdom.inspection.base.BaseAppActivity;
 import com.juntai.wisdom.inspection.base.selectPics.SelectPhotosFragment;
 import com.juntai.wisdom.inspection.bean.HeadPicBean;
 import com.juntai.wisdom.inspection.bean.IdNameBean;
+import com.juntai.wisdom.inspection.bean.ItemFragmentBean;
+import com.juntai.wisdom.inspection.bean.LocationBean;
 import com.juntai.wisdom.inspection.bean.MultipleItem;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
 import com.juntai.wisdom.inspection.utils.StringTools;
@@ -75,7 +79,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         mSmartrefreshlayout = (SmartRefreshLayout) findViewById(R.id.smartrefreshlayout);
         mSmartrefreshlayout.setEnableLoadMore(false);
         mSmartrefreshlayout.setEnableRefresh(false);
-        adapter = new BaseInspectionAdapter(null, false);
+        adapter = new BaseInspectionAdapter(null, false, getSupportFragmentManager());
         initRecyclerview(mRecyclerview, adapter, LinearLayoutManager.VERTICAL);
         if (getFootView() != null) {
             adapter.setFooterView(getFootView());
@@ -143,6 +147,12 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 break;
                         }
                         break;
+
+                    case R.id.location_ll:
+                        //跳转到选择位置类
+                        startActivityForResult(new Intent(mContext, LocateSelectionActivity.class),
+                                LocateSelectionActivity.SELECT_ADDR);
+                        break;
                     default:
                         break;
                 }
@@ -197,11 +207,11 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                     if (textValueEditBean.isImportant() && TextUtils.isEmpty(textValueEditBean
                             .getValue())) {
                         String key = textValueEditBean.getKey();
-//                        if (key.contains(mPresenter.FAMILY_TAG)) {
-//                            key = "监护人" + key.substring(1, key.length());
-//                        } else if (key.contains(mPresenter.PERSIONAL_TAG)) {
-//                            key = "残疾人" + key.substring(1, key.length());
-//                        }
+                        //                        if (key.contains(mPresenter.FAMILY_TAG)) {
+                        //                            key = "监护人" + key.substring(1, key.length());
+                        //                        } else if (key.contains(mPresenter.PERSIONAL_TAG)) {
+                        //                            key = "残疾人" + key.substring(1, key.length());
+                        //                        }
                         ToastUtils.toast(mContext, "请输入" + key);
                         return null;
                     }
@@ -281,8 +291,63 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             break;
                     }
                     break;
+                case MultipleItem.ITEM_LOCATION:
+                    LocationBean locationBean = (LocationBean) array.getObject();
+                    builder.addFormDataPart("gpsAddress", locationBean.getAddress());
+                    builder.addFormDataPart("longitude", locationBean.getLongitude());
+                    builder.addFormDataPart("latitude", locationBean.getLatitude());
+                    break;
 
+                case MultipleItem.ITEM_FRAGMENT:
 
+                    ItemFragmentBean fragmentBean = (ItemFragmentBean) array.getObject();
+                    List<String> photos = fragmentBean.getFragmentPics();
+                    if (photos.isEmpty()) {
+                        ToastUtils.toast(mContext, "请选择图片");
+                        return null;
+                    }
+                    if (photos.size()<fragmentBean.getMinCount()) {
+                        ToastUtils.toast(mContext, "最少需要"+fragmentBean.getMinCount()+"张照片");
+                        return null;
+                    }
+                    for (int i = 0; i < photos.size(); i++) {
+                        String picPah = photos.get(i);
+                        switch (i) {
+                            case 0:
+                                builder.addFormDataPart("cover", "cover",
+                                        RequestBody.create(MediaType.parse("file"),
+                                                new File(picPah)));
+                                break;
+                            case 1:
+                                builder.addFormDataPart("pictureTwo", "pictureTwo",
+                                        RequestBody.create(MediaType.parse("file"),
+                                                new File(picPah)));
+                                break;
+                            case 2:
+                                builder.addFormDataPart("pictureThree", "pictureThree",
+                                        RequestBody.create(MediaType.parse("file"),
+                                                new File(picPah)));
+                                break;
+                            case 3:
+                                builder.addFormDataPart("pictureFour", "pictureFour",
+                                        RequestBody.create(MediaType.parse("file"),
+                                                new File(picPah)));
+                                break;
+                            case 4:
+                                builder.addFormDataPart("pictureFive", "pictureFive",
+                                        RequestBody.create(MediaType.parse("file"),
+                                                new File(picPah)));
+                                break;
+                            case 5:
+                                builder.addFormDataPart("pictureSix", "pictureSix",
+                                        RequestBody.create(MediaType.parse("file"),
+                                                new File(picPah)));
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                    break;
                 default:
                     break;
             }
@@ -300,14 +365,14 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                     if (arrays != null && arrays.size() > 0) {
                         PickerManager.getInstance().showOptionPicker(mContext, arrays,
                                 new PickerManager.OnOptionPickerSelectedListener() {
-                            @Override
-                            public void onOptionsSelect(int options1, int option2, int options3, View v) {
-                                IdNameBean.DataBean dataBean = arrays.get(options1);
-                                selectBean.setValue(dataBean.getName());
-                                mSelectTv.setText(dataBean.getName());
-                                unitTypeId = dataBean.getId();
-                            }
-                        });
+                                    @Override
+                                    public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                                        IdNameBean.DataBean dataBean = arrays.get(options1);
+                                        selectBean.setValue(dataBean.getName());
+                                        mSelectTv.setText(dataBean.getName());
+                                        unitTypeId = dataBean.getId();
+                                    }
+                                });
                     }
                 }
                 break;

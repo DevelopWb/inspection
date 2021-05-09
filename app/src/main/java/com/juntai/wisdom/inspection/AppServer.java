@@ -62,12 +62,19 @@ public interface AppServer {
     @POST(AppHttpPath.SEARCH_COMPANYS)
     Observable<SearchedUnitsBean> searchCompanys(@Body RequestBody requestBody);
     /**
-     * 手动添加单位  申请修改单位公用一个接口
+     * 搜索添加
      *
      * @return
      */
-    @POST(AppHttpPath.ADD_OR_EDIT_UNIT)
-    Observable<BaseResult> addOrEditUnit(@Body RequestBody requestBody);
+    @POST(AppHttpPath.SEARCH_ADD_UNIT)
+    Observable<BaseResult> searchAddUnit(@Body RequestBody requestBody);
+    /**
+     * 手动添加单位
+     *
+     * @return
+     */
+    @POST(AppHttpPath.MANUAL_ADD_UNIT)
+    Observable<BaseResult> manualAddUnit(@Body RequestBody requestBody);
 
 
     /**

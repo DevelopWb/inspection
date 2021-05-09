@@ -13,7 +13,7 @@ import java.util.List;
  * @description 描述  治安巡检信息
  * @date 2021/4/20 16:12
  */
-public class CompanyInfoActivity extends BaseInspectionInfoActivity {
+public class UnitInfoActivity extends BaseInspectionInfoActivity {
 
     @Override
     protected String getTitleName() {

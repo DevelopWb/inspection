@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:paddingLeft="15dp"
+    android:paddingLeft="10dp"
     android:paddingTop="3dp"
     android:id="@+id/location_ll"
     android:gravity="center_vertical"
-    android:paddingRight="15dp"
+    android:paddingRight="10dp"
     android:paddingBottom="3dp"
     android:layout_height="wrap_content">
     <TextView
@@ -17,9 +17,11 @@
     <TextView
         android:id="@+id/location_tv"
         android:gravity="left"
+        android:singleLine="true"
+        android:ellipsize="start"
         style="@style/item_content_text_style_right"
         android:layout_marginRight="10dp"
-        android:text="dfadfasdf"/>
+        />
     <ImageView
         android:layout_width="15dp"
         android:src="@mipmap/location_icon"

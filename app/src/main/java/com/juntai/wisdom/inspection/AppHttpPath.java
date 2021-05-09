@@ -48,9 +48,13 @@ public class AppHttpPath {
      */
     public static final String SEARCH_COMPANYS = BASE + "/u/appConnector/selectSearchUnit.shtml";
     /**
-     * 手动添加单位  申请修改单位公用一个接口
+     * 搜索添加
      */
-    public static final String ADD_OR_EDIT_UNIT = BASE + "/u/appConnector/insertUnit.shtml";
+    public static final String SEARCH_ADD_UNIT = BASE + "/u/appConnector/searchInsertUnit.shtml";
+    /**
+     * 手动添加
+     */
+    public static final String MANUAL_ADD_UNIT = BASE + "/u/appConnector/insertUnit.shtml";
     /**
      * 查询单位  信用码 是否存在   唯一性
      */

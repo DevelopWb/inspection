@@ -19,6 +19,7 @@ import com.juntai.disabled.bdmap.utils.BaiDuLocationUtils;
 public abstract class BaseRequestLocationActivity<P extends BasePresenter> extends BaseMvpActivity<P> {
     public Double lat = 0.0;
     public Double lng = 0.0;
+    public String  address = null;
     private LocationClient mLocationClient;
 
     public abstract void onLocationReceived(BDLocation bdLocation);
@@ -31,8 +32,6 @@ public abstract class BaseRequestLocationActivity<P extends BasePresenter> exten
             if (bdLocation.getLocType() != 161 && bdLocation.getLocType() != 61) {
                 return;
             }
-            lat = bdLocation.getLatitude();
-            lng = bdLocation.getLongitude();
             onLocationReceived(bdLocation);
             Log.e("EEEEEEEEEE888", " = " + lat);
             Log.e("EEEEEEEEEE888", " = " + lng);

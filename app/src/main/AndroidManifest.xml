@@ -30,12 +30,13 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.juntai.wisdom.inspection.home_page.add.AddUnitActivity"></activity>
-        <activity android:name="com.juntai.wisdom.inspection.home_page.add.SearchCompanyToAddActivity" />
-        <activity android:name="com.juntai.wisdom.inspection.home_page.add.SearchImportantorToAddActivity" />
-        <activity android:name="com.juntai.wisdom.inspection.home_page.add.SearchInspectSiteToAddActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.add.unit.ManualAddUnitActivity"></activity>
+        <activity android:name="com.juntai.wisdom.inspection.home_page.add.unit.SearchAddUnitActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.add.unit.AddUnitActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.add.AddImportantorActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.add.AddInspectSiteActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.StartVisitActivity" />
-        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.CompanysActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.FireInspectionActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.ImportantorsActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.securityCheck.SecurityInspectRecordDetailActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.securityCheck.SecurityInspectRecordActivity" />
@@ -44,7 +45,7 @@
         <activity android:name="com.juntai.wisdom.inspection.home_page.securityCheck.SecurityInspectionSiteMoreInfoActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.securityCheck.SecurityInspectionSiteInfoActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.ImportantorInfoActivity" />
-        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.CompanyInfoActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.UnitInfoActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.securityCheck.SecurityInspectionSitesActivity" />
         <activity
             android:name="com.juntai.wisdom.inspection.home_page.QRScanActivity"
@@ -77,7 +78,7 @@
         <!-- Ma - debug-Release-key : A2hxzsrCO3VOXGXBzVjP3zKKYBsNhi1A -->
         <meta-data
             android:name="com.baidu.lbsapi.API_KEY"
-            android:value="Nb7K5CgYPX5xE8UhppiKirMt0BeoyGEy" /> <!-- 百度地图 -->
+            android:value="Bc1bGYdgo5oDSOQlffwt9cu7yH47KHS8" /> <!-- 百度地图 -->
         <meta-data
             android:name="RONG_CLOUD_APP_KEY"
             android:value="ik1qhw09iy5yp" /> <!-- 融云配置   end ||| -->

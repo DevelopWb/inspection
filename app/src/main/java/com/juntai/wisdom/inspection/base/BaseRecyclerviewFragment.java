@@ -12,6 +12,9 @@ import com.juntai.disabled.basecomponent.mvp.IPresenter;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.base.BaseAppFragment;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
+import com.scwang.smartrefresh.layout.api.RefreshLayout;
+import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
+import com.scwang.smartrefresh.layout.listener.OnRefreshListener;
 
 /**
  * @Author: tobato
@@ -22,7 +25,7 @@ import com.scwang.smartrefresh.layout.SmartRefreshLayout;
  */
 public abstract class BaseRecyclerviewFragment<P extends IPresenter> extends BaseAppFragment<P> {
     private RecyclerView mRecyclerview;
-    private SmartRefreshLayout mSmartrefreshlayout;
+    protected SmartRefreshLayout mSmartrefreshlayout;
     protected BaseQuickAdapter adapter;
 
     @Override
@@ -36,7 +39,23 @@ public abstract class BaseRecyclerviewFragment<P extends IPresenter> extends Bas
         mSmartrefreshlayout = (SmartRefreshLayout) getView(R.id.smartrefreshlayout);
         adapter = getAdapter();
         getBaseActivity().initRecyclerview(mRecyclerview,adapter, LinearLayoutManager.VERTICAL);
+        mSmartrefreshlayout.setOnRefreshListener(new OnRefreshListener() {
+            @Override
+            public void onRefresh(RefreshLayout refreshLayout) {
+                freshlayoutOnRefresh();
+            }
+        });
+        mSmartrefreshlayout.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void onLoadMore(RefreshLayout refreshLayout) {
+                freshlayoutOnLoadMore();
+            }
+        });
     }
+
+    protected abstract void freshlayoutOnLoadMore();
+
+    protected abstract void freshlayoutOnRefresh();
 
     protected abstract BaseQuickAdapter getAdapter();
 

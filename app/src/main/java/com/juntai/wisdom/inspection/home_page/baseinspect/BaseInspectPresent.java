@@ -8,6 +8,8 @@ import com.juntai.wisdom.inspection.AppNetModule;
 import com.juntai.wisdom.inspection.base.BaseAppPresent;
 import com.juntai.wisdom.inspection.bean.IdNameBean;
 import com.juntai.wisdom.inspection.bean.ImportantTagBean;
+import com.juntai.wisdom.inspection.bean.ItemFragmentBean;
+import com.juntai.wisdom.inspection.bean.LocationBean;
 import com.juntai.wisdom.inspection.bean.MultipleItem;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
@@ -118,9 +120,10 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 bean.getSparePhone(), false, 0);
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, bean == null ? "" :
                 bean.getRemarks(), false, 1);
-        arrays.add(new MultipleItem(MultipleItem.ITEM_LOCATION, "地址"));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_LOCATION, new LocationBean(null,null,null)));
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传单位图片"));
-        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, ""));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3,6,3,true,true,
+            new ArrayList<>())));
         return arrays;
     }
 
@@ -239,9 +242,30 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     }
 
     @Override
-    public void addOrEditUnit(RequestBody requestBody, String tag) {
+    public void searchAddUnit(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
-                .addOrEditUnit(requestBody)
+                .searchAddUnit(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void manualAddUnit(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .manualAddUnit(requestBody)
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<BaseResult>(getView()) {
                     @Override

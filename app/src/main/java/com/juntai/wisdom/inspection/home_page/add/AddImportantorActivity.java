@@ -6,14 +6,14 @@ import android.text.TextUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
-import com.juntai.wisdom.inspection.home_page.firecheck.CompanysAdapter;
+import com.juntai.wisdom.inspection.home_page.firecheck.UnitsAdapter;
 
 /**
  * @aouther tobato
- * @description 描述  添加巡检点
+ * @description 描述  添加重点人员
  * @date 2021/5/6 15:36
  */
-public class SearchInspectSiteToAddActivity extends BaseSearchToAddActivity {
+public class AddImportantorActivity extends BaseAddActivity {
 
     @Override
     public void initData() {
@@ -30,6 +30,7 @@ public class SearchInspectSiteToAddActivity extends BaseSearchToAddActivity {
         startSearch(keywork);
     }
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,7 +43,7 @@ public class SearchInspectSiteToAddActivity extends BaseSearchToAddActivity {
 
     @Override
     protected BaseQuickAdapter getAdapter() {
-        return new CompanysAdapter(R.layout.check_item);
+        return new UnitsAdapter(R.layout.check_item);
     }
 
     @Override
@@ -56,7 +57,7 @@ public class SearchInspectSiteToAddActivity extends BaseSearchToAddActivity {
 
     @Override
     protected String getTitleName() {
-        return ADD_INSPECTION_SITE;
+        return ADD_IMPORTANTOR;
     }
 
     @Override

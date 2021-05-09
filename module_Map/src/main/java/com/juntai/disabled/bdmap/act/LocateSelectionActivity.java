@@ -205,6 +205,7 @@ public class LocateSelectionActivity extends BaseRequestLocationActivity impleme
         PoiInfo poiInfo;
         public boolean ischecked;
 
+
         public Address(PoiInfo poiInfo, boolean ischecked) {
             this.poiInfo = poiInfo;
             this.ischecked = ischecked;

@@ -16,10 +16,10 @@ import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
  * @date 2021/4/29 16:24
  */
 
-public class CompanysAdapter extends BaseQuickAdapter<SearchedUnitsBean.DataBean.DatasBean, BaseViewHolder> {
+public class UnitsAdapter extends BaseQuickAdapter<SearchedUnitsBean.DataBean.DatasBean, BaseViewHolder> {
 
 
-    public CompanysAdapter(int layoutResId) {
+    public UnitsAdapter(int layoutResId) {
         super(layoutResId);
     }
 

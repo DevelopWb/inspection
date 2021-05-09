@@ -48,6 +48,16 @@ public class ImportantorsFragment extends BaseRecyclerviewFragment<BaseInspectPr
     }
 
     @Override
+    protected void freshlayoutOnLoadMore() {
+
+    }
+
+    @Override
+    protected void freshlayoutOnRefresh() {
+
+    }
+
+    @Override
     protected BaseQuickAdapter getAdapter() {
         return new ImportantorAdapter(R.layout.check_item);
     }

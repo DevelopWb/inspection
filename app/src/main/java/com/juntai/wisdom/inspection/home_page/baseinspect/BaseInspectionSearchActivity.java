@@ -35,6 +35,15 @@ public abstract class BaseInspectionSearchActivity extends BaseAppActivity<BaseI
     private TabLayout mInspectTb;
     private CustomViewPager mInspectViewPager;
     private List<IdNameBean.DataBean> types = null;
+    public int currentTypeId = 0;
+
+    /**
+     * 获取搜索的内容
+     * @return
+     */
+    public String getKeyword() {
+        return mInspectSearchSv.getQuery().toString().trim();
+    }
 
     @Override
     protected BaseInspectPresent createPresenter() {
@@ -56,6 +65,17 @@ public abstract class BaseInspectionSearchActivity extends BaseAppActivity<BaseI
         mInspectTb = (TabLayout) findViewById(R.id.inspect_tb);
         mInspectViewPager = (CustomViewPager) findViewById(R.id.inspect_vp);
         initTab();
+        mInspectSearchSv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String s) {
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String s) {
+                return false;
+            }
+        });
     }
 
     private void initTab() {
@@ -109,6 +129,11 @@ public abstract class BaseInspectionSearchActivity extends BaseAppActivity<BaseI
 
     public void setTypes(List<IdNameBean.DataBean> types) {
         this.types = types;
+        if (types != null) {
+            IdNameBean.DataBean dataBean = types.get(0);
+            mSearchTypeTv.setText(dataBean.getName());
+            currentTypeId = dataBean.getId();
+        }
     }
 
     @Override
@@ -118,14 +143,16 @@ public abstract class BaseInspectionSearchActivity extends BaseAppActivity<BaseI
                 break;
             case R.id.search_type_ll:
                 //选择筛选范围
-                if (types==null) {
+                if (types == null) {
                     return;
                 }
-                PickerManager.getInstance().showOptionPicker(mContext, types, new PickerManager.OnOptionPickerSelectedListener() {
+                PickerManager.getInstance().showOptionPicker(mContext, types,
+                        new PickerManager.OnOptionPickerSelectedListener() {
                     @Override
                     public void onOptionsSelect(int options1, int option2, int options3, View v) {
                         IdNameBean.DataBean dataBean = types.get(options1);
                         mSearchTypeTv.setText(dataBean.getName());
+                        currentTypeId = dataBean.getId();
                     }
                 });
                 break;

@@ -34,9 +34,9 @@ import com.juntai.wisdom.inspection.base.customview.MainPagerAdapter;
 import com.juntai.wisdom.inspection.bean.LocationBean;
 import com.juntai.wisdom.inspection.entrance.LoginActivity;
 import com.juntai.wisdom.inspection.home_page.HomePageFragment;
-import com.juntai.wisdom.inspection.home_page.add.SearchCompanyToAddActivity;
-import com.juntai.wisdom.inspection.home_page.add.SearchImportantorToAddActivity;
-import com.juntai.wisdom.inspection.home_page.add.SearchInspectSiteToAddActivity;
+import com.juntai.wisdom.inspection.home_page.add.unit.AddUnitActivity;
+import com.juntai.wisdom.inspection.home_page.add.AddImportantorActivity;
+import com.juntai.wisdom.inspection.home_page.add.AddInspectSiteActivity;
 import com.juntai.wisdom.inspection.mine.MyCenterFragment;
 
 import java.util.ArrayList;
@@ -186,15 +186,15 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
             mImmersionBar.statusBarColor(R.color.gray_light).statusBarDarkFont(true).init();
         }
         viewPop.findViewById(R.id.add_company_iv).setOnClickListener(v -> {
-            startActivity(new Intent(mContext, SearchCompanyToAddActivity.class));
+            startActivity(new Intent(mContext, AddUnitActivity.class));
             popupWindow.dismiss();
         });
         viewPop.findViewById(R.id.add_importantor_iv).setOnClickListener(v -> {
-            startActivity(new Intent(mContext, SearchImportantorToAddActivity.class));
+            startActivity(new Intent(mContext, AddImportantorActivity.class));
             popupWindow.dismiss();
         });
         viewPop.findViewById(R.id.add_site_iv).setOnClickListener(v -> {
-            startActivity(new Intent(mContext, SearchInspectSiteToAddActivity.class));
+            startActivity(new Intent(mContext, AddInspectSiteActivity.class));
             popupWindow.dismiss();
         });
     }

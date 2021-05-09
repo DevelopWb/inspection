@@ -1,4 +1,4 @@
-package com.juntai.wisdom.inspection.home_page.add;
+package com.juntai.wisdom.inspection.home_page.add.unit;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,8 +9,9 @@ import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
+import com.juntai.wisdom.inspection.home_page.add.BaseAddActivity;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
-import com.juntai.wisdom.inspection.home_page.firecheck.CompanysAdapter;
+import com.juntai.wisdom.inspection.home_page.firecheck.UnitsAdapter;
 import com.juntai.wisdom.inspection.utils.UserInfoManager;
 
 import java.util.List;
@@ -20,7 +21,7 @@ import java.util.List;
  * @description 描述  添加单位
  * @date 2021/5/6 15:36
  */
-public class SearchCompanyToAddActivity extends BaseSearchToAddActivity {
+public class AddUnitActivity extends BaseAddActivity {
 
     @Override
     public void initData() {
@@ -48,9 +49,9 @@ public class SearchCompanyToAddActivity extends BaseSearchToAddActivity {
                 (SearchedUnitsBean.DataBean.DatasBean) adapter.getData().get(position);
         if (0==bean.getIsAdd()) {
             //未添加
-            startActivity(new Intent(mContext, AddUnitActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY,bean));  
+            startActivity(new Intent(mContext, SearchAddUnitActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY,bean));
         }else {
-            // TODO: 2021/5/8 已添加 需要跳转到详情列表 
+            ToastUtils.toast(mContext,"该单位已添加");
         
         }
         
@@ -59,7 +60,7 @@ public class SearchCompanyToAddActivity extends BaseSearchToAddActivity {
 
     @Override
     protected BaseQuickAdapter getAdapter() {
-        return new CompanysAdapter(R.layout.check_item);
+        return new UnitsAdapter(R.layout.check_item);
     }
 
     @Override

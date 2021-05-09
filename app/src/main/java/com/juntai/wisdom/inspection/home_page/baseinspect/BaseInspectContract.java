@@ -50,7 +50,19 @@ public interface BaseInspectContract {
     interface IInspectPresent {
         void searchCompanys(RequestBody requestBody, String tag);
 
-        void addOrEditUnit(RequestBody requestBody, String tag);
+        /**
+         * 搜索添加
+         * @param requestBody
+         * @param tag
+         */
+        void searchAddUnit(RequestBody requestBody, String tag);
+
+        /**
+         * 手动添加
+         * @param requestBody
+         * @param tag
+         */
+        void manualAddUnit(RequestBody requestBody, String tag);
         void checkUnitUnique(RequestBody requestBody, String tag);
         void getUnitType(RequestBody requestBody, String tag);
     }

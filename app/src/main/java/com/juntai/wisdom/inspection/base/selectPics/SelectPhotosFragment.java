@@ -67,7 +67,7 @@ import static android.app.Activity.RESULT_OK;
  * //最后一步 记得commit
  * beginTransaction.commit();
  */
-public class SelectPhotosFragment extends BaseMvpFragment implements View.OnClickListener {
+public class SelectPhotosFragment<T> extends BaseMvpFragment implements View.OnClickListener {
 
     private RecyclerView mSelectPhotosRv;
     private TextView mSelectPhotosTitleTv;
@@ -90,6 +90,31 @@ public class SelectPhotosFragment extends BaseMvpFragment implements View.OnClic
     private int type;//0拍照照片，1拍照
 
     public String cameraPath;
+    private boolean isShowTag = false;//是否显示底部标记
+    private GridLayoutManager manager;
+    private OnPicLoadSuccessCallBack onPicLoadSuccessCallBack;
+    /**
+     * 是否显示底部标识
+     * @param showTag
+     * @return
+     */
+    public SelectPhotosFragment setShowTag(boolean showTag) {
+        this.isShowTag = showTag;
+        if (selectedPicsAdapter != null) {
+            selectedPicsAdapter.setShowTag(isShowTag);
+        }
+        return this;
+    }
+
+    private T  object;
+
+    public T getObject() {
+        return object;
+    }
+
+    public void setObject(T object) {
+        this.object = object;
+    }
 
     /**
      * 在这里我们提供一个静态的方法来实例化PageFragment
@@ -108,9 +133,23 @@ public class SelectPhotosFragment extends BaseMvpFragment implements View.OnClic
      */
     public SelectPhotosFragment setSpanCount(int spanCount) {
         this.mSpanCount = spanCount;
+        if (manager != null) {
+            manager.setSpanCount(spanCount);
+        }
+        if (selectedPicsAdapter != null) {
+            selectedPicsAdapter.setWidthAndHeigh(calculateImageHeight());
+        }
+
         return this;
     }
-
+    /**
+     * @param onPicLoadSuccessCallBack //选择图片  图片压缩后
+     * @return
+     */
+    public SelectPhotosFragment setOnPicLoadSuccessCallBack(OnPicLoadSuccessCallBack onPicLoadSuccessCallBack) {
+        this.onPicLoadSuccessCallBack = onPicLoadSuccessCallBack;
+        return this;
+    }
     /**
      * @param maxCount //最大个数，默认9个
      * @return
@@ -150,6 +189,9 @@ public class SelectPhotosFragment extends BaseMvpFragment implements View.OnClic
      */
     public SelectPhotosFragment setPhotoDelateable(boolean deleteable) {
         this.deleteable = deleteable;
+        if (selectedPicsAdapter != null) {
+            selectedPicsAdapter.setDelateable(deleteable);
+        }
         return this;
     }
 
@@ -264,6 +306,9 @@ public class SelectPhotosFragment extends BaseMvpFragment implements View.OnClic
                 selectedPicsAdapter.setNewData(reSortIconList());
                 if (compressedSize == paths.size()) {
                     getBaseActivity().stopLoadingDialog();
+                    if (onPicLoadSuccessCallBack != null) {
+                        onPicLoadSuccessCallBack.loadSuccess(getSelectedPics(icons));
+                    }
                 }
 
             }
@@ -304,6 +349,9 @@ public class SelectPhotosFragment extends BaseMvpFragment implements View.OnClic
                 icons.add(file.getPath());
                 selectedPicsAdapter.setNewData(reSortIconList());
                 getBaseActivity().stopLoadingDialog();
+                if (onPicLoadSuccessCallBack != null) {
+                    onPicLoadSuccessCallBack.loadSuccess(getSelectedPics(icons));
+                }
             }
 
             @Override
@@ -371,6 +419,9 @@ public class SelectPhotosFragment extends BaseMvpFragment implements View.OnClic
                             }
                         }
                         icons = arrays;
+                        if (onPicLoadSuccessCallBack != null) {
+                            onPicLoadSuccessCallBack.loadSuccess(getSelectedPics(icons));
+                        }
                         adapter.setNewData(arrays);
                         break;
                     default:
@@ -379,17 +430,31 @@ public class SelectPhotosFragment extends BaseMvpFragment implements View.OnClic
             }
         });
     }
+    /**
+     * 获取选中的照片
+     *
+     * @return
+     */
+    private List<String> getSelectedPics(List<String> pics) {
+        List<String> icons_new = new ArrayList<>();
+        for (String icon : pics) {
+            if (!"-1".equals(icon)) {
+                icons_new.add(icon);
+            }
+        }
+        return icons_new;
+    }
 
     @Override
     protected void initData() {
-        GridLayoutManager managere = new GridLayoutManager(mContext, mSpanCount)
+        manager = new GridLayoutManager(mContext, mSpanCount)
         {
             @Override
             public boolean canScrollVertically() {
                 return false;
             }
         };
-        mSelectPhotosRv.setLayoutManager(managere);
+        mSelectPhotosRv.setLayoutManager(manager);
         mSelectPhotosRv.setAdapter(selectedPicsAdapter);
         selectedPicsAdapter.setWidthAndHeigh(calculateImageHeight());
         selectedPicsAdapter.setDelateable(deleteable);
@@ -541,5 +606,12 @@ public class SelectPhotosFragment extends BaseMvpFragment implements View.OnClic
         onPicCalculateed = null;
         mContext = null;
         super.onDetach();
+    }
+    /**
+     * 图片加载完成
+     */
+    public interface OnPicLoadSuccessCallBack {
+        void loadSuccess(List<String> icons);
+
     }
 }
