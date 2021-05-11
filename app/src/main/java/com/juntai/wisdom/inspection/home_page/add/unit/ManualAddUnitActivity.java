@@ -2,6 +2,8 @@ package com.juntai.wisdom.inspection.home_page.add.unit;
 
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.inspection.AppHttpPath;
+import com.juntai.wisdom.inspection.utils.HawkProperty;
+import com.orhanobut.hawk.Hawk;
 
 import okhttp3.MultipartBody;
 
@@ -33,6 +35,9 @@ public class ManualAddUnitActivity extends BaseUnitActivity {
         super.onSuccess(tag, o);
         if (AppHttpPath.MANUAL_ADD_UNIT.equals(tag)) {
             ToastUtils.toast(mContext,"添加成功");
+            if (Hawk.contains(HawkProperty.ADD_UNIT_KEY)) {
+                Hawk.delete(HawkProperty.ADD_UNIT_KEY);
+            }
             finish();
         }
     }

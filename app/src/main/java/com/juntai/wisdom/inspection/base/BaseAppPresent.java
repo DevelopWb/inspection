@@ -25,6 +25,7 @@ public abstract class BaseAppPresent<M extends IModel, V extends IView> extends 
                 .setType(MultipartBody.FORM)
                 .addFormDataPart("account", UserInfoManager.getUserAccount())
                 .addFormDataPart("userId", String.valueOf(UserInfoManager.getUserId()))
+                .addFormDataPart("departmentId", String.valueOf(UserInfoManager.getDepartmentId()))
                 .addFormDataPart("token", UserInfoManager.getUserToken());
     }
 

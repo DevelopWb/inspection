@@ -27,8 +27,8 @@ public class LocationBeanDao extends AbstractDao<LocationBean, Long> {
         public final static Property Id = new Property(0, Long.class, "id", true, "_id");
         public final static Property Address = new Property(1, String.class, "address", false, "ADDRESS");
         public final static Property PosType = new Property(2, String.class, "posType", false, "POS_TYPE");
-        public final static Property Longitude = new Property(3, String.class, "longitude", false, "LONGITUDE");
-        public final static Property Latitude = new Property(4, String.class, "latitude", false, "LATITUDE");
+        public final static Property Latitude = new Property(3, String.class, "latitude", false, "LATITUDE");
+        public final static Property Longitude = new Property(4, String.class, "longitude", false, "LONGITUDE");
         public final static Property GmtCreate = new Property(5, String.class, "gmtCreate", false, "GMT_CREATE");
     }
 
@@ -48,8 +48,8 @@ public class LocationBeanDao extends AbstractDao<LocationBean, Long> {
                 "\"_id\" INTEGER PRIMARY KEY AUTOINCREMENT ," + // 0: id
                 "\"ADDRESS\" TEXT," + // 1: address
                 "\"POS_TYPE\" TEXT," + // 2: posType
-                "\"LONGITUDE\" TEXT," + // 3: longitude
-                "\"LATITUDE\" TEXT," + // 4: latitude
+                "\"LATITUDE\" TEXT," + // 3: latitude
+                "\"LONGITUDE\" TEXT," + // 4: longitude
                 "\"GMT_CREATE\" TEXT UNIQUE );"); // 5: gmtCreate
     }
 
@@ -78,14 +78,14 @@ public class LocationBeanDao extends AbstractDao<LocationBean, Long> {
             stmt.bindString(3, posType);
         }
  
-        String longitude = entity.getLongitude();
-        if (longitude != null) {
-            stmt.bindString(4, longitude);
-        }
- 
         String latitude = entity.getLatitude();
         if (latitude != null) {
-            stmt.bindString(5, latitude);
+            stmt.bindString(4, latitude);
+        }
+ 
+        String longitude = entity.getLongitude();
+        if (longitude != null) {
+            stmt.bindString(5, longitude);
         }
  
         String gmtCreate = entity.getGmtCreate();
@@ -113,14 +113,14 @@ public class LocationBeanDao extends AbstractDao<LocationBean, Long> {
             stmt.bindString(3, posType);
         }
  
-        String longitude = entity.getLongitude();
-        if (longitude != null) {
-            stmt.bindString(4, longitude);
-        }
- 
         String latitude = entity.getLatitude();
         if (latitude != null) {
-            stmt.bindString(5, latitude);
+            stmt.bindString(4, latitude);
+        }
+ 
+        String longitude = entity.getLongitude();
+        if (longitude != null) {
+            stmt.bindString(5, longitude);
         }
  
         String gmtCreate = entity.getGmtCreate();
@@ -140,8 +140,8 @@ public class LocationBeanDao extends AbstractDao<LocationBean, Long> {
             cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0), // id
             cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1), // address
             cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2), // posType
-            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // longitude
-            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // latitude
+            cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3), // latitude
+            cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4), // longitude
             cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5) // gmtCreate
         );
         return entity;
@@ -152,8 +152,8 @@ public class LocationBeanDao extends AbstractDao<LocationBean, Long> {
         entity.setId(cursor.isNull(offset + 0) ? null : cursor.getLong(offset + 0));
         entity.setAddress(cursor.isNull(offset + 1) ? null : cursor.getString(offset + 1));
         entity.setPosType(cursor.isNull(offset + 2) ? null : cursor.getString(offset + 2));
-        entity.setLongitude(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
-        entity.setLatitude(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
+        entity.setLatitude(cursor.isNull(offset + 3) ? null : cursor.getString(offset + 3));
+        entity.setLongitude(cursor.isNull(offset + 4) ? null : cursor.getString(offset + 4));
         entity.setGmtCreate(cursor.isNull(offset + 5) ? null : cursor.getString(offset + 5));
      }
     

@@ -89,6 +89,7 @@ public class SearchedUnitsBean  extends BaseResult {
             private String name;//单位名称
 
             private String typeName;//单位类型
+            private int typeId;//单位类型
 
             private String address;//单位地址
 
@@ -146,6 +147,7 @@ public class SearchedUnitsBean  extends BaseResult {
                 this.userId = userId;
             }
 
+
             public String getName() {
                 return name;
             }
@@ -164,6 +166,14 @@ public class SearchedUnitsBean  extends BaseResult {
 
             public int getVersion() {
                 return version;
+            }
+
+            public int getTypeId() {
+                return typeId;
+            }
+
+            public void setTypeId(int typeId) {
+                this.typeId = typeId;
             }
 
             public void setVersion(int version) {
@@ -350,6 +360,7 @@ public class SearchedUnitsBean  extends BaseResult {
                 dest.writeInt(this.version);
                 dest.writeString(this.name);
                 dest.writeString(this.typeName);
+                dest.writeInt(this.typeId);
                 dest.writeString(this.address);
                 dest.writeString(this.unifiedCreditCode);
                 dest.writeString(this.legal);
@@ -382,6 +393,7 @@ public class SearchedUnitsBean  extends BaseResult {
                 this.version = in.readInt();
                 this.name = in.readString();
                 this.typeName = in.readString();
+                this.typeId = in.readInt();
                 this.address = in.readString();
                 this.unifiedCreditCode = in.readString();
                 this.legal = in.readString();

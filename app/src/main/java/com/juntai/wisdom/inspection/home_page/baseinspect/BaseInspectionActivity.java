@@ -20,12 +20,15 @@ import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.base.BaseAppActivity;
 import com.juntai.wisdom.inspection.base.selectPics.SelectPhotosFragment;
+import com.juntai.wisdom.inspection.bean.BaseAdapterDataBean;
 import com.juntai.wisdom.inspection.bean.HeadPicBean;
 import com.juntai.wisdom.inspection.bean.IdNameBean;
 import com.juntai.wisdom.inspection.bean.ItemFragmentBean;
 import com.juntai.wisdom.inspection.bean.LocationBean;
 import com.juntai.wisdom.inspection.bean.MultipleItem;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
+import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
+import com.juntai.wisdom.inspection.bean.unit.UnitInfoBean;
 import com.juntai.wisdom.inspection.utils.StringTools;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -53,6 +56,10 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     private RecyclerView mRecyclerview;
     private SmartRefreshLayout mSmartrefreshlayout;
     public static String PARCELABLE_KEY = "parcelable";
+    public final static String ADD_UNIT = "添加单位";
+    public final static String ADD_INSPECTION_SITE = "添加治安巡检点";
+    public final static String ADD_IMPORTANTOR = "添加重点人员";
+
 
     protected abstract String getTitleName();
 
@@ -60,7 +67,8 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
     private TextKeyValueBean selectBean;
     private TextView mSelectTv;
-    private int unitTypeId = 0;//单位类型id
+    public int unitTypeId = 0;//单位类型id
+    public String unitTypeName ;//单位类型id
 
     @Override
     protected BaseInspectPresent createPresenter() {
@@ -183,10 +191,13 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
     /**
      * 获取adapter中的数据
-     *
+     *skipFilter  跳过过滤
      * @return
      */
-    protected MultipartBody.Builder getBuilderOfAdapterData() {
+    protected BaseAdapterDataBean getBaseAdapterData(boolean  skipFilter) {
+
+        BaseAdapterDataBean bean = new BaseAdapterDataBean();
+        SearchedUnitsBean.DataBean.DatasBean unitDataBean = new SearchedUnitsBean.DataBean.DatasBean();
         MultipartBody.Builder builder = mPresenter.getPublishMultipartBody();
         List<MultipleItem> arrays = adapter.getData();
         for (MultipleItem array : arrays) {
@@ -194,9 +205,11 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
                 case MultipleItem.ITEM_HEAD_PIC:
                     HeadPicBean headPicBean = (HeadPicBean) array.getObject();
-                    if (TextUtils.isEmpty(headPicBean.getPicPath())) {
-                        ToastUtils.toast(mContext, "请选择申请人照片");
-                        return null;
+                    if (!skipFilter) {
+                        if (TextUtils.isEmpty(headPicBean.getPicPath())) {
+                            ToastUtils.toast(mContext, "请选择申请人照片");
+                            return null;
+                        }
                     }
                     builder.addFormDataPart("photoFile", "photoFile", RequestBody.create(MediaType.parse("file"),
                             new File(headPicBean.getPicPath())));
@@ -204,22 +217,26 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                 case MultipleItem.ITEM_EDIT:
                     TextKeyValueBean textValueEditBean = (TextKeyValueBean) array
                             .getObject();
-                    if (textValueEditBean.isImportant() && TextUtils.isEmpty(textValueEditBean
-                            .getValue())) {
-                        String key = textValueEditBean.getKey();
-                        //                        if (key.contains(mPresenter.FAMILY_TAG)) {
-                        //                            key = "监护人" + key.substring(1, key.length());
-                        //                        } else if (key.contains(mPresenter.PERSIONAL_TAG)) {
-                        //                            key = "残疾人" + key.substring(1, key.length());
-                        //                        }
-                        ToastUtils.toast(mContext, "请输入" + key);
-                        return null;
+                    String value = textValueEditBean.getValue();
+                    if (!skipFilter) {
+                        if (textValueEditBean.isImportant() && TextUtils.isEmpty(textValueEditBean
+                                .getValue())) {
+                            String key = textValueEditBean.getKey();
+                            //                        if (key.contains(mPresenter.FAMILY_TAG)) {
+                            //                            key = "监护人" + key.substring(1, key.length());
+                            //                        } else if (key.contains(mPresenter.PERSIONAL_TAG)) {
+                            //                            key = "残疾人" + key.substring(1, key.length());
+                            //                        }
+                            ToastUtils.toast(mContext, "请输入" + key);
+                            return null;
+                        }
                     }
+
                     String formKey = null;
                     switch (textValueEditBean.getKey()) {
                         case BaseInspectContract.INSPECTION_TEL:
                             //联系电话
-                            if (!RuleTools.isMobileNO(textValueEditBean.getValue())) {
+                            if (!RuleTools.isMobileNO(value)) {
                                 ToastUtils.toast(mContext, "联系电话格式不正确");
                                 return null;
                             }
@@ -229,62 +246,79 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         case BaseInspectContract.INSPECTION_UNIT_NAME:
                             //单位名称
                             formKey = "name";
+                            unitDataBean.setName(value);
                             break;
                         case BaseInspectContract.INSPECTION_UNIT_ADDR:
                             //单位地址
                             formKey = "address";
+                            unitDataBean.setAddress(value);
                             break;
                         case BaseInspectContract.INSPECTION_UNIT_UCC:
                             //社会信用代码
                             formKey = "unifiedCreditCode";
+                            unitDataBean.setUnifiedCreditCode(value);
                             break;
                         case BaseInspectContract.INSPECTION_UNIT_LEGAL_PERSON:
                             //单位法人
                             formKey = "legal";
+                            unitDataBean.setLegal(value);
                             break;
                         case BaseInspectContract.INSPECTION_UNIT_LEGAL_PERSON_TEL:
                             //法人手机号
                             formKey = "legalPhone";
+                            unitDataBean.setLegalPhone(value);
                             break;
                         case BaseInspectContract.INSPECTION_RESPONSIBLE:
                             //安全责任人
                             formKey = "personLiable";
+                            unitDataBean.setPersonLiable(value);
                             break;
                         case BaseInspectContract.INSPECTION_RESPONSIBLE_TEL:
                             //安全责任人电话
                             formKey = "liablePhone";
+                            unitDataBean.setLiablePhone(value);
                             break;
                         case BaseInspectContract.INSPECTION_SPARE_PERSON:
                             //备用联系人
                             formKey = "sparePerson";
+                            unitDataBean.setSparePerson(value);
                             break;
                         case BaseInspectContract.INSPECTION_SPARE_PERSON_TEL:
                             //备用联系人电话
                             formKey = "sparePhone";
+                            unitDataBean.setSparePhone(value);
                             break;
                         case BaseInspectContract.REMARK:
                             //备注
                             formKey = "remarks";
+                            if (ADD_UNIT.equals(getTitleName())) {
+                                unitDataBean.setRemarks(value);
+                            }
                             break;
 
                         default:
                             break;
                     }
-                    if (StringTools.isStringValueOk(textValueEditBean.getValue()) && formKey != null) {
-                        builder.addFormDataPart(formKey, textValueEditBean.getValue());
+                    if (StringTools.isStringValueOk(value) && formKey != null) {
+                        builder.addFormDataPart(formKey, value);
                     }
 
                     break;
                 case MultipleItem.ITEM_SELECT:
                     TextKeyValueBean textValueSelectBean = (TextKeyValueBean) array.getObject();
-                    if (textValueSelectBean.isImportant() && !StringTools.isStringValueOk(textValueSelectBean.getValue())) {
-                        ToastUtils.toast(mContext, "请选择" + textValueSelectBean.getKey());
-                        return null;
+                    if (!skipFilter) {
+                        if (textValueSelectBean.isImportant() && !StringTools.isStringValueOk(textValueSelectBean.getValue())) {
+                            ToastUtils.toast(mContext, "请选择" + textValueSelectBean.getKey());
+                            return null;
+                        }
                     }
+
                     switch (textValueSelectBean.getKey()) {
                         case BaseInspectContract.INSPECTION_UNIT_TYPE:
                             if (StringTools.isStringValueOk(textValueSelectBean.getValue())) {
                                 builder.addFormDataPart("type", String.valueOf(unitTypeId));
+                                unitDataBean.setTypeName(unitTypeName);
+                                unitDataBean.setTypeId(unitTypeId);
                             }
                             break;
                         default:
@@ -296,20 +330,27 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                     builder.addFormDataPart("gpsAddress", locationBean.getAddress());
                     builder.addFormDataPart("longitude", locationBean.getLongitude());
                     builder.addFormDataPart("latitude", locationBean.getLatitude());
+                    if (ADD_UNIT.equals(getTitleName())) {
+                        unitDataBean.setGpsAddress(locationBean.getAddress());
+                        unitDataBean.setLatitude(locationBean.getLatitude());
+                        unitDataBean.setLongitude(locationBean.getLongitude());
+                    }
                     break;
 
                 case MultipleItem.ITEM_FRAGMENT:
-
                     ItemFragmentBean fragmentBean = (ItemFragmentBean) array.getObject();
                     List<String> photos = fragmentBean.getFragmentPics();
-                    if (photos.isEmpty()) {
-                        ToastUtils.toast(mContext, "请选择图片");
-                        return null;
+                    if (!skipFilter) {
+                        if (photos.isEmpty()) {
+                            ToastUtils.toast(mContext, "请选择图片");
+                            return null;
+                        }
+                        if (photos.size()<fragmentBean.getMinCount()) {
+                            ToastUtils.toast(mContext, "最少需要"+fragmentBean.getMinCount()+"张照片");
+                            return null;
+                        }
                     }
-                    if (photos.size()<fragmentBean.getMinCount()) {
-                        ToastUtils.toast(mContext, "最少需要"+fragmentBean.getMinCount()+"张照片");
-                        return null;
-                    }
+
                     for (int i = 0; i < photos.size(); i++) {
                         String picPah = photos.get(i);
                         switch (i) {
@@ -317,31 +358,49 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 builder.addFormDataPart("cover", "cover",
                                         RequestBody.create(MediaType.parse("file"),
                                                 new File(picPah)));
+                                if (ADD_UNIT.equals(getTitleName())) {
+                                    unitDataBean.setCoverPicture(picPah);
+                                }
                                 break;
                             case 1:
                                 builder.addFormDataPart("pictureTwo", "pictureTwo",
                                         RequestBody.create(MediaType.parse("file"),
                                                 new File(picPah)));
+                                if (ADD_UNIT.equals(getTitleName())) {
+                                    unitDataBean.setPhotoTwo(picPah);
+                                }
                                 break;
                             case 2:
                                 builder.addFormDataPart("pictureThree", "pictureThree",
                                         RequestBody.create(MediaType.parse("file"),
                                                 new File(picPah)));
+                                if (ADD_UNIT.equals(getTitleName())) {
+                                    unitDataBean.setPhotoThree(picPah);
+                                }
                                 break;
                             case 3:
                                 builder.addFormDataPart("pictureFour", "pictureFour",
                                         RequestBody.create(MediaType.parse("file"),
                                                 new File(picPah)));
+                                if (ADD_UNIT.equals(getTitleName())) {
+                                    unitDataBean.setPhotoFour(picPah);
+                                }
                                 break;
                             case 4:
                                 builder.addFormDataPart("pictureFive", "pictureFive",
                                         RequestBody.create(MediaType.parse("file"),
                                                 new File(picPah)));
+                                if (ADD_UNIT.equals(getTitleName())) {
+                                    unitDataBean.setPhotoFive(picPah);
+                                }
                                 break;
                             case 5:
                                 builder.addFormDataPart("pictureSix", "pictureSix",
                                         RequestBody.create(MediaType.parse("file"),
                                                 new File(picPah)));
+                                if (ADD_UNIT.equals(getTitleName())) {
+                                    unitDataBean.setPhotoSix(picPah);
+                                }
                                 break;
                             default:
                                 break;
@@ -352,7 +411,9 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                     break;
             }
         }
-        return builder;
+        bean.setBuilder(builder);
+        bean.setUnitDataBean(unitDataBean);
+        return bean;
     }
 
     @Override
@@ -371,6 +432,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                         selectBean.setValue(dataBean.getName());
                                         mSelectTv.setText(dataBean.getName());
                                         unitTypeId = dataBean.getId();
+                                        unitTypeName = dataBean.getName();
                                     }
                                 });
                     }

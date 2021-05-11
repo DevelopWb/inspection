@@ -60,7 +60,7 @@ public class AddUnitActivity extends BaseAddActivity {
 
     @Override
     protected BaseQuickAdapter getAdapter() {
-        return new UnitsAdapter(R.layout.check_item);
+        return new UnitsAdapter(R.layout.check_item,false);
     }
 
     @Override
@@ -79,7 +79,7 @@ public class AddUnitActivity extends BaseAddActivity {
 
     @Override
     protected String getTitleName() {
-        return ADD_COMPANY;
+        return BaseInspectionActivity.ADD_UNIT;
     }
 
     @Override

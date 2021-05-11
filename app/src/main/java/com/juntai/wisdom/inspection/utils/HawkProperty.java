@@ -8,4 +8,6 @@ package com.juntai.wisdom.inspection.utils;
  * @UpdateDate: 2021/2/27 10:59
  */
 public class HawkProperty {
+
+    public  static  String  ADD_UNIT_KEY = "add_unit";//添加单位
 }

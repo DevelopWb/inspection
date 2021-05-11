@@ -4,6 +4,8 @@ import android.os.Bundle;
 
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.inspection.AppHttpPath;
+import com.juntai.wisdom.inspection.utils.HawkProperty;
+import com.orhanobut.hawk.Hawk;
 
 import okhttp3.MultipartBody;
 
@@ -43,6 +45,9 @@ public class SearchAddUnitActivity extends BaseUnitActivity {
         super.onSuccess(tag, o);
         if (AppHttpPath.SEARCH_ADD_UNIT.equals(tag)) {
             ToastUtils.toast(mContext,"添加成功");
+            if (Hawk.contains(HawkProperty.ADD_UNIT_KEY)) {
+                Hawk.delete(HawkProperty.ADD_UNIT_KEY);
+            }
             finish();
         }
     }

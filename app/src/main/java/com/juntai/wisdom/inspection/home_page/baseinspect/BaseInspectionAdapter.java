@@ -211,8 +211,8 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 //上传材料时 多选照片
                 SelectPhotosFragment fragment = (SelectPhotosFragment) mFragmentManager.findFragmentById(R.id.photo_fg);
                 fragment.setObject(fragmentBean);
-                fragment.setSpanCount(fragmentBean.getmSpanCount()).
-                        setPhotoDelateable(fragmentBean.isDeleteable()).setMaxCount(fragmentBean.getmMaxCount())
+                fragment.setSpanCount(fragmentBean.getmSpanCount())
+                        .setPhotoDelateable(fragmentBean.isDeleteable()).setMaxCount(fragmentBean.getmMaxCount())
                         .setShowTag(fragmentBean.isShowTag()).setOnPicLoadSuccessCallBack(new SelectPhotosFragment.OnPicLoadSuccessCallBack() {
                     @Override
                     public void loadSuccess(List<String> icons) {
@@ -220,6 +220,9 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                         picBean.setFragmentPics(icons);
                     }
                 });
+                if (fragmentBean.getFragmentPics().size()>0) {
+                    fragment.setIcons(fragmentBean.getFragmentPics());
+                }
                 break;
             default:
                 break;

@@ -13,6 +13,7 @@ import com.juntai.wisdom.inspection.base.BaseAppActivity;
 import com.juntai.wisdom.inspection.home_page.add.unit.ManualAddUnitActivity;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectContract;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectPresent;
+import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -32,9 +33,7 @@ public abstract class BaseAddActivity extends BaseAppActivity<BaseInspectPresent
     private RecyclerView mRecyclerview;
     protected SmartRefreshLayout mSmartrefreshlayout;
     protected BaseQuickAdapter adapter;
-    public final static String ADD_COMPANY = "添加单位";
-    public final static String ADD_INSPECTION_SITE = "添加治安巡检点";
-    public final static String ADD_IMPORTANTOR = "添加重点人员";
+
 
     public int currentPage = 1, pagesize = 10;
 
@@ -117,7 +116,7 @@ public abstract class BaseAddActivity extends BaseAppActivity<BaseInspectPresent
                 break;
             case R.id.add_iv:
                 switch (getTitleName()) {
-                    case ADD_COMPANY:
+                    case BaseInspectionActivity.ADD_UNIT:
                         //手动添加单位
                         startActivity(new Intent(mContext, ManualAddUnitActivity.class));
                         break;

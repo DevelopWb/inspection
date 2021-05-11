@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
 
+import com.baidu.mapapi.model.LatLng;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
@@ -45,6 +46,26 @@ public class UnitsFragment extends BaseRecyclerviewFragment<BaseInspectPresent> 
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 startActivity(new Intent(mContext, UnitInfoActivity.class));
+            }
+        });
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                SearchedUnitsBean.DataBean.DatasBean datasBean = (SearchedUnitsBean.DataBean.DatasBean) adapter.getData().get(position);
+                switch (view.getId()) {
+                    case R.id.item_navigation_tv:
+                       String lat = datasBean.getLatitude();
+                       String lng = datasBean.getLongitude();
+                        if (TextUtils.isEmpty(lat)||TextUtils.isEmpty(lng)) {
+                            ToastUtils.toast(mContext,"无法获取位置信息");
+                            return;
+                        }
+                       getBaseAppActivity().navigationLogic(new LatLng(Double.parseDouble(lat),
+                               Double.parseDouble(lng)),datasBean.getAddress());
+                        break;
+                    default:
+                        break;
+                }
             }
         });
         //获取相应的单位
@@ -95,7 +116,7 @@ public class UnitsFragment extends BaseRecyclerviewFragment<BaseInspectPresent> 
 
     @Override
     protected BaseQuickAdapter getAdapter() {
-        return new UnitsAdapter(R.layout.check_item);
+        return new UnitsAdapter(R.layout.check_item,true);
     }
 
     @Override

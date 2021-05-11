@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
+import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
 import com.juntai.wisdom.inspection.home_page.firecheck.UnitsAdapter;
 
 /**
@@ -43,7 +44,7 @@ public class AddImportantorActivity extends BaseAddActivity {
 
     @Override
     protected BaseQuickAdapter getAdapter() {
-        return new UnitsAdapter(R.layout.check_item);
+        return new UnitsAdapter(R.layout.check_item,false);
     }
 
     @Override
@@ -57,7 +58,7 @@ public class AddImportantorActivity extends BaseAddActivity {
 
     @Override
     protected String getTitleName() {
-        return ADD_IMPORTANTOR;
+        return BaseInspectionActivity.ADD_IMPORTANTOR;
     }
 
     @Override

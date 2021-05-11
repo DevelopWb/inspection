@@ -1,5 +1,7 @@
 package com.juntai.wisdom.inspection.home_page.baseinspect;
 
+import android.text.TextUtils;
+
 import com.juntai.disabled.basecomponent.base.BaseObserver;
 import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.disabled.basecomponent.mvp.IModel;
@@ -120,11 +122,27 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 bean.getSparePhone(), false, 0);
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, bean == null ? "" :
                 bean.getRemarks(), false, 1);
-        arrays.add(new MultipleItem(MultipleItem.ITEM_LOCATION, new LocationBean(null,null,null)));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_LOCATION, new LocationBean(bean==null?null:bean.getGpsAddress()
+                ,bean==null?null:bean.getLatitude(),bean==null?null:bean.getLongitude())));
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传单位图片"));
+        List<String> fragmentPics = new ArrayList<>();
+        if (bean != null) {
+            addFragmentPics(bean.getCoverPicture(), fragmentPics);
+            addFragmentPics(bean.getPhotoTwo(), fragmentPics);
+            addFragmentPics(bean.getPhotoThree(), fragmentPics);
+            addFragmentPics(bean.getPhotoFour(), fragmentPics);
+            addFragmentPics(bean.getPhotoFive(), fragmentPics);
+            addFragmentPics(bean.getPhotoSix(), fragmentPics);
+        }
         arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3,6,3,true,true,
-            new ArrayList<>())));
+                fragmentPics)));
         return arrays;
+    }
+
+    private void addFragmentPics(String picPath, List<String> fragmentPics) {
+        if (!TextUtils.isEmpty(picPath)) {
+            fragmentPics.add(picPath);
+        }
     }
 
     /**
