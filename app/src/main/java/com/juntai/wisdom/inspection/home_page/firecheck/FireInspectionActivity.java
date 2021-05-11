@@ -10,6 +10,7 @@ import com.juntai.wisdom.inspection.bean.IdNameBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectContract;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionSearchActivity;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -52,8 +53,10 @@ public class FireInspectionActivity extends BaseInspectionSearchActivity impleme
         switch (tag) {
             case AppHttpPath.UNIT_TYPE:
                 IdNameBean idNameBean = (IdNameBean) o;
+                List<IdNameBean.DataBean> arrays = new ArrayList<>();
+                arrays.add(new IdNameBean.DataBean(0,"全部"));
                 if (idNameBean != null) {
-                    List<IdNameBean.DataBean> arrays = idNameBean.getData();
+                    arrays.addAll(idNameBean.getData());
                     setTypes(arrays);
                 }
                 break;

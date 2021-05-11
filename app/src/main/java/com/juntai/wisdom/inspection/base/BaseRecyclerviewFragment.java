@@ -59,7 +59,10 @@ public abstract class BaseRecyclerviewFragment<P extends IPresenter> extends Bas
 
     protected abstract BaseQuickAdapter getAdapter();
 
-
-
-
+    @Override
+    public void onSuccess(String tag, Object o) {
+        mSmartrefreshlayout.finishLoadMore();
+        mSmartrefreshlayout.finishRefresh();
+        getBaseActivity().getViewFocus(mRecyclerview);
+    }
 }

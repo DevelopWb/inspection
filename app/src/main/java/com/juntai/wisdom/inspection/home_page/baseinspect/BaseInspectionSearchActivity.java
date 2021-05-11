@@ -5,7 +5,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.SearchView;
 import android.util.SparseArray;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.inputmethod.EditorInfo;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -36,6 +38,13 @@ public abstract class BaseInspectionSearchActivity extends BaseAppActivity<BaseI
     private CustomViewPager mInspectViewPager;
     private List<IdNameBean.DataBean> types = null;
     public int currentTypeId = 0;
+
+
+    private OnTypeSelectedCallBack typeSelectedCallBack;
+
+    public void  setTypeTypeSelectedCallBack(OnTypeSelectedCallBack typeSelectedCallBack) {
+        this.typeSelectedCallBack = typeSelectedCallBack;
+    }
 
     /**
      * 获取搜索的内容
@@ -68,6 +77,10 @@ public abstract class BaseInspectionSearchActivity extends BaseAppActivity<BaseI
         mInspectSearchSv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String s) {
+                //刷新列表
+                if (typeSelectedCallBack != null) {
+                    typeSelectedCallBack.typeSelected();
+                }
                 return true;
             }
 
@@ -132,7 +145,6 @@ public abstract class BaseInspectionSearchActivity extends BaseAppActivity<BaseI
         if (types != null) {
             IdNameBean.DataBean dataBean = types.get(0);
             mSearchTypeTv.setText(dataBean.getName());
-            currentTypeId = dataBean.getId();
         }
     }
 
@@ -153,9 +165,22 @@ public abstract class BaseInspectionSearchActivity extends BaseAppActivity<BaseI
                         IdNameBean.DataBean dataBean = types.get(options1);
                         mSearchTypeTv.setText(dataBean.getName());
                         currentTypeId = dataBean.getId();
+                        //刷新列表
+                        if (typeSelectedCallBack != null) {
+                            typeSelectedCallBack.typeSelected();
+                        }
                     }
                 });
                 break;
         }
+    }
+
+    /**
+     * 类型被选中后的回调
+     */
+   public interface OnTypeSelectedCallBack{
+
+       void  typeSelected();
+
     }
 }

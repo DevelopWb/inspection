@@ -84,5 +84,12 @@ public interface AppServer {
      */
     @POST(AppHttpPath.CHECK_UNIT_UNIQUE)
     Observable<BaseResult> checkUnitUnique(@Body RequestBody requestBody);
+    /**
+     * 治安消防模块首页搜索
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.SEARCH_UNIT_CHECK_STATUS)
+    Observable<SearchedUnitsBean> searchUnitFromFireInspection(@Body RequestBody requestBody);
 
 }

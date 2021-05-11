@@ -60,4 +60,14 @@ public class AppHttpPath {
      */
     public static final String CHECK_UNIT_UNIQUE = BASE + "/u/appConnector/selectUnitName.shtml";
 
+    /**
+     * 治安消防模块首页搜索
+     */
+    public static final String SEARCH_UNIT_CHECK_STATUS = BASE + "/u/appConnector/searchSecurityFire.shtml";
+
+
+
+
+
+
 }

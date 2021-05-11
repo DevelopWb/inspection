@@ -65,5 +65,6 @@ public interface BaseInspectContract {
         void manualAddUnit(RequestBody requestBody, String tag);
         void checkUnitUnique(RequestBody requestBody, String tag);
         void getUnitType(RequestBody requestBody, String tag);
+        void searchUnitFromFireInspection(RequestBody requestBody, String tag);
     }
 }

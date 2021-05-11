@@ -8,10 +8,14 @@ import android.view.View;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
+import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.base.BaseRecyclerviewFragment;
+import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectContract;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectPresent;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionSearchActivity;
+
+import java.util.List;
 
 /**
  * @Author: tobato
@@ -22,22 +26,29 @@ import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionSearchAc
  */
 public class UnitsFragment extends BaseRecyclerviewFragment<BaseInspectPresent> implements BaseInspectContract.IInspectView {
 
-    private String unitCheckTag;//检查的状态
     private int currentPage = 1;
     private int pageSize = 10;
-    private String keyWord;
+    private String unitCheckTag;
 
 
     @Override
     protected void lazyLoad() {
-        keyWord = ((BaseInspectionSearchActivity) getActivity()).getKeyword();
-        if (TextUtils.isEmpty(keyWord)) {
-            ToastUtils.toast(mContext,"请输入搜索的内容");
-            return;
-        }
         unitCheckTag = getArguments().getString(BaseInspectContract.IMPORTANTOR_TAB_TITLES);
+        ((BaseInspectionSearchActivity) getActivity()).setTypeTypeSelectedCallBack(new BaseInspectionSearchActivity.OnTypeSelectedCallBack() {
+            @Override
+            public void typeSelected() {
+                currentPage = 1;
+                getAdapterData();
+            }
+        });
+        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                startActivity(new Intent(mContext, UnitInfoActivity.class));
+            }
+        });
         //获取相应的单位
-
+        getAdapterData();
     }
 
     @Override
@@ -56,22 +67,30 @@ public class UnitsFragment extends BaseRecyclerviewFragment<BaseInspectPresent> 
     @Override
     protected void initData() {
 
-        adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(mContext, UnitInfoActivity.class));
-            }
-        });
     }
 
     @Override
     protected void freshlayoutOnLoadMore() {
         currentPage++;
+        getAdapterData();
+    }
+
+    /**
+     * 获取数据
+     */
+    private void getAdapterData() {
+        String keyWord = ((BaseInspectionSearchActivity) getActivity()).getKeyword();
+        mPresenter.searchUnitFromFireInspection(getBaseAppActivity().getBaseBuilder().add("keyword", keyWord)
+                        .add("state", String.valueOf(getCheckStatus())).add("unitType",
+                        String.valueOf(((BaseInspectionSearchActivity) getActivity()).currentTypeId)).add("pageSize",
+                        String.valueOf(pageSize)).add("currentPage", String.valueOf(currentPage)).build(),
+                AppHttpPath.SEARCH_UNIT_CHECK_STATUS);
     }
 
     @Override
     protected void freshlayoutOnRefresh() {
         currentPage = 1;
+        getAdapterData();
     }
 
     @Override
@@ -81,14 +100,22 @@ public class UnitsFragment extends BaseRecyclerviewFragment<BaseInspectPresent> 
 
     @Override
     public void onSuccess(String tag, Object o) {
-//        if (currentPage == 1) {
-//            adapter.setNewData(arrays);
-//        } else {
-//            adapter.addData(arrays);
-//        }
-//        if (arrays != null && arrays.size() < pageSize) {
-//            mSmartrefreshlayout.finishLoadMoreWithNoMoreData();
-//        }
+        super.onSuccess(tag, o);
+        SearchedUnitsBean searchedUnitsBean = (SearchedUnitsBean) o;
+        if (searchedUnitsBean != null) {
+            SearchedUnitsBean.DataBean dataBean = searchedUnitsBean.getData();
+            if (dataBean != null) {
+                List<SearchedUnitsBean.DataBean.DatasBean> arrays = dataBean.getDatas();
+                if (currentPage == 1) {
+                    adapter.setNewData(arrays);
+                } else {
+                    adapter.addData(arrays);
+                }
+                if (arrays != null && arrays.size() < pageSize) {
+                    mSmartrefreshlayout.finishLoadMoreWithNoMoreData();
+                }
+            }
+        }
     }
 
     /**
@@ -97,8 +124,9 @@ public class UnitsFragment extends BaseRecyclerviewFragment<BaseInspectPresent> 
      * @return
      */
     private int getCheckStatus() {
+
         int status = 0;
-        switch (unitCheckTag) {
+            switch (unitCheckTag) {
             case BaseInspectContract.IMPORTANTOR_TAB_TITLE_ALL:
                 status = 0;
                 break;

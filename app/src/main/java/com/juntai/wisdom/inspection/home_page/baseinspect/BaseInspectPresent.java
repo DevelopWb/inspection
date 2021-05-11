@@ -240,6 +240,27 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                     }
                 });
     }
+    @Override
+    public void searchUnitFromFireInspection(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .searchUnitFromFireInspection(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<SearchedUnitsBean>(getView()) {
+                    @Override
+                    public void onSuccess(SearchedUnitsBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
 
     @Override
     public void searchAddUnit(RequestBody requestBody, String tag) {

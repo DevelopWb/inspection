@@ -62,8 +62,9 @@ public class ImportantorsFragment extends BaseRecyclerviewFragment<BaseInspectPr
         return new ImportantorAdapter(R.layout.check_item);
     }
 
+
     @Override
     public void onSuccess(String tag, Object o) {
-
+        super.onSuccess(tag, o);
     }
 }

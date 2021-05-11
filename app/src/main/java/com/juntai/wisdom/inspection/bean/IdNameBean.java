@@ -31,6 +31,11 @@ public class IdNameBean  extends BaseResult {
     }
 
     public static class DataBean implements IPickerViewData {
+        public DataBean(int id, String name) {
+            this.id = id;
+            this.name = name;
+        }
+
         /**
          * id : 1
          * name : 板厂
