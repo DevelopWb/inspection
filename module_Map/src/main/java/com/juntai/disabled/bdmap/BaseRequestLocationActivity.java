@@ -44,13 +44,17 @@ public abstract class BaseRequestLocationActivity<P extends BasePresenter> exten
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (requestLocation()) {
-            if (mLocationClient == null) {
-                mLocationClient = new LocationClient(getApplicationContext());
-                mLocationClient.setLocOption(BaiDuLocationUtils.getDefaultLocationClientOption());
-            }
-            mLocationClient.registerLocationListener(listener);
-            mLocationClient.start();
+            startLocation();
         }
+    }
+
+    public void startLocation() {
+        if (mLocationClient == null) {
+            mLocationClient = new LocationClient(getApplicationContext());
+            mLocationClient.setLocOption(BaiDuLocationUtils.getDefaultLocationClientOption());
+        }
+        mLocationClient.registerLocationListener(listener);
+        mLocationClient.start();
     }
 
     @Override

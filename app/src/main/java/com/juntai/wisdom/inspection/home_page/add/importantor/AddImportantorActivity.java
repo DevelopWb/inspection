@@ -1,4 +1,4 @@
-package com.juntai.wisdom.inspection.home_page.add;
+package com.juntai.wisdom.inspection.home_page.add.importantor;
 
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -6,6 +6,7 @@ import android.text.TextUtils;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
+import com.juntai.wisdom.inspection.home_page.add.BaseAddActivity;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
 import com.juntai.wisdom.inspection.home_page.firecheck.UnitsAdapter;
 
@@ -50,10 +51,11 @@ public class AddImportantorActivity extends BaseAddActivity {
     @Override
     protected void startSearch(String s) {
         if (TextUtils.isEmpty(s)) {
+            finishLoading();
             ToastUtils.toast(mContext,"请输入要搜索的内容");
             return;
         }
-        adapter.setNewData(getTestData());
+
     }
 
     @Override

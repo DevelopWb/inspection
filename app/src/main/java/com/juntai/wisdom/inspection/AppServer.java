@@ -3,6 +3,8 @@ package com.juntai.wisdom.inspection;
 
 import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.wisdom.inspection.bean.IdNameBean;
+import com.juntai.wisdom.inspection.bean.inspectionsite.AllInspectionSiteBean;
+import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.UserBean;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
 
@@ -33,6 +35,7 @@ public interface AppServer {
     Observable<BaseResult> uploadHistory(@Query("account") String account, @Query("token") String token, @Query(
             "userId") int userId,
                                          @Query("source") int source, @Query("json") String json);
+
     /**
      * 用户个人信息
      *
@@ -40,6 +43,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.GET_USER_INFO)
     Observable<UserBean> getUserInfo(@Body RequestBody requestBody);
+
     /**
      * 退出登录
      *
@@ -47,6 +51,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.LOGIN_OUT)
     Observable<BaseResult> loginOut(@Body RequestBody requestBody);
+
     /**
      * 单位类型
      *
@@ -54,6 +59,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.UNIT_TYPE)
     Observable<IdNameBean> getUnitType(@Body RequestBody requestBody);
+
     /**
      * 添加单位搜索
      *
@@ -61,6 +67,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.SEARCH_COMPANYS)
     Observable<SearchedUnitsBean> searchCompanys(@Body RequestBody requestBody);
+
     /**
      * 搜索添加
      *
@@ -68,6 +75,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.SEARCH_ADD_UNIT)
     Observable<BaseResult> searchAddUnit(@Body RequestBody requestBody);
+
     /**
      * 手动添加单位
      *
@@ -79,17 +87,70 @@ public interface AppServer {
 
     /**
      * 查询单位  信用码 是否存在   唯一性
+     *
      * @param requestBody
      * @return
      */
     @POST(AppHttpPath.CHECK_UNIT_UNIQUE)
     Observable<BaseResult> checkUnitUnique(@Body RequestBody requestBody);
+
     /**
      * 治安消防模块首页搜索
+     *
      * @param requestBody
      * @return
      */
     @POST(AppHttpPath.SEARCH_UNIT_CHECK_STATUS)
     Observable<SearchedUnitsBean> searchUnitFromFireInspection(@Body RequestBody requestBody);
+
+
+
+    /*==============================================  巡检点  =============================================*/
+
+    /**
+     * 治安巡检点详情
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.INSPECTION_SITE_DETAIL)
+    Observable<InspectionSiteBean> getInspectionSiteDetail(@Body RequestBody requestBody);
+
+    /**
+     * 搜索所有的巡检点  待添加
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.SEARCH_INSPECTION_SITES_TO_ADD)
+    Observable<AllInspectionSiteBean> searchInspectionSitesToAdd(@Body RequestBody requestBody);
+
+    /**
+     *查询巡检点是否存在
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.CHECK_INSPECTION_SITE_UNIQUE)
+    Observable<BaseResult> checkInspectionSiteNameUnique(@Body RequestBody requestBody);
+
+    /**
+     * 搜索添加治安巡检点
+     *
+     * @return
+     */
+    @POST(AppHttpPath.SEARCH_ADD_INSP_SITE)
+    Observable<BaseResult> searchAddInspectSite(@Body RequestBody requestBody);
+
+
+    /**
+     * 手动添加治安巡检点
+     *
+     * @return
+     */
+    @POST(AppHttpPath.MANUAL_ADD_INSP_SITE)
+    Observable<BaseResult> manualAddInspectSite(@Body RequestBody requestBody);
+
+
 
 }

@@ -35,8 +35,8 @@ import com.juntai.wisdom.inspection.bean.LocationBean;
 import com.juntai.wisdom.inspection.entrance.LoginActivity;
 import com.juntai.wisdom.inspection.home_page.HomePageFragment;
 import com.juntai.wisdom.inspection.home_page.add.unit.AddUnitActivity;
-import com.juntai.wisdom.inspection.home_page.add.AddImportantorActivity;
-import com.juntai.wisdom.inspection.home_page.add.AddInspectSiteActivity;
+import com.juntai.wisdom.inspection.home_page.add.importantor.AddImportantorActivity;
+import com.juntai.wisdom.inspection.home_page.add.inspectionsite.AddInspectSiteActivity;
 import com.juntai.wisdom.inspection.mine.MyCenterFragment;
 
 import java.util.ArrayList;

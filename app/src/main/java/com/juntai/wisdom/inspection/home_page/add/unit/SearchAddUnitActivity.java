@@ -14,7 +14,7 @@ import okhttp3.MultipartBody;
  * @description 描述  搜索添加单位
  * @date 2021/5/9 11:09
  */
-public class SearchAddUnitActivity extends BaseUnitActivity {
+public class SearchAddUnitActivity extends BaseAddUnitActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,7 +37,7 @@ public class SearchAddUnitActivity extends BaseUnitActivity {
 
     @Override
     protected String getTitleName() {
-        return "添加单位";
+        return ADD_UNIT;
     }
 
     @Override

@@ -69,5 +69,26 @@ public class AppHttpPath {
 
 
 
+    /*==============================================  巡检点  =============================================*/
+    /**
+     * 治安巡检点详情
+     */
+    public static final String INSPECTION_SITE_DETAIL = BASE + "/u/appSecurity/selectSecurityPublicInfo.shtml";
+    /**
+     * 搜索所有的巡检点
+     */
+    public static final String SEARCH_INSPECTION_SITES_TO_ADD = BASE + "/u/appSecurity/selectSearchSecurityPublic.shtml";
+    /**
+     * 查询巡检点是否存在
+     */
+    public static final String CHECK_INSPECTION_SITE_UNIQUE = BASE + "/u/appSecurity/selectPointName.shtml";
+    /**
+     * 搜索添加治安巡检点
+     */
+    public static final String SEARCH_ADD_INSP_SITE = BASE + "/u/appSecurity/updateSecurityPublic.shtml";
+    /**
+     * 手动添加治安巡检点
+     */
+    public static final String MANUAL_ADD_INSP_SITE = BASE + "/u/appSecurity/insertSecurityPublic.shtml";
 
 }

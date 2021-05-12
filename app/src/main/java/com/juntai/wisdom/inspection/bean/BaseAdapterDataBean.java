@@ -1,7 +1,7 @@
 package com.juntai.wisdom.inspection.bean;
 
+import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
-import com.juntai.wisdom.inspection.bean.unit.UnitInfoBean;
 
 import okhttp3.MultipartBody;
 
@@ -16,6 +16,15 @@ public class BaseAdapterDataBean {
 
     private  MultipartBody.Builder  builder;
     private SearchedUnitsBean.DataBean.DatasBean  unitDataBean;
+    private InspectionSiteBean.DataBean  inspectionSiteBean;
+
+    public InspectionSiteBean.DataBean getInspectionSiteBean() {
+        return inspectionSiteBean;
+    }
+
+    public void setInspectionSiteBean(InspectionSiteBean.DataBean inspectionSiteBean) {
+        this.inspectionSiteBean = inspectionSiteBean;
+    }
 
     public MultipartBody.Builder getBuilder() {
         return builder;

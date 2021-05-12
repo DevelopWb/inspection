@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.base.BaseAppActivity;
+import com.juntai.wisdom.inspection.home_page.add.inspectionsite.ManualAddInspectionSiteActivity;
 import com.juntai.wisdom.inspection.home_page.add.unit.ManualAddUnitActivity;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectContract;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectPresent;
@@ -120,6 +121,10 @@ public abstract class BaseAddActivity extends BaseAppActivity<BaseInspectPresent
                         //手动添加单位
                         startActivity(new Intent(mContext, ManualAddUnitActivity.class));
                         break;
+                    case BaseInspectionActivity.ADD_INSPECTION_SITE:
+                        //手动巡检地址
+                        startActivity(new Intent(mContext, ManualAddInspectionSiteActivity.class));
+                        break;
                     default:
                         break;
                 }
@@ -134,4 +139,13 @@ public abstract class BaseAddActivity extends BaseAppActivity<BaseInspectPresent
         mSmartrefreshlayout.finishRefresh();
         mSmartrefreshlayout.finishLoadMore();
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (BASE_REQUEST_RESULT==requestCode) {
+            onRefreshLogic(mSearchSv.getQuery().toString());
+        }
+    }
+
 }

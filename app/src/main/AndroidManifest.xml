@@ -31,10 +31,12 @@
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
         <activity android:name="com.juntai.wisdom.inspection.home_page.add.unit.ManualAddUnitActivity"></activity>
+        <activity android:name="com.juntai.wisdom.inspection.home_page.add.inspectionsite.ManualAddInspectionSiteActivity"></activity>
+        <activity android:name="com.juntai.wisdom.inspection.home_page.add.inspectionsite.SearchAddInspectionSiteActivity"></activity>
         <activity android:name="com.juntai.wisdom.inspection.home_page.add.unit.SearchAddUnitActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.add.unit.AddUnitActivity" />
-        <activity android:name="com.juntai.wisdom.inspection.home_page.add.AddImportantorActivity" />
-        <activity android:name="com.juntai.wisdom.inspection.home_page.add.AddInspectSiteActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.add.importantor.AddImportantorActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.add.inspectionsite.AddInspectSiteActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.StartVisitActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.FireInspectionActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.ImportantorsActivity" />
