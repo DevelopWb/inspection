@@ -8,12 +8,15 @@ import com.juntai.disabled.basecomponent.mvp.IModel;
 import com.juntai.disabled.basecomponent.utils.RxScheduler;
 import com.juntai.wisdom.inspection.AppNetModule;
 import com.juntai.wisdom.inspection.base.BaseAppPresent;
+import com.juntai.wisdom.inspection.bean.HeadPicBean;
 import com.juntai.wisdom.inspection.bean.IdNameBean;
 import com.juntai.wisdom.inspection.bean.ImportantTagBean;
 import com.juntai.wisdom.inspection.bean.ItemFragmentBean;
 import com.juntai.wisdom.inspection.bean.LocationBean;
 import com.juntai.wisdom.inspection.bean.MultipleItem;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
+import com.juntai.wisdom.inspection.bean.importantor.AllImportantorBean;
+import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.AllInspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
@@ -141,6 +144,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 fragmentPics)));
         return arrays;
     }
+
     /**
      * 添加 巡检点详情
      *
@@ -181,6 +185,68 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         }
         arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3, 6, 3, true, false,
                 fragmentPics)));
+        return arrays;
+    }
+
+    /**
+     * 添加 重点人员
+     *
+     * @return
+     */
+    public List<MultipleItem> getImportantorData(ImportantorBean.DataBean bean) {
+        List<MultipleItem> arrays = new ArrayList<>();
+        arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL,
+                new ImportantTagBean(BaseInspectContract.INSPECTION_IMPORTANTOR_PHOTO, true)));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_HEAD_PIC,
+                new HeadPicBean(BaseInspectContract.INSPECTION_IMPORTANTOR_PHOTO, -1,
+                        bean == null ? "" : bean.getPersonnelPhoto())));
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_NAME, bean == null ? "" :
+                        bean.getName()
+                , true, 0);
+        initTextType(arrays, MultipleItem.ITEM_SELECT, BaseInspectContract.INSPECTION_SEX, bean == null ? "" :
+                1 == bean.getGender() ? "男" : "女", true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_ID_CARD, bean == null ? "" :
+                        bean.getIdNumber()
+                , true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_ADDR_LATEST, bean == null ? "" :
+                        bean.getAddress()
+                , true, 0);
+        initTextType(arrays, MultipleItem.ITEM_SELECT, BaseInspectContract.INSPECTION_PERSONAL_TYPE, bean == null ? "" :
+                        bean.getAddress()
+                , true, 0);
+        initTextType(arrays, MultipleItem.ITEM_SELECT, BaseInspectContract.INSPECTION_PERSONAL_STATUS, bean == null ?
+                        "" :
+                        bean.getAddress()
+                , true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_WORK_UNIT_LATEST, bean == null ?
+                        "" :
+                        bean.getUnitName()
+                , true, 0);
+
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_TEL, bean == null ? "" :
+                bean.getPhone(), false, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_SPARE_PERSON, bean == null ? "" :
+                bean.getSparePerson(), false, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_SPARE_PERSON_TEL, bean == null ?
+                "" :
+                bean.getSparePhone(), false, 0);
+
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_RESULT_DESCRIPTION, bean == null
+                        ? "" :
+                        bean.getTreatment()
+                , true, 1);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, bean == null ? "" :
+                bean.getRemarks(), false, 1);
+        initTextType(arrays, MultipleItem.ITEM_SELECT, BaseInspectContract.INSPECTION_VISIT_TIMES, bean == null ? "" :
+                        String.valueOf(bean.getCheckTime())
+                , true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_POLICE_NAME, bean == null ? "" :
+                        bean.getPoliceName()
+                , true, 0);
+        arrays.add(new MultipleItem(MultipleItem.ITEM_LOCATION, new LocationBean(bean == null ? null :
+                bean.getGpsAddress()
+                , bean == null ? null : bean.getLatitude(), bean == null ? null : bean.getLongitude())));
+
         return arrays;
     }
 
@@ -349,6 +415,28 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     }
 
     @Override
+    public void searchImportantorToAdd(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .searchImportantorToAdd(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<AllImportantorBean>(getView()) {
+                    @Override
+                    public void onSuccess(AllImportantorBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+
+    @Override
     public void searchAddUnit(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
                 .searchAddUnit(requestBody)
@@ -369,6 +457,95 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                     }
                 });
     }
+
+    @Override
+    public void searchAddImportantor(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .searchAddImportantor(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void manualAddImportantor(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .manualAddImportantor(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getImportantorTypes(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getImportantorTypes(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<IdNameBean>(getView()) {
+                    @Override
+                    public void onSuccess(IdNameBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getImportantorStatus(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getImportantorStatus(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<IdNameBean>(getView()) {
+                    @Override
+                    public void onSuccess(IdNameBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+
     @Override
     public void searchAddInspectSite(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
@@ -412,6 +589,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                     }
                 });
     }
+
     @Override
     public void manualAddInspectSite(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
@@ -460,6 +638,28 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     public void checkInspectionSiteNameUnique(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
                 .checkInspectionSiteNameUnique(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void checkImportantorIDUnique(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .checkImportantorIDUnique(requestBody)
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<BaseResult>(getView()) {
                     @Override

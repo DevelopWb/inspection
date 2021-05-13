@@ -88,7 +88,7 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
 
     @Override
     public void initData() {
-        update(false);
+//        update(false);
     }
 
 

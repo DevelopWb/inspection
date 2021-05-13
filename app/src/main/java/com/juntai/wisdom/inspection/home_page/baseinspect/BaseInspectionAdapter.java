@@ -25,6 +25,7 @@ import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.base.selectPics.SelectPhotosFragment;
+import com.juntai.wisdom.inspection.bean.HeadPicBean;
 import com.juntai.wisdom.inspection.bean.ImportantTagBean;
 import com.juntai.wisdom.inspection.bean.ItemFragmentBean;
 import com.juntai.wisdom.inspection.bean.LocationBean;
@@ -80,14 +81,14 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 if (!isDetail) {
                     helper.addOnClickListener(R.id.form_head_pic_iv);
                 }
-                //                BusinessPicBean headPicBean = (BusinessPicBean) item.getObject();
-                //                ImageView headIv = helper.getView(R.id.form_head_pic_iv);
-                //                String headPicPath = headPicBean.getPicPath();
-                //                if (!TextUtils.isEmpty(headPicPath)) {
-                //                    ImageLoadUtil.loadImageNoCache(mContext, headPicPath, headIv);
-                //                } else {
-                //                    ImageLoadUtil.loadImage(mContext, R.mipmap.two_inch_pic, headIv);
-                //                }
+                HeadPicBean headPicBean = (HeadPicBean) item.getObject();
+                ImageView headIv = helper.getView(R.id.form_head_pic_iv);
+                String headPicPath = headPicBean.getPicPath();
+                if (!TextUtils.isEmpty(headPicPath)) {
+                    ImageLoadUtil.loadImageNoCache(mContext, headPicPath, headIv);
+                } else {
+                    ImageLoadUtil.loadImage(mContext, R.mipmap.two_inch_pic, headIv);
+                }
                 break;
             case MultipleItem.ITEM_TITILE_BIG:
                 helper.setText(R.id.item_big_title_tv, (String) item.getObject());

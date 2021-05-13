@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.base.BaseAppActivity;
+import com.juntai.wisdom.inspection.home_page.add.importantor.ManualAddImportantorActivity;
 import com.juntai.wisdom.inspection.home_page.add.inspectionsite.ManualAddInspectionSiteActivity;
 import com.juntai.wisdom.inspection.home_page.add.unit.ManualAddUnitActivity;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectContract;
@@ -81,21 +82,17 @@ public abstract class BaseAddActivity extends BaseAppActivity<BaseInspectPresent
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 currentPage = 1;
-                onRefreshLogic(mSearchSv.getQuery().toString());
+                startSearch(mSearchSv.getQuery().toString());
             }
         });
         mSmartrefreshlayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
                 currentPage++;
-                onLoadMoreLogic(mSearchSv.getQuery().toString());
+                startSearch(mSearchSv.getQuery().toString());
             }
         });
     }
-
-    protected abstract void onLoadMoreLogic(String keywork);
-
-    protected abstract void onRefreshLogic(String keywork);
 
     protected abstract void onAdapterItemClick(BaseQuickAdapter adapter, int position);
 
@@ -125,6 +122,10 @@ public abstract class BaseAddActivity extends BaseAppActivity<BaseInspectPresent
                         //手动巡检地址
                         startActivity(new Intent(mContext, ManualAddInspectionSiteActivity.class));
                         break;
+                    case BaseInspectionActivity.ADD_IMPORTANTOR:
+                        //手动重点人员
+                        startActivity(new Intent(mContext, ManualAddImportantorActivity.class));
+                        break;
                     default:
                         break;
                 }
@@ -144,7 +145,7 @@ public abstract class BaseAddActivity extends BaseAppActivity<BaseInspectPresent
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (BASE_REQUEST_RESULT==requestCode) {
-            onRefreshLogic(mSearchSv.getQuery().toString());
+            startSearch(mSearchSv.getQuery().toString());
         }
     }
 

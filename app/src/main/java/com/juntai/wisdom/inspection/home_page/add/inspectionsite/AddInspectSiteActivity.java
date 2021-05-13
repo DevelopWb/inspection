@@ -31,15 +31,6 @@ public class AddInspectSiteActivity extends BaseAddActivity {
 
     }
 
-    @Override
-    protected void onLoadMoreLogic(String keywork) {
-        startSearch(keywork);
-    }
-
-    @Override
-    protected void onRefreshLogic(String keywork) {
-        startSearch(keywork);
-    }
 
     @Override
     protected void onAdapterItemClick(BaseQuickAdapter adapter, int position) {

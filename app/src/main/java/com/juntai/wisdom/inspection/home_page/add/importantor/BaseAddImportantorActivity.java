@@ -1,4 +1,4 @@
-package com.juntai.wisdom.inspection.home_page.add.inspectionsite;
+package com.juntai.wisdom.inspection.home_page.add.importantor;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -17,7 +17,7 @@ import com.juntai.wisdom.inspection.bean.BaseAdapterDataBean;
 import com.juntai.wisdom.inspection.bean.LocationBean;
 import com.juntai.wisdom.inspection.bean.MultipleItem;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
-import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
+import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseCommitFootViewActivity;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectContract;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
@@ -30,34 +30,34 @@ import okhttp3.MultipartBody;
 
 /**
  * @aouther tobato
- * @description 描述  巡检点
+ * @description 描述  重点人员
  * @date 2021/5/7 11:30
  */
-public abstract class BaseAddInspectionSiteActivity extends BaseCommitFootViewActivity {
+public abstract class BaseAddImportantorActivity extends BaseCommitFootViewActivity {
 
-    private boolean isSiteNameUnque = false;//单位名称是否唯一
-    public InspectionSiteBean.DataBean bean;
-    private InspectionSiteBean.DataBean savedSiteBean;
+    private boolean isIdUnque = false;//身份证号是否唯一
+    public ImportantorBean.DataBean bean;
+    private ImportantorBean.DataBean savedImportantorBean;
 
     @Override
     public void initData() {
-        savedSiteBean = Hawk.get(HawkProperty.ADD_INSPECRTION_SITE_KEY);
-        if (savedSiteBean != null) {
-            adapter.setNewData(mPresenter.getInspectionSiteInfoData(null));
+        savedImportantorBean = Hawk.get(HawkProperty.ADD_IMPORTANTOR_KEY);
+        if (savedImportantorBean != null) {
+            adapter.setNewData(mPresenter.getImportantorData(null));
             new AlertDialog.Builder(mContext).setMessage("您上次还有未提交的草稿,是否进入草稿？")
                     .setPositiveButton("是", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if (!TextUtils.isEmpty(savedSiteBean.getName())) {
-                                isSiteNameUnque = true;
+                            if (!TextUtils.isEmpty(savedImportantorBean.getName())) {
+                                isIdUnque = true;
                             }
-                            adapter.setNewData(mPresenter.getInspectionSiteInfoData(savedSiteBean));
+                            adapter.setNewData(mPresenter.getImportantorData(savedImportantorBean));
                         }
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     startLocation();
-                    Hawk.delete(HawkProperty.ADD_INSPECRTION_SITE_KEY);
+                    Hawk.delete(HawkProperty.ADD_IMPORTANTOR_KEY);
                     unSavedLogic();
                 }
             }).show();
@@ -77,16 +77,16 @@ public abstract class BaseAddInspectionSiteActivity extends BaseCommitFootViewAc
             bean = getIntent().getParcelableExtra(PARCELABLE_KEY);
 
             if (bean != null) {
-                bean.setCoverPicture(null);
-                isSiteNameUnque = true;
+                bean.setPersonnelPhoto(null);
+                isIdUnque = true;
             }
-            adapter.setNewData(mPresenter.getInspectionSiteInfoData(bean));
+            adapter.setNewData(mPresenter.getImportantorData(bean));
         }
     }
 
     @Override
     public boolean requestLocation() {
-        if (savedSiteBean != null && !TextUtils.isEmpty(savedSiteBean.getGpsAddress())) {
+        if (savedImportantorBean != null && !TextUtils.isEmpty(savedImportantorBean.getGpsAddress())) {
             return false;
         }
         return true;
@@ -94,7 +94,7 @@ public abstract class BaseAddInspectionSiteActivity extends BaseCommitFootViewAc
 
 
     /**
-     * 检测单位名称或者社会信用代码是否唯一
+     * 检测身份证号或者社会信用代码是否唯一
      *
      * @param keyValueBean
      */
@@ -110,7 +110,7 @@ public abstract class BaseAddInspectionSiteActivity extends BaseCommitFootViewAc
                         mPresenter.checkInspectionSiteNameUnique(getBaseBuilder().add("keyword", content).build(),
                                 BaseInspectContract.INSPECTION_SITE);
                     } else {
-                        isSiteNameUnque = true;
+                        isIdUnque = true;
                     }
                 } else {
                     //检查巡检点名称是否是唯一
@@ -129,17 +129,13 @@ public abstract class BaseAddInspectionSiteActivity extends BaseCommitFootViewAc
 
     @Override
     protected void saveDraft() {
-        if (getBaseAdapterData(true) != null) {
-            Hawk.put(HawkProperty.ADD_INSPECRTION_SITE_KEY, getBaseAdapterData(true).getInspectionSiteBean());
-            ToastUtils.toast(mContext, "草稿保存成功");
-            finish();
-        }
+
     }
 
     @Override
     protected void commitRequest(MultipartBody.Builder builder) {
-        if (!isSiteNameUnque) {
-            ToastUtils.toast(mContext, "巡检点名称已存在,不可重复添加");
+        if (!isIdUnque) {
+            ToastUtils.toast(mContext, "重点人员已存在,不可重复添加");
             return;
         }
         commit(builder);
@@ -156,10 +152,10 @@ public abstract class BaseAddInspectionSiteActivity extends BaseCommitFootViewAc
             case BaseInspectContract.INSPECTION_SITE:
                 BaseResult result = (BaseResult) o;
                 if ("成功".equals(result.message)) {
-                    isSiteNameUnque = true;
+                    isIdUnque = true;
                 } else {
                     ToastUtils.toast(mContext, "巡检点名称已存在");
-                    isSiteNameUnque = false;
+                    isIdUnque = false;
                 }
                 break;
             default:

@@ -1,6 +1,5 @@
 package com.juntai.wisdom.inspection.home_page.baseinspect;
 
-import com.haibin.calendarview.BaseView;
 import com.juntai.disabled.basecomponent.mvp.IView;
 
 import okhttp3.RequestBody;
@@ -43,6 +42,17 @@ public interface BaseInspectContract {
     String INSPECTION_UNIT_LEGAL_PERSON = "单位法人";
     String INSPECTION_UNIT_LEGAL_PERSON_TEL = INSPECTION_UNIT_LEGAL_PERSON + INSPECTION_TEL;
     String INSPECTION_UNIT_TYPE = "单位类型";
+    String INSPECTION_IMPORTANTOR_PHOTO = "人员照片";
+    String INSPECTION_NAME = "姓名";
+    String INSPECTION_SEX = "性别";
+    String INSPECTION_POLICE_NAME = "登记警员";
+    String INSPECTION_ID_CARD = "身份证号";
+    String INSPECTION_ADDR_LATEST = "现居住地";
+    String INSPECTION_PERSONAL_TYPE = "人员类型";
+    String INSPECTION_PERSONAL_STATUS = "人员状态";
+    String INSPECTION_WORK_UNIT_LATEST = "现工作单位";
+    String INSPECTION_RESULT_DESCRIPTION = "前期处理情况";
+    String INSPECTION_VISIT_TIMES = "走访频率";
 
     interface IInspectView extends IView {
     }
@@ -57,6 +67,7 @@ public interface BaseInspectContract {
          * @param tag
          */
         void searchAddUnit(RequestBody requestBody, String tag);
+
         /**
          * 搜索添加
          *
@@ -72,6 +83,7 @@ public interface BaseInspectContract {
          * @param tag
          */
         void manualAddUnit(RequestBody requestBody, String tag);
+
         /**
          * 手动添加
          *
@@ -84,11 +96,21 @@ public interface BaseInspectContract {
 
         void checkInspectionSiteNameUnique(RequestBody requestBody, String tag);
 
+        void checkImportantorIDUnique(RequestBody requestBody, String tag);
+
         void getUnitType(RequestBody requestBody, String tag);
 
         void searchUnitFromFireInspection(RequestBody requestBody, String tag);
 
 
         void searchInspectionSitesToAdd(RequestBody requestBody, String tag);
+
+        void searchImportantorToAdd(RequestBody requestBody, String tag);
+
+        void searchAddImportantor(RequestBody requestBody, String tag);
+
+        void manualAddImportantor(RequestBody requestBody, String tag);
+        void getImportantorTypes(RequestBody requestBody, String tag);
+        void getImportantorStatus(RequestBody requestBody, String tag);
     }
 }

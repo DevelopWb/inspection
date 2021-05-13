@@ -1,6 +1,8 @@
 package com.juntai.wisdom.inspection.home_page.baseinspect;
 
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -29,6 +31,7 @@ import com.juntai.wisdom.inspection.utils.StringTools;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 import okhttp3.MediaType;
@@ -51,6 +54,8 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     public final static String ADD_UNIT = "添加单位";
     public final static String ADD_INSPECTION_SITE = "添加治安巡检点";
     public final static String ADD_IMPORTANTOR = "添加重点人员";
+    private HeadPicBean headPicBean;
+    private int currentPosition;
 
 
     protected abstract String getTitleName();
@@ -59,6 +64,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
     private TextKeyValueBean selectBean;
     private TextView mSelectTv;
+    public int importantorStatusId = 0;//人员状态
     public int unitTypeId = 0;//单位类型id
     public String unitTypeName;//单位类型id
 
@@ -136,6 +142,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                currentPosition = position;
                 MultipleItem multipleItem = (MultipleItem) adapter.getData().get(position);
                 switch (view.getId()) {
                     case R.id.form_head_pic_iv:
@@ -151,6 +158,42 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             case BaseInspectContract.INSPECTION_UNIT_TYPE:
                                 mPresenter.getUnitType(getBaseBuilder().build(), AppHttpPath.UNIT_TYPE);
                                 break;
+                            case BaseInspectContract.INSPECTION_SEX:
+                                List<String> sexs = getSexContent();
+                                PickerManager.getInstance().showOptionPicker(mContext, sexs,
+                                        new PickerManager.OnOptionPickerSelectedListener() {
+                                            @Override
+                                            public void onOptionsSelect(int options1, int option2, int options3,
+                                                                        View v) {
+                                                String str = sexs.get(options1);
+                                                selectBean.setValue(str);
+                                                mSelectTv.setText(str);
+                                            }
+                                        });
+                                break;
+                            case BaseInspectContract.INSPECTION_PERSONAL_TYPE:
+                                mPresenter.getImportantorTypes(getBaseBuilder().build(), AppHttpPath.IMPORTANTOR_TYPES);
+                                break;
+                            case BaseInspectContract.INSPECTION_PERSONAL_STATUS:
+                                mPresenter.getImportantorStatus(getBaseBuilder().build(),
+                                        AppHttpPath.IMPORTANTOR_STATUS);
+                                break;
+                            case BaseInspectContract.INSPECTION_VISIT_TIMES:
+                                List<String> nums = getNums();
+                                List<List<String>> timeUnits = getTimeUnits();
+                                PickerManager.getInstance().showOptionPicker(mContext, nums, timeUnits,
+                                        new PickerManager.OnOptionPickerSelectedListener() {
+                                            @Override
+                                            public void onOptionsSelect(int options1, int option2, int options3,
+                                                                        View v) {
+                                                String day = String.format("%s%s", nums.get(options1),
+                                                        timeUnits.get(options1).get(option2));
+                                                selectBean.setValue(String.valueOf(getVistTime(nums.get(options1),timeUnits.get(options1).get(option2))));
+                                                mSelectTv.setText(day);
+                                            }
+                                        });
+                                break;
+
                             default:
                                 break;
                         }
@@ -168,6 +211,104 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
             }
         });
 
+
+    }
+
+    /**
+     * 获取时间单位
+     *
+     * @return
+     */
+    private List<List<String>> getTimeUnits() {
+        List<List<String>> arrays = new ArrayList<>();
+        for (int i = 1; i < 31; i++) {
+            List<String> arr = new ArrayList<>();
+            arr.add("日");
+            arr.add("周");
+            arr.add("月");
+            arrays.add(arr);
+        }
+
+        return arrays;
+    }
+
+    /**
+     * 获取走访的频率
+     *
+     * @return
+     */
+    private int getVistTime(String day,String dayUnit) {
+        int result =0;
+        switch (dayUnit) {
+            case "日":
+                result = Integer.parseInt(day)*1;
+                break;
+            case "周":
+                result = Integer.parseInt(day)*7;
+                break;
+            case "月":
+                result = Integer.parseInt(day)*30;
+                break;
+            default:
+                break;
+        }
+        return result;
+    }
+
+    /**
+     * 获取天数
+     *
+     * @return
+     */
+    private List<String> getNums() {
+        List<String> arrays = new ArrayList<>();
+        for (int i = 1; i < 31; i++) {
+            arrays.add(String.valueOf(i));
+        }
+        return arrays;
+    }
+
+    /**
+     * 获取性别
+     *
+     * @return
+     */
+    private List<String> getSexContent() {
+        List<String> arrays = new ArrayList<>();
+        arrays.add("男");
+        arrays.add("女");
+        return arrays;
+    }
+
+    @Override
+    protected void selectedPicsAndEmpressed(List<String> icons) {
+        if (icons.size() > 0) {
+            String path = icons.get(0);
+            headPicBean = (HeadPicBean) ((MultipleItem) adapter.getData().get(currentPosition)).getObject();
+
+            if (BaseInspectContract.INSPECTION_IMPORTANTOR_PHOTO.equals(headPicBean.getPicName())) {
+                //跳转到裁剪头像的界面
+                startActivityForResult(new Intent(this, HeadCropActivity.class).putExtra(HeadCropActivity.HEAD_PIC,
+                        path), BASE_REQUEST_RESULT);
+            }
+
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == BASE_REQUEST_RESULT) {
+            if (data != null) {
+                String path = data.getStringExtra(HeadCropActivity.CROPED_HEAD_PIC);
+                if (headPicBean != null && adapter != null) {
+                    headPicBean.setPicPath(path);
+                    adapter.notifyItemChanged(currentPosition);
+                }
+
+            }
+
+        }
 
     }
 
@@ -209,12 +350,13 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                     HeadPicBean headPicBean = (HeadPicBean) array.getObject();
                     if (!skipFilter) {
                         if (TextUtils.isEmpty(headPicBean.getPicPath())) {
-                            ToastUtils.toast(mContext, "请选择申请人照片");
+                            ToastUtils.toast(mContext, "请选择头像照片");
                             return null;
                         }
                     }
-                    builder.addFormDataPart("photoFile", "photoFile", RequestBody.create(MediaType.parse("file"),
-                            new File(headPicBean.getPicPath())));
+                    builder.addFormDataPart("personnelPicture", "personnelPicture",
+                            RequestBody.create(MediaType.parse("file"),
+                                    new File(headPicBean.getPicPath())));
                     break;
                 case MultipleItem.ITEM_EDIT:
                     TextKeyValueBean textValueEditBean = (TextKeyValueBean) array
@@ -329,11 +471,15 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
                     switch (textValueSelectBean.getKey()) {
                         case BaseInspectContract.INSPECTION_UNIT_TYPE:
-                            if (StringTools.isStringValueOk(textValueSelectBean.getValue())) {
-                                builder.addFormDataPart("type", String.valueOf(unitTypeId));
-                                unitDataBean.setTypeName(unitTypeName);
-                                unitDataBean.setTypeId(unitTypeId);
-                            }
+                            builder.addFormDataPart("type", String.valueOf(unitTypeId));
+                            unitDataBean.setTypeName(unitTypeName);
+                            unitDataBean.setTypeId(unitTypeId);
+                            break;
+                        case BaseInspectContract.INSPECTION_SEX:
+                            builder.addFormDataPart("gender", "男".equals(textValueSelectBean.getValue()) ? "1" : "2");
+                            break;
+                        case BaseInspectContract.INSPECTION_PERSONAL_STATUS:
+                            builder.addFormDataPart("keyStatus", String.valueOf(importantorStatusId));
                             break;
                         default:
                             break;
@@ -373,43 +519,43 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 builder.addFormDataPart("cover", "cover",
                                         RequestBody.create(MediaType.parse("file"),
                                                 new File(picPah)));
-                                    unitDataBean.setCoverPicture(picPah);
-                                    inspectionSiteBean.setCoverPicture(picPah);
+                                unitDataBean.setCoverPicture(picPah);
+                                inspectionSiteBean.setCoverPicture(picPah);
                                 break;
                             case 1:
                                 builder.addFormDataPart("pictureTwo", "pictureTwo",
                                         RequestBody.create(MediaType.parse("file"),
                                                 new File(picPah)));
-                                    unitDataBean.setPhotoTwo(picPah);
-                                    inspectionSiteBean.setPhotoTwo(picPah);
+                                unitDataBean.setPhotoTwo(picPah);
+                                inspectionSiteBean.setPhotoTwo(picPah);
                                 break;
                             case 2:
                                 builder.addFormDataPart("pictureThree", "pictureThree",
                                         RequestBody.create(MediaType.parse("file"),
                                                 new File(picPah)));
-                                    unitDataBean.setPhotoThree(picPah);
-                                    inspectionSiteBean.setPhotoThree(picPah);
+                                unitDataBean.setPhotoThree(picPah);
+                                inspectionSiteBean.setPhotoThree(picPah);
                                 break;
                             case 3:
                                 builder.addFormDataPart("pictureFour", "pictureFour",
                                         RequestBody.create(MediaType.parse("file"),
                                                 new File(picPah)));
-                                    unitDataBean.setPhotoFour(picPah);
-                                    inspectionSiteBean.setPhotoFour(picPah);
+                                unitDataBean.setPhotoFour(picPah);
+                                inspectionSiteBean.setPhotoFour(picPah);
                                 break;
                             case 4:
                                 builder.addFormDataPart("pictureFive", "pictureFive",
                                         RequestBody.create(MediaType.parse("file"),
                                                 new File(picPah)));
-                                    unitDataBean.setPhotoFive(picPah);
-                                    inspectionSiteBean.setPhotoFive(picPah);
+                                unitDataBean.setPhotoFive(picPah);
+                                inspectionSiteBean.setPhotoFive(picPah);
                                 break;
                             case 5:
                                 builder.addFormDataPart("pictureSix", "pictureSix",
                                         RequestBody.create(MediaType.parse("file"),
                                                 new File(picPah)));
-                                    unitDataBean.setPhotoSix(picPah);
-                                    inspectionSiteBean.setPhotoSix(picPah);
+                                unitDataBean.setPhotoSix(picPah);
+                                inspectionSiteBean.setPhotoSix(picPah);
                                 break;
                             default:
                                 break;
@@ -428,26 +574,43 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
     @Override
     public void onSuccess(String tag, Object o) {
-        switch (tag) {
-            case AppHttpPath.UNIT_TYPE:
-                IdNameBean idNameBean = (IdNameBean) o;
-                if (idNameBean != null) {
-                    List<IdNameBean.DataBean> arrays = idNameBean.getData();
-                    if (arrays != null && arrays.size() > 0) {
-                        PickerManager.getInstance().showOptionPicker(mContext, arrays,
-                                new PickerManager.OnOptionPickerSelectedListener() {
-                                    @Override
-                                    public void onOptionsSelect(int options1, int option2, int options3, View v) {
-                                        IdNameBean.DataBean dataBean = arrays.get(options1);
-                                        selectBean.setValue(dataBean.getName());
-                                        mSelectTv.setText(dataBean.getName());
-                                        unitTypeId = dataBean.getId();
-                                        unitTypeName = dataBean.getName();
+        if (AppHttpPath.UNIT_TYPE.equals(tag) || AppHttpPath.IMPORTANTOR_STATUS.equals(tag)) {
+            IdNameBean idNameBean = (IdNameBean) o;
+            if (idNameBean != null) {
+                List<IdNameBean.DataBean> arrays = idNameBean.getData();
+                if (arrays != null && arrays.size() > 0) {
+                    PickerManager.getInstance().showOptionPicker(mContext, arrays,
+                            new PickerManager.OnOptionPickerSelectedListener() {
+                                @Override
+                                public void onOptionsSelect(int options1, int option2, int options3, View v) {
+                                    IdNameBean.DataBean dataBean = arrays.get(options1);
+                                    selectBean.setValue(dataBean.getName());
+                                    mSelectTv.setText(dataBean.getName());
+                                    switch (tag) {
+                                        case AppHttpPath.UNIT_TYPE:
+                                            unitTypeId = dataBean.getId();
+                                            unitTypeName = dataBean.getName();
+                                            break;
+                                        case AppHttpPath.IMPORTANTOR_TYPES:
+                                            break;
+                                        case AppHttpPath.IMPORTANTOR_STATUS:
+                                            importantorStatusId = dataBean.getId();
+                                            break;
+                                        default:
+                                            break;
                                     }
-                                });
-                    }
+
+                                }
+                            });
                 }
-                break;
+            }
+        } else if (AppHttpPath.IMPORTANTOR_TYPES.equals(tag)) {
+            IdNameBean idNameBean = (IdNameBean) o;
+            if (idNameBean != null) {
+                List<IdNameBean.DataBean> arrays = idNameBean.getData();
+            }
+        } else {
+
         }
     }
 }

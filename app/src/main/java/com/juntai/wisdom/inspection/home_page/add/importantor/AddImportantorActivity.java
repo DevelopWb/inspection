@@ -1,14 +1,23 @@
 package com.juntai.wisdom.inspection.home_page.add.importantor;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
+import com.juntai.wisdom.inspection.AppHttpPath;
+import com.juntai.wisdom.inspection.bean.importantor.AllImportantorBean;
+import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
+import com.juntai.wisdom.inspection.bean.inspectionsite.AllInspectionSiteBean;
+import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.home_page.add.BaseAddActivity;
+import com.juntai.wisdom.inspection.home_page.add.inspectionsite.SearchAddInspectionSiteActivity;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
 import com.juntai.wisdom.inspection.home_page.firecheck.UnitsAdapter;
+
+import java.util.List;
 
 /**
  * @aouther tobato
@@ -22,30 +31,26 @@ public class AddImportantorActivity extends BaseAddActivity {
 
     }
 
-    @Override
-    protected void onLoadMoreLogic(String keywork) {
-        startSearch(keywork);
-    }
-
-    @Override
-    protected void onRefreshLogic(String keywork) {
-        startSearch(keywork);
-    }
 
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
 
     @Override
     protected void onAdapterItemClick(BaseQuickAdapter adapter, int position) {
+        ImportantorBean.DataBean bean =
+                (ImportantorBean.DataBean) adapter.getData().get(position);
+        if (0==bean.getIsAdd()) {
+            //未添加
+            startActivityForResult(new Intent(mContext, SearchAddImportantorActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY,bean),BASE_REQUEST_RESULT);
+        }else {
+            ToastUtils.toast(mContext,"此人已添加");
+
+        }
 
     }
 
     @Override
     protected BaseQuickAdapter getAdapter() {
-        return new UnitsAdapter(R.layout.check_item,false);
+        return new ImportantorAdapter(R.layout.check_item,false);
     }
 
     @Override
@@ -55,7 +60,10 @@ public class AddImportantorActivity extends BaseAddActivity {
             ToastUtils.toast(mContext,"请输入要搜索的内容");
             return;
         }
-
+        mPresenter.searchImportantorToAdd(getBaseBuilder()
+                        .add("keyword", s).add("pageSize", String.valueOf(pagesize)).add("currentPage",
+                        String.valueOf(currentPage)).build(),
+                AppHttpPath.SEARCH_INSPECTION_SITES_TO_ADD);
     }
 
     @Override
@@ -66,5 +74,20 @@ public class AddImportantorActivity extends BaseAddActivity {
     @Override
     public void onSuccess(String tag, Object o) {
         super.onSuccess(tag, o);
+        AllImportantorBean importantorBean = (AllImportantorBean) o;
+        if (importantorBean != null) {
+            AllImportantorBean.DataBean dataBean = importantorBean.getData();
+            if (dataBean != null) {
+                List<ImportantorBean.DataBean> arrays = dataBean.getDatas();
+                if (currentPage == 1) {
+                    adapter.setNewData(arrays);
+                } else {
+                    adapter.addData(arrays);
+                }
+                if (arrays != null && arrays.size() < pagesize) {
+                    mSmartrefreshlayout.finishLoadMoreWithNoMoreData();
+                }
+            }
+        }
     }
 }

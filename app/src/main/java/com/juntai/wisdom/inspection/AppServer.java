@@ -3,6 +3,7 @@ package com.juntai.wisdom.inspection;
 
 import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.wisdom.inspection.bean.IdNameBean;
+import com.juntai.wisdom.inspection.bean.importantor.AllImportantorBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.AllInspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.UserBean;
@@ -150,6 +151,77 @@ public interface AppServer {
      */
     @POST(AppHttpPath.MANUAL_ADD_INSP_SITE)
     Observable<BaseResult> manualAddInspectSite(@Body RequestBody requestBody);
+
+
+
+
+
+
+    /*==============================================  重点人员  =============================================*/
+
+    /**
+     * 重点人员详情
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.IMPORTANTOR_DETAIL)
+    Observable<InspectionSiteBean> getImportantorDetail(@Body RequestBody requestBody);
+
+    /**
+     * 搜索所有的重点人员  待添加
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.SEARCH_IMPORTANTOR_TO_ADD)
+    Observable<AllImportantorBean> searchImportantorToAdd(@Body RequestBody requestBody);
+
+    /**
+     *查询重点人员id是否存在
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.CHECK_IMPORTANTOR_UNIQUE)
+    Observable<BaseResult> checkImportantorIDUnique(@Body RequestBody requestBody);
+
+    /**
+     * 搜索添加重点人员
+     *
+     * @return
+     */
+    @POST(AppHttpPath.SEARCH_ADD_IMPORTANTOR)
+    Observable<BaseResult> searchAddImportantor(@Body RequestBody requestBody);
+
+
+    /**
+     * 手动添加重点人员
+     *
+     * @return
+     */
+    @POST(AppHttpPath.MANUAL_ADD_IMPORTANTOR)
+    Observable<BaseResult> manualAddImportantor(@Body RequestBody requestBody);
+
+
+    /**
+     * 人员类型
+     *
+     * @return
+     */
+    @POST(AppHttpPath.IMPORTANTOR_TYPES)
+    Observable<IdNameBean> getImportantorTypes(@Body RequestBody requestBody);
+    /**
+     * 人员状态
+     *
+     * @return
+     */
+    @POST(AppHttpPath.IMPORTANTOR_STATUS)
+    Observable<IdNameBean> getImportantorStatus(@Body RequestBody requestBody);
+
+
+
+
 
 
 

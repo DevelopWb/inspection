@@ -91,4 +91,39 @@ public class AppHttpPath {
      */
     public static final String MANUAL_ADD_INSP_SITE = BASE + "/u/appSecurity/insertSecurityPublic.shtml";
 
+
+
+
+
+    /*==============================================  重点人员  =============================================*/
+
+    /**
+     * 重点人员详情
+     */
+    public static final String IMPORTANTOR_DETAIL = BASE + "/u/appKeyPersonnel/selectKeyPersonnelInfo.shtml";
+    /**
+     * 搜索所有的重点人员
+     */
+    public static final String SEARCH_IMPORTANTOR_TO_ADD = BASE + "/u/appKeyPersonnel/selectSearchKeyPersonnel.shtml";
+    /**
+     * 查询重点人员id是否存在
+     */
+    public static final String CHECK_IMPORTANTOR_UNIQUE = BASE + "/u/appKeyPersonnel/selectKeyPersonnelNumber.shtml";
+    /**
+     * 搜索添加重点人员
+     */
+    public static final String SEARCH_ADD_IMPORTANTOR = BASE + "/u/appKeyPersonnel/updateKeyPersonnel.shtml";
+    /**
+     * 手动添加重点人员
+     */
+    public static final String MANUAL_ADD_IMPORTANTOR = BASE + "/u/appKeyPersonnel/insertKeyPersonnel.shtml";
+    /**
+     * 人员类型
+     */
+    public static final String IMPORTANTOR_TYPES = BASE + "/u/appKeyPersonnel/selectKeyPersonnelType.shtml";
+    /**
+     * 人员状态
+     */
+    public static final String IMPORTANTOR_STATUS = BASE + "/u/appKeyPersonnel/selectKeyPersonnelState.shtml";
+
 }

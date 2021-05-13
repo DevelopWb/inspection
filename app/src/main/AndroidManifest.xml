@@ -30,9 +30,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.juntai.wisdom.inspection.home_page.add.unit.ManualAddUnitActivity"></activity>
-        <activity android:name="com.juntai.wisdom.inspection.home_page.add.inspectionsite.ManualAddInspectionSiteActivity"></activity>
-        <activity android:name="com.juntai.wisdom.inspection.home_page.add.inspectionsite.SearchAddInspectionSiteActivity"></activity>
+        <activity android:name="com.juntai.wisdom.inspection.home_page.baseinspect.HeadCropActivity"></activity>
+        <activity android:name="com.juntai.wisdom.inspection.home_page.add.importantor.ManualAddImportantorActivity"></activity>
+        <activity android:name="com.juntai.wisdom.inspection.home_page.add.importantor.SearchAddImportantorActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.add.unit.ManualAddUnitActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.add.inspectionsite.ManualAddInspectionSiteActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.add.inspectionsite.SearchAddInspectionSiteActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.add.unit.SearchAddUnitActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.add.unit.AddUnitActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.add.importantor.AddImportantorActivity" />
