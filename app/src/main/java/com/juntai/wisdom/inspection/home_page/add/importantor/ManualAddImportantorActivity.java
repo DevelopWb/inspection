@@ -3,6 +3,8 @@ package com.juntai.wisdom.inspection.home_page.add.importantor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.juntai.wisdom.inspection.AppHttpPath;
+
 import okhttp3.MultipartBody;
 
 /**
@@ -25,7 +27,7 @@ public class ManualAddImportantorActivity extends BaseAddImportantorActivity {
 
     @Override
     protected void commit(MultipartBody.Builder builder) {
-
+        mPresenter.manualAddImportantor(builder.build(), AppHttpPath.SEARCH_IMPORTANTOR_TO_ADD);
     }
 
     @Override

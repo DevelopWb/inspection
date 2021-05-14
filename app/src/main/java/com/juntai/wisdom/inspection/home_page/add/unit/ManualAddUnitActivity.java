@@ -30,15 +30,4 @@ public class ManualAddUnitActivity extends BaseAddUnitActivity {
         return ADD_UNIT;
     }
 
-    @Override
-    public void onSuccess(String tag, Object o) {
-        super.onSuccess(tag, o);
-        if (AppHttpPath.MANUAL_ADD_UNIT.equals(tag)) {
-            ToastUtils.toast(mContext,"添加成功");
-            if (Hawk.contains(HawkProperty.ADD_UNIT_KEY)) {
-                Hawk.delete(HawkProperty.ADD_UNIT_KEY);
-            }
-            finish();
-        }
-    }
 }

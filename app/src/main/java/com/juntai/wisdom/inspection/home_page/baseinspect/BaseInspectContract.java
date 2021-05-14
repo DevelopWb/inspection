@@ -44,6 +44,7 @@ public interface BaseInspectContract {
     String INSPECTION_UNIT_TYPE = "单位类型";
     String INSPECTION_IMPORTANTOR_PHOTO = "人员照片";
     String INSPECTION_NAME = "姓名";
+    String INSPECTION_NICK_NAME = "曾用名";
     String INSPECTION_SEX = "性别";
     String INSPECTION_POLICE_NAME = "登记警员";
     String INSPECTION_ID_CARD = "身份证号";
@@ -53,6 +54,7 @@ public interface BaseInspectContract {
     String INSPECTION_WORK_UNIT_LATEST = "现工作单位";
     String INSPECTION_RESULT_DESCRIPTION = "前期处理情况";
     String INSPECTION_VISIT_TIMES = "走访频率";
+    String INSPECTION_OTHER_CONNECT_TYPE = "其他联系方式(QQ、微信、邮箱等)";
 
     interface IInspectView extends IView {
     }

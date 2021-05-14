@@ -3,6 +3,11 @@ package com.juntai.wisdom.inspection.home_page.add.importantor;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.juntai.disabled.basecomponent.utils.ToastUtils;
+import com.juntai.wisdom.inspection.AppHttpPath;
+import com.juntai.wisdom.inspection.utils.HawkProperty;
+import com.orhanobut.hawk.Hawk;
+
 import okhttp3.MultipartBody;
 
 /**
@@ -24,11 +29,15 @@ public class SearchAddImportantorActivity extends BaseAddImportantorActivity {
 
     @Override
     protected void commit(MultipartBody.Builder builder) {
-
+        if (bean != null) {
+            builder.addFormDataPart("keyId",String.valueOf(bean.getId()));
+        }
+        mPresenter.searchAddImportantor(builder.build(), AppHttpPath.SEARCH_IMPORTANTOR_TO_ADD);
     }
 
     @Override
     protected String getTitleName() {
         return ADD_IMPORTANTOR;
     }
+
 }

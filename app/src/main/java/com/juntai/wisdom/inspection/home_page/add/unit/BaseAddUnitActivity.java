@@ -13,6 +13,7 @@ import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.bdmap.act.LocateSelectionActivity;
 import com.juntai.disabled.federation.R;
+import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.bean.BaseAdapterDataBean;
 import com.juntai.wisdom.inspection.bean.LocationBean;
 import com.juntai.wisdom.inspection.bean.MultipleItem;
@@ -202,6 +203,13 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
                     ToastUtils.toast(mContext, "社会信用代码已存在");
                     isUnitUCCUnique = false;
                 }
+                break;
+            case AppHttpPath.MANUAL_ADD_UNIT:
+                ToastUtils.toast(mContext,"添加成功");
+                if (Hawk.contains(HawkProperty.ADD_UNIT_KEY)) {
+                    Hawk.delete(HawkProperty.ADD_UNIT_KEY);
+                }
+                finish();
                 break;
             default:
                 break;

@@ -13,6 +13,7 @@ import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.bdmap.act.LocateSelectionActivity;
 import com.juntai.disabled.federation.R;
+import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.bean.BaseAdapterDataBean;
 import com.juntai.wisdom.inspection.bean.LocationBean;
 import com.juntai.wisdom.inspection.bean.MultipleItem;
@@ -161,6 +162,13 @@ public abstract class BaseAddInspectionSiteActivity extends BaseCommitFootViewAc
                     ToastUtils.toast(mContext, "巡检点名称已存在");
                     isSiteNameUnque = false;
                 }
+                break;
+            case AppHttpPath.MANUAL_ADD_INSP_SITE:
+                ToastUtils.toast(mContext,"添加成功");
+                if (Hawk.contains(HawkProperty.ADD_INSPECRTION_SITE_KEY)) {
+                    Hawk.delete(HawkProperty.ADD_INSPECRTION_SITE_KEY);
+                }
+                finish();
                 break;
             default:
                 break;

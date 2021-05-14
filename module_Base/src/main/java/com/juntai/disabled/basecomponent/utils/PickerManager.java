@@ -124,7 +124,7 @@ public class PickerManager<T> {
                 .setDividerColor(Color.LTGRAY)//设置分割线的颜色
 //                .setSelectOptions(0, 1)//默认选中项
                 .setTitleColor(Color.BLACK)//标题文字颜色
-                .setSubmitColor(ContextCompat.getColor(mContext,R.color.colorThemeDark))//确定按钮文字颜色
+                .setSubmitColor(ContextCompat.getColor(mContext,R.color.colorAccent))//确定按钮文字颜色
                 .setCancelColor(ContextCompat.getColor(mContext,R.color.text_title))//取消按钮文字颜色
                 .setTitleBgColor(ContextCompat.getColor(mContext,R.color.gray_light))//标题背景颜色 Night mode
 

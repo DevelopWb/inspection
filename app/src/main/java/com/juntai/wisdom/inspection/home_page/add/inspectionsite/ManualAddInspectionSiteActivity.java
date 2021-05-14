@@ -31,15 +31,4 @@ public class ManualAddInspectionSiteActivity extends BaseAddInspectionSiteActivi
         return ADD_INSPECTION_SITE;
     }
 
-    @Override
-    public void onSuccess(String tag, Object o) {
-        super.onSuccess(tag, o);
-        if (AppHttpPath.MANUAL_ADD_INSP_SITE.equals(tag)) {
-            ToastUtils.toast(mContext,"添加成功");
-            if (Hawk.contains(HawkProperty.ADD_UNIT_KEY)) {
-                Hawk.delete(HawkProperty.ADD_UNIT_KEY);
-            }
-            finish();
-        }
-    }
 }

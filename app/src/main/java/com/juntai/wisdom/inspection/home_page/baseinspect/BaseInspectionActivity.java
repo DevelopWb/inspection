@@ -17,6 +17,7 @@ import com.juntai.disabled.bdmap.act.LocateSelectionActivity;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.base.BaseAppActivity;
+import com.juntai.wisdom.inspection.base.bottomDialog.MultiSelectBottomSheetDialog;
 import com.juntai.wisdom.inspection.base.selectPics.SelectPhotosFragment;
 import com.juntai.wisdom.inspection.bean.BaseAdapterDataBean;
 import com.juntai.wisdom.inspection.bean.HeadPicBean;
@@ -25,6 +26,7 @@ import com.juntai.wisdom.inspection.bean.ItemFragmentBean;
 import com.juntai.wisdom.inspection.bean.LocationBean;
 import com.juntai.wisdom.inspection.bean.MultipleItem;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
+import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
 import com.juntai.wisdom.inspection.utils.StringTools;
@@ -65,8 +67,10 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     private TextKeyValueBean selectBean;
     private TextView mSelectTv;
     public int importantorStatusId = 0;//人员状态
+    public String importantorStatusName;//人员状态
     public int unitTypeId = 0;//单位类型id
     public String unitTypeName;//单位类型id
+
 
     @Override
     protected BaseInspectPresent createPresenter() {
@@ -122,6 +126,15 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             ToastUtils.toast(mContext, "请输入社会信用代码");
                         } else {
                             //检查社会信用代码是否是唯一
+                            checkUnitUnique(keyValueBean);
+
+                        }
+                        break;
+                    case BaseInspectContract.INSPECTION_ID_CARD:
+                        if (TextUtils.isEmpty(content)) {
+                            ToastUtils.toast(mContext, "请输入身份证号");
+                        } else {
+                            //身份证号
                             checkUnitUnique(keyValueBean);
 
                         }
@@ -188,7 +201,8 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                                                         View v) {
                                                 String day = String.format("%s%s", nums.get(options1),
                                                         timeUnits.get(options1).get(option2));
-                                                selectBean.setValue(String.valueOf(getVistTime(nums.get(options1),timeUnits.get(options1).get(option2))));
+                                                selectBean.setValue(String.valueOf(getVistTime(nums.get(options1),
+                                                        timeUnits.get(options1).get(option2))));
                                                 mSelectTv.setText(day);
                                             }
                                         });
@@ -237,17 +251,17 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
      *
      * @return
      */
-    private int getVistTime(String day,String dayUnit) {
-        int result =0;
+    private int getVistTime(String day, String dayUnit) {
+        int result = 0;
         switch (dayUnit) {
             case "日":
-                result = Integer.parseInt(day)*1;
+                result = Integer.parseInt(day) * 1;
                 break;
             case "周":
-                result = Integer.parseInt(day)*7;
+                result = Integer.parseInt(day) * 7;
                 break;
             case "月":
-                result = Integer.parseInt(day)*30;
+                result = Integer.parseInt(day) * 30;
                 break;
             default:
                 break;
@@ -341,6 +355,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         BaseAdapterDataBean bean = new BaseAdapterDataBean();
         SearchedUnitsBean.DataBean.DatasBean unitDataBean = new SearchedUnitsBean.DataBean.DatasBean();
         InspectionSiteBean.DataBean inspectionSiteBean = new InspectionSiteBean.DataBean();
+        ImportantorBean.DataBean importantorBean = new ImportantorBean.DataBean();
         MultipartBody.Builder builder = mPresenter.getPublishMultipartBody();
         List<MultipleItem> arrays = adapter.getData();
         for (MultipleItem array : arrays) {
@@ -354,6 +369,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             return null;
                         }
                     }
+                    importantorBean.setPersonnelPhoto(headPicBean.getPicPath());
                     builder.addFormDataPart("personnelPicture", "personnelPicture",
                             RequestBody.create(MediaType.parse("file"),
                                     new File(headPicBean.getPicPath())));
@@ -380,12 +396,14 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                     switch (textValueEditBean.getKey()) {
                         case BaseInspectContract.INSPECTION_TEL:
                             //联系电话
-                            if (!RuleTools.isMobileNO(value)) {
-                                ToastUtils.toast(mContext, "联系电话格式不正确");
-                                return null;
+                            if (!skipFilter) {
+                                if (textValueEditBean.isImportant() &&!RuleTools.isMobileNO(value)) {
+                                    ToastUtils.toast(mContext, "联系电话格式不正确");
+                                    return null;
+                                }
                             }
-
-                            formKey = "telephone";
+                            formKey = "phone";
+                            importantorBean.setPhone(value);
                             break;
                         case BaseInspectContract.INSPECTION_UNIT_NAME:
                             //单位名称
@@ -429,18 +447,21 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             formKey = "sparePerson";
                             unitDataBean.setSparePerson(value);
                             inspectionSiteBean.setSparePerson(value);
+                            importantorBean.setSparePerson(value);
                             break;
                         case BaseInspectContract.INSPECTION_SPARE_PERSON_TEL:
                             //备用联系人电话
                             formKey = "sparePhone";
                             unitDataBean.setSparePhone(value);
                             inspectionSiteBean.setSparePhone(value);
+                            importantorBean.setSparePhone(value);
                             break;
                         case BaseInspectContract.REMARK:
                             //备注
                             formKey = "remarks";
                             unitDataBean.setRemarks(value);
                             inspectionSiteBean.setRemarks(value);
+                            importantorBean.setRemarks(value);
                             break;
                         case BaseInspectContract.INSPECTION_SITE:
                             //巡检点
@@ -452,6 +473,46 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             formKey = "address";
                             inspectionSiteBean.setAddress(value);
                             break;
+                        case BaseInspectContract.INSPECTION_NAME:
+                            //姓名
+                            formKey = "name";
+                            importantorBean.setName(value);
+                            break;
+                        case BaseInspectContract.INSPECTION_NICK_NAME:
+                            //曾用名
+                            formKey = "nickname";
+                            importantorBean.setNickname(value);
+                            break;
+                        case BaseInspectContract.INSPECTION_POLICE_NAME:
+                            //登记警员
+                            formKey = "policeName";
+                            importantorBean.setPoliceName(value);
+                            break;
+                        case BaseInspectContract.INSPECTION_ID_CARD:
+                            //身份证号
+                            formKey = "idNumber";
+                            importantorBean.setIdNumber(value);
+                            break;
+                        case BaseInspectContract.INSPECTION_ADDR_LATEST:
+                            //现居住地
+                            formKey = "address";
+                            importantorBean.setAddress(value);
+                            break;
+                        case BaseInspectContract.INSPECTION_WORK_UNIT_LATEST:
+                            //现工作单位
+                            formKey = "unitName";
+                            importantorBean.setUnitName(value);
+                            break;
+                        case BaseInspectContract.INSPECTION_OTHER_CONNECT_TYPE:
+                            //其他联系方式(QQ、微信、邮箱等)
+                            formKey = "otherPhone";
+                            importantorBean.setOtherPhone(value);
+                            break;
+                        case BaseInspectContract.INSPECTION_RESULT_DESCRIPTION:
+                            //前期处理情况
+                            formKey = "treatment";
+                            importantorBean.setTreatment(value);
+                            break;
                         default:
                             break;
                     }
@@ -462,8 +523,9 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                     break;
                 case MultipleItem.ITEM_SELECT:
                     TextKeyValueBean textValueSelectBean = (TextKeyValueBean) array.getObject();
+                    String selectBeanValue = textValueSelectBean.getValue();
                     if (!skipFilter) {
-                        if (textValueSelectBean.isImportant() && !StringTools.isStringValueOk(textValueSelectBean.getValue())) {
+                        if (textValueSelectBean.isImportant() && !StringTools.isStringValueOk(selectBeanValue)) {
                             ToastUtils.toast(mContext, "请选择" + textValueSelectBean.getKey());
                             return null;
                         }
@@ -476,10 +538,31 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             unitDataBean.setTypeId(unitTypeId);
                             break;
                         case BaseInspectContract.INSPECTION_SEX:
-                            builder.addFormDataPart("gender", "男".equals(textValueSelectBean.getValue()) ? "1" : "2");
+
+                            if (!TextUtils.isEmpty(selectBeanValue)) {
+                                builder.addFormDataPart("gender", "男".equals(selectBeanValue) ? "1" : "2");
+                                importantorBean.setSexName(selectBeanValue);
+                            }
+
+                            break;
+                        case BaseInspectContract.INSPECTION_PERSONAL_TYPE:
+                            builder.addFormDataPart("typeId", textValueSelectBean.getIds());
+                            importantorBean.setTypeName(selectBeanValue);
+                            importantorBean.setTypeId(textValueSelectBean.getIds());
                             break;
                         case BaseInspectContract.INSPECTION_PERSONAL_STATUS:
                             builder.addFormDataPart("keyStatus", String.valueOf(importantorStatusId));
+                            importantorBean.setKeyStatusName(importantorStatusName);
+                            importantorBean.setKeyStatus(importantorStatusId);
+                            break;
+                        case BaseInspectContract.INSPECTION_VISIT_TIMES:
+                            //走访频率
+                            builder.addFormDataPart("checkTime", selectBeanValue);
+                            if (!TextUtils.isEmpty(selectBeanValue)) {
+                                importantorBean.setCheckTime(Integer.parseInt(selectBeanValue));
+                            }
+
+
                             break;
                         default:
                             break;
@@ -496,6 +579,9 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                     inspectionSiteBean.setGpsAddress(locationBean.getAddress());
                     inspectionSiteBean.setLatitude(locationBean.getLatitude());
                     inspectionSiteBean.setLongitude(locationBean.getLongitude());
+                    importantorBean.setGpsAddress(locationBean.getAddress());
+                    importantorBean.setLatitude(locationBean.getLatitude());
+                    importantorBean.setLongitude(locationBean.getLongitude());
                     break;
 
                 case MultipleItem.ITEM_FRAGMENT:
@@ -569,6 +655,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         bean.setBuilder(builder);
         bean.setUnitDataBean(unitDataBean);
         bean.setInspectionSiteBean(inspectionSiteBean);
+        bean.setImportantorBean(importantorBean);
         return bean;
     }
 
@@ -591,10 +678,11 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                             unitTypeId = dataBean.getId();
                                             unitTypeName = dataBean.getName();
                                             break;
-                                        case AppHttpPath.IMPORTANTOR_TYPES:
-                                            break;
                                         case AppHttpPath.IMPORTANTOR_STATUS:
                                             importantorStatusId = dataBean.getId();
+                                            importantorStatusName = dataBean.getName();
+                                            int checkTime = dataBean.getCheckTime();
+                                            // TODO: 2021/5/14  根据这个值去设置走访频率的默认天数 
                                             break;
                                         default:
                                             break;
@@ -608,6 +696,17 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
             IdNameBean idNameBean = (IdNameBean) o;
             if (idNameBean != null) {
                 List<IdNameBean.DataBean> arrays = idNameBean.getData();
+                MultiSelectBottomSheetDialog multiSelectBottomSheetDialog =
+                        new MultiSelectBottomSheetDialog(mContext,
+                                new MultiSelectBottomSheetDialog.OnConfirmCallBack() {
+                                    @Override
+                                    public void confirm(String names, String ids) {
+                                        selectBean.setValue(names);
+                                        selectBean.setIds(ids);
+                                        mSelectTv.setText(names);
+                                    }
+                                });
+                multiSelectBottomSheetDialog.setAdapterData(arrays);
             }
         } else {
 

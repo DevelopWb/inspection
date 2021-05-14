@@ -203,20 +203,23 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_NAME, bean == null ? "" :
                         bean.getName()
                 , true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_NICK_NAME, bean == null ? "" :
+                        bean.getNickname()
+                , true, 0);
         initTextType(arrays, MultipleItem.ITEM_SELECT, BaseInspectContract.INSPECTION_SEX, bean == null ? "" :
-                1 == bean.getGender() ? "男" : "女", true, 0);
+                bean.getSexName(), true, 0);
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_ID_CARD, bean == null ? "" :
                         bean.getIdNumber()
                 , true, 0);
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_ADDR_LATEST, bean == null ? "" :
                         bean.getAddress()
                 , true, 0);
-        initTextType(arrays, MultipleItem.ITEM_SELECT, BaseInspectContract.INSPECTION_PERSONAL_TYPE, bean == null ? "" :
-                        bean.getAddress()
-                , true, 0);
+        initTextSelectType(arrays, BaseInspectContract.INSPECTION_PERSONAL_TYPE, bean == null ? "" : bean.getTypeId()
+                , bean == null ? "" :
+                bean.getTypeName(), true);
         initTextType(arrays, MultipleItem.ITEM_SELECT, BaseInspectContract.INSPECTION_PERSONAL_STATUS, bean == null ?
                         "" :
-                        bean.getAddress()
+                        bean.getKeyStatusName()
                 , true, 0);
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_WORK_UNIT_LATEST, bean == null ?
                         "" :
@@ -225,6 +228,9 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
 
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_TEL, bean == null ? "" :
                 bean.getPhone(), false, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_OTHER_CONNECT_TYPE, bean == null
+                ? "" :
+                bean.getOtherPhone(), false, 0);
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_SPARE_PERSON, bean == null ? "" :
                 bean.getSparePerson(), false, 0);
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_SPARE_PERSON_TEL, bean == null ?
@@ -346,6 +352,21 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 break;
         }
 
+    }
+
+    /**
+     * initTextType
+     *
+     * @param arrays
+     * @param typeName
+     */
+    private void initTextSelectType(List<MultipleItem> arrays, String typeName, String id, String value,
+                                    boolean isImportant) {
+        arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL, new ImportantTagBean
+                (typeName, isImportant)));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_SELECT,
+                new TextKeyValueBean(typeName, value, id, String.format("%s%s", "请选择",
+                        typeName), 0, isImportant)));
     }
 
     @Override

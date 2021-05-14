@@ -13,6 +13,7 @@ import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.bdmap.act.LocateSelectionActivity;
 import com.juntai.disabled.federation.R;
+import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.bean.BaseAdapterDataBean;
 import com.juntai.wisdom.inspection.bean.LocationBean;
 import com.juntai.wisdom.inspection.bean.MultipleItem;
@@ -50,6 +51,10 @@ public abstract class BaseAddImportantorActivity extends BaseCommitFootViewActiv
                         public void onClick(DialogInterface dialog, int which) {
                             if (!TextUtils.isEmpty(savedImportantorBean.getName())) {
                                 isIdUnque = true;
+                            }
+                            if (!TextUtils.isEmpty(savedImportantorBean.getKeyStatusName())) {
+                                importantorStatusName = savedImportantorBean.getKeyStatusName();
+                                importantorStatusId = savedImportantorBean.getKeyStatus();
                             }
                             adapter.setNewData(mPresenter.getImportantorData(savedImportantorBean));
                         }
@@ -103,19 +108,19 @@ public abstract class BaseAddImportantorActivity extends BaseCommitFootViewActiv
         super.checkUnitUnique(keyValueBean);
         String content = keyValueBean.getValue();
         switch (keyValueBean.getKey()) {
-            case BaseInspectContract.INSPECTION_SITE:
-                //更改后的名称如果和原名称一致 不需要检测是否唯一
+            case BaseInspectContract.INSPECTION_ID_CARD:
+                //更改后如果和原名称一致 不需要检测是否唯一
                 if (bean != null) {
-                    if (!content.equals(bean.getName())) {
-                        mPresenter.checkInspectionSiteNameUnique(getBaseBuilder().add("keyword", content).build(),
-                                BaseInspectContract.INSPECTION_SITE);
+                    if (!content.equals(bean.getIdNumber())) {
+                        mPresenter.checkImportantorIDUnique(getBaseBuilder().add("keyword", content).build(),
+                                BaseInspectContract.INSPECTION_ID_CARD);
                     } else {
                         isIdUnque = true;
                     }
                 } else {
-                    //检查巡检点名称是否是唯一
-                    mPresenter.checkInspectionSiteNameUnique(getBaseBuilder().add("keyword", content).build(),
-                            BaseInspectContract.INSPECTION_SITE);
+                    //检查身份证号是否是唯一
+                    mPresenter.checkImportantorIDUnique(getBaseBuilder().add("keyword", content).build(),
+                            BaseInspectContract.INSPECTION_ID_CARD);
                 }
 
 
@@ -129,7 +134,11 @@ public abstract class BaseAddImportantorActivity extends BaseCommitFootViewActiv
 
     @Override
     protected void saveDraft() {
-
+        if (getBaseAdapterData(true) != null) {
+            Hawk.put(HawkProperty.ADD_IMPORTANTOR_KEY, getBaseAdapterData(true).getImportantorBean());
+            ToastUtils.toast(mContext, "草稿保存成功");
+            finish();
+        }
     }
 
     @Override
@@ -149,14 +158,21 @@ public abstract class BaseAddImportantorActivity extends BaseCommitFootViewActiv
         super.onSuccess(tag, o);
 
         switch (tag) {
-            case BaseInspectContract.INSPECTION_SITE:
+            case BaseInspectContract.INSPECTION_ID_CARD:
                 BaseResult result = (BaseResult) o;
                 if ("成功".equals(result.message)) {
                     isIdUnque = true;
                 } else {
-                    ToastUtils.toast(mContext, "巡检点名称已存在");
+                    ToastUtils.toast(mContext, "该身份证号码已存在");
                     isIdUnque = false;
                 }
+                break;
+            case AppHttpPath.SEARCH_IMPORTANTOR_TO_ADD:
+                ToastUtils.toast(mContext,"添加成功");
+//                if (Hawk.contains(HawkProperty.ADD_IMPORTANTOR_KEY)) {
+//                    Hawk.delete(HawkProperty.ADD_IMPORTANTOR_KEY);
+//                }
+                finish();
                 break;
             default:
                 break;

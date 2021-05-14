@@ -43,14 +43,23 @@ public class IdNameBean  extends BaseResult {
 
         private int id;
         private String name;
-        private String checkTime;
+        private int checkTime;
+        private boolean selecte;
 
-        public String getCheckTime() {
-            return checkTime == null ? "" : checkTime;
+        public boolean isSelecte() {
+            return selecte;
         }
 
-        public void setCheckTime(String checkTime) {
-            this.checkTime = checkTime == null ? "" : checkTime;
+        public void setSelecte(boolean selecte) {
+            this.selecte = selecte;
+        }
+
+        public int getCheckTime() {
+            return checkTime;
+        }
+
+        public void setCheckTime(int checkTime) {
+            this.checkTime = checkTime;
         }
 
         public int getId() {

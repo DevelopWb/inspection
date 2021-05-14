@@ -1,5 +1,6 @@
 package com.juntai.wisdom.inspection.bean;
 
+import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
 
@@ -17,6 +18,7 @@ public class BaseAdapterDataBean {
     private  MultipartBody.Builder  builder;
     private SearchedUnitsBean.DataBean.DatasBean  unitDataBean;
     private InspectionSiteBean.DataBean  inspectionSiteBean;
+    private ImportantorBean.DataBean  importantorBean;
 
     public InspectionSiteBean.DataBean getInspectionSiteBean() {
         return inspectionSiteBean;
@@ -24,6 +26,14 @@ public class BaseAdapterDataBean {
 
     public void setInspectionSiteBean(InspectionSiteBean.DataBean inspectionSiteBean) {
         this.inspectionSiteBean = inspectionSiteBean;
+    }
+
+    public ImportantorBean.DataBean getImportantorBean() {
+        return importantorBean;
+    }
+
+    public void setImportantorBean(ImportantorBean.DataBean importantorBean) {
+        this.importantorBean = importantorBean;
     }
 
     public MultipartBody.Builder getBuilder() {
