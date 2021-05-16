@@ -5,10 +5,11 @@ public class AppHttpPath {
                 public static final String BASE = "http://192.168.124.118:8080/inspection";
 //    public static final String BASE = "https://wx.juntaikeji.com:19153/disabledPersonsFederation/u/app";
     public static final String BASE_IMAGE = "http://192.168.124.118:9595";
+    public static final String BASE_IMAGE_THUM = "http://192.168.124.118:9595/thumbnail";
     /**
      * 登录
      */
-    public static final String LOGIN = BASE + "/u/appConnector/login.shtml";
+    public static final String LOGIN = BASE + "/u/appUserStaff/login.shtml";
 
     /**
      * 修改人员定位位置（历史轨迹）上传人员得位置信息
@@ -29,11 +30,11 @@ public class AppHttpPath {
     /**
      * 用户详情
      */
-    public static final String GET_USER_INFO = BASE + "/u/appConnector/selectUserInfo.shtml";
+    public static final String GET_USER_INFO = BASE + "/u/appUserStaff/selectUserInfo.shtml";
     /**
      * 退出登录
      */
-    public static final String LOGIN_OUT = BASE + "/u/appConnector/logout.shtml";
+    public static final String LOGIN_OUT = BASE + "/u/appUserStaff/logout.shtml";
 
 
 
@@ -90,6 +91,32 @@ public class AppHttpPath {
      * 手动添加治安巡检点
      */
     public static final String MANUAL_ADD_INSP_SITE = BASE + "/u/appSecurity/insertSecurityPublic.shtml";
+
+
+    /**
+     * 搜索已经添加的巡检点
+     */
+    public static final String SEARCH_ADDED_INSPECTION_SITES = BASE + "/u/appSecurity/searchSecurityPublic.shtml";
+
+    /**
+     * 巡检记录列表
+     */
+    public static final String SECURITY_INSPECT_RECORDS = BASE + "/u/appSecurity/selectInspectionRecordList.shtml";
+
+    /**
+     * 巡检记录详情
+     */
+    public static final String SECURITY_INSPECT_RECORD_DETAIL = BASE + "/u/appSecurity/selectInspectionRecordInfo" +
+            ".shtml";
+    /**
+     * 治安巡查问题及情况类型
+     */
+    public static final String SECURITY_INSPECT_QUESTION = BASE + "/u/appSecurity/selectInspectionRecordType.shtml";
+
+    /**
+     * 添加巡检记录
+     */
+    public static final String ADD_INSPECTION_RECORD = BASE + "/u/appSecurity/insertInspectionRecord.shtml";
 
 
 

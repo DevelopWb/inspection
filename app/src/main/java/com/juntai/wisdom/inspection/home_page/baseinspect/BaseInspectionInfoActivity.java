@@ -7,14 +7,16 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.base.BaseAppActivity;
-import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
+import com.juntai.wisdom.inspection.bean.ActionBean;
+import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.home_page.importantor.StartVisitActivity;
-import com.juntai.wisdom.inspection.home_page.securityCheck.SecurityInspectionSiteMoreInfoActivity;
-import com.juntai.wisdom.inspection.home_page.securityCheck.StartSecurityInspectActivity;
+import com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectRecordsActivity;
+import com.juntai.wisdom.inspection.home_page.securityInspect.StartSecurityInspectActivity;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -28,9 +30,11 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
     public final  static String START_VISIT="开始走访";//
     public final static String START_CHECK="开始检查";//
     public final static String START_INSPECT="开始巡检";//
+    public final static String BASE_ID="baseid";//
+    public int  baseId ;
 
     private RecyclerView mRecyclerview;
-    private ImageView mQrCodeIv;
+    public ImageView mQrCodeIv;
     /**
      * 导航
      */
@@ -44,7 +48,7 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
      */
     private TextView mStartWorkTv;
     private RecyclerView mActionsRv;
-    public ActionsAdapter actionsAdapter;
+    private ActionsAdapter actionsAdapter;
     public TextKeyValueAdapter baseInfoAdapter;
 
     @Override
@@ -59,11 +63,13 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
 
     @Override
     public void initView() {
+        if (getIntent() != null) {
+            baseId = getIntent().getIntExtra(BASE_ID,0);
+        }
         setTitleName(getTitleName());
         mRecyclerview = (RecyclerView) findViewById(R.id.recyclerview);
         baseInfoAdapter = new TextKeyValueAdapter(R.layout.text_key_value_item);
         initRecyclerviewNoScroll(mRecyclerview, baseInfoAdapter, LinearLayoutManager.VERTICAL);
-        baseInfoAdapter.setNewData(getData());
         addDivider(true, mRecyclerview, false, true);
         mQrCodeIv = (ImageView) findViewById(R.id.qr_code_iv);
         mQrCodeIv.setOnClickListener(this);
@@ -77,19 +83,32 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
         mActionsRv = (RecyclerView) findViewById(R.id.actions_rv);
         actionsAdapter = new ActionsAdapter(R.layout.item_actions);
         initRecyclerviewNoScroll(mActionsRv, actionsAdapter, LinearLayoutManager.VERTICAL);
+        actionsAdapter.setNewData(getActionAdapterData());
+        actionsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
+                ActionBean  actionBean = (ActionBean) adapter.getData().get(position);
+                switch (actionBean.getActionName()) {
+                    case BaseInspectContract.INSPECTION_SECURITY_RECORD:
+                        //治安巡检记录
+                        startActivity(new Intent(mContext, SecurityInspectRecordsActivity.class).putExtra(BaseRecordActivity.ID,((InspectionSiteBean.DataBean)getBaseBean()).getId()));
+                        break;
+                    default:
+                        break;
+                }
+            }
+        });
     }
+
+    protected abstract Object getBaseBean();
+
+    protected abstract List<ActionBean> getActionAdapterData();
 
     protected abstract String getTitleName();
 
     protected abstract String getStartWorkName();
 
-    public List<TextKeyValueBean> getData() {
-        List<TextKeyValueBean> arrays = new ArrayList<>();
-        arrays.add(new TextKeyValueBean("巡检点:", "暂无"));
-        arrays.add(new TextKeyValueBean("巡检地址:", "暂无"));
-        arrays.add(new TextKeyValueBean("安全责任人:", "暂无"));
-        return arrays;
-    }
+
 
 
     @Override
@@ -105,7 +124,7 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
                 break;
             case R.id.see_more_info_tv:
                 //查看更多信息
-                startActivity(new Intent(mContext, SecurityInspectionSiteMoreInfoActivity.class));
+               seeMoreInfo();
                 break;
             case R.id.start_work_tv:
                 switch (getStartWorkName()) {
@@ -114,7 +133,7 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
                         break;
                     case START_INSPECT:
                         //开始巡检
-                        startActivity(new Intent(mContext, StartSecurityInspectActivity.class));
+                        startActivity(new Intent(mContext, StartSecurityInspectActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY,((InspectionSiteBean.DataBean)getBaseBean())));
                         break;
                     case START_VISIT:
                         startActivity(new Intent(mContext, StartVisitActivity.class));
@@ -126,5 +145,7 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
                 break;
         }
     }
+
+    protected abstract void seeMoreInfo();
 
 }

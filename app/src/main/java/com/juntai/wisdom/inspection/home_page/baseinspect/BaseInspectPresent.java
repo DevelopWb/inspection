@@ -19,8 +19,13 @@ import com.juntai.wisdom.inspection.bean.importantor.AllImportantorBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.AllInspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
+import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordDetailBean;
+import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordListBean;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
+import com.juntai.wisdom.inspection.utils.AppUtils;
 import com.juntai.wisdom.inspection.utils.CalendarUtil;
+import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
+import com.juntai.wisdom.inspection.utils.UserInfoManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,14 +50,27 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
      *
      * @return
      */
-    public List<MultipleItem> getMoreInfoDetail() {
+    public List<MultipleItem> getMoreInfoDetailOfInspection(InspectionSiteBean.DataBean bean) {
         List<MultipleItem> arrays = new ArrayList<>();
-        arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW,
-                getData()));
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, "", false, 1);
-        arrays.add(new MultipleItem(MultipleItem.ITEM_LOCATION, "地址"));
+//        arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW,
+//                getData()));
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, bean == null ? "" :
+                bean.getRemarks(), false, 1);
+        arrays.add(new MultipleItem(MultipleItem.ITEM_LOCATION, new LocationBean(bean == null ? null :
+                bean.getGpsAddress()
+                , bean == null ? null : bean.getLatitude(), bean == null ? null : bean.getLongitude())));
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "现场图片"));
-        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, ""));
+        List<String> fragmentPics = new ArrayList<>();
+        if (bean != null) {
+            addFragmentPics(bean.getCoverPicture(), fragmentPics);
+            addFragmentPics(bean.getPhotoTwo(), fragmentPics);
+            addFragmentPics(bean.getPhotoThree(), fragmentPics);
+            addFragmentPics(bean.getPhotoFour(), fragmentPics);
+            addFragmentPics(bean.getPhotoFive(), fragmentPics);
+            addFragmentPics(bean.getPhotoSix(), fragmentPics);
+        }
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3, 6, 3 , false,
+                fragmentPics)));
         return arrays;
     }
 
@@ -61,16 +79,29 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
      *
      * @return
      */
-    public List<MultipleItem> getSecurityInpsectData() {
+    public List<MultipleItem> getSecurityInpsectData(SecurityInspectRecordDetailBean.DataBean  recordDetailBean,
+                                                     boolean  isDetail) {
         List<MultipleItem> arrays = new ArrayList<>();
         arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW,
-                getStartInspectBaseData()));
-        initTextType(arrays, MultipleItem.ITEM_SELECT, BaseInspectContract.INSPECTION_CHECK_TYPE, "", false, 0);
-        initTextType(arrays, MultipleItem.ITEM_SELECT, BaseInspectContract.INSPECTION_CHECK_PROBLEMS, "", false, 0);
+                getStartInspectBaseData(recordDetailBean)));
+        initTextType(arrays, MultipleItem.ITEM_SELECT, BaseInspectContract.INSPECTION_CHECK_PROBLEMS,
+                recordDetailBean==null?"":recordDetailBean.getTypeName(), false, 0);
 
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, "", false, 1);
-        arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传巡查图片"));
-        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, ""));
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, recordDetailBean==null?"":
+                recordDetailBean.getRemarks(), false, 1);
+        arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传巡检图片"));
+        List<String> fragmentPics = new ArrayList<>();
+        if (recordDetailBean != null) {
+            addFragmentPics(recordDetailBean.getPhotoOne(), fragmentPics);
+            addFragmentPics(recordDetailBean.getPhotoTwo(), fragmentPics);
+            addFragmentPics(recordDetailBean.getPhotoThree(), fragmentPics);
+            addFragmentPics(recordDetailBean.getPhotoFour(), fragmentPics);
+            addFragmentPics(recordDetailBean.getPhotoFive(), fragmentPics);
+            addFragmentPics(recordDetailBean.getPhotoSix(), fragmentPics);
+        }
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3, isDetail?fragmentPics.size():6,
+                3 , false,
+                fragmentPics)));
         return arrays;
     }
 
@@ -82,8 +113,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     public List<MultipleItem> getVisitData() {
         List<MultipleItem> arrays = new ArrayList<>();
         arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW,
-                getStartInspectBaseData()));
-        initTextType(arrays, MultipleItem.ITEM_SELECT, BaseInspectContract.INSPECTION_CHECK_TYPE, "", false, 0);
+                getStartInspectBaseData(null)));
         initTextType(arrays, MultipleItem.ITEM_SELECT, BaseInspectContract.INSPECTION_CHECK_PROBLEMS, "", false, 0);
 
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, "", false, 1);
@@ -140,7 +170,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
             addFragmentPics(bean.getPhotoFive(), fragmentPics);
             addFragmentPics(bean.getPhotoSix(), fragmentPics);
         }
-        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3, 6, 3, true, true,
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3, 6, 3 , true,
                 fragmentPics)));
         return arrays;
     }
@@ -183,7 +213,8 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
             addFragmentPics(bean.getPhotoFive(), fragmentPics);
             addFragmentPics(bean.getPhotoSix(), fragmentPics);
         }
-        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3, 6, 3, true, false,
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3, bean==null?6:fragmentPics.size(),
+                3 , false,
                 fragmentPics)));
         return arrays;
     }
@@ -258,7 +289,12 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
 
     private void addFragmentPics(String picPath, List<String> fragmentPics) {
         if (!TextUtils.isEmpty(picPath)) {
-            fragmentPics.add(picPath);
+            if (picPath.contains(AppUtils.getAppName())) {
+                fragmentPics.add(picPath);
+            }else {
+                fragmentPics.add(UrlFormatUtil.getImageThumUrl(picPath));
+            }
+
         }
     }
 
@@ -270,7 +306,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     public List<MultipleItem> getSecurityInpsectRecordDetailData() {
         List<MultipleItem> arrays = new ArrayList<>();
         arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW,
-                getStartInspectBaseData()));
+                getStartInspectBaseData(null)));
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, "", false, 1);
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传巡查图片"));
         arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, ""));
@@ -308,12 +344,12 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         return arrays;
     }
 
-    private List<TextKeyValueBean> getStartInspectBaseData() {
+    private List<TextKeyValueBean> getStartInspectBaseData(SecurityInspectRecordDetailBean.DataBean  dataBean) {
         List<TextKeyValueBean> arrays = new ArrayList<>();
-        arrays.add(new TextKeyValueBean("检查时间:", CalendarUtil.getCurrentTime()));
-        arrays.add(new TextKeyValueBean("检查人员:", "暂无"));
-        arrays.add(new TextKeyValueBean("责任人:", "暂无"));
-        arrays.add(new TextKeyValueBean("电话号码:", "暂无"));
+        arrays.add(new TextKeyValueBean("检查时间:", dataBean.getInspectTime()));
+        arrays.add(new TextKeyValueBean("检查人员:", dataBean.getInspectName()));
+        arrays.add(new TextKeyValueBean("责任人:", dataBean.getUnitLiable()));
+        arrays.add(new TextKeyValueBean("电话号码:", dataBean.getLiablePhone()));
         return arrays;
     }
 
@@ -417,6 +453,53 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     public void searchInspectionSitesToAdd(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
                 .searchInspectionSitesToAdd(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<AllInspectionSiteBean>(getView()) {
+                    @Override
+                    public void onSuccess(AllInspectionSiteBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void getInspectionSiteDetail(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getInspectionSiteDetail(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<InspectionSiteBean>(getView()) {
+                    @Override
+                    public void onSuccess(InspectionSiteBean o) {
+                        if (getView() != null) {
+                            if (o != null) {
+                                if (o.getData() != null) {
+                                    getView().onSuccess(tag, o.getData());
+                                }
+                            }
+
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void searchInspectionSitesAdded(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .searchInspectionSitesAdded(requestBody)
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<AllInspectionSiteBean>(getView()) {
                     @Override
@@ -568,6 +651,49 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     }
 
     @Override
+    public void getSecurityInspectRecords(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getSecurityInspectRecords(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<SecurityInspectRecordListBean>(getView()) {
+                    @Override
+                    public void onSuccess(SecurityInspectRecordListBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void getSecurityInspectRecordDetail(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getSecurityInspectRecordDetail(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<SecurityInspectRecordDetailBean>(getView()) {
+                    @Override
+                    public void onSuccess(SecurityInspectRecordDetailBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+
+    @Override
     public void searchAddInspectSite(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
                 .searchAddInspectSite(requestBody)
@@ -615,6 +741,27 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     public void manualAddInspectSite(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
                 .manualAddInspectSite(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void addInspectionRecord(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .addInspectionRecord(requestBody)
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<BaseResult>(getView()) {
                     @Override
@@ -703,6 +850,27 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     public void getUnitType(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
                 .getUnitType(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<IdNameBean>(getView()) {
+                    @Override
+                    public void onSuccess(IdNameBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void getInspectQuestions(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getInspectQuestions(requestBody)
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<IdNameBean>(getView()) {
                     @Override

@@ -24,6 +24,7 @@ import com.juntai.wisdom.inspection.base.BaseAppFragment;
 import com.juntai.wisdom.inspection.bean.UserBean;
 import com.juntai.wisdom.inspection.utils.AppUtils;
 import com.juntai.wisdom.inspection.utils.GridDividerItemDecoration;
+import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
 import com.juntai.wisdom.inspection.utils.UserInfoManager;
 import com.orhanobut.hawk.Hawk;
 
@@ -166,7 +167,9 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
                     mTelNumber.setVisibility(View.VISIBLE);
                     if (!headUrl.equals(userBean.getData().getHeadPortrait())) {
                         headUrl = userBean.getData().getHeadPortrait();
-                        ImageLoadUtil.loadCirImgNoCrash(mContext.getApplicationContext(), headUrl, mHeadImage, R.mipmap.default_user_head_icon, R.mipmap.default_user_head_icon);
+                        ImageLoadUtil.loadCirImgNoCrash(mContext.getApplicationContext(),
+                                UrlFormatUtil.getImageOriginalUrl(headUrl), mHeadImage,
+                                R.mipmap.default_user_head_icon, R.mipmap.default_user_head_icon);
                     }
                     Hawk.put(AppUtils.SP_KEY_USER,userBean);
                 }

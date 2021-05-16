@@ -43,15 +43,15 @@
         <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.StartVisitActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.FireInspectionActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.ImportantorsActivity" />
-        <activity android:name="com.juntai.wisdom.inspection.home_page.securityCheck.SecurityInspectRecordDetailActivity" />
-        <activity android:name="com.juntai.wisdom.inspection.home_page.securityCheck.SecurityInspectRecordActivity" />
-        <activity android:name="com.juntai.wisdom.inspection.home_page.securityCheck.StartSecurityInspectActivity" />
-        <activity android:name="com.juntai.wisdom.inspection.home_page.securityCheck.EditSecurityInspectSiteActivity" />
-        <activity android:name="com.juntai.wisdom.inspection.home_page.securityCheck.SecurityInspectionSiteMoreInfoActivity" />
-        <activity android:name="com.juntai.wisdom.inspection.home_page.securityCheck.SecurityInspectionSiteInfoActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectRecordDetailActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectRecordsActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.securityInspect.StartSecurityInspectActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.securityInspect.EditSecurityInspectSiteActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectionSiteMoreInfoActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectionSiteInfoActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.ImportantorInfoActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.UnitInfoActivity" />
-        <activity android:name="com.juntai.wisdom.inspection.home_page.securityCheck.SecurityInspectionSitesActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectionSitesActivity" />
         <activity
             android:name="com.juntai.wisdom.inspection.home_page.QRScanActivity"
             android:launchMode="singleTop" />

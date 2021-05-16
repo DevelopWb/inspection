@@ -15,6 +15,20 @@ import java.util.List;
  */
 public class ImportantorInfoActivity extends BaseInspectionInfoActivity {
 
+
+    @Override
+    protected Object getBaseBean() {
+        return null;
+    }
+
+    @Override
+    protected List<ActionBean> getActionAdapterData() {
+        List<ActionBean>  arrays = new ArrayList<>();
+        arrays.add(new ActionBean(R.drawable.sp_filled_gray_lighter, BaseInspectContract.INSPECTION_VISIT_RECORD,
+                R.mipmap.app_icon));
+        return arrays;
+    }
+
     @Override
     protected String getTitleName() {
         return "重点人员详情";
@@ -26,17 +40,14 @@ public class ImportantorInfoActivity extends BaseInspectionInfoActivity {
     }
 
     @Override
-    public void initData() {
-
-        actionsAdapter.setNewData(getActionAdapterData());
+    protected void seeMoreInfo() {
 
     }
 
-    private List<ActionBean> getActionAdapterData() {
-        List<ActionBean>  arrays = new ArrayList<>();
-        arrays.add(new ActionBean(R.drawable.sp_filled_gray_lighter, BaseInspectContract.INSPECTION_VISIT_RECORD,
-                R.mipmap.app_icon));
-        return arrays;
+    @Override
+    public void initData() {
+
+
     }
     @Override
     public void onSuccess(String tag, Object o) {

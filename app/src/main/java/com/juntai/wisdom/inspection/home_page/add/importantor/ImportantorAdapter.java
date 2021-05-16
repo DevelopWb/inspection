@@ -7,7 +7,6 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
-import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
 
 /**
@@ -27,7 +26,7 @@ public class ImportantorAdapter extends BaseQuickAdapter<ImportantorBean.DataBea
 
     @Override
     protected void convert(BaseViewHolder helper, ImportantorBean.DataBean item) {
-        ImageLoadUtil.loadImage(mContext, UrlFormatUtil.getImageUrl(item.getPersonnelPhoto()),
+        ImageLoadUtil.loadImage(mContext, UrlFormatUtil.getImageOriginalUrl(item.getPersonnelPhoto()),
                 helper.getView(R.id.cover_pic_iv));
         helper.setText(R.id.item_title_tv, item.getName());
         helper.setText(R.id.item_des_tv, item.getIdNumber());

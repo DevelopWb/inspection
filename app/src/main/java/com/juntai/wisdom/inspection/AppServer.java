@@ -7,6 +7,8 @@ import com.juntai.wisdom.inspection.bean.importantor.AllImportantorBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.AllInspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.UserBean;
+import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordDetailBean;
+import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordListBean;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
 
 import io.reactivex.Observable;
@@ -60,6 +62,7 @@ public interface AppServer {
      */
     @POST(AppHttpPath.UNIT_TYPE)
     Observable<IdNameBean> getUnitType(@Body RequestBody requestBody);
+
 
     /**
      * 添加单位搜索
@@ -127,6 +130,16 @@ public interface AppServer {
     Observable<AllInspectionSiteBean> searchInspectionSitesToAdd(@Body RequestBody requestBody);
 
     /**
+    /**
+     * 搜索已经添加的巡检点
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.SEARCH_ADDED_INSPECTION_SITES)
+    Observable<AllInspectionSiteBean> searchInspectionSitesAdded(@Body RequestBody requestBody);
+
+    /**
      *查询巡检点是否存在
      *
      * @param requestBody
@@ -151,8 +164,37 @@ public interface AppServer {
      */
     @POST(AppHttpPath.MANUAL_ADD_INSP_SITE)
     Observable<BaseResult> manualAddInspectSite(@Body RequestBody requestBody);
+    /**
+     * 手动添加治安巡检点
+     *
+     * @return
+     */
+    @POST(AppHttpPath.ADD_INSPECTION_RECORD)
+    Observable<BaseResult> addInspectionRecord(@Body RequestBody requestBody);
 
+    /**
+     * 巡检记录列表
+     *
+     * @return
+     */
+    @POST(AppHttpPath.SECURITY_INSPECT_RECORDS)
+    Observable<SecurityInspectRecordListBean> getSecurityInspectRecords(@Body RequestBody requestBody);
 
+    /**
+     * 巡检记录详情
+     *
+     * @return
+     */
+    @POST(AppHttpPath.SECURITY_INSPECT_RECORD_DETAIL)
+    Observable<SecurityInspectRecordDetailBean> getSecurityInspectRecordDetail(@Body RequestBody requestBody);
+
+    /**
+     * 治安巡查问题及情况类型
+     *
+     * @return
+     */
+    @POST(AppHttpPath.SECURITY_INSPECT_QUESTION)
+    Observable<IdNameBean> getInspectQuestions(@Body RequestBody requestBody);
 
 
 

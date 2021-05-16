@@ -17,7 +17,7 @@ import com.juntai.wisdom.inspection.bean.HomePageMenuBean;
 import com.juntai.wisdom.inspection.home_page.firecheck.FireInspectionActivity;
 import com.juntai.wisdom.inspection.home_page.importantor.ImportantorsActivity;
 import com.juntai.wisdom.inspection.mine.MyCenterContract;
-import com.juntai.wisdom.inspection.home_page.securityCheck.SecurityInspectionSitesActivity;
+import com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectionSitesActivity;
 import com.juntai.wisdom.inspection.utils.AppUtils;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 

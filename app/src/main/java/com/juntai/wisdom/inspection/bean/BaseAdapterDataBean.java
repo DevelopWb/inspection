@@ -2,6 +2,7 @@ package com.juntai.wisdom.inspection.bean;
 
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
+import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordDetailBean;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
 
 import okhttp3.MultipartBody;
@@ -19,6 +20,15 @@ public class BaseAdapterDataBean {
     private SearchedUnitsBean.DataBean.DatasBean  unitDataBean;
     private InspectionSiteBean.DataBean  inspectionSiteBean;
     private ImportantorBean.DataBean  importantorBean;
+    private SecurityInspectRecordDetailBean.DataBean recordDetailBean;
+
+    public SecurityInspectRecordDetailBean.DataBean getRecordDetailBean() {
+        return recordDetailBean;
+    }
+
+    public void setRecordDetailBean(SecurityInspectRecordDetailBean.DataBean recordDetailBean) {
+        this.recordDetailBean = recordDetailBean;
+    }
 
     public InspectionSiteBean.DataBean getInspectionSiteBean() {
         return inspectionSiteBean;

@@ -29,12 +29,11 @@ public interface BaseInspectContract {
     String INSPECTION_RESPONSIBLE_TEL = INSPECTION_RESPONSIBLE + INSPECTION_TEL;
     String INSPECTION_SPARE_PERSON = "备用联系人";
     String INSPECTION_SPARE_PERSON_TEL = INSPECTION_SPARE_PERSON + INSPECTION_TEL;
-    String INSPECTION_CHECK_TYPE = "检查类型";
     String INSPECTION_CHECK_RECORD = "检查记录";
     String INSPECTION_RESPONSIBILITY = "责任书";
     String INSPECTION_RECTIFY_NOTICE = "整改通知书";
     String INSPECTION_WORKER = "从业人员";
-    String INSPECTION_CHECK_PROBLEMS = "问题及巡查情况";
+    String INSPECTION_CHECK_PROBLEMS = "问题及巡检情况";
     String INSPECTION_VISIT_RECORD = "走访记录";
     String INSPECTION_SECURITY_RECORD = "治安巡检记录";
     String INSPECTION_UNIT_NAME = "单位名称";
@@ -93,6 +92,7 @@ public interface BaseInspectContract {
          * @param tag
          */
         void manualAddInspectSite(RequestBody requestBody, String tag);
+        void addInspectionRecord(RequestBody requestBody, String tag);
 
         void checkUnitUnique(RequestBody requestBody, String tag);
 
@@ -101,18 +101,27 @@ public interface BaseInspectContract {
         void checkImportantorIDUnique(RequestBody requestBody, String tag);
 
         void getUnitType(RequestBody requestBody, String tag);
+        void getInspectQuestions(RequestBody requestBody, String tag);
 
         void searchUnitFromFireInspection(RequestBody requestBody, String tag);
 
 
         void searchInspectionSitesToAdd(RequestBody requestBody, String tag);
 
+        void getInspectionSiteDetail(RequestBody requestBody, String tag);
+
+        void searchInspectionSitesAdded(RequestBody requestBody, String tag);
+
         void searchImportantorToAdd(RequestBody requestBody, String tag);
 
         void searchAddImportantor(RequestBody requestBody, String tag);
 
         void manualAddImportantor(RequestBody requestBody, String tag);
+
         void getImportantorTypes(RequestBody requestBody, String tag);
+
         void getImportantorStatus(RequestBody requestBody, String tag);
+        void getSecurityInspectRecords(RequestBody requestBody, String tag);
+        void getSecurityInspectRecordDetail(RequestBody requestBody, String tag);
     }
 }

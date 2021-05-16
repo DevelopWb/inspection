@@ -1,6 +1,5 @@
-package com.juntai.wisdom.inspection.home_page.securityCheck;
+package com.juntai.wisdom.inspection.home_page.securityInspect;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
@@ -25,7 +24,7 @@ public class SecurityInspectRecordDetailActivity extends BaseInspectionActivity 
 
     @Override
     protected String getTitleName() {
-        return "治安巡查详情";
+        return "治安巡检详情";
     }
 
     @Override

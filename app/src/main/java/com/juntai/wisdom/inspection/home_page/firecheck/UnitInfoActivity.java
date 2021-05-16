@@ -15,24 +15,14 @@ import java.util.List;
  */
 public class UnitInfoActivity extends BaseInspectionInfoActivity {
 
+
     @Override
-    protected String getTitleName() {
-        return "单位详情";
+    protected Object getBaseBean() {
+        return null;
     }
 
     @Override
-    protected String getStartWorkName() {
-        return START_CHECK;
-    }
-
-    @Override
-    public void initData() {
-
-        actionsAdapter.setNewData(getActionAdapterData());
-
-    }
-
-    private List<ActionBean> getActionAdapterData() {
+    protected List<ActionBean> getActionAdapterData() {
         List<ActionBean>  arrays = new ArrayList<>();
         arrays.add(new ActionBean(R.drawable.sp_filled_gray_lighter, BaseInspectContract.INSPECTION_CHECK_RECORD,
                 R.mipmap.app_icon));
@@ -44,6 +34,28 @@ public class UnitInfoActivity extends BaseInspectionInfoActivity {
                 R.mipmap.app_icon));
         return arrays;
     }
+
+    @Override
+    protected String getTitleName() {
+        return "单位详情";
+    }
+
+    @Override
+    protected String getStartWorkName() {
+        return START_CHECK;
+    }
+
+    @Override
+    protected void seeMoreInfo() {
+
+    }
+
+    @Override
+    public void initData() {
+
+
+    }
+
     @Override
     public void onSuccess(String tag, Object o) {
 

@@ -91,6 +91,14 @@ public class UserInfoManager {
         return getUser() != null && getUser().getData() != null ? getUser().getData().getAccount() : "";
     }
     /**
+     * 获取账户
+     *
+     * @return
+     */
+    public static String getUserNickName() {
+        return getUser() != null && getUser().getData() != null ? getUser().getData().getNickname() : "";
+    }
+    /**
      * 获取usertoken
      *
      * @return

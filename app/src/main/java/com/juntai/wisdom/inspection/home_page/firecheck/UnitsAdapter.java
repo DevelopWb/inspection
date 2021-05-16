@@ -1,7 +1,6 @@
 package com.juntai.wisdom.inspection.home_page.firecheck;
 
 import android.support.v4.content.ContextCompat;
-import android.webkit.URLUtil;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
@@ -27,7 +26,7 @@ public class UnitsAdapter extends BaseQuickAdapter<SearchedUnitsBean.DataBean.Da
 
     @Override
     protected void convert(BaseViewHolder helper, SearchedUnitsBean.DataBean.DatasBean item) {
-        ImageLoadUtil.loadImage(mContext, UrlFormatUtil.getImageUrl(item.getCoverPicture()),
+        ImageLoadUtil.loadImage(mContext, UrlFormatUtil.getImageOriginalUrl(item.getCoverPicture()),
                 helper.getView(R.id.cover_pic_iv));
         helper.setText(R.id.item_title_tv, item.getName());
         helper.setText(R.id.item_des_tv, item.getAddress());

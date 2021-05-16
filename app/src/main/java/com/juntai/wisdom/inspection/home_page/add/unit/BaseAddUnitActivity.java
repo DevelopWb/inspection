@@ -66,7 +66,6 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     startLocation();
-                    Hawk.delete(HawkProperty.ADD_UNIT_KEY);
                     unSavedLogic();
                 }
             }).show();

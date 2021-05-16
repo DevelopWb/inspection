@@ -26,7 +26,7 @@ public class InspectionSiteAdapter extends BaseQuickAdapter<InspectionSiteBean.D
 
     @Override
     protected void convert(BaseViewHolder helper, InspectionSiteBean.DataBean item) {
-        ImageLoadUtil.loadImage(mContext, UrlFormatUtil.getImageUrl(item.getCoverPicture()),
+        ImageLoadUtil.loadImage(mContext, UrlFormatUtil.getImageOriginalUrl(item.getCoverPicture()),
                 helper.getView(R.id.cover_pic_iv));
         helper.setText(R.id.item_title_tv, item.getName());
         helper.setText(R.id.item_des_tv, item.getAddress());

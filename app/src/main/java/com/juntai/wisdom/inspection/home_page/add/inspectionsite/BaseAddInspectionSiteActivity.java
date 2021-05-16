@@ -58,7 +58,6 @@ public abstract class BaseAddInspectionSiteActivity extends BaseCommitFootViewAc
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     startLocation();
-                    Hawk.delete(HawkProperty.ADD_INSPECRTION_SITE_KEY);
                     unSavedLogic();
                 }
             }).show();

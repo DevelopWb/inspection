@@ -201,7 +201,9 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 break;
             case MultipleItem.ITEM_LOCATION:
                 LocationBean locationBean = (LocationBean) item.getObject();
-                helper.addOnClickListener(R.id.location_ll);
+                if (!isDetail) {
+                    helper.addOnClickListener(R.id.location_ll);
+                }
                 if (!TextUtils.isEmpty(locationBean.getAddress())) {
                     helper.setText(R.id.location_tv, locationBean.getAddress());
                 }
@@ -213,7 +215,8 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 SelectPhotosFragment fragment = (SelectPhotosFragment) mFragmentManager.findFragmentById(R.id.photo_fg);
                 fragment.setObject(fragmentBean);
                 fragment.setSpanCount(fragmentBean.getmSpanCount())
-                        .setPhotoDelateable(fragmentBean.isDeleteable()).setMaxCount(fragmentBean.getmMaxCount())
+                        .setPhotoDelateable(!isDetail)
+                       .setMaxCount(fragmentBean.getmMaxCount())
                         .setShowTag(fragmentBean.isShowTag()).setOnPicLoadSuccessCallBack(new SelectPhotosFragment.OnPicLoadSuccessCallBack() {
                     @Override
                     public void loadSuccess(List<String> icons) {

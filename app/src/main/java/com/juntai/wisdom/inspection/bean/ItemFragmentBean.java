@@ -16,17 +16,15 @@ public class ItemFragmentBean  {
     private int mSpanCount = 3;//一行的个数，默认4
     private int mMaxCount = 9;//最大个数，默认9个
     private int minCount = 0;//最少数
-    private boolean deleteable = true;//可删除
     private boolean isShowTag = false;//是否显示底部标记
 
     private List<String> fragmentPics;//选中的图片库
 
-    public ItemFragmentBean(int mSpanCount, int mMaxCount, int minCount, boolean deleteable, boolean isShowTag,
+    public ItemFragmentBean(int mSpanCount, int mMaxCount, int minCount, boolean isShowTag,
                             List<String> fragmentPics) {
         this.mSpanCount = mSpanCount;
         this.mMaxCount = mMaxCount;
         this.minCount = minCount;
-        this.deleteable = deleteable;
         this.isShowTag = isShowTag;
         this.fragmentPics = fragmentPics;
     }
@@ -66,13 +64,6 @@ public class ItemFragmentBean  {
         this.mMaxCount = mMaxCount;
     }
 
-    public boolean isDeleteable() {
-        return deleteable;
-    }
-
-    public void setDeleteable(boolean deleteable) {
-        this.deleteable = deleteable;
-    }
 
     public boolean isShowTag() {
         return isShowTag;

@@ -82,14 +82,14 @@ public abstract class BaseAddActivity extends BaseAppActivity<BaseInspectPresent
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
                 currentPage = 1;
-                startSearch(mSearchSv.getQuery().toString());
+                startSearch(mSearchSv.getQuery().toString().trim());
             }
         });
         mSmartrefreshlayout.setOnLoadMoreListener(new OnLoadMoreListener() {
             @Override
             public void onLoadMore(RefreshLayout refreshLayout) {
                 currentPage++;
-                startSearch(mSearchSv.getQuery().toString());
+                startSearch(mSearchSv.getQuery().toString().trim());
             }
         });
     }
