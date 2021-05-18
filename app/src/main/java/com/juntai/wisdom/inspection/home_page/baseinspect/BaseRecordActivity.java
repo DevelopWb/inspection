@@ -32,7 +32,7 @@ public abstract class BaseRecordActivity extends BaseAppActivity<BaseInspectPres
     public int currentPage = 1, pagesize = 10;
 
     public static String ID = "id";
-    public int  id ;
+    public int id;
 
     @Override
     public int getLayoutView() {
@@ -43,7 +43,7 @@ public abstract class BaseRecordActivity extends BaseAppActivity<BaseInspectPres
     public void initView() {
         setTitleName(getTitleName());
         if (getIntent() != null) {
-            id= getIntent().getIntExtra(ID,0);
+            id = getIntent().getIntExtra(ID, 0);
         }
         mRecyclerview = (RecyclerView) findViewById(R.id.recyclerview);
         mSmartrefreshlayout = (SmartRefreshLayout) findViewById(R.id.smartrefreshlayout);
@@ -76,8 +76,7 @@ public abstract class BaseRecordActivity extends BaseAppActivity<BaseInspectPres
 
     @Override
     public void initData() {
-
-
+        requestHisData();
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
@@ -100,7 +99,7 @@ public abstract class BaseRecordActivity extends BaseAppActivity<BaseInspectPres
         mSmartrefreshlayout.finishLoadMore();
         switch (tag) {
             case AppHttpPath.SECURITY_INSPECT_RECORDS:
-                SecurityInspectRecordListBean  securityInspectRecordListBean = (SecurityInspectRecordListBean) o;
+                SecurityInspectRecordListBean securityInspectRecordListBean = (SecurityInspectRecordListBean) o;
                 if (securityInspectRecordListBean != null) {
                     List<SecurityInspectRecordListBean.DataBean.DatasBean> arrays =
                             securityInspectRecordListBean.getData().getDatas();

@@ -1,6 +1,7 @@
 package com.juntai.wisdom.inspection.bean;
 
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
+import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordDetailBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordDetailBean;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
@@ -21,6 +22,15 @@ public class BaseAdapterDataBean {
     private InspectionSiteBean.DataBean  inspectionSiteBean;
     private ImportantorBean.DataBean  importantorBean;
     private SecurityInspectRecordDetailBean.DataBean recordDetailBean;
+    private ImportantorVisitRecordDetailBean.DataBean visitRecordDetailBean;
+
+    public ImportantorVisitRecordDetailBean.DataBean getVisitRecordDetailBean() {
+        return visitRecordDetailBean;
+    }
+
+    public void setVisitRecordDetailBean(ImportantorVisitRecordDetailBean.DataBean visitRecordDetailBean) {
+        this.visitRecordDetailBean = visitRecordDetailBean;
+    }
 
     public SecurityInspectRecordDetailBean.DataBean getRecordDetailBean() {
         return recordDetailBean;

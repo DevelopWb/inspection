@@ -2,6 +2,7 @@ package com.juntai.wisdom.inspection.home_page.securityInspect;
 
 import android.content.Intent;
 
+import com.baidu.mapapi.model.LatLng;
 import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.disabled.federation.R;
@@ -48,6 +49,15 @@ public class SecurityInspectionSiteInfoActivity extends BaseInspectionInfoActivi
     @Override
     protected String getStartWorkName() {
         return START_INSPECT;
+    }
+
+    @Override
+    protected void navigationLogic() {
+        if (dataBean != null) {
+            navigationLogic(new LatLng(Double.parseDouble(dataBean.getLatitude()),
+                    Double.parseDouble(dataBean.getLongitude())),dataBean.getAddress());
+        }
+
     }
 
     @Override

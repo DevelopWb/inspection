@@ -14,7 +14,7 @@ import okhttp3.RequestBody;
 public interface BaseInspectContract {
 
     String REMARK = "备注";
-    String IMPORTANTOR_TAB_TITLES = "tab标题";
+    String TAB_TITLES = "tab标题";
     String IMPORTANTOR_TAB_TITLE_ALL = "全部";
     String IMPORTANTOR_TAB_TITLE_TO_VISITE = "待走访";
     String IMPORTANTOR_TAB_TITLE_VISITED = "已走访";
@@ -33,7 +33,8 @@ public interface BaseInspectContract {
     String INSPECTION_RESPONSIBILITY = "责任书";
     String INSPECTION_RECTIFY_NOTICE = "整改通知书";
     String INSPECTION_WORKER = "从业人员";
-    String INSPECTION_CHECK_PROBLEMS = "问题及巡检情况";
+    String INSPECTION_CHECK_PROBLEMS = "问题及巡查情况";
+    String INSPECTION_VISIT_PROBLEMS = "问题及走访情况";
     String INSPECTION_VISIT_RECORD = "走访记录";
     String INSPECTION_SECURITY_RECORD = "治安巡检记录";
     String INSPECTION_UNIT_NAME = "单位名称";
@@ -45,7 +46,7 @@ public interface BaseInspectContract {
     String INSPECTION_NAME = "姓名";
     String INSPECTION_NICK_NAME = "曾用名";
     String INSPECTION_SEX = "性别";
-    String INSPECTION_POLICE_NAME = "登记警员";
+    String INSPECTION_POLICE_NAME = "管控民警";
     String INSPECTION_ID_CARD = "身份证号";
     String INSPECTION_ADDR_LATEST = "现居住地";
     String INSPECTION_PERSONAL_TYPE = "人员类型";
@@ -102,6 +103,7 @@ public interface BaseInspectContract {
 
         void getUnitType(RequestBody requestBody, String tag);
         void getInspectQuestions(RequestBody requestBody, String tag);
+        void getVisitQuestions(RequestBody requestBody, String tag);
 
         void searchUnitFromFireInspection(RequestBody requestBody, String tag);
 
@@ -113,6 +115,7 @@ public interface BaseInspectContract {
         void searchInspectionSitesAdded(RequestBody requestBody, String tag);
 
         void searchImportantorToAdd(RequestBody requestBody, String tag);
+        void getImportantorDetail(RequestBody requestBody, String tag);
 
         void searchAddImportantor(RequestBody requestBody, String tag);
 
@@ -121,6 +124,7 @@ public interface BaseInspectContract {
         void getImportantorTypes(RequestBody requestBody, String tag);
 
         void getImportantorStatus(RequestBody requestBody, String tag);
+        void getAllAddedImportantor(RequestBody requestBody, String tag);
         void getSecurityInspectRecords(RequestBody requestBody, String tag);
         void getSecurityInspectRecordDetail(RequestBody requestBody, String tag);
     }

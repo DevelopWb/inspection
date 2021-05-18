@@ -64,7 +64,7 @@ public class AppHttpPath {
     /**
      * 治安消防模块首页搜索
      */
-    public static final String SEARCH_UNIT_CHECK_STATUS = BASE + "/u/appConnector/searchSecurityFire.shtml";
+    public static final String SEARCH_UNIT_TO_CHECK = BASE + "/u/appConnector/searchSecurityFire.shtml";
 
 
 
@@ -152,5 +152,14 @@ public class AppHttpPath {
      * 人员状态
      */
     public static final String IMPORTANTOR_STATUS = BASE + "/u/appKeyPersonnel/selectKeyPersonnelState.shtml";
+
+    /**
+     * 重点人员模块首页搜索
+     */
+    public static final String SEARCH_ALL_ADDED_IMPORTANTOR = BASE + "/u/appKeyPersonnel/searchKeyPersonnel.shtml";
+    /**
+     * 走访问题及情况类型
+     */
+    public static final String VISIT_QUESTIONS = BASE + "/u/appKeyPersonnel/selectKeyPersonnelInspection.shtml";
 
 }

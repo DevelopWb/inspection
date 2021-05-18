@@ -14,7 +14,7 @@ import com.juntai.wisdom.inspection.base.BaseRecyclerviewFragment;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectContract;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectPresent;
-import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionSearchActivity;
+import com.juntai.wisdom.inspection.home_page.baseinspect.BaseSearchActivity;
 
 import java.util.List;
 
@@ -34,8 +34,8 @@ public class UnitsFragment extends BaseRecyclerviewFragment<BaseInspectPresent> 
 
     @Override
     protected void lazyLoad() {
-        unitCheckTag = getArguments().getString(BaseInspectContract.IMPORTANTOR_TAB_TITLES);
-        ((BaseInspectionSearchActivity) getActivity()).setTypeTypeSelectedCallBack(new BaseInspectionSearchActivity.OnTypeSelectedCallBack() {
+        unitCheckTag = getArguments().getString(BaseInspectContract.TAB_TITLES);
+        ((BaseSearchActivity) getActivity()).setTypeTypeSelectedCallBack(new BaseSearchActivity.OnTypeSelectedCallBack() {
             @Override
             public void typeSelected() {
                 currentPage = 1;
@@ -79,7 +79,7 @@ public class UnitsFragment extends BaseRecyclerviewFragment<BaseInspectPresent> 
 
     public static UnitsFragment newInstance(String type) {
         Bundle args = new Bundle();
-        args.putString(BaseInspectContract.IMPORTANTOR_TAB_TITLES, type);
+        args.putString(BaseInspectContract.TAB_TITLES, type);
         UnitsFragment fragment = new UnitsFragment();
         fragment.setArguments(args);
         return fragment;
@@ -100,12 +100,12 @@ public class UnitsFragment extends BaseRecyclerviewFragment<BaseInspectPresent> 
      * 获取数据
      */
     private void getAdapterData() {
-        String keyWord = ((BaseInspectionSearchActivity) getActivity()).getKeyword();
+        String keyWord = ((BaseSearchActivity) getActivity()).getKeyword();
         mPresenter.searchUnitFromFireInspection(getBaseAppActivity().getBaseBuilder().add("keyword", keyWord)
                         .add("state", String.valueOf(getCheckStatus())).add("unitType",
-                        String.valueOf(((BaseInspectionSearchActivity) getActivity()).currentTypeId)).add("pageSize",
+                        String.valueOf(((BaseSearchActivity) getActivity()).currentTypeId)).add("pageSize",
                         String.valueOf(pageSize)).add("currentPage", String.valueOf(currentPage)).build(),
-                AppHttpPath.SEARCH_UNIT_CHECK_STATUS);
+                AppHttpPath.SEARCH_UNIT_TO_CHECK);
     }
 
     @Override

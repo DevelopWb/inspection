@@ -82,16 +82,16 @@ public class ImageLoadUtil {
         Glide.with(context).load(url).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)).into(view);
     }
 
-
     /**
      * @param context
-     * @param url
+     * @param url     加载网络视频的时候 不能使用硬盘缓存
      * @param view
      */
-    public static void loadImageNoCrash(Context context, String url, ImageView view) {
-        Glide.with(context).load(url).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).skipMemoryCache(true)).into(view);
-
+    public static void loadImageNoCache(Context context, String url, ImageView view, int error) {
+        Glide.with(context).load(url).apply(new RequestOptions().diskCacheStrategy(DiskCacheStrategy.NONE).error(error).skipMemoryCache(true)).into(view);
     }
+
+
 
     /**
      * @param context

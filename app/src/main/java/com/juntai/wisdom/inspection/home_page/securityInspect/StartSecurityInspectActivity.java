@@ -1,7 +1,6 @@
 package com.juntai.wisdom.inspection.home_page.securityInspect;
 
 import android.content.DialogInterface;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -34,18 +33,22 @@ public class StartSecurityInspectActivity extends BaseInspectionActivity {
 
     @Override
     public void initData() {
-
+        recordDetailBean = new SecurityInspectRecordDetailBean.DataBean();
         SecurityInspectRecordDetailBean.DataBean savedRecordBean = Hawk.get(HawkProperty.ADD_INSPECRTION_RECORD_KEY);
         if (savedRecordBean != null) {
-            adapter.setNewData(mPresenter.getInspectionSiteInfoData(null));
+            unSavedLogic();
             new AlertDialog.Builder(mContext).setMessage("您上次还有未提交的草稿,是否进入草稿？")
                     .setPositiveButton("是", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             if (!TextUtils.isEmpty(savedRecordBean.getTypeName())) {
-                                inspectQuestionName = savedRecordBean.getTypeName();
-                                inspectQuestionId = savedRecordBean.getTypeId();
+                                questionName = savedRecordBean.getTypeName();
+                                questionId = savedRecordBean.getTypeId();
                             }
+                            recordDetailBean.setInspectTime(savedRecordBean.getInspectTime());
+                            recordDetailBean.setInspectName(savedRecordBean.getInspectName());
+                            recordDetailBean.setUnitLiable(savedRecordBean.getUnitLiable());
+                            recordDetailBean.setLiablePhone(savedRecordBean.getLiablePhone());
                             adapter.setNewData(mPresenter.getSecurityInpsectData(savedRecordBean,false));
                         }
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {
@@ -58,15 +61,15 @@ public class StartSecurityInspectActivity extends BaseInspectionActivity {
         } else {
             unSavedLogic();
         }
-        unSavedLogic();
+
     }
 
     private void unSavedLogic() {
         if (getIntent() != null) {
             dataBean = getIntent().getParcelableExtra(PARCELABLE_KEY);
         }
-        recordDetailBean = new SecurityInspectRecordDetailBean.DataBean();
-        recordDetailBean.setInspectTime(CalendarUtil.getCurrentTime());
+
+        recordDetailBean.setInspectTime(CalendarUtil.getCurrentTime("yyyy-MM-dd HH:mm:ss"));
         recordDetailBean.setInspectName(UserInfoManager.getUserNickName());
         recordDetailBean.setUnitLiable(dataBean.getPersonLiable());
         recordDetailBean.setLiablePhone(dataBean.getLiablePhone());

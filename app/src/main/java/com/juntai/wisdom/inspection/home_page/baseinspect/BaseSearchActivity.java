@@ -27,7 +27,7 @@ import java.util.List;
  * @UpdateUser: 更新者
  * @UpdateDate: 2021/4/29 15:18
  */
-public abstract class BaseInspectionSearchActivity extends BaseAppActivity<BaseInspectPresent> implements BaseInspectContract.IInspectView, View.OnClickListener {
+public abstract class BaseSearchActivity extends BaseAppActivity<BaseInspectPresent> implements BaseInspectContract.IInspectView, View.OnClickListener {
     private SearchView mInspectSearchSv;
     /**
      * 盗窃

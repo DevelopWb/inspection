@@ -1,8 +1,12 @@
 package com.juntai.wisdom.inspection.home_page.securityInspect;
 
+import android.content.Intent;
+
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.AppHttpPath;
+import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordListBean;
+import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseRecordActivity;
 
 /**
@@ -30,6 +34,7 @@ public class SecurityInspectRecordsActivity extends BaseRecordActivity {
 
     @Override
     protected void onAdapterItemClick(BaseQuickAdapter adapter, int position) {
-
+        SecurityInspectRecordListBean.DataBean.DatasBean  datasBean = (SecurityInspectRecordListBean.DataBean.DatasBean) adapter.getData().get(position);
+   startActivity(new Intent(mContext,SecurityInspectRecordDetailActivity.class).putExtra(BaseInspectionActivity.BASEID,datasBean.getId()));
     }
 }

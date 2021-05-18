@@ -4,6 +4,7 @@ package com.juntai.wisdom.inspection;
 import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.wisdom.inspection.bean.IdNameBean;
 import com.juntai.wisdom.inspection.bean.importantor.AllImportantorBean;
+import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.AllInspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.UserBean;
@@ -104,7 +105,7 @@ public interface AppServer {
      * @param requestBody
      * @return
      */
-    @POST(AppHttpPath.SEARCH_UNIT_CHECK_STATUS)
+    @POST(AppHttpPath.SEARCH_UNIT_TO_CHECK)
     Observable<SearchedUnitsBean> searchUnitFromFireInspection(@Body RequestBody requestBody);
 
 
@@ -208,7 +209,7 @@ public interface AppServer {
      * @return
      */
     @POST(AppHttpPath.IMPORTANTOR_DETAIL)
-    Observable<InspectionSiteBean> getImportantorDetail(@Body RequestBody requestBody);
+    Observable<ImportantorBean> getImportantorDetail(@Body RequestBody requestBody);
 
     /**
      * 搜索所有的重点人员  待添加
@@ -262,6 +263,22 @@ public interface AppServer {
     Observable<IdNameBean> getImportantorStatus(@Body RequestBody requestBody);
 
 
+    /**
+     * 重点人员模块首页搜索
+     *
+     * @return
+     */
+    @POST(AppHttpPath.SEARCH_ALL_ADDED_IMPORTANTOR)
+    Observable<AllImportantorBean> getAllAddedImportantor(@Body RequestBody requestBody);
+
+
+    /**
+     * 走访问题及情况类型
+     *
+     * @return
+     */
+    @POST(AppHttpPath.VISIT_QUESTIONS)
+    Observable<IdNameBean> getVisitQuestions(@Body RequestBody requestBody);
 
 
 

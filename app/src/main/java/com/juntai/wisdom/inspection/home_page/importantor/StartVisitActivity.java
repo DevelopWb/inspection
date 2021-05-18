@@ -1,10 +1,24 @@
 package com.juntai.wisdom.inspection.home_page.importantor;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.TextView;
 
+import com.juntai.disabled.basecomponent.utils.ToastUtils;
+import com.juntai.disabled.federation.R;
+import com.juntai.wisdom.inspection.AppHttpPath;
+import com.juntai.wisdom.inspection.bean.BaseAdapterDataBean;
+import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
+import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordDetailBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
+import com.juntai.wisdom.inspection.utils.CalendarUtil;
+import com.juntai.wisdom.inspection.utils.HawkProperty;
+import com.orhanobut.hawk.Hawk;
+
+import okhttp3.MultipartBody;
 
 /**
  * @aouther tobato
@@ -13,28 +27,114 @@ import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity
  */
 public class StartVisitActivity extends BaseInspectionActivity {
 
-    @Override
-    public void initData() {
-        adapter.setNewData(mPresenter.getVisitData());
-    }
+    private ImportantorBean.DataBean dataBean;
+    private ImportantorVisitRecordDetailBean.DataBean recordDetailBean;
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    public void initData() {
+
+        ImportantorVisitRecordDetailBean.DataBean savedRecordBean = Hawk.get(HawkProperty.ADD_IMPORTANTOR_VISIT_RECORD_KEY);
+        if (savedRecordBean != null) {
+            unSavedLogic();
+            new AlertDialog.Builder(mContext).setMessage("您上次还有未提交的草稿,是否进入草稿？")
+                    .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            if (!TextUtils.isEmpty(savedRecordBean.getInspectionName())) {
+                                questionName = savedRecordBean.getInspectionName();
+                                questionId = savedRecordBean.getInspectionId();
+                            }
+                            adapter.setNewData(mPresenter.getVisitData(savedRecordBean,false));
+                        }
+                    }).setNegativeButton("否", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    unSavedLogic();
+                }
+            }).show();
+
+        } else {
+            unSavedLogic();
+        }
+    }
+
+    private void unSavedLogic() {
+        if (getIntent() != null) {
+            dataBean = getIntent().getParcelableExtra(PARCELABLE_KEY);
+        }
+        recordDetailBean = new ImportantorVisitRecordDetailBean.DataBean();
+        recordDetailBean.setCheckTime(CalendarUtil.getCurrentTime());
+        recordDetailBean.setLiable(dataBean.getPoliceName());
+        recordDetailBean.setNickname(dataBean.getNickname());
+        recordDetailBean.setLiablePhone(dataBean.getPhone());
+        adapter.setNewData(mPresenter.getVisitData(recordDetailBean,false));
     }
 
     @Override
     protected String getTitleName() {
-        return "重点人员走访";
+        return "开始走访";
     }
 
     @Override
     protected View getFootView() {
-        return null;
+        View view = LayoutInflater.from(mContext).inflate(R.layout.footview_save_commit, null);
+        TextView mCommitBusinessTv = view.findViewById(R.id.commit_form_tv);
+        TextView mSaveDraftTv = view.findViewById(R.id.save_draft_tv);
+        mCommitBusinessTv.setText("提交");
+        mCommitBusinessTv.setOnClickListener(this);
+        mSaveDraftTv.setOnClickListener(this);
+        return view;
     }
 
     @Override
     public void onSuccess(String tag, Object o) {
+        super.onSuccess(tag, o);
+        switch (tag) {
+            case AppHttpPath.ADD_INSPECTION_RECORD:
+                ToastUtils.toast(mContext, "提交成功");
+                finish();
+                break;
+            default:
+                break;
+        }
 
+    }
+
+    @Override
+    public void onClick(View v) {
+        super.onClick(v);
+        switch (v.getId()) {
+            case R.id.save_draft_tv:
+                //保存草稿
+                if (getBaseAdapterData(true) != null) {
+                    ImportantorVisitRecordDetailBean.DataBean dataBean =
+                            getBaseAdapterData(true).getVisitRecordDetailBean();
+                    dataBean.setCheckTime(recordDetailBean.getCheckTime());
+                    dataBean.setLiable(recordDetailBean.getLiable());
+                    dataBean.setNickname(recordDetailBean.getNickname());
+                    dataBean.setLiablePhone(recordDetailBean.getLiablePhone());
+                    Hawk.put(HawkProperty.ADD_IMPORTANTOR_VISIT_RECORD_KEY, dataBean);
+                    ToastUtils.toast(mContext, "草稿保存成功");
+                    finish();
+                }
+                break;
+            case R.id.commit_form_tv:
+                BaseAdapterDataBean baseAdapterDataBean = getBaseAdapterData(false);
+                if (baseAdapterDataBean == null) {
+                    return;
+                }
+                MultipartBody.Builder builder = getBaseAdapterData(false).getBuilder();
+//                builder.addFormDataPart("keyId", String.valueOf(dataBean.getId()))
+//                        .addFormDataPart("checkTime", recordDetailBean.getInspectTime())
+//                        .addFormDataPart("inspectName", recordDetailBean.getInspectName())
+//                        .addFormDataPart("unitLiable", recordDetailBean.getUnitLiable())
+//                        .addFormDataPart("liablePhone", recordDetailBean.getLiablePhone());
+
+                mPresenter.addInspectionRecord(builder.build(), AppHttpPath.ADD_INSPECTION_RECORD);
+
+                break;
+            default:
+                break;
+        }
     }
 }

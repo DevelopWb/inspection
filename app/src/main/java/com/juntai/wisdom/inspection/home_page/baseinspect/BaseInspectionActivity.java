@@ -1,8 +1,6 @@
 package com.juntai.wisdom.inspection.home_page.baseinspect;
 
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -27,6 +25,7 @@ import com.juntai.wisdom.inspection.bean.LocationBean;
 import com.juntai.wisdom.inspection.bean.MultipleItem;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
+import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordDetailBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordDetailBean;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
@@ -54,6 +53,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     private RecyclerView mRecyclerview;
     private SmartRefreshLayout mSmartrefreshlayout;
     public static String PARCELABLE_KEY = "parcelable";
+    public static String BASEID = "baseid";
     public final static String ADD_UNIT = "添加单位";
     public final static String ADD_INSPECTION_SITE = "添加治安巡检点";
     public final static String ADD_IMPORTANTOR = "添加重点人员";
@@ -70,8 +70,8 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     public int importantorStatusId = 0;//人员状态
     public String importantorStatusName;//人员状态
     public int unitTypeId = 0;//单位类型id
-    public int inspectQuestionId = 0;//巡检问题id
-    public String inspectQuestionName ;//巡检问题
+    public int questionId = 0;//问题id
+    public String questionName;//问题
     public String unitTypeName;//单位类型id
 
     public  boolean  idDetail = false;
@@ -194,6 +194,9 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 break;
                             case BaseInspectContract.INSPECTION_CHECK_PROBLEMS:
                                 mPresenter.getInspectQuestions(getBaseBuilder().build(), AppHttpPath.SECURITY_INSPECT_QUESTION);
+                                break;
+                            case BaseInspectContract.INSPECTION_VISIT_PROBLEMS:
+                                mPresenter.getVisitQuestions(getBaseBuilder().build(), AppHttpPath.VISIT_QUESTIONS);
                                 break;
                             case BaseInspectContract.INSPECTION_PERSONAL_STATUS:
                                 mPresenter.getImportantorStatus(getBaseBuilder().build(),
@@ -365,6 +368,8 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         InspectionSiteBean.DataBean inspectionSiteBean = new InspectionSiteBean.DataBean();
         ImportantorBean.DataBean importantorBean = new ImportantorBean.DataBean();
         SecurityInspectRecordDetailBean.DataBean recordDetailBean = new SecurityInspectRecordDetailBean.DataBean();
+        ImportantorVisitRecordDetailBean.DataBean visitRecordDetailBean =
+                new ImportantorVisitRecordDetailBean.DataBean();
         MultipartBody.Builder builder = mPresenter.getPublishMultipartBody();
         List<MultipleItem> arrays = adapter.getData();
         for (MultipleItem array : arrays) {
@@ -472,6 +477,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             inspectionSiteBean.setRemarks(value);
                             importantorBean.setRemarks(value);
                             recordDetailBean.setRemarks(value);
+                            visitRecordDetailBean.setRemarks(value);
                             break;
                         case BaseInspectContract.INSPECTION_SITE:
                             //巡检点
@@ -551,7 +557,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
                             if (!TextUtils.isEmpty(selectBeanValue)) {
                                 builder.addFormDataPart("gender", "男".equals(selectBeanValue) ? "1" : "2");
-                                importantorBean.setSexName(selectBeanValue);
+                                importantorBean.setGender( "男".equals(selectBeanValue) ? 1 : 2);
                             }
 
                             break;
@@ -566,9 +572,14 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             importantorBean.setKeyStatus(importantorStatusId);
                             break;
                         case BaseInspectContract.INSPECTION_CHECK_PROBLEMS:
-                            builder.addFormDataPart("typeId", String.valueOf(inspectQuestionId));
-                            recordDetailBean.setTypeId(inspectQuestionId);
-                            recordDetailBean.setTypeName(inspectQuestionName);
+                            builder.addFormDataPart("typeId", String.valueOf(questionId));
+                            recordDetailBean.setTypeId(questionId);
+                            recordDetailBean.setTypeName(questionName);
+                            break;
+                        case BaseInspectContract.INSPECTION_VISIT_PROBLEMS:
+                            builder.addFormDataPart("inspectionId", String.valueOf(questionId));
+                            visitRecordDetailBean.setInspectionId(questionId);
+                            visitRecordDetailBean.setInspectionName(questionName);
                             break;
                         case BaseInspectContract.INSPECTION_VISIT_TIMES:
                             //走访频率
@@ -617,11 +628,12 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         String picPah = photos.get(i);
                         switch (i) {
                             case 0:
-                                if ("开始巡检".equals(getTitleName())) {
+                                if ("开始巡检".equals(getTitleName())||"开始走访".equals(getTitleName())) {
                                     builder.addFormDataPart("pictureOne", "pictureOne",
                                             RequestBody.create(MediaType.parse("file"),
                                                     new File(picPah)));
                                     recordDetailBean.setPhotoOne(picPah);
+                                    visitRecordDetailBean.setPhotoOne(picPah);
                                 }else {
                                     builder.addFormDataPart("cover", "cover",
                                             RequestBody.create(MediaType.parse("file"),
@@ -637,6 +649,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 unitDataBean.setPhotoTwo(picPah);
                                 inspectionSiteBean.setPhotoTwo(picPah);
                                 recordDetailBean.setPhotoTwo(picPah);
+                                visitRecordDetailBean.setPhotoTwo(picPah);
                                 break;
                             case 2:
                                 builder.addFormDataPart("pictureThree", "pictureThree",
@@ -645,6 +658,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 unitDataBean.setPhotoThree(picPah);
                                 inspectionSiteBean.setPhotoThree(picPah);
                                 recordDetailBean.setPhotoThree(picPah);
+                                visitRecordDetailBean.setPhotoThree(picPah);
                                 break;
                             case 3:
                                 builder.addFormDataPart("pictureFour", "pictureFour",
@@ -653,6 +667,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 unitDataBean.setPhotoFour(picPah);
                                 inspectionSiteBean.setPhotoFour(picPah);
                                 recordDetailBean.setPhotoFour(picPah);
+                                visitRecordDetailBean.setPhotoFour(picPah);
                                 break;
                             case 4:
                                 builder.addFormDataPart("pictureFive", "pictureFive",
@@ -661,6 +676,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 unitDataBean.setPhotoFive(picPah);
                                 inspectionSiteBean.setPhotoFive(picPah);
                                 recordDetailBean.setPhotoFive(picPah);
+                                visitRecordDetailBean.setPhotoFive(picPah);
                                 break;
                             case 5:
                                 builder.addFormDataPart("pictureSix", "pictureSix",
@@ -669,6 +685,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 unitDataBean.setPhotoSix(picPah);
                                 inspectionSiteBean.setPhotoSix(picPah);
                                 recordDetailBean.setPhotoSix(picPah);
+                                visitRecordDetailBean.setPhotoSix(picPah);
                                 break;
                             default:
                                 break;
@@ -684,13 +701,14 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         bean.setInspectionSiteBean(inspectionSiteBean);
         bean.setImportantorBean(importantorBean);
         bean.setRecordDetailBean(recordDetailBean);
+        bean.setVisitRecordDetailBean(visitRecordDetailBean);
         return bean;
     }
 
     @Override
     public void onSuccess(String tag, Object o) {
         if (AppHttpPath.UNIT_TYPE.equals(tag) || AppHttpPath.SECURITY_INSPECT_QUESTION.equals(tag)
-                || AppHttpPath.IMPORTANTOR_STATUS.equals(tag)) {
+                || AppHttpPath.IMPORTANTOR_STATUS.equals(tag) || AppHttpPath.VISIT_QUESTIONS.equals(tag)) {
             IdNameBean idNameBean = (IdNameBean) o;
             if (idNameBean != null) {
                 List<IdNameBean.DataBean> arrays = idNameBean.getData();
@@ -708,8 +726,12 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                             unitTypeName = dataBean.getName();
                                             break;
                                         case AppHttpPath.SECURITY_INSPECT_QUESTION:
-                                            inspectQuestionId = dataBean.getId();
-                                            inspectQuestionName = dataBean.getName();
+                                            questionId = dataBean.getId();
+                                            questionName = dataBean.getName();
+                                            break;
+                                        case AppHttpPath.VISIT_QUESTIONS:
+                                            questionId = dataBean.getId();
+                                            questionName = dataBean.getName();
                                             break;
                                         case AppHttpPath.IMPORTANTOR_STATUS:
                                             importantorStatusId = dataBean.getId();

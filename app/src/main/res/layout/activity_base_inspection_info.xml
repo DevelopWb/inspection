@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="10dp"
-        app:layout_constraintBottom_toTopOf="@+id/start_work_tv"
         android:scrollbars="none"
+        app:layout_constraintBottom_toTopOf="@+id/start_work_tv"
         app:layout_constraintTop_toTopOf="parent">
 
         <LinearLayout
@@ -44,26 +44,50 @@
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="15dp"
                     android:layout_marginRight="15dp"
-                    android:layout_marginTop="10dp"
-                    android:background="@drawable/bg_white_only_bottom_gray_shape_1px">
+                    android:background="@drawable/bg_white_only_bottom_gray_shape_1px"
+                    android:outlineSpotShadowColor="@color/black"
+                    android:paddingTop="10dp"
+                    android:paddingBottom="5dp">
 
-                    <ImageView
-                        android:id="@+id/qr_code_iv"
-                        android:layout_width="65dp"
-                        android:background="@color/gray"
-                        android:layout_height="65dp"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        app:layout_constraintTop_toTopOf="parent"></ImageView>
-
-                    <TextView
+                    <android.support.v7.widget.CardView
+                        android:id="@+id/qr_code_cv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="5dp"
+                        android:layout_marginLeft="10dp"
+
+                        app:cardElevation="2dp"
+                        app:cardUseCompatPadding="true"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintTop_toTopOf="parent">
+
+                        <ImageView
+                            android:id="@+id/qr_code_iv"
+                            android:layout_width="80dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            android:layout_height="80dp"
+                            android:background="@color/gray"
+                            android:scaleType="fitXY"></ImageView>
+                    </android.support.v7.widget.CardView>
+
+
+                    <TextView
+                        android:id="@+id/qrcode_notice_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:paddingLeft="15dp"
+                        android:layout_marginBottom="5dp"
                         android:text="二维码点击放大\n长按保存"
                         android:textColor="@color/orange"
-                        app:layout_constraintBottom_toBottomOf="@+id/qr_code_iv"
-                        app:layout_constraintLeft_toRightOf="@+id/qr_code_iv"
-                        app:layout_constraintTop_toTopOf="@+id/qr_code_iv"></TextView>
+                        app:layout_constraintBottom_toBottomOf="@+id/qr_code_cv"
+                        app:layout_constraintLeft_toRightOf="@+id/qr_code_cv"></TextView>
+
+                    <android.support.constraint.Group
+                        android:id="@+id/no_qr_code_gp"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:visibility="visible"
+                        app:constraint_referenced_ids="qrcode_notice_tv,qr_code_cv"></android.support.constraint.Group>
 
                     <TextView
                         android:id="@+id/navigation_tv"
@@ -77,20 +101,20 @@
                         android:paddingBottom="3dp"
                         android:text="导航"
                         android:textColor="@color/white"
-                        app:layout_constraintBottom_toBottomOf="@+id/qr_code_iv"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintRight_toRightOf="parent"
-                        app:layout_constraintTop_toTopOf="@+id/qr_code_iv" />
+                        app:layout_constraintTop_toTopOf="parent" />
 
                     <TextView
                         android:id="@+id/see_more_info_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:paddingTop="10dp"
+                        android:layout_marginTop="10dp"
                         android:paddingBottom="10dp"
                         android:text="点击查看更多信息>>"
                         android:textColor="@color/colorAccent"
-                        app:layout_constraintLeft_toLeftOf="@+id/qr_code_iv"
-                        app:layout_constraintTop_toBottomOf="@+id/qr_code_iv"></TextView>
+                        app:layout_constraintLeft_toLeftOf="@+id/qr_code_cv"
+                        app:layout_constraintTop_toBottomOf="@+id/qr_code_cv"></TextView>
                 </android.support.constraint.ConstraintLayout>
 
                 <RelativeLayout

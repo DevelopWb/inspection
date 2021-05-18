@@ -31,7 +31,9 @@ import com.juntai.wisdom.inspection.bean.ItemFragmentBean;
 import com.juntai.wisdom.inspection.bean.LocationBean;
 import com.juntai.wisdom.inspection.bean.MultipleItem;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
+import com.juntai.wisdom.inspection.utils.AppUtils;
 import com.juntai.wisdom.inspection.utils.StringTools;
+import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
 
 import java.util.List;
 
@@ -85,7 +87,15 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 ImageView headIv = helper.getView(R.id.form_head_pic_iv);
                 String headPicPath = headPicBean.getPicPath();
                 if (!TextUtils.isEmpty(headPicPath)) {
-                    ImageLoadUtil.loadImageNoCache(mContext, headPicPath, headIv);
+                    if (headPicPath.contains(AppUtils.getAppName())) {
+                        //本地照片
+                        ImageLoadUtil.loadImageNoCache(mContext, headPicPath, headIv);
+                    }else {
+                    //网络照片
+                        ImageLoadUtil.loadImageNoCache(mContext, UrlFormatUtil.getImageOriginalUrl(headPicPath),
+                                headIv,R.mipmap.default_user_head_icon);
+                    }
+
                 } else {
                     ImageLoadUtil.loadImage(mContext, R.mipmap.two_inch_pic, headIv);
                 }

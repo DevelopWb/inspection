@@ -1,6 +1,7 @@
 package com.juntai.wisdom.inspection.home_page.baseinspect;
 
 import android.content.Intent;
+import android.support.constraint.Group;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.base.BaseAppActivity;
 import com.juntai.wisdom.inspection.bean.ActionBean;
+import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.home_page.importantor.StartVisitActivity;
 import com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectRecordsActivity;
@@ -74,6 +76,8 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
         mQrCodeIv = (ImageView) findViewById(R.id.qr_code_iv);
         mQrCodeIv.setOnClickListener(this);
         mNavigationTv = (TextView) findViewById(R.id.navigation_tv);
+        Group noQrcodeGp = (Group) findViewById(R.id.no_qr_code_gp);
+        noQrcodeGp.setVisibility("重点人员详情".equals(getTitleName())?View.GONE:View.VISIBLE);
         mNavigationTv.setOnClickListener(this);
         mSeeMoreInfoTv = (TextView) findViewById(R.id.see_more_info_tv);
         mSeeMoreInfoTv.setOnClickListener(this);
@@ -121,6 +125,7 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
                 break;
             case R.id.navigation_tv:
                 //导航
+                navigationLogic();
                 break;
             case R.id.see_more_info_tv:
                 //查看更多信息
@@ -136,7 +141,7 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
                         startActivity(new Intent(mContext, StartSecurityInspectActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY,((InspectionSiteBean.DataBean)getBaseBean())));
                         break;
                     case START_VISIT:
-                        startActivity(new Intent(mContext, StartVisitActivity.class));
+                        startActivity(new Intent(mContext, StartVisitActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY,((ImportantorBean.DataBean)getBaseBean())));
                         break;
                     default:
                         break;
@@ -145,6 +150,9 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
                 break;
         }
     }
+
+
+    protected abstract void navigationLogic();
 
     protected abstract void seeMoreInfo();
 

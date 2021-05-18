@@ -1,5 +1,6 @@
 package com.juntai.wisdom.inspection.home_page.firecheck;
 
+import com.baidu.mapapi.model.LatLng;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.bean.ActionBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectContract;
@@ -21,6 +22,14 @@ public class UnitInfoActivity extends BaseInspectionInfoActivity {
         return null;
     }
 
+    @Override
+    protected void navigationLogic() {
+//        if (dataBean != null) {
+//            navigationLogic(new LatLng(Double.parseDouble(dataBean.getLatitude()),
+//                    Double.parseDouble(dataBean.getLongitude())),dataBean.getAddress());
+//        }
+
+    }
     @Override
     protected List<ActionBean> getActionAdapterData() {
         List<ActionBean>  arrays = new ArrayList<>();

@@ -10,7 +10,7 @@ import java.util.List;
 
 /**
  * @Author: tobato
- * @Description: 作用描述
+ * @Description: 作用描述  重点人员详情
  * @CreateDate: 2021/5/12 16:48
  * @UpdateUser: 更新者
  * @UpdateDate: 2021/5/12 16:48
@@ -72,7 +72,6 @@ public class ImportantorBean extends BaseResult {
         private String nickname;//人员昵称或曾用名
 
         private int gender;//性别（1男；2女）
-        private String sexName;//性别（1男；2女）
 
         private String policeName;//管控警员
 
@@ -218,13 +217,6 @@ public class ImportantorBean extends BaseResult {
             this.typeName = typeName == null ? "" : typeName;
         }
 
-        public String getSexName() {
-            return sexName == null ? "" : sexName;
-        }
-
-        public void setSexName(String sexName) {
-            this.sexName = sexName == null ? "" : sexName;
-        }
 
         public int getKeyStatus() {
             return keyStatus;
@@ -342,7 +334,6 @@ public class ImportantorBean extends BaseResult {
             dest.writeString(this.name);
             dest.writeString(this.nickname);
             dest.writeInt(this.gender);
-            dest.writeString(this.sexName);
             dest.writeString(this.policeName);
             dest.writeString(this.personnelPhoto);
             dest.writeString(this.idNumber);
@@ -375,7 +366,6 @@ public class ImportantorBean extends BaseResult {
             this.name = in.readString();
             this.nickname = in.readString();
             this.gender = in.readInt();
-            this.sexName = in.readString();
             this.policeName = in.readString();
             this.personnelPhoto = in.readString();
             this.idNumber = in.readString();

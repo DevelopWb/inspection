@@ -2,13 +2,11 @@ package com.juntai.wisdom.inspection.home_page.firecheck;
 
 import android.support.v4.app.Fragment;
 import android.util.SparseArray;
-import android.view.View;
 
-import com.juntai.disabled.basecomponent.utils.PickerManager;
 import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.bean.IdNameBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectContract;
-import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionSearchActivity;
+import com.juntai.wisdom.inspection.home_page.baseinspect.BaseSearchActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,7 +17,7 @@ import java.util.List;
  *
  * @date 2021/4/29 16:58
  */
-public class FireInspectionActivity extends BaseInspectionSearchActivity implements BaseInspectContract.IInspectView {
+public class FireCheckActivity extends BaseSearchActivity implements BaseInspectContract.IInspectView {
 
     @Override
     protected String[] getTabTitles() {
