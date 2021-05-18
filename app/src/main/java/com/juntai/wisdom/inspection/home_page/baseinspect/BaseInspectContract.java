@@ -104,6 +104,8 @@ public interface BaseInspectContract {
         void getUnitType(RequestBody requestBody, String tag);
         void getInspectQuestions(RequestBody requestBody, String tag);
         void getVisitQuestions(RequestBody requestBody, String tag);
+        void getVisitRecordList(RequestBody requestBody, String tag);
+        void getVisitRecordDetail(RequestBody requestBody, String tag);
 
         void searchUnitFromFireInspection(RequestBody requestBody, String tag);
 
@@ -120,6 +122,7 @@ public interface BaseInspectContract {
         void searchAddImportantor(RequestBody requestBody, String tag);
 
         void manualAddImportantor(RequestBody requestBody, String tag);
+        void startVist(RequestBody requestBody, String tag);
 
         void getImportantorTypes(RequestBody requestBody, String tag);
 

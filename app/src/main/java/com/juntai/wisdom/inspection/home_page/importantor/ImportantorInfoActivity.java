@@ -46,7 +46,7 @@ public class ImportantorInfoActivity extends BaseInspectionInfoActivity {
     protected void navigationLogic() {
         if (dataBean != null) {
             navigationLogic(new LatLng(Double.parseDouble(dataBean.getLatitude()),
-                    Double.parseDouble(dataBean.getLongitude())),dataBean.getAddress());
+                    Double.parseDouble(dataBean.getLongitude())),dataBean.getGpsAddress());
         }
 
     }

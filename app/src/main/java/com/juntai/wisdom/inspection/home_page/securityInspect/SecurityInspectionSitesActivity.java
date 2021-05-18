@@ -6,6 +6,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.View;
 
+import com.baidu.mapapi.model.LatLng;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
@@ -104,6 +105,21 @@ public class SecurityInspectionSitesActivity extends BaseAppActivity<BaseInspect
                 InspectionSiteBean.DataBean dataBean = (InspectionSiteBean.DataBean) adapter.getData().get(position);
                 startActivity(new Intent(mContext, SecurityInspectionSiteInfoActivity.class).putExtra(BaseInspectionInfoActivity.BASE_ID,
                         dataBean.getId()));
+            }
+        });
+        adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+            @Override
+            public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
+                InspectionSiteBean.DataBean dataBean = (InspectionSiteBean.DataBean) adapter.getData().get(position);
+
+                switch (view.getId()) {
+                    case R.id.item_navigation_tv:
+                        navigationLogic(new LatLng(Double.parseDouble(dataBean.getLatitude()),
+                                Double.parseDouble(dataBean.getLongitude())),dataBean.getGpsAddress());
+                        break;
+                    default:
+                        break;
+                }
             }
         });
 

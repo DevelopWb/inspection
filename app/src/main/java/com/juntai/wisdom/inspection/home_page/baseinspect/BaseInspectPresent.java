@@ -18,6 +18,7 @@ import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
 import com.juntai.wisdom.inspection.bean.importantor.AllImportantorBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordDetailBean;
+import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordListBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.AllInspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordDetailBean;
@@ -270,7 +271,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 , true, 0);
 
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_TEL, bean == null ? "" :
-                bean.getPhone(), false, 0);
+                bean.getPhone(), true, 0);
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_OTHER_CONNECT_TYPE, bean == null
                 ? "" :
                 bean.getOtherPhone(), false, 0);
@@ -632,6 +633,27 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                     }
                 });
     }
+    @Override
+    public void startVist(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .startVist(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
 
     @Override
     public void getImportantorTypes(RequestBody requestBody, String tag) {
@@ -944,6 +966,48 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 .subscribe(new BaseObserver<IdNameBean>(getView()) {
                     @Override
                     public void onSuccess(IdNameBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void getVisitRecordList(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getVisitRecordList(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<ImportantorVisitRecordListBean>(getView()) {
+                    @Override
+                    public void onSuccess(ImportantorVisitRecordListBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void getVisitRecordDetail(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getVisitRecordDetail(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<ImportantorVisitRecordDetailBean>(getView()) {
+                    @Override
+                    public void onSuccess(ImportantorVisitRecordDetailBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

@@ -9,6 +9,7 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.base.BaseAppActivity;
+import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordListBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordListBean;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
@@ -113,6 +114,22 @@ public abstract class BaseRecordActivity extends BaseAppActivity<BaseInspectPres
                     }
                 }
 
+                break;
+
+            case AppHttpPath.VISIT_RECORD_LIST:
+                ImportantorVisitRecordListBean importantorVisitRecordListBean = (ImportantorVisitRecordListBean) o;
+                if (importantorVisitRecordListBean != null) {
+                    List<ImportantorVisitRecordListBean.DataBean.DatasBean> arrays =
+                            importantorVisitRecordListBean.getData().getDatas();
+                    if (currentPage == 1) {
+                        adapter.setNewData(arrays);
+                    } else {
+                        adapter.addData(arrays);
+                    }
+                    if (arrays != null && arrays.size() < pagesize) {
+                        mSmartrefreshlayout.finishLoadMoreWithNoMoreData();
+                    }
+                }
                 break;
             default:
                 break;

@@ -9,14 +9,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.base.BaseAppActivity;
 import com.juntai.wisdom.inspection.bean.ActionBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.home_page.importantor.StartVisitActivity;
-import com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectRecordsActivity;
+import com.juntai.wisdom.inspection.home_page.importantor.VisitRecordListActivity;
+import com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectRecordListActivity;
 import com.juntai.wisdom.inspection.home_page.securityInspect.StartSecurityInspectActivity;
 
 import java.util.List;
@@ -95,7 +95,25 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
                 switch (actionBean.getActionName()) {
                     case BaseInspectContract.INSPECTION_SECURITY_RECORD:
                         //治安巡检记录
-                        startActivity(new Intent(mContext, SecurityInspectRecordsActivity.class).putExtra(BaseRecordActivity.ID,((InspectionSiteBean.DataBean)getBaseBean()).getId()));
+                        startActivity(new Intent(mContext, SecurityInspectRecordListActivity.class).putExtra(BaseRecordActivity.ID,((InspectionSiteBean.DataBean)getBaseBean()).getId()));
+                        break;
+                    case BaseInspectContract.INSPECTION_VISIT_RECORD:
+                        //走访记录
+                        startActivity(new Intent(mContext, VisitRecordListActivity.class).putExtra(BaseRecordActivity.ID,((ImportantorBean.DataBean)getBaseBean()).getId()));
+                        break;
+                    case BaseInspectContract.INSPECTION_CHECK_RECORD:
+                        // TODO: 2021/5/18 单位详情里面的检查记录
+                        break;
+                    case BaseInspectContract.INSPECTION_RESPONSIBILITY:
+                        // TODO: 2021/5/18  单位详情里面的责任书
+                        break;
+                    case BaseInspectContract.INSPECTION_RECTIFY_NOTICE:
+                        // TODO: 2021/5/18  单位详情里面的整改通知书
+
+                        break;
+                    case BaseInspectContract.INSPECTION_WORKER:
+                        // TODO: 2021/5/18  单位详情里面的从业人员
+
                         break;
                     default:
                         break;
@@ -122,6 +140,7 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
                 break;
             case R.id.qr_code_iv:
                 //二维码
+                // TODO: 2021/5/18 信息详情中的二维码点击时间   长按也没做
                 break;
             case R.id.navigation_tv:
                 //导航
@@ -134,7 +153,7 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
             case R.id.start_work_tv:
                 switch (getStartWorkName()) {
                     case START_CHECK:
-
+                        // TODO: 2021/5/18 单位详情中的开始检查
                         break;
                     case START_INSPECT:
                         //开始巡检

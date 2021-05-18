@@ -46,7 +46,7 @@
                     android:layout_marginRight="15dp"
                     android:background="@drawable/bg_white_only_bottom_gray_shape_1px"
                     android:outlineSpotShadowColor="@color/black"
-                    android:paddingTop="10dp"
+                    android:paddingTop="5dp"
                     android:paddingBottom="5dp">
 
                     <android.support.v7.widget.CardView
@@ -54,7 +54,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="10dp"
-
                         app:cardElevation="2dp"
                         app:cardUseCompatPadding="true"
                         app:layout_constraintLeft_toLeftOf="parent"
@@ -110,10 +109,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="10dp"
+                        android:layout_marginLeft="10dp"
                         android:paddingBottom="10dp"
                         android:text="点击查看更多信息>>"
                         android:textColor="@color/colorAccent"
-                        app:layout_constraintLeft_toLeftOf="@+id/qr_code_cv"
+                        app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintTop_toBottomOf="@+id/qr_code_cv"></TextView>
                 </android.support.constraint.ConstraintLayout>
 
@@ -124,6 +124,8 @@
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/actions_rv"
+                        android:paddingTop="10dp"
+                        android:paddingBottom="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>
                 </RelativeLayout>

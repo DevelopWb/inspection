@@ -14,7 +14,7 @@ import com.juntai.wisdom.inspection.home_page.baseinspect.BaseRecordActivity;
  * @description 描述  治安巡检记录
  * @date 2021/4/23 16:14
  */
-public class SecurityInspectRecordsActivity extends BaseRecordActivity {
+public class SecurityInspectRecordListActivity extends BaseRecordActivity {
 
     @Override
     protected String getTitleName() {
@@ -23,18 +23,20 @@ public class SecurityInspectRecordsActivity extends BaseRecordActivity {
 
     @Override
     protected void requestHisData() {
-        mPresenter.getSecurityInspectRecords(getBaseBuilder().add("securityId",String.valueOf(id)).add("pageSize",
-                String.valueOf(pagesize)).add("currentPage",String.valueOf(currentPage)).build(), AppHttpPath.SECURITY_INSPECT_RECORDS);
+        mPresenter.getSecurityInspectRecords(getBaseBuilder().add("securityId", String.valueOf(id)).add("pageSize",
+                String.valueOf(pagesize)).add("currentPage", String.valueOf(currentPage)).build(),
+                AppHttpPath.SECURITY_INSPECT_RECORDS);
     }
 
     @Override
     protected BaseQuickAdapter getAdapter() {
-        return new SecurityInspectRecordAdapter(R.layout.item_record);
+        return new SecurityInspectRecordListAdapter(R.layout.item_record);
     }
 
     @Override
     protected void onAdapterItemClick(BaseQuickAdapter adapter, int position) {
-        SecurityInspectRecordListBean.DataBean.DatasBean  datasBean = (SecurityInspectRecordListBean.DataBean.DatasBean) adapter.getData().get(position);
-   startActivity(new Intent(mContext,SecurityInspectRecordDetailActivity.class).putExtra(BaseInspectionActivity.BASEID,datasBean.getId()));
+        SecurityInspectRecordListBean.DataBean.DatasBean datasBean =
+                (SecurityInspectRecordListBean.DataBean.DatasBean) adapter.getData().get(position);
+        startActivity(new Intent(mContext, SecurityInspectRecordDetailActivity.class).putExtra(BaseInspectionActivity.BASEID, datasBean.getId()));
     }
 }

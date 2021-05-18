@@ -30,7 +30,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.ImportantorInfoMoreActivity"></activity>
+        <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.VisitRecordListActivity"></activity>
+        <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.ImportantorInfoMoreActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.baseinspect.HeadCropActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.add.importantor.ManualAddImportantorActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.add.importantor.SearchAddImportantorActivity" />
@@ -45,7 +46,8 @@
         <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.FireCheckActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.ImportantorsActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectRecordDetailActivity" />
-        <activity android:name="com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectRecordsActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.ImportantorVistRecordDetailActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectRecordListActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.securityInspect.StartSecurityInspectActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.securityInspect.EditSecurityInspectSiteActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectionSiteMoreInfoActivity" />

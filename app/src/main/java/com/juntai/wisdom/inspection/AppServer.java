@@ -5,6 +5,8 @@ import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.wisdom.inspection.bean.IdNameBean;
 import com.juntai.wisdom.inspection.bean.importantor.AllImportantorBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
+import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordDetailBean;
+import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordListBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.AllInspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.UserBean;
@@ -281,6 +283,29 @@ public interface AppServer {
     Observable<IdNameBean> getVisitQuestions(@Body RequestBody requestBody);
 
 
+
+    /**
+     *
+     * @return
+     */
+    @POST(AppHttpPath.VISIT_RECORD_LIST)
+    Observable<ImportantorVisitRecordListBean> getVisitRecordList(@Body RequestBody requestBody);
+
+    /**
+     *
+     * @return
+     */
+    @POST(AppHttpPath.VISIT_RECORD_DETAIL)
+    Observable<ImportantorVisitRecordDetailBean> getVisitRecordDetail(@Body RequestBody requestBody);
+
+
+    /**
+     * 开始走访
+     *
+     * @return
+     */
+    @POST(AppHttpPath.START_VISIT)
+    Observable<BaseResult> startVist(@Body RequestBody requestBody);
 
 
 

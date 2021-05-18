@@ -32,8 +32,9 @@ public class StartVisitActivity extends BaseInspectionActivity {
 
     @Override
     public void initData() {
-
-        ImportantorVisitRecordDetailBean.DataBean savedRecordBean = Hawk.get(HawkProperty.ADD_IMPORTANTOR_VISIT_RECORD_KEY);
+        recordDetailBean = new ImportantorVisitRecordDetailBean.DataBean();
+        ImportantorVisitRecordDetailBean.DataBean savedRecordBean =
+                Hawk.get(HawkProperty.ADD_IMPORTANTOR_VISIT_RECORD_KEY);
         if (savedRecordBean != null) {
             unSavedLogic();
             new AlertDialog.Builder(mContext).setMessage("您上次还有未提交的草稿,是否进入草稿？")
@@ -44,7 +45,11 @@ public class StartVisitActivity extends BaseInspectionActivity {
                                 questionName = savedRecordBean.getInspectionName();
                                 questionId = savedRecordBean.getInspectionId();
                             }
-                            adapter.setNewData(mPresenter.getVisitData(savedRecordBean,false));
+                            recordDetailBean.setCheckTime(savedRecordBean.getCheckTime());
+                            recordDetailBean.setLiable(savedRecordBean.getLiable());
+                            recordDetailBean.setNickname(savedRecordBean.getNickname());
+                            recordDetailBean.setLiablePhone(savedRecordBean.getLiablePhone());
+                            adapter.setNewData(mPresenter.getVisitData(savedRecordBean, false));
                         }
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {
                 @Override
@@ -62,12 +67,15 @@ public class StartVisitActivity extends BaseInspectionActivity {
         if (getIntent() != null) {
             dataBean = getIntent().getParcelableExtra(PARCELABLE_KEY);
         }
-        recordDetailBean = new ImportantorVisitRecordDetailBean.DataBean();
-        recordDetailBean.setCheckTime(CalendarUtil.getCurrentTime());
-        recordDetailBean.setLiable(dataBean.getPoliceName());
-        recordDetailBean.setNickname(dataBean.getNickname());
+        //走访时间
+        recordDetailBean.setCheckTime(CalendarUtil.getCurrentTime("yyyy-MM-dd HH:mm:ss"));
+        //重点人员
+        recordDetailBean.setLiable(dataBean.getName());
+        //管控民警
+        recordDetailBean.setNickname(dataBean.getPoliceName());
+        //重点人员手机号
         recordDetailBean.setLiablePhone(dataBean.getPhone());
-        adapter.setNewData(mPresenter.getVisitData(recordDetailBean,false));
+        adapter.setNewData(mPresenter.getVisitData(recordDetailBean, false));
     }
 
     @Override
@@ -90,7 +98,7 @@ public class StartVisitActivity extends BaseInspectionActivity {
     public void onSuccess(String tag, Object o) {
         super.onSuccess(tag, o);
         switch (tag) {
-            case AppHttpPath.ADD_INSPECTION_RECORD:
+            case AppHttpPath.START_VISIT:
                 ToastUtils.toast(mContext, "提交成功");
                 finish();
                 break;
@@ -124,13 +132,13 @@ public class StartVisitActivity extends BaseInspectionActivity {
                     return;
                 }
                 MultipartBody.Builder builder = getBaseAdapterData(false).getBuilder();
-//                builder.addFormDataPart("keyId", String.valueOf(dataBean.getId()))
-//                        .addFormDataPart("checkTime", recordDetailBean.getInspectTime())
-//                        .addFormDataPart("inspectName", recordDetailBean.getInspectName())
-//                        .addFormDataPart("unitLiable", recordDetailBean.getUnitLiable())
-//                        .addFormDataPart("liablePhone", recordDetailBean.getLiablePhone());
+                builder.addFormDataPart("keyId", String.valueOf(dataBean.getId()))
+                        .addFormDataPart("checkTime", recordDetailBean.getCheckTime())
+                        .addFormDataPart("liable", recordDetailBean.getLiable())
+                        .addFormDataPart("inspectionId", String.valueOf(questionId))
+                        .addFormDataPart("liablePhone", recordDetailBean.getLiablePhone());
 
-                mPresenter.addInspectionRecord(builder.build(), AppHttpPath.ADD_INSPECTION_RECORD);
+                mPresenter.startVist(builder.build(), AppHttpPath.START_VISIT);
 
                 break;
             default:

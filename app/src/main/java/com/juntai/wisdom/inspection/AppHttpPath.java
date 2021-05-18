@@ -162,4 +162,26 @@ public class AppHttpPath {
      */
     public static final String VISIT_QUESTIONS = BASE + "/u/appKeyPersonnel/selectKeyPersonnelInspection.shtml";
 
+
+    /**
+     * 走访记录列表
+     */
+    public static final String VISIT_RECORD_LIST = BASE + "/u/appKeyPersonnel/selectKeyPersonnelRecordList.shtml";
+
+
+    /**
+     * 走访记录详情
+     */
+    public static final String VISIT_RECORD_DETAIL = BASE + "/u/appKeyPersonnel/selectKeyPersonnelRecordInfo.shtml";
+
+
+
+    /**
+     * 开始走访
+     */
+    public static final String START_VISIT = BASE + "/u/appKeyPersonnel/insertKeyPersonnelVisitRecord.shtml";
+
+
+
+
 }

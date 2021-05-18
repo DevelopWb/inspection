@@ -67,7 +67,7 @@ public class ImportantorsFragment extends BaseRecyclerviewFragment<BaseInspectPr
                             return;
                         }
                         getBaseAppActivity().navigationLogic(new LatLng(Double.parseDouble(lat),
-                                Double.parseDouble(lng)), datasBean.getAddress());
+                                Double.parseDouble(lng)), datasBean.getGpsAddress());
                         break;
                     default:
                         break;
