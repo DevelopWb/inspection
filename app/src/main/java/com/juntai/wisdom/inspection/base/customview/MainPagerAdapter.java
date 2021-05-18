@@ -53,7 +53,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
      * @return
      */
     public View getTabView(int position,boolean isMsg) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.custom_tabitem, null);
+        View v = LayoutInflater.from(mContext.getApplicationContext()).inflate(R.layout.custom_tabitem, null);
         ImageView img = v.findViewById(R.id.tabitem_image);
         img.setImageResource(images[position]);
         TextView title = v.findViewById(R.id.tabitem_text);
@@ -69,7 +69,7 @@ public class MainPagerAdapter extends FragmentPagerAdapter {
      * @return
      */
     public View getTabView(int position) {
-        View v = LayoutInflater.from(mContext).inflate(R.layout.custom_top_tabitem, null);
+        View v = LayoutInflater.from(mContext.getApplicationContext()).inflate(R.layout.custom_top_tabitem, null);
         TextView title = v.findViewById(R.id.tabitem_text);
         title.setText(titles[position]);
         return v;

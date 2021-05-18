@@ -76,7 +76,7 @@ public abstract class BaseCommitFootViewActivity extends BaseInspectionActivity 
 
     @Override
     protected View getFootView() {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.footview_save_commit, null);
+        View view = LayoutInflater.from(mContext.getApplicationContext()).inflate(R.layout.footview_save_commit, null);
         TextView mCommitBusinessTv = view.findViewById(R.id.commit_form_tv);
         mCommitBusinessTv.setText(getCommitTextValue());
         mCommitBusinessTv.setOnClickListener(this);

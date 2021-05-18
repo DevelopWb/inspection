@@ -28,15 +28,15 @@ import okhttp3.MultipartBody;
  */
 public class StartSecurityInspectActivity extends BaseInspectionActivity {
 
-    private InspectionSiteBean.DataBean dataBean;
+    private InspectionSiteBean.DataBean siteDataBean;
     private SecurityInspectRecordDetailBean.DataBean recordDetailBean;
 
     @Override
     public void initData() {
-        recordDetailBean = new SecurityInspectRecordDetailBean.DataBean();
-        SecurityInspectRecordDetailBean.DataBean savedRecordBean = Hawk.get(HawkProperty.ADD_INSPECRTION_RECORD_KEY);
+        unSavedLogic();
+        SecurityInspectRecordDetailBean.DataBean savedRecordBean =
+                Hawk.get(HawkProperty.ADD_INSPECRTION_RECORD_KEY+ siteDataBean.getId());
         if (savedRecordBean != null) {
-            unSavedLogic();
             new AlertDialog.Builder(mContext).setMessage("您上次还有未提交的草稿,是否进入草稿？")
                     .setPositiveButton("是", new DialogInterface.OnClickListener() {
                         @Override
@@ -54,25 +54,21 @@ public class StartSecurityInspectActivity extends BaseInspectionActivity {
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    unSavedLogic();
                 }
             }).show();
-
-        } else {
-            unSavedLogic();
         }
 
     }
 
     private void unSavedLogic() {
         if (getIntent() != null) {
-            dataBean = getIntent().getParcelableExtra(PARCELABLE_KEY);
+            siteDataBean = getIntent().getParcelableExtra(PARCELABLE_KEY);
         }
-
+        recordDetailBean = new SecurityInspectRecordDetailBean.DataBean();
         recordDetailBean.setInspectTime(CalendarUtil.getCurrentTime("yyyy-MM-dd HH:mm:ss"));
         recordDetailBean.setInspectName(UserInfoManager.getUserNickName());
-        recordDetailBean.setUnitLiable(dataBean.getPersonLiable());
-        recordDetailBean.setLiablePhone(dataBean.getLiablePhone());
+        recordDetailBean.setUnitLiable(siteDataBean.getPersonLiable());
+        recordDetailBean.setLiablePhone(siteDataBean.getLiablePhone());
         adapter.setNewData(mPresenter.getSecurityInpsectData(recordDetailBean,false));
     }
 
@@ -83,7 +79,7 @@ public class StartSecurityInspectActivity extends BaseInspectionActivity {
 
     @Override
     protected View getFootView() {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.footview_save_commit, null);
+        View view = LayoutInflater.from(mContext.getApplicationContext()).inflate(R.layout.footview_save_commit, null);
         TextView mCommitBusinessTv = view.findViewById(R.id.commit_form_tv);
         TextView mSaveDraftTv = view.findViewById(R.id.save_draft_tv);
         mCommitBusinessTv.setText("提交");
@@ -97,6 +93,7 @@ public class StartSecurityInspectActivity extends BaseInspectionActivity {
         super.onSuccess(tag, o);
         switch (tag) {
             case AppHttpPath.ADD_INSPECTION_RECORD:
+                Hawk.delete(HawkProperty.ADD_INSPECRTION_RECORD_KEY+ siteDataBean.getId());
                 ToastUtils.toast(mContext, "提交成功");
                 finish();
                 break;
@@ -119,7 +116,7 @@ public class StartSecurityInspectActivity extends BaseInspectionActivity {
                     dataBean.setInspectName(recordDetailBean.getInspectName());
                     dataBean.setUnitLiable(recordDetailBean.getUnitLiable());
                     dataBean.setLiablePhone(recordDetailBean.getLiablePhone());
-                    Hawk.put(HawkProperty.ADD_INSPECRTION_RECORD_KEY, dataBean);
+                    Hawk.put(HawkProperty.ADD_INSPECRTION_RECORD_KEY+siteDataBean.getId(), dataBean);
                     ToastUtils.toast(mContext, "草稿保存成功");
                     finish();
                 }
@@ -130,7 +127,7 @@ public class StartSecurityInspectActivity extends BaseInspectionActivity {
                     return;
                 }
                 MultipartBody.Builder builder = getBaseAdapterData(false).getBuilder();
-                builder.addFormDataPart("securityId", String.valueOf(dataBean.getId()))
+                builder.addFormDataPart("securityId", String.valueOf(siteDataBean.getId()))
                         .addFormDataPart("inspectTime", recordDetailBean.getInspectTime())
                         .addFormDataPart("inspectName", recordDetailBean.getInspectName())
                         .addFormDataPart("unitLiable", recordDetailBean.getUnitLiable())

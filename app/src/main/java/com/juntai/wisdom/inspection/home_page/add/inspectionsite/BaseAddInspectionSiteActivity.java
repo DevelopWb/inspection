@@ -42,9 +42,9 @@ public abstract class BaseAddInspectionSiteActivity extends BaseCommitFootViewAc
 
     @Override
     public void initData() {
-        savedSiteBean = Hawk.get(HawkProperty.ADD_INSPECRTION_SITE_KEY);
+        unSavedLogic();
+        savedSiteBean = Hawk.get(getHawkKey());
         if (savedSiteBean != null) {
-            adapter.setNewData(mPresenter.getInspectionSiteInfoData(null));
             new AlertDialog.Builder(mContext).setMessage("您上次还有未提交的草稿,是否进入草稿？")
                     .setPositiveButton("是", new DialogInterface.OnClickListener() {
                         @Override
@@ -58,17 +58,17 @@ public abstract class BaseAddInspectionSiteActivity extends BaseCommitFootViewAc
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     startLocation();
-                    unSavedLogic();
                 }
             }).show();
-
-        } else {
-            unSavedLogic();
 
         }
 
     }
-
+    /**
+     * 获取key
+     * @return
+     */
+    protected abstract String getHawkKey();
     /**
      * 未保存草稿的逻辑
      */
@@ -130,7 +130,7 @@ public abstract class BaseAddInspectionSiteActivity extends BaseCommitFootViewAc
     @Override
     protected void saveDraft() {
         if (getBaseAdapterData(true) != null) {
-            Hawk.put(HawkProperty.ADD_INSPECRTION_SITE_KEY, getBaseAdapterData(true).getInspectionSiteBean());
+            Hawk.put(getHawkKey(), getBaseAdapterData(true).getInspectionSiteBean());
             ToastUtils.toast(mContext, "草稿保存成功");
             finish();
         }
@@ -164,8 +164,8 @@ public abstract class BaseAddInspectionSiteActivity extends BaseCommitFootViewAc
                 break;
             case AppHttpPath.MANUAL_ADD_INSP_SITE:
                 ToastUtils.toast(mContext,"添加成功");
-                if (Hawk.contains(HawkProperty.ADD_INSPECRTION_SITE_KEY)) {
-                    Hawk.delete(HawkProperty.ADD_INSPECRTION_SITE_KEY);
+                if (Hawk.contains(getHawkKey())) {
+                    Hawk.delete(getHawkKey());
                 }
                 finish();
                 break;

@@ -13,6 +13,7 @@ import com.juntai.wisdom.inspection.bean.UserBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordDetailBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordListBean;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
+import com.juntai.wisdom.inspection.bean.unit.UnitDetailBean;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
@@ -109,6 +110,16 @@ public interface AppServer {
      */
     @POST(AppHttpPath.SEARCH_UNIT_TO_CHECK)
     Observable<SearchedUnitsBean> searchUnitFromFireInspection(@Body RequestBody requestBody);
+
+
+    /**
+     * 单位详情
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.GET_UNIT_INFO_DETAIL)
+    Observable<UnitDetailBean> getUnitInfoDetail(@Body RequestBody requestBody);
 
 
 

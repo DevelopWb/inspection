@@ -22,6 +22,11 @@ public class ManualAddInspectionSiteActivity extends BaseAddInspectionSiteActivi
     }
 
     @Override
+    protected String getHawkKey() {
+        return HawkProperty.ADD_INSPECRTION_SITE_KEY;
+    }
+
+    @Override
     protected void commit(MultipartBody.Builder builder) {
         mPresenter.manualAddInspectSite(builder.build(), AppHttpPath.MANUAL_ADD_INSP_SITE);
     }

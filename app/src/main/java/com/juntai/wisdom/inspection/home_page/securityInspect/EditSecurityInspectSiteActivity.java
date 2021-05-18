@@ -28,12 +28,12 @@ public class EditSecurityInspectSiteActivity extends BaseInspectionActivity {
 
     @Override
     protected String getTitleName() {
-        return "编辑治安巡检点";
+        return "修改治安巡检点";
     }
 
     @Override
     protected View getFootView() {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.footview_save_commit, null);
+        View view = LayoutInflater.from(mContext.getApplicationContext()).inflate(R.layout.footview_save_commit, null);
         TextView mCommitBusinessTv = view.findViewById(R.id.commit_form_tv);
         mCommitBusinessTv.setOnClickListener(this);
         return view;

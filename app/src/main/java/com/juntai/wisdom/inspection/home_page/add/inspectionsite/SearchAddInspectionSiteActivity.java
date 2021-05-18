@@ -24,6 +24,11 @@ public class SearchAddInspectionSiteActivity extends BaseAddInspectionSiteActivi
     }
 
     @Override
+    protected String getHawkKey() {
+        return HawkProperty.ADD_INSPECRTION_SITE_KEY+bean.getId();
+    }
+
+    @Override
     protected void commit(MultipartBody.Builder builder) {
         if (bean != null) {
             builder.addFormDataPart("securityId",String.valueOf(bean.getId()));

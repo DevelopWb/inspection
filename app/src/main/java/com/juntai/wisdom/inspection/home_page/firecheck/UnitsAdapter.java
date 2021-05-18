@@ -7,6 +7,7 @@ import com.chad.library.adapter.base.BaseViewHolder;
 import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
+import com.juntai.wisdom.inspection.bean.unit.UnitDetailBean;
 import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
 
 /**
@@ -15,7 +16,7 @@ import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
  * @date 2021/4/29 16:24
  */
 
-public class UnitsAdapter extends BaseQuickAdapter<SearchedUnitsBean.DataBean.DatasBean, BaseViewHolder> {
+public class UnitsAdapter extends BaseQuickAdapter<UnitDetailBean.DataBean, BaseViewHolder> {
 
     private boolean hasNavigation = false;//导航
 
@@ -25,7 +26,7 @@ public class UnitsAdapter extends BaseQuickAdapter<SearchedUnitsBean.DataBean.Da
     }
 
     @Override
-    protected void convert(BaseViewHolder helper, SearchedUnitsBean.DataBean.DatasBean item) {
+    protected void convert(BaseViewHolder helper, UnitDetailBean.DataBean item) {
         ImageLoadUtil.loadImage(mContext, UrlFormatUtil.getImageOriginalUrl(item.getCoverPicture()),
                 helper.getView(R.id.cover_pic_iv));
         helper.setText(R.id.item_title_tv, item.getName());

@@ -1,9 +1,7 @@
 package com.juntai.wisdom.inspection.home_page.add.unit;
 
-import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.utils.HawkProperty;
-import com.orhanobut.hawk.Hawk;
 
 import okhttp3.MultipartBody;
 
@@ -18,6 +16,11 @@ public class ManualAddUnitActivity extends BaseAddUnitActivity {
     @Override
     protected String getCommitTextValue() {
         return "完成";
+    }
+
+    @Override
+    protected String getHawkKey() {
+        return HawkProperty.ADD_UNIT_KEY;
     }
 
     @Override

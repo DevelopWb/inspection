@@ -1,31 +1,18 @@
 package com.juntai.wisdom.inspection.home_page.add.unit;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
 
-import com.baidu.location.BDLocation;
 import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
-import com.juntai.disabled.bdmap.act.LocateSelectionActivity;
-import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.AppHttpPath;
-import com.juntai.wisdom.inspection.bean.BaseAdapterDataBean;
-import com.juntai.wisdom.inspection.bean.LocationBean;
-import com.juntai.wisdom.inspection.bean.MultipleItem;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
-import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
+import com.juntai.wisdom.inspection.bean.unit.UnitDetailBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseCommitFootViewActivity;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectContract;
-import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
 import com.juntai.wisdom.inspection.utils.HawkProperty;
 import com.orhanobut.hawk.Hawk;
-
-import java.util.List;
 
 import okhttp3.MultipartBody;
 
@@ -38,14 +25,14 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
 
     private boolean isUnitNameUnque = false;//单位名称是否唯一
     private boolean isUnitUCCUnique = false;//社会信用代码是否唯一
-    public SearchedUnitsBean.DataBean.DatasBean bean;
-    private SearchedUnitsBean.DataBean.DatasBean savedUnitBean;
+    public UnitDetailBean.DataBean bean;
+    private UnitDetailBean.DataBean savedUnitBean;
 
     @Override
     public void initData() {
-        savedUnitBean = Hawk.get(HawkProperty.ADD_UNIT_KEY);
+        unSavedLogic();
+        savedUnitBean = Hawk.get(getHawkKey());
         if (savedUnitBean != null) {
-            adapter.setNewData(mPresenter.getUnitInfoData(null));
             new AlertDialog.Builder(mContext).setMessage("您上次还有未提交的草稿,是否进入草稿？")
                     .setPositiveButton("是", new DialogInterface.OnClickListener() {
                         @Override
@@ -60,22 +47,24 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
                                 unitTypeName = savedUnitBean.getTypeName();
                                 unitTypeId = savedUnitBean.getTypeId();
                             }
-                            adapter.setNewData(mPresenter.getUnitInfoData(savedUnitBean));
+                            adapter.setNewData(mPresenter.getUnitInfoData(savedUnitBean,false));
                         }
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     startLocation();
-                    unSavedLogic();
                 }
             }).show();
-
-        } else {
-            unSavedLogic();
 
         }
 
     }
+
+    /**
+     * 获取key
+     * @return
+     */
+    protected abstract String getHawkKey();
 
     /**
      * 未保存草稿的逻辑
@@ -90,7 +79,7 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
                     isUnitUCCUnique = true;
                 }
             }
-            adapter.setNewData(mPresenter.getUnitInfoData(bean));
+            adapter.setNewData(mPresenter.getUnitInfoData(bean,false));
         }
     }
 
@@ -155,7 +144,7 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
     protected void saveDraft() {
         //保存草稿
         if (getBaseAdapterData(true) != null) {
-            Hawk.put(HawkProperty.ADD_UNIT_KEY, getBaseAdapterData(true).getUnitDataBean());
+            Hawk.put(getHawkKey(), getBaseAdapterData(true).getUnitDataBean());
             ToastUtils.toast(mContext, "草稿保存成功");
             finish();
         }
@@ -205,8 +194,8 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
                 break;
             case AppHttpPath.MANUAL_ADD_UNIT:
                 ToastUtils.toast(mContext,"添加成功");
-                if (Hawk.contains(HawkProperty.ADD_UNIT_KEY)) {
-                    Hawk.delete(HawkProperty.ADD_UNIT_KEY);
+                if (Hawk.contains(getHawkKey())) {
+                    Hawk.delete(getHawkKey());
                 }
                 finish();
                 break;

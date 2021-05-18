@@ -65,6 +65,10 @@ public class AppHttpPath {
      * 治安消防模块首页搜索
      */
     public static final String SEARCH_UNIT_TO_CHECK = BASE + "/u/appConnector/searchSecurityFire.shtml";
+    /**
+     * 单位详情
+     */
+    public static final String GET_UNIT_INFO_DETAIL = BASE + "/u/appConnector/selectUnitInfo.shtml";
 
 
 

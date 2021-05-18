@@ -24,6 +24,7 @@ import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordDetailBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordListBean;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
+import com.juntai.wisdom.inspection.bean.unit.UnitDetailBean;
 import com.juntai.wisdom.inspection.utils.AppUtils;
 import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
 
@@ -140,7 +141,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
      *
      * @return
      */
-    public List<MultipleItem> getUnitInfoData(SearchedUnitsBean.DataBean.DatasBean bean) {
+    public List<MultipleItem> getUnitInfoData(UnitDetailBean.DataBean bean, boolean  isDetail) {
         List<MultipleItem> arrays = new ArrayList<>();
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_UNIT_NAME, bean == null ? "" :
                         bean.getName(),
@@ -183,7 +184,8 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
             addFragmentPics(bean.getPhotoFive(), fragmentPics);
             addFragmentPics(bean.getPhotoSix(), fragmentPics);
         }
-        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3, 6, 3 , true,
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3, isDetail?fragmentPics.size():6,
+                3 , true,
                 fragmentPics)));
         return arrays;
     }
@@ -749,6 +751,27 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 .subscribe(new BaseObserver<SecurityInspectRecordDetailBean>(getView()) {
                     @Override
                     public void onSuccess(SecurityInspectRecordDetailBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void getUnitInfoDetail(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getUnitInfoDetail(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<UnitDetailBean>(getView()) {
+                    @Override
+                    public void onSuccess(UnitDetailBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

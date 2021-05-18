@@ -36,7 +36,7 @@ public class SecurityInspectionSiteMoreInfoActivity extends BaseInspectionActivi
 
     @Override
     protected View getFootView() {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.footview_commit, null);
+        View view = LayoutInflater.from(mContext.getApplicationContext()).inflate(R.layout.footview_commit, null);
         TextView mCommitBusinessTv = view.findViewById(R.id.commit_form_tv);
         mCommitBusinessTv.setText("申请修改");
         mCommitBusinessTv.setOnClickListener(this);

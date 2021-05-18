@@ -40,7 +40,7 @@ public class LoadingDialog {
     }
 
     private void initDialog(Context mContext) {
-        LayoutInflater inflater = LayoutInflater.from(mContext);
+        LayoutInflater inflater = LayoutInflater.from(mContext.getApplicationContext());
         View mProgressDialogView = inflater.inflate(R.layout.ios_loading_dialog_layout, null);// 得到加载view
         mDialog = new Dialog(mContext, R.style.MNCustomDialog);// 创建自定义样式dialog
         mDialog.setCancelable(false);// 不可以用“返回键”取消

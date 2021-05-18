@@ -93,6 +93,7 @@ public interface BaseInspectContract {
          * @param tag
          */
         void manualAddInspectSite(RequestBody requestBody, String tag);
+
         void addInspectionRecord(RequestBody requestBody, String tag);
 
         void checkUnitUnique(RequestBody requestBody, String tag);
@@ -102,9 +103,13 @@ public interface BaseInspectContract {
         void checkImportantorIDUnique(RequestBody requestBody, String tag);
 
         void getUnitType(RequestBody requestBody, String tag);
+
         void getInspectQuestions(RequestBody requestBody, String tag);
+
         void getVisitQuestions(RequestBody requestBody, String tag);
+
         void getVisitRecordList(RequestBody requestBody, String tag);
+
         void getVisitRecordDetail(RequestBody requestBody, String tag);
 
         void searchUnitFromFireInspection(RequestBody requestBody, String tag);
@@ -117,18 +122,24 @@ public interface BaseInspectContract {
         void searchInspectionSitesAdded(RequestBody requestBody, String tag);
 
         void searchImportantorToAdd(RequestBody requestBody, String tag);
+
         void getImportantorDetail(RequestBody requestBody, String tag);
 
         void searchAddImportantor(RequestBody requestBody, String tag);
 
         void manualAddImportantor(RequestBody requestBody, String tag);
+
         void startVist(RequestBody requestBody, String tag);
 
         void getImportantorTypes(RequestBody requestBody, String tag);
 
         void getImportantorStatus(RequestBody requestBody, String tag);
+
         void getAllAddedImportantor(RequestBody requestBody, String tag);
+
         void getSecurityInspectRecords(RequestBody requestBody, String tag);
+
         void getSecurityInspectRecordDetail(RequestBody requestBody, String tag);
+        void getUnitInfoDetail(RequestBody requestBody, String tag);
     }
 }

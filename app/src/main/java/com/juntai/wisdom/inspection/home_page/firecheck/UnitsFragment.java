@@ -12,8 +12,10 @@ import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.base.BaseRecyclerviewFragment;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
+import com.juntai.wisdom.inspection.bean.unit.UnitDetailBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectContract;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectPresent;
+import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionInfoActivity;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseSearchActivity;
 
 import java.util.List;
@@ -45,13 +47,14 @@ public class UnitsFragment extends BaseRecyclerviewFragment<BaseInspectPresent> 
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                startActivity(new Intent(mContext, UnitInfoActivity.class));
+                UnitDetailBean.DataBean datasBean = (UnitDetailBean.DataBean) adapter.getData().get(position);
+                startActivity(new Intent(mContext, UnitInfoActivity.class).putExtra(BaseInspectionInfoActivity.BASE_ID,datasBean.getId()));
             }
         });
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
-                SearchedUnitsBean.DataBean.DatasBean datasBean = (SearchedUnitsBean.DataBean.DatasBean) adapter.getData().get(position);
+                UnitDetailBean.DataBean datasBean = (UnitDetailBean.DataBean) adapter.getData().get(position);
                 switch (view.getId()) {
                     case R.id.item_navigation_tv:
                        String lat = datasBean.getLatitude();
@@ -126,7 +129,7 @@ public class UnitsFragment extends BaseRecyclerviewFragment<BaseInspectPresent> 
         if (searchedUnitsBean != null) {
             SearchedUnitsBean.DataBean dataBean = searchedUnitsBean.getData();
             if (dataBean != null) {
-                List<SearchedUnitsBean.DataBean.DatasBean> arrays = dataBean.getDatas();
+                List<UnitDetailBean.DataBean> arrays = dataBean.getDatas();
                 if (currentPage == 1) {
                     adapter.setNewData(arrays);
                 } else {

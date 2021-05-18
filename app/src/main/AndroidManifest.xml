@@ -30,7 +30,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.VisitRecordListActivity"></activity>
+        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.EditUnitInfoActivity"></activity>
+        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.UnitInfoMoreActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.VisitRecordListActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.ImportantorInfoMoreActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.baseinspect.HeadCropActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.add.importantor.ManualAddImportantorActivity" />

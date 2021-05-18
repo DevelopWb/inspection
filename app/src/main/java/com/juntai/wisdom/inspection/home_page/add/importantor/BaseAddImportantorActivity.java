@@ -42,9 +42,9 @@ public abstract class BaseAddImportantorActivity extends BaseCommitFootViewActiv
 
     @Override
     public void initData() {
-        savedImportantorBean = Hawk.get(HawkProperty.ADD_IMPORTANTOR_KEY);
+        unSavedLogic();
+        savedImportantorBean = Hawk.get(getHawkKey());
         if (savedImportantorBean != null) {
-            adapter.setNewData(mPresenter.getImportantorData(null));
             new AlertDialog.Builder(mContext).setMessage("您上次还有未提交的草稿,是否进入草稿？")
                     .setPositiveButton("是", new DialogInterface.OnClickListener() {
                         @Override
@@ -62,18 +62,17 @@ public abstract class BaseAddImportantorActivity extends BaseCommitFootViewActiv
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     startLocation();
-                    Hawk.delete(HawkProperty.ADD_IMPORTANTOR_KEY);
-                    unSavedLogic();
                 }
             }).show();
 
-        } else {
-            unSavedLogic();
-
-        }
+        } 
 
     }
-
+    /**
+     * 获取key
+     * @return
+     */
+    protected abstract String getHawkKey();
     /**
      * 未保存草稿的逻辑
      */
@@ -135,7 +134,7 @@ public abstract class BaseAddImportantorActivity extends BaseCommitFootViewActiv
     @Override
     protected void saveDraft() {
         if (getBaseAdapterData(true) != null) {
-            Hawk.put(HawkProperty.ADD_IMPORTANTOR_KEY, getBaseAdapterData(true).getImportantorBean());
+            Hawk.put(getHawkKey(), getBaseAdapterData(true).getImportantorBean());
             ToastUtils.toast(mContext, "草稿保存成功");
             finish();
         }
@@ -169,9 +168,9 @@ public abstract class BaseAddImportantorActivity extends BaseCommitFootViewActiv
                 break;
             case AppHttpPath.SEARCH_IMPORTANTOR_TO_ADD:
                 ToastUtils.toast(mContext,"添加成功");
-//                if (Hawk.contains(HawkProperty.ADD_IMPORTANTOR_KEY)) {
-//                    Hawk.delete(HawkProperty.ADD_IMPORTANTOR_KEY);
-//                }
+                if (Hawk.contains(getHawkKey())) {
+                    Hawk.delete(getHawkKey());
+                }
                 finish();
                 break;
             default:

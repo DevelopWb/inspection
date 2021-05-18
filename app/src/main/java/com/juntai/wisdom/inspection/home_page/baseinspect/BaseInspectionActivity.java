@@ -29,6 +29,7 @@ import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordDetai
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordDetailBean;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
+import com.juntai.wisdom.inspection.bean.unit.UnitDetailBean;
 import com.juntai.wisdom.inspection.utils.StringTools;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -74,7 +75,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     public String questionName;//问题
     public String unitTypeName;//单位类型id
 
-    public  boolean  idDetail = false;
+    public boolean idDetail = false;
 
 
     @Override
@@ -193,7 +194,8 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 mPresenter.getImportantorTypes(getBaseBuilder().build(), AppHttpPath.IMPORTANTOR_TYPES);
                                 break;
                             case BaseInspectContract.INSPECTION_CHECK_PROBLEMS:
-                                mPresenter.getInspectQuestions(getBaseBuilder().build(), AppHttpPath.SECURITY_INSPECT_QUESTION);
+                                mPresenter.getInspectQuestions(getBaseBuilder().build(),
+                                        AppHttpPath.SECURITY_INSPECT_QUESTION);
                                 break;
                             case BaseInspectContract.INSPECTION_VISIT_PROBLEMS:
                                 mPresenter.getVisitQuestions(getBaseBuilder().build(), AppHttpPath.VISIT_QUESTIONS);
@@ -364,7 +366,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     protected BaseAdapterDataBean getBaseAdapterData(boolean skipFilter) {
 
         BaseAdapterDataBean bean = new BaseAdapterDataBean();
-        SearchedUnitsBean.DataBean.DatasBean unitDataBean = new SearchedUnitsBean.DataBean.DatasBean();
+        UnitDetailBean.DataBean unitDataBean = new UnitDetailBean.DataBean();
         InspectionSiteBean.DataBean inspectionSiteBean = new InspectionSiteBean.DataBean();
         ImportantorBean.DataBean importantorBean = new ImportantorBean.DataBean();
         SecurityInspectRecordDetailBean.DataBean recordDetailBean = new SecurityInspectRecordDetailBean.DataBean();
@@ -411,7 +413,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         case BaseInspectContract.INSPECTION_TEL:
                             //联系电话
                             if (!skipFilter) {
-                                if (textValueEditBean.isImportant() &&!RuleTools.isMobileNO(value)) {
+                                if (textValueEditBean.isImportant() && !RuleTools.isMobileNO(value)) {
                                     ToastUtils.toast(mContext, "联系电话格式不正确");
                                     return null;
                                 }
@@ -557,7 +559,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
                             if (!TextUtils.isEmpty(selectBeanValue)) {
                                 builder.addFormDataPart("gender", "男".equals(selectBeanValue) ? "1" : "2");
-                                importantorBean.setGender( "男".equals(selectBeanValue) ? 1 : 2);
+                                importantorBean.setGender("男".equals(selectBeanValue) ? 1 : 2);
                             }
 
                             break;
@@ -628,13 +630,13 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         String picPah = photos.get(i);
                         switch (i) {
                             case 0:
-                                if ("开始巡检".equals(getTitleName())||"开始走访".equals(getTitleName())) {
+                                if ("开始巡检".equals(getTitleName()) || "开始走访".equals(getTitleName())) {
                                     builder.addFormDataPart("pictureOne", "pictureOne",
                                             RequestBody.create(MediaType.parse("file"),
                                                     new File(picPah)));
                                     recordDetailBean.setPhotoOne(picPah);
                                     visitRecordDetailBean.setPhotoOne(picPah);
-                                }else {
+                                } else {
                                     builder.addFormDataPart("cover", "cover",
                                             RequestBody.create(MediaType.parse("file"),
                                                     new File(picPah)));

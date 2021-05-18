@@ -9,6 +9,7 @@ import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
+import com.juntai.wisdom.inspection.bean.unit.UnitDetailBean;
 import com.juntai.wisdom.inspection.home_page.add.BaseAddActivity;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
 import com.juntai.wisdom.inspection.home_page.firecheck.UnitsAdapter;
@@ -36,8 +37,8 @@ public class AddUnitActivity extends BaseAddActivity {
 
     @Override
     protected void onAdapterItemClick(BaseQuickAdapter adapter, int position) {
-        SearchedUnitsBean.DataBean.DatasBean bean =
-                (SearchedUnitsBean.DataBean.DatasBean) adapter.getData().get(position);
+        UnitDetailBean.DataBean bean =
+                (UnitDetailBean.DataBean) adapter.getData().get(position);
         if (0==bean.getIsAdd()) {
             //未添加
             startActivityForResult(new Intent(mContext, SearchAddUnitActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY,bean),BASE_REQUEST_RESULT);
@@ -80,7 +81,7 @@ public class AddUnitActivity extends BaseAddActivity {
         if (searchedUnitsBean != null) {
             SearchedUnitsBean.DataBean dataBean = searchedUnitsBean.getData();
             if (dataBean != null) {
-                List<SearchedUnitsBean.DataBean.DatasBean> arrays = dataBean.getDatas();
+                List<UnitDetailBean.DataBean> arrays = dataBean.getDatas();
                 if (currentPage == 1) {
                     adapter.setNewData(arrays);
                 } else {

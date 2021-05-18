@@ -5,6 +5,7 @@ import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordDetai
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordDetailBean;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
+import com.juntai.wisdom.inspection.bean.unit.UnitDetailBean;
 
 import okhttp3.MultipartBody;
 
@@ -18,7 +19,7 @@ import okhttp3.MultipartBody;
 public class BaseAdapterDataBean {
 
     private  MultipartBody.Builder  builder;
-    private SearchedUnitsBean.DataBean.DatasBean  unitDataBean;
+    private UnitDetailBean.DataBean  unitDataBean;
     private InspectionSiteBean.DataBean  inspectionSiteBean;
     private ImportantorBean.DataBean  importantorBean;
     private SecurityInspectRecordDetailBean.DataBean recordDetailBean;
@@ -64,11 +65,11 @@ public class BaseAdapterDataBean {
         this.builder = builder;
     }
 
-    public SearchedUnitsBean.DataBean.DatasBean getUnitDataBean() {
+    public UnitDetailBean.DataBean getUnitDataBean() {
         return unitDataBean;
     }
 
-    public void setUnitDataBean(SearchedUnitsBean.DataBean.DatasBean unitDataBean) {
+    public void setUnitDataBean(UnitDetailBean.DataBean unitDataBean) {
         this.unitDataBean = unitDataBean;
     }
 }

@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.juntai.wisdom.inspection.AppHttpPath;
+import com.juntai.wisdom.inspection.utils.HawkProperty;
 
 import okhttp3.MultipartBody;
 
@@ -18,6 +19,10 @@ public class ManualAddImportantorActivity extends BaseAddImportantorActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+    }
+    @Override
+    protected String getHawkKey() {
+        return HawkProperty.ADD_IMPORTANTOR_KEY;
     }
 
     @Override

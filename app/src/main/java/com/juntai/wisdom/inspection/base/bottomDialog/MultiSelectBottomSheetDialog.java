@@ -38,7 +38,7 @@ public class MultiSelectBottomSheetDialog extends BottomSheetDialog implements V
     }
 
     private void initView() {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.multi_select_sheetdialog, null);
+        View view = LayoutInflater.from(mContext.getApplicationContext()).inflate(R.layout.multi_select_sheetdialog, null);
         mRecycleView = view.findViewById(R.id.recyclerview);
         TextView mCancelTv = view.findViewById(R.id.bottom_dialog_cancel_tv);
         mCancelTv.setOnClickListener(this);

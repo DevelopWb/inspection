@@ -87,6 +87,7 @@ public class SecurityInspectionSitesActivity extends BaseAppActivity<BaseInspect
                 startSearch(mSearchContentSv.getQuery().toString().trim());
             }
         });
+        startSearch(mSearchContentSv.getQuery().toString().trim());
     }
 
     private void startSearch(String s) {

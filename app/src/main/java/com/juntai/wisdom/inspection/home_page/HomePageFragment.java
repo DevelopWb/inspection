@@ -71,23 +71,26 @@ public class HomePageFragment extends BaseMvpFragment<HomePagePresent> implement
                     case HomePageContract.HOMEPAGE_MENU_FIRE_CHECK:
                         //消防检查
                         intent.setClass(mContext, FireCheckActivity.class);
+                        startActivity(intent);
                         break;
                     case HomePageContract.HOMEPAGE_MENU_IMPORTANTER:
                         //重点人员
                         intent.setClass(mContext, ImportantorsActivity.class);
+                        startActivity(intent);
                         break;
                     case HomePageContract.HOMEPAGE_MENU_SECURITY_CHECK:
                         //治安检查
                         intent.setClass(mContext, SecurityInspectionSitesActivity.class);
+                        startActivity(intent);
                         break;
                     case HomePageContract.HOMEPAGE_MENU_FLOATING_POPULATION:
                         //流动人口
-                        intent.setClass(mContext, SecurityInspectionSitesActivity.class);
+                        ToastUtils.toast(mContext, "暂未开放,敬请期待~");
                         break;
                     default:
                         break;
                 }
-                startActivity(intent);
+
             }
         });
 

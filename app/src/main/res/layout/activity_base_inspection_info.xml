@@ -124,7 +124,6 @@
 
                     <android.support.v7.widget.RecyclerView
                         android:id="@+id/actions_rv"
-                        android:paddingTop="10dp"
                         android:paddingBottom="10dp"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"></android.support.v7.widget.RecyclerView>

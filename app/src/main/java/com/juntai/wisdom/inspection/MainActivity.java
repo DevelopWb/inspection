@@ -167,7 +167,7 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
 //            MyApp.goLogin();
 //            return;
 //        }
-        View viewPop = LayoutInflater.from(mContext).inflate(R.layout.pop_add, null);
+        View viewPop = LayoutInflater.from(mContext.getApplicationContext()).inflate(R.layout.pop_add, null);
         //背景颜色
         view.setBackgroundColor(Color.WHITE);
         TextView shadowTv = viewPop.findViewById(R.id.shadow_tv);

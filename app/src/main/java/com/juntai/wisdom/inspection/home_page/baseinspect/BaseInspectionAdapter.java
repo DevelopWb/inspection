@@ -75,6 +75,8 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         this.mFragmentManager = mFragmentManager;
     }
 
+
+
     @Override
     protected void convert(BaseViewHolder helper, MultipleItem item) {
 

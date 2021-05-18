@@ -21,7 +21,10 @@ public class SearchAddImportantorActivity extends BaseAddImportantorActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
     }
-
+    @Override
+    protected String getHawkKey() {
+        return HawkProperty.ADD_IMPORTANTOR_KEY+bean.getId();
+    }
     @Override
     protected String getCommitTextValue() {
         return "完成";

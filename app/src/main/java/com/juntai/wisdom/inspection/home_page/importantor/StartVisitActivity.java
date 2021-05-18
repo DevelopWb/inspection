@@ -27,16 +27,15 @@ import okhttp3.MultipartBody;
  */
 public class StartVisitActivity extends BaseInspectionActivity {
 
-    private ImportantorBean.DataBean dataBean;
+    private ImportantorBean.DataBean importantorDataBean;
     private ImportantorVisitRecordDetailBean.DataBean recordDetailBean;
 
     @Override
     public void initData() {
-        recordDetailBean = new ImportantorVisitRecordDetailBean.DataBean();
+        unSavedLogic();
         ImportantorVisitRecordDetailBean.DataBean savedRecordBean =
-                Hawk.get(HawkProperty.ADD_IMPORTANTOR_VISIT_RECORD_KEY);
+                Hawk.get(HawkProperty.ADD_IMPORTANTOR_VISIT_RECORD_KEY + importantorDataBean.getId());
         if (savedRecordBean != null) {
-            unSavedLogic();
             new AlertDialog.Builder(mContext).setMessage("您上次还有未提交的草稿,是否进入草稿？")
                     .setPositiveButton("是", new DialogInterface.OnClickListener() {
                         @Override
@@ -54,27 +53,25 @@ public class StartVisitActivity extends BaseInspectionActivity {
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    unSavedLogic();
                 }
             }).show();
 
-        } else {
-            unSavedLogic();
         }
     }
 
     private void unSavedLogic() {
         if (getIntent() != null) {
-            dataBean = getIntent().getParcelableExtra(PARCELABLE_KEY);
+            importantorDataBean = getIntent().getParcelableExtra(PARCELABLE_KEY);
         }
+        recordDetailBean = new ImportantorVisitRecordDetailBean.DataBean();
         //走访时间
         recordDetailBean.setCheckTime(CalendarUtil.getCurrentTime("yyyy-MM-dd HH:mm:ss"));
         //重点人员
-        recordDetailBean.setLiable(dataBean.getName());
+        recordDetailBean.setLiable(importantorDataBean.getName());
         //管控民警
-        recordDetailBean.setNickname(dataBean.getPoliceName());
+        recordDetailBean.setNickname(importantorDataBean.getPoliceName());
         //重点人员手机号
-        recordDetailBean.setLiablePhone(dataBean.getPhone());
+        recordDetailBean.setLiablePhone(importantorDataBean.getPhone());
         adapter.setNewData(mPresenter.getVisitData(recordDetailBean, false));
     }
 
@@ -85,7 +82,7 @@ public class StartVisitActivity extends BaseInspectionActivity {
 
     @Override
     protected View getFootView() {
-        View view = LayoutInflater.from(mContext).inflate(R.layout.footview_save_commit, null);
+        View view = LayoutInflater.from(mContext.getApplicationContext()).inflate(R.layout.footview_save_commit, null);
         TextView mCommitBusinessTv = view.findViewById(R.id.commit_form_tv);
         TextView mSaveDraftTv = view.findViewById(R.id.save_draft_tv);
         mCommitBusinessTv.setText("提交");
@@ -100,6 +97,7 @@ public class StartVisitActivity extends BaseInspectionActivity {
         switch (tag) {
             case AppHttpPath.START_VISIT:
                 ToastUtils.toast(mContext, "提交成功");
+                Hawk.delete(HawkProperty.ADD_IMPORTANTOR_VISIT_RECORD_KEY + importantorDataBean.getId());
                 finish();
                 break;
             default:
@@ -121,7 +119,7 @@ public class StartVisitActivity extends BaseInspectionActivity {
                     dataBean.setLiable(recordDetailBean.getLiable());
                     dataBean.setNickname(recordDetailBean.getNickname());
                     dataBean.setLiablePhone(recordDetailBean.getLiablePhone());
-                    Hawk.put(HawkProperty.ADD_IMPORTANTOR_VISIT_RECORD_KEY, dataBean);
+                    Hawk.put(HawkProperty.ADD_IMPORTANTOR_VISIT_RECORD_KEY + importantorDataBean.getId(), dataBean);
                     ToastUtils.toast(mContext, "草稿保存成功");
                     finish();
                 }
@@ -132,7 +130,7 @@ public class StartVisitActivity extends BaseInspectionActivity {
                     return;
                 }
                 MultipartBody.Builder builder = getBaseAdapterData(false).getBuilder();
-                builder.addFormDataPart("keyId", String.valueOf(dataBean.getId()))
+                builder.addFormDataPart("keyId", String.valueOf(importantorDataBean.getId()))
                         .addFormDataPart("checkTime", recordDetailBean.getCheckTime())
                         .addFormDataPart("liable", recordDetailBean.getLiable())
                         .addFormDataPart("inspectionId", String.valueOf(questionId))
