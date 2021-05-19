@@ -40,7 +40,8 @@ public class AddUnitActivity extends BaseAddActivity {
         UnitDetailBean.DataBean bean =
                 (UnitDetailBean.DataBean) adapter.getData().get(position);
         if (0==bean.getIsAdd()) {
-            //未添加
+            //未添加  搜索添加 需要将系统封面清空
+            bean.setCoverPicture(null);
             startActivityForResult(new Intent(mContext, SearchAddUnitActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY,bean),BASE_REQUEST_RESULT);
         }else {
             ToastUtils.toast(mContext,"该单位已添加");

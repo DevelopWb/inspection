@@ -37,7 +37,8 @@ public class AddInspectSiteActivity extends BaseAddActivity {
         InspectionSiteBean.DataBean bean =
                 (InspectionSiteBean.DataBean) adapter.getData().get(position);
         if (0==bean.getIsAdd()) {
-            //未添加
+            //未添加  搜索添加 需要将系统封面清空
+            bean.setCoverPicture(null);
             startActivityForResult(new Intent(mContext, SearchAddInspectionSiteActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY,bean),BASE_REQUEST_RESULT);
         }else {
             ToastUtils.toast(mContext,"该巡检点已添加");

@@ -30,6 +30,7 @@ import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordDetailBean;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
 import com.juntai.wisdom.inspection.bean.unit.UnitDetailBean;
+import com.juntai.wisdom.inspection.utils.AppUtils;
 import com.juntai.wisdom.inspection.utils.StringTools;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
@@ -631,59 +632,97 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         switch (i) {
                             case 0:
                                 if ("开始巡检".equals(getTitleName()) || "开始走访".equals(getTitleName())) {
-                                    builder.addFormDataPart("pictureOne", "pictureOne",
-                                            RequestBody.create(MediaType.parse("file"),
-                                                    new File(picPah)));
+                                    if (!picPah.contains(AppUtils.getAppName())) {
+                                        builder.addFormDataPart("pictureOne", "pictureOne",
+                                                RequestBody.create(MediaType.parse("file"),
+                                                        new File(picPah)));
+                                    }
                                     recordDetailBean.setPhotoOne(picPah);
                                     visitRecordDetailBean.setPhotoOne(picPah);
                                 } else {
-                                    builder.addFormDataPart("cover", "cover",
-                                            RequestBody.create(MediaType.parse("file"),
-                                                    new File(picPah)));
+                                    if (picPah.contains(AppUtils.getAppName())) {
+                                        builder.addFormDataPart("cover", "cover",
+                                                RequestBody.create(MediaType.parse("file"),
+                                                        new File(picPah)));
+                                    } else {
+                                        builder.addFormDataPart("coverPicture",
+                                                picPah.substring(AppHttpPath.BASE_IMAGE_THUM.length(),
+                                                        picPah.length()));
+                                    }
                                 }
                                 unitDataBean.setCoverPicture(picPah);
                                 inspectionSiteBean.setCoverPicture(picPah);
                                 break;
                             case 1:
-                                builder.addFormDataPart("pictureTwo", "pictureTwo",
-                                        RequestBody.create(MediaType.parse("file"),
-                                                new File(picPah)));
+                                if (picPah.contains(AppUtils.getAppName())) {
+                                    builder.addFormDataPart("pictureTwo", "pictureTwo",
+                                            RequestBody.create(MediaType.parse("file"),
+                                                    new File(picPah)));
+                                } else {
+                                    builder.addFormDataPart("photoTwo",
+                                            picPah.substring(AppHttpPath.BASE_IMAGE_THUM.length(),
+                                                    picPah.length()));
+                                }
                                 unitDataBean.setPhotoTwo(picPah);
                                 inspectionSiteBean.setPhotoTwo(picPah);
                                 recordDetailBean.setPhotoTwo(picPah);
                                 visitRecordDetailBean.setPhotoTwo(picPah);
                                 break;
                             case 2:
-                                builder.addFormDataPart("pictureThree", "pictureThree",
-                                        RequestBody.create(MediaType.parse("file"),
-                                                new File(picPah)));
+                                if (picPah.contains(AppUtils.getAppName())) {
+                                    builder.addFormDataPart("pictureThree", "pictureThree",
+                                            RequestBody.create(MediaType.parse("file"),
+                                                    new File(picPah)));
+                                } else {
+                                    builder.addFormDataPart("photoThree",
+                                            picPah.substring(AppHttpPath.BASE_IMAGE_THUM.length(),
+                                                    picPah.length()));
+                                }
                                 unitDataBean.setPhotoThree(picPah);
                                 inspectionSiteBean.setPhotoThree(picPah);
                                 recordDetailBean.setPhotoThree(picPah);
                                 visitRecordDetailBean.setPhotoThree(picPah);
                                 break;
                             case 3:
-                                builder.addFormDataPart("pictureFour", "pictureFour",
-                                        RequestBody.create(MediaType.parse("file"),
-                                                new File(picPah)));
+                                if (picPah.contains(AppUtils.getAppName())) {
+                                    builder.addFormDataPart("pictureFour", "pictureFour",
+                                            RequestBody.create(MediaType.parse("file"),
+                                                    new File(picPah)));
+                                } else {
+                                    builder.addFormDataPart("photoFour",
+                                            picPah.substring(AppHttpPath.BASE_IMAGE_THUM.length(),
+                                                    picPah.length()));
+                                }
                                 unitDataBean.setPhotoFour(picPah);
                                 inspectionSiteBean.setPhotoFour(picPah);
                                 recordDetailBean.setPhotoFour(picPah);
                                 visitRecordDetailBean.setPhotoFour(picPah);
                                 break;
                             case 4:
-                                builder.addFormDataPart("pictureFive", "pictureFive",
-                                        RequestBody.create(MediaType.parse("file"),
-                                                new File(picPah)));
+                                if (picPah.contains(AppUtils.getAppName())) {
+                                    builder.addFormDataPart("pictureFive", "pictureFive",
+                                            RequestBody.create(MediaType.parse("file"),
+                                                    new File(picPah)));
+                                } else {
+                                    builder.addFormDataPart("photoFive",
+                                            picPah.substring(AppHttpPath.BASE_IMAGE_THUM.length(),
+                                                    picPah.length()));
+                                }
                                 unitDataBean.setPhotoFive(picPah);
                                 inspectionSiteBean.setPhotoFive(picPah);
                                 recordDetailBean.setPhotoFive(picPah);
                                 visitRecordDetailBean.setPhotoFive(picPah);
                                 break;
                             case 5:
-                                builder.addFormDataPart("pictureSix", "pictureSix",
-                                        RequestBody.create(MediaType.parse("file"),
-                                                new File(picPah)));
+                                if (picPah.contains(AppUtils.getAppName())) {
+                                    builder.addFormDataPart("pictureSix", "pictureSix",
+                                            RequestBody.create(MediaType.parse("file"),
+                                                    new File(picPah)));
+                                } else {
+                                    builder.addFormDataPart("photoSix",
+                                            picPah.substring(AppHttpPath.BASE_IMAGE_THUM.length(),
+                                                    picPah.length()));
+                                }
                                 unitDataBean.setPhotoSix(picPah);
                                 inspectionSiteBean.setPhotoSix(picPah);
                                 recordDetailBean.setPhotoSix(picPah);

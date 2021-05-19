@@ -27,6 +27,7 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
     private boolean isUnitUCCUnique = false;//社会信用代码是否唯一
     public UnitDetailBean.DataBean bean;
     private UnitDetailBean.DataBean savedUnitBean;
+    public int   unitId ;
 
     @Override
     public void initData() {
@@ -37,16 +38,7 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
                     .setPositiveButton("是", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if (!TextUtils.isEmpty(savedUnitBean.getName())) {
-                                isUnitNameUnque = true;
-                            }
-                            if (!TextUtils.isEmpty(savedUnitBean.getUnifiedCreditCode())) {
-                                isUnitUCCUnique = true;
-                            }
-                            if (!TextUtils.isEmpty(savedUnitBean.getTypeName())) {
-                                unitTypeName = savedUnitBean.getTypeName();
-                                unitTypeId = savedUnitBean.getTypeId();
-                            }
+                            initStatus(savedUnitBean);
                             adapter.setNewData(mPresenter.getUnitInfoData(savedUnitBean,false));
                         }
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {
@@ -58,6 +50,19 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
 
         }
 
+    }
+
+    private void initStatus(UnitDetailBean.DataBean bean) {
+        if (!TextUtils.isEmpty(bean.getName())) {
+            isUnitNameUnque = true;
+        }
+        if (!TextUtils.isEmpty(bean.getUnifiedCreditCode())) {
+            isUnitUCCUnique = true;
+        }
+        if (!TextUtils.isEmpty(bean.getTypeName())) {
+            unitTypeName = bean.getTypeName();
+            unitTypeId = bean.getTypeId();
+        }
     }
 
     /**
@@ -73,11 +78,8 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
         if (getIntent() != null) {
             bean = getIntent().getParcelableExtra(PARCELABLE_KEY);
             if (bean != null) {
-                bean.setCoverPicture(null);
-                isUnitNameUnque = true;
-                if (!TextUtils.isEmpty(bean.getUnifiedCreditCode())) {
-                    isUnitUCCUnique = true;
-                }
+                unitId = bean.getId();
+                initStatus(bean);
             }
             adapter.setNewData(mPresenter.getUnitInfoData(bean,false));
         }
@@ -194,6 +196,13 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
                 break;
             case AppHttpPath.MANUAL_ADD_UNIT:
                 ToastUtils.toast(mContext,"添加成功");
+                if (Hawk.contains(getHawkKey())) {
+                    Hawk.delete(getHawkKey());
+                }
+                finish();
+                break;
+            case AppHttpPath.APPLY_EDIT_UNIT_INFO:
+                ToastUtils.toast(mContext,"提交成功");
                 if (Hawk.contains(getHawkKey())) {
                     Hawk.delete(getHawkKey());
                 }

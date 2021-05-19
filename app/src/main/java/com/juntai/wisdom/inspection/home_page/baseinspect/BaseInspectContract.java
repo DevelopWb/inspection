@@ -141,5 +141,7 @@ public interface BaseInspectContract {
 
         void getSecurityInspectRecordDetail(RequestBody requestBody, String tag);
         void getUnitInfoDetail(RequestBody requestBody, String tag);
+        void applyEditUnitInfo(RequestBody requestBody, String tag);
+        void applyEditInspectionSitInfo(RequestBody requestBody, String tag);
     }
 }

@@ -39,6 +39,7 @@ public abstract class BaseAddInspectionSiteActivity extends BaseCommitFootViewAc
     private boolean isSiteNameUnque = false;//单位名称是否唯一
     public InspectionSiteBean.DataBean bean;
     private InspectionSiteBean.DataBean savedSiteBean;
+    public  int inspectionSiteId;
 
     @Override
     public void initData() {
@@ -49,10 +50,8 @@ public abstract class BaseAddInspectionSiteActivity extends BaseCommitFootViewAc
                     .setPositiveButton("是", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if (!TextUtils.isEmpty(savedSiteBean.getName())) {
-                                isSiteNameUnque = true;
-                            }
-                            adapter.setNewData(mPresenter.getInspectionSiteInfoData(savedSiteBean));
+                            initStatus(savedSiteBean);
+
                         }
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {
                 @Override
@@ -64,6 +63,14 @@ public abstract class BaseAddInspectionSiteActivity extends BaseCommitFootViewAc
         }
 
     }
+
+    private void initStatus(InspectionSiteBean.DataBean bean) {
+        if (bean!=null&&!TextUtils.isEmpty(bean.getName())) {
+            isSiteNameUnque = true;
+        }
+        adapter.setNewData(mPresenter.getInspectionSiteInfoData(bean,false));
+    }
+
     /**
      * 获取key
      * @return
@@ -75,12 +82,10 @@ public abstract class BaseAddInspectionSiteActivity extends BaseCommitFootViewAc
     private void unSavedLogic() {
         if (getIntent() != null) {
             bean = getIntent().getParcelableExtra(PARCELABLE_KEY);
-
             if (bean != null) {
-                bean.setCoverPicture(null);
-                isSiteNameUnque = true;
+                inspectionSiteId = bean.getId();
             }
-            adapter.setNewData(mPresenter.getInspectionSiteInfoData(bean));
+            initStatus(bean);
         }
     }
 
@@ -164,6 +169,13 @@ public abstract class BaseAddInspectionSiteActivity extends BaseCommitFootViewAc
                 break;
             case AppHttpPath.MANUAL_ADD_INSP_SITE:
                 ToastUtils.toast(mContext,"添加成功");
+                if (Hawk.contains(getHawkKey())) {
+                    Hawk.delete(getHawkKey());
+                }
+                finish();
+                break;
+            case AppHttpPath.APPLY_EDIT_INSPECTION_SITE_INFO:
+                ToastUtils.toast(mContext,"提交成功");
                 if (Hawk.contains(getHawkKey())) {
                     Hawk.delete(getHawkKey());
                 }

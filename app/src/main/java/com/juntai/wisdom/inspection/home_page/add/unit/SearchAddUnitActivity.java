@@ -26,7 +26,7 @@ public class SearchAddUnitActivity extends BaseAddUnitActivity {
 
     @Override
     protected String getHawkKey() {
-        return HawkProperty.ADD_UNIT_KEY+bean.getId();
+        return HawkProperty.ADD_UNIT_KEY+unitId;
     }
 
     @Override

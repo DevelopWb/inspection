@@ -7,54 +7,43 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.juntai.disabled.federation.R;
+import com.juntai.wisdom.inspection.AppHttpPath;
+import com.juntai.wisdom.inspection.home_page.add.inspectionsite.BaseAddInspectionSiteActivity;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
+import com.juntai.wisdom.inspection.utils.AppUtils;
+import com.juntai.wisdom.inspection.utils.HawkProperty;
+
+import okhttp3.MultipartBody;
 
 /**
  * @aouther tobato
  * @description 描述  编辑治安巡检点
  * @date 2021/4/22 16:58
  */
-public class EditSecurityInspectSiteActivity extends BaseInspectionActivity {
+public class EditSecurityInspectSiteActivity extends BaseAddInspectionSiteActivity {
+
 
     @Override
-    public void initData() {
-        adapter.setNewData(mPresenter.getEditSecurityInspectSiteInfo());
+    protected String getHawkKey() {
+        return HawkProperty.EDIT_INSPECRTION_SITE_KEY + inspectionSiteId;
     }
 
     @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
+    protected void commit(MultipartBody.Builder builder) {
+        mPresenter.applyEditInspectionSitInfo( builder.addFormDataPart("securityId", String.valueOf(inspectionSiteId)).addFormDataPart("version",
+                String.valueOf(AppUtils.getVersionCode(mContext) + 1)).build(), AppHttpPath.APPLY_EDIT_INSPECTION_SITE_INFO);
+
     }
+
 
     @Override
     protected String getTitleName() {
         return "修改治安巡检点";
     }
 
-    @Override
-    protected View getFootView() {
-        View view = LayoutInflater.from(mContext.getApplicationContext()).inflate(R.layout.footview_save_commit, null);
-        TextView mCommitBusinessTv = view.findViewById(R.id.commit_form_tv);
-        mCommitBusinessTv.setOnClickListener(this);
-        return view;
-    }
 
     @Override
-    public void onSuccess(String tag, Object o) {
-
-    }
-    @Override
-    public void onClick(View v) {
-        super.onClick(v);
-        switch (v.getId()) {
-            case R.id.save_draft_tv:
-                //保存草稿
-                break;
-            case R.id.commit_form_tv:
-                startActivity(new Intent(mContext,EditSecurityInspectSiteActivity.class));
-                break;
-            default:
-                break;
-        }
+    protected String getCommitTextValue() {
+        return "提交审核";
     }
 }

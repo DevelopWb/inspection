@@ -70,6 +70,11 @@ public class AppHttpPath {
      */
     public static final String GET_UNIT_INFO_DETAIL = BASE + "/u/appConnector/selectUnitInfo.shtml";
 
+    /**
+     * 申请修改单位
+     */
+    public static final String APPLY_EDIT_UNIT_INFO = BASE + "/u/appConnector/applyUnit.shtml";
+
 
 
 
@@ -121,6 +126,13 @@ public class AppHttpPath {
      * 添加巡检记录
      */
     public static final String ADD_INSPECTION_RECORD = BASE + "/u/appSecurity/insertInspectionRecord.shtml";
+
+
+
+    /**
+     * 修改巡检点
+     */
+    public static final String APPLY_EDIT_INSPECTION_SITE_INFO = BASE + "/u/appSecurity/applySecurityPublic.shtml";
 
 
 

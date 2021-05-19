@@ -80,7 +80,7 @@ public class SecurityInspectionSiteMoreInfoActivity extends BaseInspectionActivi
 
     @Override
     public void initData() {
-        adapter.setNewData(mPresenter.getInspectionSiteInfoData(dataBean));
+        adapter.setNewData(mPresenter.getInspectionSiteInfoData(dataBean,true));
 
     }
 
@@ -97,7 +97,7 @@ public class SecurityInspectionSiteMoreInfoActivity extends BaseInspectionActivi
         super.onClick(v);
         switch (v.getId()) {
             case R.id.commit_form_tv:
-                startActivity(new Intent(mContext, EditSecurityInspectSiteActivity.class));
+                startActivity(new Intent(mContext, EditSecurityInspectSiteActivity.class).putExtra(PARCELABLE_KEY,dataBean));
                 break;
             default:
                 break;

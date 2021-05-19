@@ -122,6 +122,15 @@ public interface AppServer {
     Observable<UnitDetailBean> getUnitInfoDetail(@Body RequestBody requestBody);
 
 
+    /**
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.APPLY_EDIT_UNIT_INFO)
+    Observable<BaseResult> applyEditUnitInfo(@Body RequestBody requestBody);
+
+
 
     /*==============================================  巡检点  =============================================*/
 
@@ -210,6 +219,13 @@ public interface AppServer {
     @POST(AppHttpPath.SECURITY_INSPECT_QUESTION)
     Observable<IdNameBean> getInspectQuestions(@Body RequestBody requestBody);
 
+    /**
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.APPLY_EDIT_INSPECTION_SITE_INFO)
+    Observable<BaseResult> applyEditInspectionSitInfo(@Body RequestBody requestBody);
 
 
 

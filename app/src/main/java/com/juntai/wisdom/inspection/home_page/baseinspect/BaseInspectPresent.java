@@ -6,6 +6,7 @@ import com.juntai.disabled.basecomponent.base.BaseObserver;
 import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.disabled.basecomponent.mvp.IModel;
 import com.juntai.disabled.basecomponent.utils.RxScheduler;
+import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.AppNetModule;
 import com.juntai.wisdom.inspection.base.BaseAppPresent;
 import com.juntai.wisdom.inspection.bean.HeadPicBean;
@@ -195,7 +196,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
      *
      * @return
      */
-    public List<MultipleItem> getInspectionSiteInfoData(InspectionSiteBean.DataBean bean) {
+    public List<MultipleItem> getInspectionSiteInfoData(InspectionSiteBean.DataBean bean, boolean  isDetail) {
         List<MultipleItem> arrays = new ArrayList<>();
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_SITE, bean == null ? "" :
                         bean.getName(),
@@ -228,7 +229,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
             addFragmentPics(bean.getPhotoFive(), fragmentPics);
             addFragmentPics(bean.getPhotoSix(), fragmentPics);
         }
-        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3, bean==null?6:fragmentPics.size(),
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3,isDetail?fragmentPics.size():6,
                 3 , false,
                 fragmentPics)));
         return arrays;
@@ -307,32 +308,17 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
             if (picPath.contains(AppUtils.getAppName())) {
                 fragmentPics.add(picPath);
             }else {
-                fragmentPics.add(UrlFormatUtil.getImageThumUrl(picPath));
+                if (picPath.contains(AppHttpPath.BASE_IMAGE_THUM)) {
+                    fragmentPics.add(picPath);
+                }else {
+                    fragmentPics.add(UrlFormatUtil.getImageThumUrl(picPath));
+                }
+
             }
 
         }
     }
 
-
-    /**
-     * 编辑治安巡检点信息
-     *
-     * @return
-     */
-    public List<MultipleItem> getEditSecurityInspectSiteInfo() {
-        List<MultipleItem> arrays = new ArrayList<>();
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_SITE, "", false, 0);
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_ADDR, "", false, 0);
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_RESPONSIBLE, "", false, 0);
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_TEL, "", false, 0);
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_SPARE_PERSON, "", false, 0);
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_SPARE_PERSON_TEL, "", false, 0);
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, "", false, 1);
-        arrays.add(new MultipleItem(MultipleItem.ITEM_LOCATION, "地址"));
-        arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "现场图片"));
-        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, ""));
-        return arrays;
-    }
 
     public List<TextKeyValueBean> getData() {
         List<TextKeyValueBean> arrays = new ArrayList<>();
@@ -772,6 +758,48 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 .subscribe(new BaseObserver<UnitDetailBean>(getView()) {
                     @Override
                     public void onSuccess(UnitDetailBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void applyEditUnitInfo(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .applyEditUnitInfo(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void applyEditInspectionSitInfo(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .applyEditInspectionSitInfo(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }
