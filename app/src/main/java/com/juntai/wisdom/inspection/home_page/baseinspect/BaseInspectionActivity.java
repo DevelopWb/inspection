@@ -28,6 +28,7 @@ import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordDetailBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordDetailBean;
+import com.juntai.wisdom.inspection.bean.unit.FireCheckBean;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
 import com.juntai.wisdom.inspection.bean.unit.UnitDetailBean;
 import com.juntai.wisdom.inspection.utils.AppUtils;
@@ -370,6 +371,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         UnitDetailBean.DataBean unitDataBean = new UnitDetailBean.DataBean();
         InspectionSiteBean.DataBean inspectionSiteBean = new InspectionSiteBean.DataBean();
         ImportantorBean.DataBean importantorBean = new ImportantorBean.DataBean();
+        FireCheckBean.DataBean fireCheckBean = new FireCheckBean.DataBean();
         SecurityInspectRecordDetailBean.DataBean recordDetailBean = new SecurityInspectRecordDetailBean.DataBean();
         ImportantorVisitRecordDetailBean.DataBean visitRecordDetailBean =
                 new ImportantorVisitRecordDetailBean.DataBean();
@@ -481,6 +483,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             }
                             unitDataBean.setRemarks(value);
                             inspectionSiteBean.setRemarks(value);
+                            fireCheckBean.setConcreteProblems(value);
                             importantorBean.setRemarks(value);
                             recordDetailBean.setRemarks(value);
                             visitRecordDetailBean.setRemarks(value);
@@ -636,13 +639,12 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             case 0:
                                 if ("开始巡检".equals(getTitleName()) || "开始走访".equals(getTitleName())
                                         || "开始检查".equals(getTitleName())) {
-                                    if (!picPah.contains(AppUtils.getAppName())) {
+                                    if (picPah.contains(AppUtils.getAppName())) {
                                         builder.addFormDataPart("pictureOne", "pictureOne",
                                                 RequestBody.create(MediaType.parse("file"),
                                                         new File(picPah)));
                                     }
-                                    recordDetailBean.setPhotoOne(picPah);
-                                    visitRecordDetailBean.setPhotoOne(picPah);
+
                                 } else {
                                     if (picPah.contains(AppUtils.getAppName())) {
                                         builder.addFormDataPart("cover", "cover",
@@ -654,8 +656,11 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                                         picPah.length()));
                                     }
                                 }
+                                recordDetailBean.setPhotoOne(picPah);
+                                visitRecordDetailBean.setPhotoOne(picPah);
                                 unitDataBean.setCoverPicture(picPah);
                                 inspectionSiteBean.setCoverPicture(picPah);
+                                fireCheckBean.setPhotoOne(picPah);
                                 break;
                             case 1:
                                 if (picPah.contains(AppUtils.getAppName())) {
@@ -671,6 +676,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 inspectionSiteBean.setPhotoTwo(picPah);
                                 recordDetailBean.setPhotoTwo(picPah);
                                 visitRecordDetailBean.setPhotoTwo(picPah);
+                                fireCheckBean.setPhotoTwo(picPah);
                                 break;
                             case 2:
                                 if (picPah.contains(AppUtils.getAppName())) {
@@ -686,6 +692,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 inspectionSiteBean.setPhotoThree(picPah);
                                 recordDetailBean.setPhotoThree(picPah);
                                 visitRecordDetailBean.setPhotoThree(picPah);
+                                fireCheckBean.setPhotoThree(picPah);
                                 break;
                             case 3:
                                 if (picPah.contains(AppUtils.getAppName())) {
@@ -701,6 +708,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 inspectionSiteBean.setPhotoFour(picPah);
                                 recordDetailBean.setPhotoFour(picPah);
                                 visitRecordDetailBean.setPhotoFour(picPah);
+                                fireCheckBean.setPhotoFour(picPah);
                                 break;
                             case 4:
                                 if (picPah.contains(AppUtils.getAppName())) {
@@ -716,6 +724,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 inspectionSiteBean.setPhotoFive(picPah);
                                 recordDetailBean.setPhotoFive(picPah);
                                 visitRecordDetailBean.setPhotoFive(picPah);
+                                fireCheckBean.setPhotoFive(picPah);
                                 break;
                             case 5:
                                 if (picPah.contains(AppUtils.getAppName())) {
@@ -731,6 +740,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 inspectionSiteBean.setPhotoSix(picPah);
                                 recordDetailBean.setPhotoSix(picPah);
                                 visitRecordDetailBean.setPhotoSix(picPah);
+                                fireCheckBean.setPhotoSix(picPah);
                                 break;
                             default:
                                 break;
@@ -747,6 +757,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         bean.setImportantorBean(importantorBean);
         bean.setRecordDetailBean(recordDetailBean);
         bean.setVisitRecordDetailBean(visitRecordDetailBean);
+        bean.setFireCheckBean(fireCheckBean);
         return bean;
     }
 

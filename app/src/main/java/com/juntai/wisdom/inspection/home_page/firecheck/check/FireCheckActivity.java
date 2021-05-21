@@ -1,4 +1,4 @@
-package com.juntai.wisdom.inspection.home_page.firecheck;
+package com.juntai.wisdom.inspection.home_page.firecheck.check;
 
 import android.support.v4.app.Fragment;
 import android.util.SparseArray;
@@ -7,6 +7,7 @@ import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.bean.IdNameBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectContract;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseSearchActivity;
+import com.juntai.wisdom.inspection.home_page.firecheck.UnitsFragment;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -62,7 +62,6 @@ public class FireCheckBean  extends BaseResult {
          */
 
         private int recordId;
-        private int unitId;//单位的id
         private String inspectTime;
         private String inspectName;
         private String unitLiable;
@@ -89,13 +88,6 @@ public class FireCheckBean  extends BaseResult {
         private String punishPhotoThree;
         private String itemsJson;
 
-        public int getUnitId() {
-            return unitId;
-        }
-
-        public void setUnitId(int unitId) {
-            this.unitId = unitId;
-        }
 
         public int getRecordId() {
             return recordId;

@@ -4,6 +4,7 @@ import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordDetailBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordDetailBean;
+import com.juntai.wisdom.inspection.bean.unit.FireCheckBean;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
 import com.juntai.wisdom.inspection.bean.unit.UnitDetailBean;
 
@@ -24,6 +25,15 @@ public class BaseAdapterDataBean {
     private ImportantorBean.DataBean  importantorBean;
     private SecurityInspectRecordDetailBean.DataBean recordDetailBean;
     private ImportantorVisitRecordDetailBean.DataBean visitRecordDetailBean;
+    private FireCheckBean.DataBean fireCheckBean;
+
+    public FireCheckBean.DataBean getFireCheckBean() {
+        return fireCheckBean;
+    }
+
+    public void setFireCheckBean(FireCheckBean.DataBean fireCheckBean) {
+        this.fireCheckBean = fireCheckBean;
+    }
 
     public ImportantorVisitRecordDetailBean.DataBean getVisitRecordDetailBean() {
         return visitRecordDetailBean;

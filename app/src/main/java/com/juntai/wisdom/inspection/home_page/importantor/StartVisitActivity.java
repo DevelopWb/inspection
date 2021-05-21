@@ -44,10 +44,7 @@ public class StartVisitActivity extends BaseInspectionActivity {
                                 questionName = savedRecordBean.getInspectionName();
                                 questionId = savedRecordBean.getInspectionId();
                             }
-                            recordDetailBean.setCheckTime(savedRecordBean.getCheckTime());
-                            recordDetailBean.setLiable(savedRecordBean.getLiable());
-                            recordDetailBean.setNickname(savedRecordBean.getNickname());
-                            recordDetailBean.setLiablePhone(savedRecordBean.getLiablePhone());
+                            recordDetailBean = savedRecordBean;
                             adapter.setNewData(mPresenter.getVisitData(savedRecordBean, false));
                         }
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {

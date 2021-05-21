@@ -14,7 +14,7 @@ import com.juntai.disabled.basecomponent.base.BaseMvpFragment;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.bean.HomePageMenuBean;
-import com.juntai.wisdom.inspection.home_page.firecheck.FireCheckActivity;
+import com.juntai.wisdom.inspection.home_page.firecheck.check.FireCheckActivity;
 import com.juntai.wisdom.inspection.home_page.importantor.ImportantorsActivity;
 import com.juntai.wisdom.inspection.mine.MyCenterContract;
 import com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectionSitesActivity;

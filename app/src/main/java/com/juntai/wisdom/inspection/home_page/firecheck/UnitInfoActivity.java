@@ -3,6 +3,7 @@ package com.juntai.wisdom.inspection.home_page.firecheck;
 import android.content.Intent;
 
 import com.baidu.mapapi.model.LatLng;
+import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.bean.ActionBean;
@@ -13,6 +14,7 @@ import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectContract;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionInfoActivity;
 import com.juntai.wisdom.inspection.home_page.importantor.ImportantorInfoMoreActivity;
+import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +89,7 @@ public class UnitInfoActivity extends BaseInspectionInfoActivity {
                     dataBean = unitDetailBean.getData();
                     if (dataBean != null) {
                         baseInfoAdapter.setNewData(getData(dataBean));
+                        ImageLoadUtil.loadImage(mContext, UrlFormatUtil.getImageOriginalUrl(dataBean.getQrCode()),mQrCodeIv);
                     }
                 }
 

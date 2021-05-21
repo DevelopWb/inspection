@@ -30,8 +30,9 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.FireCheckRecordListActivity"></activity>
-        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.StartCheckActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.check.FireCheckRecordDetailActivity"></activity>
+        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.check.FireCheckRecordListActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.check.StartCheckActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.EditUnitInfoActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.UnitInfoMoreActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.VisitRecordListActivity" />
@@ -47,7 +48,7 @@
         <activity android:name="com.juntai.wisdom.inspection.home_page.add.importantor.AddImportantorActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.add.inspectionsite.AddInspectSiteActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.StartVisitActivity" />
-        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.FireCheckActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.check.FireCheckActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.ImportantorsActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectRecordDetailActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.ImportantorVistRecordDetailActivity" />

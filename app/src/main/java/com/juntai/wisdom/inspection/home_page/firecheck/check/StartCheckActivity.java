@@ -1,7 +1,10 @@
-package com.juntai.wisdom.inspection.home_page.firecheck;
+package com.juntai.wisdom.inspection.home_page.firecheck.check;
 
+import android.content.DialogInterface;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.RadioButton;
@@ -9,12 +12,15 @@ import android.widget.RadioGroup;
 
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
+import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordDetailBean;
 import com.juntai.wisdom.inspection.bean.unit.FireCheckBean;
 import com.juntai.wisdom.inspection.bean.unit.UnitDetailBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseCommitFootViewActivity;
 import com.juntai.wisdom.inspection.home_page.baseinspect.TextKeyValueAdapter;
 import com.juntai.wisdom.inspection.utils.CalendarUtil;
+import com.juntai.wisdom.inspection.utils.HawkProperty;
 import com.juntai.wisdom.inspection.utils.UserInfoManager;
+import com.orhanobut.hawk.Hawk;
 
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -38,24 +44,46 @@ public class StartCheckActivity extends BaseCommitFootViewActivity {
     private RadioButton mRadioUnqualifiedRb;
     private RadioGroup mItemRadioG;
     private TextKeyValueAdapter headAdapter;
+    private UnitDetailBean.DataBean unitBean;
 
     @Override
     public void initData() {
         adapter.setHeaderView(getHeadView());
         if (getIntent() != null) {
-            UnitDetailBean.DataBean dataBean = getIntent().getParcelableExtra(PARCELABLE_KEY);
-            if (dataBean != null) {
+            unitBean = getIntent().getParcelableExtra(PARCELABLE_KEY);
+            if (unitBean != null) {
                 firecheckbean = new FireCheckBean.DataBean();
-                firecheckbean.setUnitId(dataBean.getId());
                 firecheckbean.setInspectName(UserInfoManager.getUserNickName());
                 firecheckbean.setInspectTime(CalendarUtil.getCurrentTime("yyyy-MM-dd HH:mm:ss"));
-                firecheckbean.setUnitLiable(dataBean.getPersonLiable());
-                firecheckbean.setLiablePhone(dataBean.getLiablePhone());
+                firecheckbean.setUnitLiable(unitBean.getPersonLiable());
+                firecheckbean.setLiablePhone(unitBean.getLiablePhone());
                 headAdapter.setNewData(mPresenter.getStartFireCheckData(firecheckbean));
-                adapter.setNewData(mPresenter.getFireCheckData(firecheckbean, false, true));
+                adapter.setNewData(mPresenter.getFireCheckData(firecheckbean, true));
             }
         }
+        FireCheckBean.DataBean savedRecordBean =
+                Hawk.get(HawkProperty.ADD_FIRE_CHECK_RECORD_KEY + unitBean.getId());
+        if (savedRecordBean != null) {
+            new AlertDialog.Builder(mContext).setMessage("您上次还有未提交的草稿,是否进入草稿？")
+                    .setPositiveButton("是", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            firecheckbean = savedRecordBean;
+                            adapter.setNewData(mPresenter.getFireCheckData(firecheckbean,
+                                    1==savedRecordBean.getQualified()?true:false));
+                            if (1==savedRecordBean.getQualified()) {
+                                mRadioQualifiedRb.setChecked(true);
+                            }else {
+                                mRadioUnqualifiedRb.setChecked(true);
+                            }
 
+                        }
+                    }).setNegativeButton("否", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                }
+            }).show();
+        }
 
     }
 
@@ -78,12 +106,12 @@ public class StartCheckActivity extends BaseCommitFootViewActivity {
                 switch (checkedId) {
                     case R.id.radio_qualified_rb:
                         //合格
-                        adapter.setNewData(mPresenter.getFireCheckData(firecheckbean, false, true));
+                        adapter.setNewData(mPresenter.getFireCheckData(firecheckbean, true));
                         setCommitName("提交");
                         break;
                     case R.id.radio_unqualified_rb:
                         //不合格
-                        adapter.setNewData(mPresenter.getFireCheckData(firecheckbean, false, false));
+                        adapter.setNewData(mPresenter.getFireCheckData(firecheckbean, false));
                         setCommitName("下一步");
                         break;
                     default:
@@ -105,14 +133,14 @@ public class StartCheckActivity extends BaseCommitFootViewActivity {
         if ("提交".equals(commitName)) {
             //检查没问题
             RequestBody body =
-                    builder.addFormDataPart("unitId", String.valueOf(firecheckbean.getUnitId())).addFormDataPart(
+                    builder.addFormDataPart("unitId", String.valueOf(unitBean.getId())).addFormDataPart(
                             "inspectTime"
                             , firecheckbean.getInspectTime()).addFormDataPart("inspectName",
                             firecheckbean.getInspectName())
                             .addFormDataPart("unitLiable", firecheckbean.getUnitLiable()).addFormDataPart("liablePhone",
                             firecheckbean.getLiablePhone()).addFormDataPart("qualified", "1").build();
 
-            mPresenter.addFireCheckRecord(body,"");
+            mPresenter.addFireCheckRecord(body, "");
         } else {
             //检查有问题
         }
@@ -121,7 +149,19 @@ public class StartCheckActivity extends BaseCommitFootViewActivity {
 
     @Override
     protected void saveDraft() {
-
+        //保存草稿
+        if (getBaseAdapterData(true) != null) {
+            FireCheckBean.DataBean dataBean =
+                    getBaseAdapterData(true).getFireCheckBean();
+            dataBean.setInspectTime(firecheckbean.getInspectTime());
+            dataBean.setInspectName(firecheckbean.getInspectName());
+            dataBean.setQualified("提交".equals(commitName)?1:2);
+            dataBean.setUnitLiable(firecheckbean.getUnitLiable());
+            dataBean.setLiablePhone(firecheckbean.getLiablePhone());
+            Hawk.put(HawkProperty.ADD_FIRE_CHECK_RECORD_KEY + unitBean.getId(), dataBean);
+            ToastUtils.toast(mContext, "草稿保存成功");
+            finish();
+        }
     }
 
     @Override
@@ -131,7 +171,7 @@ public class StartCheckActivity extends BaseCommitFootViewActivity {
 
     @Override
     public void onSuccess(String tag, Object o) {
-        ToastUtils.toast(mContext,"提交成功");
+        ToastUtils.toast(mContext, "提交成功");
         finish();
     }
 }

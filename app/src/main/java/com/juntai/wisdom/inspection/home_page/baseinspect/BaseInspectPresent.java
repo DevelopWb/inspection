@@ -51,31 +51,15 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     }
 
     /**
-     * 开始消防检查
+     * 消防检查记录详情
      *
      * @param dataBean
      * @return
      */
-    public List<MultipleItem> getFireCheckHeadData(FireCheckBean.DataBean dataBean) {
+    public List<MultipleItem> getFireCheckDetailData(FireCheckBean.DataBean dataBean,boolean  isCheckedOk) {
         List<MultipleItem> arrays = new ArrayList<>();
         arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW,
                 getStartFireCheckData(dataBean)));
-        arrays.add(new MultipleItem(MultipleItem.ITEM_RADIO, new RadioBean(BaseInspectContract.INSPECTION_IS_OK,
-                new String[]{"合格", "不合格"}, BaseInspectContract.INSPECTION_IS_OK, 0)));
-        return arrays;
-    }
-
-    /**
-     * 开始消防检查
-     *
-     * @param dataBean
-     * @param isDetail    是否是详情
-     * @param isCheckedOk 是否检查正常
-     * @return
-     */
-    public List<MultipleItem> getFireCheckData(FireCheckBean.DataBean dataBean,
-                                               boolean isDetail, boolean isCheckedOk) {
-        List<MultipleItem> arrays = new ArrayList<>();
         if (isCheckedOk) {
             initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, dataBean == null ? "" :
                     dataBean.getConcreteProblems(), false, 1);
@@ -93,8 +77,41 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
             addFragmentPics(dataBean.getPhotoFive(), fragmentPics);
             addFragmentPics(dataBean.getPhotoSix(), fragmentPics);
         }
-        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3, isDetail ?
-                fragmentPics.size() : 6,
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3,
+                fragmentPics.size() ,
+                3, false,
+                fragmentPics)));
+        return arrays;
+    }
+
+    /**
+     * 开始消防检查
+     *
+     * @param dataBean
+     * @param isCheckedOk 是否检查正常
+     * @return
+     */
+    public List<MultipleItem> getFireCheckData(FireCheckBean.DataBean dataBean,
+                                              boolean isCheckedOk) {
+        List<MultipleItem> arrays = new ArrayList<>();
+        if (isCheckedOk) {
+            initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, dataBean == null ? "" :
+                    dataBean.getConcreteProblems(), true, 1);
+        } else {
+            arrays.add(new MultipleItem(MultipleItem.ITEM_FIRE_CHECK_FORM,
+                    ""));
+        }
+        arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传检查图片"));
+        List<String> fragmentPics = new ArrayList<>();
+        if (dataBean != null) {
+            addFragmentPics(dataBean.getPhotoOne(), fragmentPics);
+            addFragmentPics(dataBean.getPhotoTwo(), fragmentPics);
+            addFragmentPics(dataBean.getPhotoThree(), fragmentPics);
+            addFragmentPics(dataBean.getPhotoFour(), fragmentPics);
+            addFragmentPics(dataBean.getPhotoFive(), fragmentPics);
+            addFragmentPics(dataBean.getPhotoSix(), fragmentPics);
+        }
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3, 6,
                 3, false,
                 fragmentPics)));
         return arrays;
@@ -866,6 +883,27 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 .subscribe(new BaseObserver<FireCheckRecordListBean>(getView()) {
                     @Override
                     public void onSuccess(FireCheckRecordListBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void getFireCheckRecordDetail(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getFireCheckRecordDetail(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<FireCheckBean>(getView()) {
+                    @Override
+                    public void onSuccess(FireCheckBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

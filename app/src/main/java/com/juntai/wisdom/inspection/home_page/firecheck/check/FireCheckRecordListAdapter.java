@@ -1,9 +1,8 @@
-package com.juntai.wisdom.inspection.home_page.firecheck;
+package com.juntai.wisdom.inspection.home_page.firecheck.check;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.juntai.disabled.federation.R;
-import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordListBean;
 import com.juntai.wisdom.inspection.bean.unit.FireCheckRecordListBean;
 
 /**

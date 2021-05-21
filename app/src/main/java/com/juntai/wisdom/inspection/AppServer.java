@@ -12,6 +12,7 @@ import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.UserBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordDetailBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordListBean;
+import com.juntai.wisdom.inspection.bean.unit.FireCheckBean;
 import com.juntai.wisdom.inspection.bean.unit.FireCheckRecordListBean;
 import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
 import com.juntai.wisdom.inspection.bean.unit.UnitDetailBean;
@@ -145,6 +146,13 @@ public interface AppServer {
      */
     @POST(AppHttpPath.GET_FIRE_INSPECTION_RECORDS)
     Observable<FireCheckRecordListBean> getFireCheckRecords(@Body RequestBody requestBody);
+    /**
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.GET_FIRE_INSPECTION_RECORD_DETAIL)
+    Observable<FireCheckBean> getFireCheckRecordDetail(@Body RequestBody requestBody);
 
 
 

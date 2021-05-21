@@ -147,6 +147,7 @@ public interface BaseInspectContract {
         void applyEditUnitInfo(RequestBody requestBody, String tag);
         void addFireCheckRecord(RequestBody requestBody, String tag);
         void getFireCheckRecords(RequestBody requestBody, String tag);
+        void getFireCheckRecordDetail(RequestBody requestBody, String tag);
 
         void applyEditInspectionSitInfo(RequestBody requestBody, String tag);
     }

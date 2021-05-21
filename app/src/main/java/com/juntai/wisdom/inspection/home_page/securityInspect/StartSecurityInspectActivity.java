@@ -45,11 +45,8 @@ public class StartSecurityInspectActivity extends BaseInspectionActivity {
                                 questionName = savedRecordBean.getTypeName();
                                 questionId = savedRecordBean.getTypeId();
                             }
-                            recordDetailBean.setInspectTime(savedRecordBean.getInspectTime());
-                            recordDetailBean.setInspectName(savedRecordBean.getInspectName());
-                            recordDetailBean.setUnitLiable(savedRecordBean.getUnitLiable());
-                            recordDetailBean.setLiablePhone(savedRecordBean.getLiablePhone());
-                            adapter.setNewData(mPresenter.getSecurityInpsectData(savedRecordBean,false));
+                            recordDetailBean = savedRecordBean;
+                            adapter.setNewData(mPresenter.getSecurityInpsectData(recordDetailBean,false));
                         }
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {
                 @Override
