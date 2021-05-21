@@ -11,6 +11,7 @@ import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.base.BaseAppActivity;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordListBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordListBean;
+import com.juntai.wisdom.inspection.bean.unit.FireCheckRecordListBean;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;
@@ -121,6 +122,21 @@ public abstract class BaseRecordActivity extends BaseAppActivity<BaseInspectPres
                 if (importantorVisitRecordListBean != null) {
                     List<ImportantorVisitRecordListBean.DataBean.DatasBean> arrays =
                             importantorVisitRecordListBean.getData().getDatas();
+                    if (currentPage == 1) {
+                        adapter.setNewData(arrays);
+                    } else {
+                        adapter.addData(arrays);
+                    }
+                    if (arrays != null && arrays.size() < pagesize) {
+                        mSmartrefreshlayout.finishLoadMoreWithNoMoreData();
+                    }
+                }
+                break;
+            case AppHttpPath.GET_FIRE_INSPECTION_RECORDS:
+                FireCheckRecordListBean fireCheckRecordListBean = (FireCheckRecordListBean) o;
+                if (fireCheckRecordListBean != null) {
+                    List<FireCheckRecordListBean.DataBean.DatasBean> arrays =
+                            fireCheckRecordListBean.getData().getDatas();
                     if (currentPage == 1) {
                         adapter.setNewData(arrays);
                     } else {

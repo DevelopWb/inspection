@@ -3,6 +3,7 @@ package com.juntai.wisdom.inspection.home_page.baseinspect;
 import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
@@ -27,6 +28,17 @@ import okhttp3.MultipartBody;
  * @UpdateDate: 2021/5/13 10:29
  */
 public abstract class BaseCommitFootViewActivity extends BaseInspectionActivity {
+
+    private TextView mCommitBusinessTv;
+    public String commitName;
+
+    public void setCommitName(String commitName) {
+        this.commitName = commitName == null ? "" : commitName;
+        if (mCommitBusinessTv != null) {
+            mCommitBusinessTv.setText(commitName);
+        }
+
+    }
 
     @Override
     public void onLocationReceived(BDLocation bdLocation) {
@@ -73,12 +85,12 @@ public abstract class BaseCommitFootViewActivity extends BaseInspectionActivity 
     }
 
 
-
     @Override
     protected View getFootView() {
         View view = LayoutInflater.from(mContext.getApplicationContext()).inflate(R.layout.footview_save_commit, null);
-        TextView mCommitBusinessTv = view.findViewById(R.id.commit_form_tv);
+        mCommitBusinessTv = view.findViewById(R.id.commit_form_tv);
         mCommitBusinessTv.setText(getCommitTextValue());
+        commitName = getCommitTextValue();
         mCommitBusinessTv.setOnClickListener(this);
         TextView mSaveDraft = view.findViewById(R.id.save_draft_tv);
         mSaveDraft.setOnClickListener(this);
@@ -114,8 +126,10 @@ public abstract class BaseCommitFootViewActivity extends BaseInspectionActivity 
 
     /**
      * 提交请求
+     *
      * @param builder
      */
     protected abstract void commitRequest(MultipartBody.Builder builder);
+
     protected abstract void saveDraft();
 }

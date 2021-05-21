@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
+
+<!--    <ScrollView-->
+<!--        android:layout_width="match_parent"-->
+<!--        android:layout_height="wrap_content">-->
+
+<!--        <LinearLayout-->
+<!--            android:layout_width="match_parent"-->
+<!--            android:layout_height="wrap_content"-->
+<!--            android:orientation="vertical">-->
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="0dp"
+                style="@style/item_title_style"
+                android:paddingBottom="5dp"
+                android:textSize="16dp"
+                android:text="问题及整改意见:"
+                android:textColor="@color/text_title"></TextView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="@string/fire_check_notice"
+                android:textColor="@color/red"></TextView>
+
+            <CheckBox
+                android:id="@+id/question1_cb"
+                style="@style/FireCheckBoxStyle"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="0dp"
+                android:text="1.未依法进行"></CheckBox>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp">
+
+                <CheckBox
+                    android:id="@+id/question1_child1_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:text="消防设计备案"></CheckBox>
+
+                <CheckBox
+                    android:id="@+id/question1_child2_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:layout_marginLeft="5dp"
+                    android:text="竣工验收消防备案"></CheckBox>
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/question2_cb"
+                style="@style/FireCheckBoxStyle"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="0dp"
+                android:text="2.消防设施、器材、消防安全标志"></CheckBox>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp">
+
+                <CheckBox
+                    android:id="@+id/question2_child1_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:text="配置、设置不符合标准"></CheckBox>
+
+                <CheckBox
+                    android:id="@+id/question2_child2_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:layout_marginLeft="5dp"
+                    android:text="未保持完好有效"></CheckBox>
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <CheckBox
+                    android:id="@+id/question3_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:paddingLeft="0dp"
+                    android:text="3."></CheckBox>
+
+                <CheckBox
+                    android:id="@+id/question3_child1_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:text="损坏"></CheckBox>
+
+                <CheckBox
+                    android:id="@+id/question3_child2_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:layout_marginLeft="5dp"
+                    android:text="挪用"></CheckBox>
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/question3_child3_cb"
+                style="@style/FireCheckBoxStyle"
+                android:layout_marginLeft="20dp"
+                android:text="擅自拆除消防设施、器材"></CheckBox>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <CheckBox
+                    android:id="@+id/question4_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:paddingLeft="0dp"
+                    android:text="4."></CheckBox>
+
+                <CheckBox
+                    android:id="@+id/question4_child1_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:text="占用"></CheckBox>
+
+                <CheckBox
+                    android:id="@+id/question4_child2_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:layout_marginLeft="5dp"
+                    android:text="堵塞"></CheckBox>
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/question4_child3_cb"
+                style="@style/FireCheckBoxStyle"
+                android:layout_marginLeft="20dp"
+                android:text="封闭疏散通道、安全出口"></CheckBox>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <CheckBox
+                    android:id="@+id/question5_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:paddingLeft="0dp"
+                    android:text="5."></CheckBox>
+
+                <CheckBox
+                    android:id="@+id/question5_child1_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:text="埋压"></CheckBox>
+
+                <CheckBox
+                    android:id="@+id/question5_child2_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:layout_marginLeft="5dp"
+                    android:text="圈占"></CheckBox>
+
+                <CheckBox
+                    android:id="@+id/question5_child3_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:layout_marginLeft="5dp"
+                    android:text="遮挡消火栓"></CheckBox>
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/question5_child4_cb"
+                style="@style/FireCheckBoxStyle"
+                android:layout_marginLeft="20dp"
+                android:text="占用防火间距"></CheckBox>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <CheckBox
+                    android:id="@+id/question6_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:paddingLeft="0dp"
+                    android:text="6."></CheckBox>
+
+                <CheckBox
+                    android:id="@+id/question6_child1_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:text="占用"></CheckBox>
+
+                <CheckBox
+                    android:id="@+id/question6_child2_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:layout_marginLeft="5dp"
+                    android:text="堵塞"></CheckBox>
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/question6_child3_cb"
+                style="@style/FireCheckBoxStyle"
+                android:layout_marginLeft="20dp"
+                android:text="封闭消防车通道、妨碍消防车通行"></CheckBox>
+
+            <CheckBox
+                android:id="@+id/question7_cb"
+                style="@style/FireCheckBoxStyle"
+                android:gravity="top"
+                android:paddingLeft="0dp"
+                android:paddingTop="5dp"
+                android:text="7.人员密集场所外墙门窗上设置影响逃生、灭火救援的障碍物"></CheckBox>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <CheckBox
+                    android:id="@+id/question8_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:paddingLeft="0dp"
+                    android:text="8.使用："></CheckBox>
+
+                <CheckBox
+                    android:id="@+id/question8_child1_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:text="不符合市场准入"></CheckBox>
+
+                <CheckBox
+                    android:id="@+id/question8_child2_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:layout_marginLeft="5dp"
+                    android:text="不合格"></CheckBox>
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/question8_child3_cb"
+                style="@style/FireCheckBoxStyle"
+                android:layout_marginLeft="20dp"
+                android:text="国家明令淘汰的消防产品"></CheckBox>
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
+
+                <CheckBox
+                    android:id="@+id/question9_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:paddingLeft="0dp"
+                    android:text="9."
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toTopOf="parent"></CheckBox>
+
+                <CheckBox
+                    android:id="@+id/question9_child1_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:text="电器产品"
+                    app:layout_constraintLeft_toRightOf="@+id/question9_cb"
+                    app:layout_constraintTop_toTopOf="@+id/question9_cb"></CheckBox>
+
+                <CheckBox
+                    android:id="@+id/question9_child2_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:layout_marginLeft="5dp"
+                    android:text="燃气用具的安装、使用"
+                    app:layout_constraintLeft_toRightOf="@+id/question9_child1_cb"
+                    app:layout_constraintTop_toTopOf="@+id/question9_child1_cb"></CheckBox>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="30dp"
+                    android:text="及其线路、管路的设敷设、维护保养、检测不符合 消防技术标准和管理规定"
+                    android:textColor="@color/text_title"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/question9_child1_cb"></TextView>
+            </android.support.constraint.ConstraintLayout>
+
+            <CheckBox
+                android:id="@+id/question10_cb"
+                style="@style/FireCheckBoxStyle"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="0dp"
+                android:text="10.不履行《中华人民共和国消防法》"></CheckBox>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingLeft="20dp">
+
+                <CheckBox
+                    android:id="@+id/question10_child1_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:text="第十六条"></CheckBox>
+
+                <CheckBox
+                    android:id="@+id/question10_child2_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:layout_marginLeft="5dp"
+                    android:text="第十七条"></CheckBox>
+
+                <CheckBox
+                    android:id="@+id/question10_child3_cb"
+                    style="@style/FireCheckBoxStyle"
+                    android:layout_marginLeft="5dp"
+                    android:text="第十八条"></CheckBox>
+            </LinearLayout>
+
+            <CheckBox
+                android:id="@+id/question10_child4_cb"
+                style="@style/FireCheckBoxStyle"
+                android:layout_marginLeft="20dp"
+                android:text="第二十一条"></CheckBox>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="25dp"
+                android:text="第二款规定的其他消防安全职责"
+                android:textColor="@color/text_title"></TextView>
+
+            <CheckBox
+                android:id="@+id/question11_cb"
+                style="@style/FireCheckBoxStyle"
+                android:layout_marginTop="5dp"
+                android:paddingLeft="0dp"
+                android:text="11.其他消防安全违法行为和火灾隐患："></CheckBox>
+
+            <EditText
+                android:id="@+id/question11_child_et"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/stroke_gray_square_bg"></EditText>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:text="具体问题："
+                android:textColor="@color/text_title"></TextView>
+
+            <EditText
+                android:id="@+id/concrete_question_et"
+                android:layout_width="match_parent"
+                android:layout_height="80dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/stroke_gray_square_bg"></EditText>
+
+            <TextView
+                android:id="@+id/fire_check_summarize_tv"
+                android:layout_width="match_parent"
+                android:layout_marginLeft="10dp"
+                android:lineSpacingExtra="5dp"
+                android:textSize="16dp"
+                android:textColor="@color/text_title"
+                android:layout_marginTop="15dp"
+                android:text="@string/fire_check_summarize"
+                android:layout_marginRight="10dp"
+                android:layout_height="wrap_content"></TextView>
+<!--        </LinearLayout>-->
+<!--    </ScrollView>-->
+
+</LinearLayout>

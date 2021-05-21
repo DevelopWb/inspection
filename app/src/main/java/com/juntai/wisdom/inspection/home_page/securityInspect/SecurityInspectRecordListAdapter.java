@@ -22,6 +22,6 @@ public class SecurityInspectRecordListAdapter extends BaseQuickAdapter<SecurityI
     protected void convert(BaseViewHolder helper, SecurityInspectRecordListBean.DataBean.DatasBean item) {
         helper.setText(R.id.record_time_tv, item.getInspectTime());
         helper.setText(R.id.record_person_tv, item.getInspectName());
-        helper.setText(R.id.record_type_tv, "检查记录");
+        helper.setText(R.id.record_type_tv, "巡检记录");
     }
 }

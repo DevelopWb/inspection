@@ -30,6 +30,7 @@ import com.juntai.wisdom.inspection.bean.ImportantTagBean;
 import com.juntai.wisdom.inspection.bean.ItemFragmentBean;
 import com.juntai.wisdom.inspection.bean.LocationBean;
 import com.juntai.wisdom.inspection.bean.MultipleItem;
+import com.juntai.wisdom.inspection.bean.RadioBean;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
 import com.juntai.wisdom.inspection.utils.AppUtils;
 import com.juntai.wisdom.inspection.utils.StringTools;
@@ -48,7 +49,12 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
     private boolean isDetail = false;//是否是详情模式
     private FragmentManager mFragmentManager;
     private OnCheckEdittextValueFormatCallBack checkEdittextValueFormatCallBack;
+    private OnRadioCheckedCallBack radioCheckedCallBack;
 
+
+    public void setRadioCheckedCallBack(OnRadioCheckedCallBack radioCheckedCallBack) {
+        this.radioCheckedCallBack = radioCheckedCallBack;
+    }
 
     public void setCheckEdittextValueFormatCallBack(OnCheckEdittextValueFormatCallBack checkEdittextValueFormatCallBack) {
         this.checkEdittextValueFormatCallBack = checkEdittextValueFormatCallBack;
@@ -65,12 +71,14 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         addItemType(MultipleItem.ITEM_HEAD_PIC, R.layout.item_layout_type_head_pic);
         addItemType(MultipleItem.ITEM_TITILE_BIG, R.layout.item_layout_type_title_big);
         addItemType(MultipleItem.ITEM_TITILE_SMALL, R.layout.item_layout_type_title_small);
+        addItemType(MultipleItem.ITEM_RADIO, R.layout.item_layout_type_radio);
         addItemType(MultipleItem.ITEM_EDIT, R.layout.item_layout_type_edit);
         addItemType(MultipleItem.ITEM_EDIT2, R.layout.item_layout_type_edit2);
         addItemType(MultipleItem.ITEM_SELECT, R.layout.item_layout_type_select);
         addItemType(MultipleItem.ITEM_FRAGMENT, R.layout.item_layout_type_fragment);
         addItemType(MultipleItem.ITEM_NORMAL_RECYCLEVIEW, R.layout.item_layout_type_recyclerview);
         addItemType(MultipleItem.ITEM_LOCATION, R.layout.item_layout_location);
+        addItemType(MultipleItem.ITEM_FIRE_CHECK_FORM, R.layout.item_fire_check);
         this.isDetail = isDetail;
         this.mFragmentManager = mFragmentManager;
     }
@@ -240,6 +248,107 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                     fragment.setIcons(fragmentBean.getFragmentPics());
                 }
                 break;
+            case MultipleItem.ITEM_RADIO:
+                RadioBean radioBean = (RadioBean) item.getObject();
+                RadioGroup radioGroup = helper.getView(R.id.item_radio_g);
+                if (isDetail) {
+                    for (int i = 0; i < radioGroup.getChildCount(); i++) {
+                        radioGroup.getChildAt(i).setEnabled(false);
+                    }
+                } else {
+                    for (int i = 0; i < radioGroup.getChildCount(); i++) {
+                        radioGroup.getChildAt(i).setEnabled(true);
+                    }
+                }
+                radioGroup.setTag(radioBean);
+                RadioButton radioButton0 = helper.getView(R.id.radio_zero_rb);
+                RadioButton radioButton1 = helper.getView(R.id.radio_first_rb);
+                RadioButton radioButton2 = helper.getView(R.id.radio_second_rb);
+                RadioButton radioButton3 = helper.getView(R.id.radio_third_rb);
+                String[] values = radioBean.getValues();
+                radioButton2.setVisibility(View.GONE);
+                radioButton3.setVisibility(View.GONE);
+                if (values != null) {
+                    if (values.length > 1) {
+                        radioButton0.setText(values[0]);
+                        radioButton1.setText(values[1]);
+                        if (values.length == 3) {
+                            radioButton2.setVisibility(View.VISIBLE);
+                            radioButton2.setText(values[2]);
+                        }
+                        if (values.length == 4) {
+                            radioButton2.setVisibility(View.VISIBLE);
+                            radioButton2.setText(values[2]);
+                            radioButton3.setVisibility(View.VISIBLE);
+                            radioButton3.setText(values[3]);
+                        }
+                    }
+
+                } else {
+                    radioButton0.setText("是");
+                    radioButton1.setText("否");
+                }
+                radioGroup.setOnCheckedChangeListener(new RadioGroup.OnCheckedChangeListener() {
+                    @Override
+                    public void onCheckedChanged(RadioGroup group, int checkedId) {
+                        if (radioCheckedCallBack != null) {
+                            radioCheckedCallBack.radioChecked(group,checkedId);
+                        }
+                        RadioBean radioBean = (RadioBean) group.getTag();
+                        switch (checkedId) {
+                            case R.id.radio_zero_rb:
+                                radioBean.setDefaultSelectedIndex(0);
+                                break;
+                            case R.id.radio_first_rb:
+                                radioBean.setDefaultSelectedIndex(1);
+                                break;
+                            case R.id.radio_second_rb:
+                                radioBean.setDefaultSelectedIndex(2);
+                                break;
+                            case R.id.radio_third_rb:
+                                radioBean.setDefaultSelectedIndex(3);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                });
+                int defaultIndex = radioBean.getDefaultSelectedIndex();
+
+                switch (defaultIndex) {
+                    case 0:
+                        radioButton0.setChecked(true);
+                        radioButton1.setChecked(false);
+                        radioButton2.setChecked(false);
+                        radioButton3.setChecked(false);
+                        break;
+                    case 1:
+                        radioButton0.setChecked(false);
+                        radioButton1.setChecked(true);
+                        radioButton2.setChecked(false);
+                        radioButton3.setChecked(false);
+                        break;
+                    case 2:
+                        radioButton0.setChecked(false);
+                        radioButton1.setChecked(false);
+                        radioButton2.setChecked(true);
+                        radioButton3.setChecked(false);
+                        break;
+                    case 3:
+                        radioButton0.setChecked(false);
+                        radioButton1.setChecked(false);
+                        radioButton2.setChecked(false);
+                        radioButton3.setChecked(true);
+                        break;
+                    default:
+                        radioButton0.setChecked(false);
+                        radioButton1.setChecked(false);
+                        radioButton2.setChecked(false);
+                        radioButton3.setChecked(false);
+                        break;
+                }
+
+                break;
             default:
                 break;
         }
@@ -314,4 +423,13 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
     interface OnCheckEdittextValueFormatCallBack {
         void checkEdittextValueFormat(TextKeyValueBean keyValueBean);
     }
+
+
+   public interface OnRadioCheckedCallBack {
+        void radioChecked(RadioGroup group, int checkedId);
+    }
+
+
+
+
 }

@@ -14,6 +14,9 @@ import com.juntai.wisdom.inspection.base.BaseAppActivity;
 import com.juntai.wisdom.inspection.bean.ActionBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
+import com.juntai.wisdom.inspection.bean.unit.UnitDetailBean;
+import com.juntai.wisdom.inspection.home_page.firecheck.FireCheckRecordListActivity;
+import com.juntai.wisdom.inspection.home_page.firecheck.StartCheckActivity;
 import com.juntai.wisdom.inspection.home_page.importantor.StartVisitActivity;
 import com.juntai.wisdom.inspection.home_page.importantor.VisitRecordListActivity;
 import com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectRecordListActivity;
@@ -102,7 +105,9 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
                         startActivity(new Intent(mContext, VisitRecordListActivity.class).putExtra(BaseRecordActivity.ID,((ImportantorBean.DataBean)getBaseBean()).getId()));
                         break;
                     case BaseInspectContract.INSPECTION_CHECK_RECORD:
-                        // TODO: 2021/5/18 单位详情里面的检查记录
+                        //  单位详情里面的检查记录
+                        startActivity(new Intent(mContext, FireCheckRecordListActivity.class).putExtra(BaseRecordActivity.ID,
+                                ((UnitDetailBean.DataBean)getBaseBean()).getId()));
                         break;
                     case BaseInspectContract.INSPECTION_RESPONSIBILITY:
                         // TODO: 2021/5/18  单位详情里面的责任书
@@ -154,6 +159,7 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
                 switch (getStartWorkName()) {
                     case START_CHECK:
                         // TODO: 2021/5/18 单位详情中的开始检查
+                        startActivity(new Intent(mContext, StartCheckActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY,((UnitDetailBean.DataBean)getBaseBean())));
                         break;
                     case START_INSPECT:
                         //开始巡检

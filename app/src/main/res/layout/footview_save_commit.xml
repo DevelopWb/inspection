@@ -10,14 +10,14 @@
         style="@style/bt_style"
         android:layout_weight="1"
         android:layout_marginLeft="40dp"
-        android:layout_marginRight="20dp"
+        android:layout_marginRight="10dp"
         android:text="保存草稿"
         ></TextView>
     <TextView
         android:id="@+id/commit_form_tv"
         style="@style/bt_style"
         android:layout_weight="1"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="10dp"
         android:layout_marginRight="40dp"
         android:text="提交审核"
         ></TextView>

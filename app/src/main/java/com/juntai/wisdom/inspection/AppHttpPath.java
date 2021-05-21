@@ -76,6 +76,15 @@ public class AppHttpPath {
     public static final String APPLY_EDIT_UNIT_INFO = BASE + "/u/appConnector/applyUnit.shtml";
 
 
+    /**
+     * 添加消防检查记录
+     */
+    public static final String ADD_FIRE_INSPECTION = BASE + "/u/appConnector/insertInspectionRecord.shtml";
+
+    /**
+     * 消防检查记录
+     */
+    public static final String GET_FIRE_INSPECTION_RECORDS = BASE + "/u/appConnector/selectInspectRecordList.shtml";
 
 
 

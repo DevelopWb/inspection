@@ -476,6 +476,9 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         case BaseInspectContract.REMARK:
                             //备注
                             formKey = "remarks";
+                            if ("开始检查".equals(getTitleName())) {
+                                formKey = "concreteProblems";
+                            }
                             unitDataBean.setRemarks(value);
                             inspectionSiteBean.setRemarks(value);
                             importantorBean.setRemarks(value);
@@ -631,7 +634,8 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         String picPah = photos.get(i);
                         switch (i) {
                             case 0:
-                                if ("开始巡检".equals(getTitleName()) || "开始走访".equals(getTitleName())) {
+                                if ("开始巡检".equals(getTitleName()) || "开始走访".equals(getTitleName())
+                                        || "开始检查".equals(getTitleName())) {
                                     if (!picPah.contains(AppUtils.getAppName())) {
                                         builder.addFormDataPart("pictureOne", "pictureOne",
                                                 RequestBody.create(MediaType.parse("file"),
