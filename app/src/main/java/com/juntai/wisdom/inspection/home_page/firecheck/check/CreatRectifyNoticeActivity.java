@@ -133,7 +133,7 @@ public class CreatRectifyNoticeActivity extends BaseInspectionActivity {
     public void onSuccess(String tag, Object o) {
         BaseResult baseResult = (BaseResult) o;
         String  noticeDetailId = baseResult.message;
-        // TODO: 2021/5/23 跳转到整改通知书详情 
+        // TODO: 2021/5/23 跳转到整改通知书详情
         ToastUtils.toast(mContext,noticeDetailId);
     }
 }

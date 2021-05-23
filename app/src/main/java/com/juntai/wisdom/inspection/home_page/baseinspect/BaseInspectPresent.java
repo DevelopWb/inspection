@@ -83,9 +83,10 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
      * 消防检查记录详情  有问题
      *
      * @param dataBean
+     * 处罚
      * @return
      */
-    public List<MultipleItem> getFireCheckedHasQuestionDetailData(FireCheckBean.DataBean dataBean) {
+    public List<MultipleItem> getFireCheckedHasQuestionDetailData(FireCheckBean.DataBean dataBean,boolean hasPunish) {
         List<MultipleItem> arrays = new ArrayList<>();
         arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW,
                 getStartFireCheckData(dataBean)));
@@ -107,8 +108,24 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 fragmentPics.size() ,
                 3, false,
                 fragmentPics)));
+        initTextType(arrays, MultipleItem.ITEM_EDIT2, "整改截止日期：",
+                dataBean == null ? "" : dataBean.getTime(), true,0);
         arrays.add(new MultipleItem(MultipleItem.ITEM_SIGN, new ItemSignBean("责任人签字：", dataBean == null ? "" :
                 dataBean.getSignPhoto(), 0,true)));
+        if (hasPunish) {
+            initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_PUNISH_INFO, dataBean == null ? "" :
+                    dataBean.getContent(), true, 1);
+            List<String> punishPics = new ArrayList<>();
+            if (dataBean != null) {
+                addFragmentPics(dataBean.getPunishPhotoOne(), punishPics);
+                addFragmentPics(dataBean.getPunishPhotoTwo(), punishPics);
+                addFragmentPics(dataBean.getPunishPhotoThree(), punishPics);
+            }
+            arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3,
+                    fragmentPics.size() ,
+                    3, false,
+                    fragmentPics)));
+        }
         return arrays;
     }
 

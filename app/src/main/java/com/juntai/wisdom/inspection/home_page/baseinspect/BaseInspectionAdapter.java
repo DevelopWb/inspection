@@ -144,6 +144,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         addItemType(MultipleItem.ITEM_SELECT, R.layout.item_layout_type_select);
         addItemType(MultipleItem.ITEM_SIGN, R.layout.item_layout_type_sign);
         addItemType(MultipleItem.ITEM_FRAGMENT, R.layout.item_layout_type_fragment);
+        addItemType(MultipleItem.ITEM_FRAGMENT2, R.layout.item_layout_type_fragment2);
         addItemType(MultipleItem.ITEM_NORMAL_RECYCLEVIEW, R.layout.item_layout_type_recyclerview);
         addItemType(MultipleItem.ITEM_LOCATION, R.layout.item_layout_location);
         addItemType(MultipleItem.ITEM_FIRE_CHECK_FORM, R.layout.item_fire_check);

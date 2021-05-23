@@ -26,6 +26,7 @@ public class MultipleItem implements MultiItemEntity {
     public static final int ITEM_NORMAL_RECYCLEVIEW = 14;//
     public static final int ITEM_EDIT2 = 15;//  key value 类型
     public static final int ITEM_FRAGMENT = 16;//  fragment
+    public static final int ITEM_FRAGMENT2 = 20;//  fragment
     public static final int ITEM_LOCATION = 17;//  定位
     public static final int ITEM_FIRE_CHECK_FORM = 18;//  消防检查表单
 

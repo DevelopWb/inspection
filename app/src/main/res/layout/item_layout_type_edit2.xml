@@ -19,7 +19,7 @@
         android:id="@+id/value_et"
         android:layout_width="match_parent"
         android:layout_height="32dp"
-        android:background="@drawable/bg_white_only_bottom_gray_shape_1px"
+        android:background="@null"
         android:imeOptions="actionDone"
         android:padding="5dp"
         android:textSize="14dp"></EditText>

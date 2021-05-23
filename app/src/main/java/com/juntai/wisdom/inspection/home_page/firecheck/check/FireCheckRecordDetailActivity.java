@@ -3,6 +3,7 @@ package com.juntai.wisdom.inspection.home_page.firecheck.check;
 import android.os.Bundle;
 import android.view.View;
 
+import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.inspection.bean.firecheck.FireCheckBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
 
@@ -37,6 +38,7 @@ public class FireCheckRecordDetailActivity extends BaseInspectionActivity {
         super.onCreate(savedInstanceState);
     }
 
+
     @Override
     public void onSuccess(String tag, Object o) {
         FireCheckBean fireCheckBean = (FireCheckBean) o;
@@ -47,10 +49,23 @@ public class FireCheckRecordDetailActivity extends BaseInspectionActivity {
                 adapter.setNewData(mPresenter.getFireCheckedOkDetailData(dataBean));
             } else {
                 //不合格
+
                 dataBean.setNoticeName("问题及整改意见");
                 dataBean.setNoticeContent(null);
                 dataBean.setHideSummarize(true);
-                adapter.setNewData(mPresenter.getFireCheckedHasQuestionDetailData(dataBean));
+                if (0== dataBean.getPunishId()) {
+                    //未添加处罚信息
+                    getTitleRightTv().setText("添加处罚信息");
+                    getTitleRightTv().setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            //todo  添加处罚信息
+                            ToastUtils.toast(mContext,"添加处罚信息");
+                        }
+                    });
+                }
+                adapter.setNewData(mPresenter.getFireCheckedHasQuestionDetailData(dataBean,0== dataBean.getPunishId()
+                        ?false:true));
             }
 
 

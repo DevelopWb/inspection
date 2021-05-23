@@ -55,6 +55,7 @@ public interface BaseInspectContract {
     String INSPECTION_RESULT_DESCRIPTION = "前期处理情况";
     String INSPECTION_VISIT_TIMES = "走访频率";
     String INSPECTION_IS_OK = "是否合格";
+    String INSPECTION_PUNISH_INFO = "处罚信息";
     String INSPECTION_OTHER_CONNECT_TYPE = "其他联系方式(QQ、微信、邮箱等)";
 
     interface IInspectView extends IView {

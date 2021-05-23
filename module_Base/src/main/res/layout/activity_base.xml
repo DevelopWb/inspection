@@ -39,7 +39,7 @@
                 android:paddingRight="5dp"
                 android:gravity="center"
                 android:singleLine="true"
-                android:layout_marginRight="15dp"
+                android:layout_marginRight="10dp"
                 android:layout_gravity="right"
                 android:textColor="@color/colorAccent"
                 android:text="@string/app_name"
