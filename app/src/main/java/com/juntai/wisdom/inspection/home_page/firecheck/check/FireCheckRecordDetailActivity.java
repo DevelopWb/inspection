@@ -22,6 +22,7 @@ public class FireCheckRecordDetailActivity extends BaseInspectionActivity {
     protected View getFootView() {
         return null;
     }
+
     @Override
     public void initData() {
         if (getIntent() != null) {
@@ -41,7 +42,17 @@ public class FireCheckRecordDetailActivity extends BaseInspectionActivity {
         FireCheckBean fireCheckBean = (FireCheckBean) o;
         if (fireCheckBean != null) {
             FireCheckBean.DataBean dataBean = fireCheckBean.getData();
-            adapter.setNewData(mPresenter.getFireCheckDetailData(dataBean, 1==dataBean.getQualified()?true:false));
+            if (1 == dataBean.getQualified()) {
+                //合格
+                adapter.setNewData(mPresenter.getFireCheckedOkDetailData(dataBean));
+            } else {
+                //不合格
+                dataBean.setNoticeName("问题及整改意见");
+                dataBean.setNoticeContent(null);
+                dataBean.setHideSummarize(true);
+                adapter.setNewData(mPresenter.getFireCheckedHasQuestionDetailData(dataBean));
+            }
+
 
         }
     }

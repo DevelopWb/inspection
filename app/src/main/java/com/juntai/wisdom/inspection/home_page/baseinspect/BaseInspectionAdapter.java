@@ -41,6 +41,7 @@ import com.juntai.wisdom.inspection.base.selectPics.SelectPhotosFragment;
 import com.juntai.wisdom.inspection.bean.HeadPicBean;
 import com.juntai.wisdom.inspection.bean.ImportantTagBean;
 import com.juntai.wisdom.inspection.bean.ItemFragmentBean;
+import com.juntai.wisdom.inspection.bean.ItemSignBean;
 import com.juntai.wisdom.inspection.bean.LocationBean;
 import com.juntai.wisdom.inspection.bean.MultipleItem;
 import com.juntai.wisdom.inspection.bean.RadioBean;
@@ -48,6 +49,7 @@ import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
 import com.juntai.wisdom.inspection.bean.firecheck.UnQuailityFormBean;
 import com.juntai.wisdom.inspection.bean.firecheck.UnQualifiedBean;
 import com.juntai.wisdom.inspection.utils.AppUtils;
+import com.juntai.wisdom.inspection.utils.StringTools;
 import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
 
 import java.util.ArrayList;
@@ -117,6 +119,14 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         this.checkEdittextValueFormatCallBack = checkEdittextValueFormatCallBack;
     }
 
+    public boolean isDetail() {
+        return isDetail;
+    }
+
+    public void setDetail(boolean detail) {
+        isDetail = detail;
+    }
+
     /**
      * Same as QuickAdapter#QuickAdapter(Context,int) but with
      * some initialization data.
@@ -132,6 +142,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         addItemType(MultipleItem.ITEM_EDIT, R.layout.item_layout_type_edit);
         addItemType(MultipleItem.ITEM_EDIT2, R.layout.item_layout_type_edit2);
         addItemType(MultipleItem.ITEM_SELECT, R.layout.item_layout_type_select);
+        addItemType(MultipleItem.ITEM_SIGN, R.layout.item_layout_type_sign);
         addItemType(MultipleItem.ITEM_FRAGMENT, R.layout.item_layout_type_fragment);
         addItemType(MultipleItem.ITEM_NORMAL_RECYCLEVIEW, R.layout.item_layout_type_recyclerview);
         addItemType(MultipleItem.ITEM_LOCATION, R.layout.item_layout_location);
@@ -406,8 +417,42 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
 
                 break;
 
+            case MultipleItem.ITEM_SIGN:
+                ItemSignBean signBean = (ItemSignBean) item.getObject();
+                if (signBean.isCanSign()) {
+                    helper.addOnClickListener(R.id.sign_name_iv);
+                }
+                int gravity = signBean.getLayoutGravity();
+                LinearLayout signLl = helper.getView(R.id.item_sign_ll);
+                ImageView signIv = helper.getView(R.id.sign_name_iv);
+                if (0 == gravity) {
+                    helper.setGone(R.id.sign_tag, true);
+                    signLl.setGravity(Gravity.LEFT);
+                } else {
+                    helper.setGone(R.id.sign_tag, false);
+                    signLl.setGravity(Gravity.RIGHT);
+                }
+                helper.setText(R.id.sign_name_tv, signBean.getSignName());
+                if (StringTools.isStringValueOk(signBean.getSignPicPath())) {
+                    ImageLoadUtil.loadImage(mContext, UrlFormatUtil.getImageOriginalUrl(signBean.getSignPicPath()), signIv);
+                }
+                break;
+
             case MultipleItem.ITEM_FIRE_CHECK_FORM:
                 UnQuailityFormBean formBean = (UnQuailityFormBean) item.getObject();
+                helper.setText(R.id.notice_title_tv, formBean.getNoticeName());
+                if (!TextUtils.isEmpty(formBean.getNoticeContent())) {
+                    helper.setGone(R.id.notice_content_tv, true);
+                    helper.setText(R.id.notice_content_tv, formBean.getNoticeContent());
+                } else {
+                    helper.setGone(R.id.notice_content_tv, false);
+                }
+                if (formBean.isHideSummarize()) {
+                    helper.setGone(R.id.fire_check_summarize_tv, false);
+                }else {
+                    helper.setGone(R.id.fire_check_summarize_tv, true);
+                }
+
                 String json = formBean.getProblems();
                 list = GsonTools.changeGsonToList(json, UnQualifiedBean.class);
                 initCheckBoxes(helper, formBean);
@@ -560,19 +605,20 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                             formBean.getItemOne());
                 }
                 if (!TextUtils.isEmpty(formBean.getItemOneTime())) {
-                    content =  content.replaceFirst(content.substring(getFirstHeadIndex(content, ITEM_HEAD_TAG2),
-                            getFirstFootIndex(content, ITEM_FOOT_TAG2)),formBean.getItemOneTime());
+                    content = content.replaceFirst(content.substring(getFirstHeadIndex(content, ITEM_HEAD_TAG2),
+                            getFirstFootIndex(content, ITEM_FOOT_TAG2)), formBean.getItemOneTime());
                 }
                 if (!TextUtils.isEmpty(formBean.getItemTwo())) {
-                    content = content.replaceFirst(content.substring(getLastHeadIndex(content, ITEM_HEAD_TAG1), getLastFootIndex(content, ITEM_FOOT_TAG1)),
+                    content = content.replaceFirst(content.substring(getLastHeadIndex(content, ITEM_HEAD_TAG1),
+                            getLastFootIndex(content, ITEM_FOOT_TAG1)),
                             formBean.getItemTwo());
                 }
                 if (!TextUtils.isEmpty(formBean.getItemTwoTime())) {
-                    content =  content.replaceFirst(content.substring(getLastHeadIndex(content,
+                    content = content.replaceFirst(content.substring(getLastHeadIndex(content,
                             ITEM_HEAD_TAG2), getLastFootIndex(content,
-                            ITEM_FOOT_TAG2)),formBean.getItemTwoTime());
+                            ITEM_FOOT_TAG2)), formBean.getItemTwoTime());
                 }
-                initSpannableText(summarizeTv,content);
+                initSpannableText(summarizeTv, content);
 
 
                 break;
@@ -592,6 +638,9 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         spannableString.setSpan(new ClickableSpan() {
                                     @Override
                                     public void onClick(@NonNull View widget) {
+                                        if (isDetail) {
+                                            return;
+                                        }
                                         //第一个选择事项
                                         new AlertDialog.Builder(mContext)
                                                 .setTitle("请选择事项")
@@ -651,6 +700,9 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         spannableString.setSpan(new ClickableSpan() {
                                     @Override
                                     public void onClick(@NonNull View widget) {
+                                        if (isDetail) {
+                                            return;
+                                        }
                                         //第一个选择时间
                                         PickerManager.getInstance().showTimePickerView(mContext,
                                                 PickerManager.getInstance().getTimeType("day"),
@@ -686,6 +738,9 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         spannableString.setSpan(new ClickableSpan() {
                                     @Override
                                     public void onClick(@NonNull View widget) {
+                                        if (isDetail) {
+                                            return;
+                                        }
                                         //第二个选择事项
                                         new AlertDialog.Builder(mContext)
                                                 .setTitle("请选择事项")
@@ -742,6 +797,9 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         spannableString.setSpan(new ClickableSpan() {
                                     @Override
                                     public void onClick(@NonNull View widget) {
+                                        if (isDetail) {
+                                            return;
+                                        }
                                         //第二个选择时间
                                         PickerManager.getInstance().showTimePickerView(mContext,
                                                 PickerManager.getInstance().getTimeType("day"),
@@ -845,6 +903,35 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         question10Cd2 = getCheckBox(helper, R.id.question10_child2_cb, formBean);
         question10Cd3 = getCheckBox(helper, R.id.question10_child3_cb, formBean);
         question10Cd4 = getCheckBox(helper, R.id.question10_child4_cb, formBean);
+        if (isDetail) {
+            setCheckBoxClickStatus(false, question1, question2, question3, question4, question5, question6, question7,
+                    question8, question9, question10, question11, question1Cd1, question1Cd2, question2Cd1,
+                    question2Cd2, question3Cd1, question3Cd2,
+                    question3Cd3, question4Cd1, question4Cd2, question4Cd3, question5Cd1, question5Cd2, question5Cd3,
+                    question5Cd4, question6Cd1, question6Cd2
+                    , question6Cd3, question8Cd1, question8Cd2, question8Cd3, question9Cd1, question9Cd2, question10Cd1,
+                    question10Cd2, question10Cd3, question10Cd4);
+        } else {
+            setCheckBoxClickStatus(true, question1, question2, question3, question4, question5, question6, question7,
+                    question8, question9, question10, question11, question1Cd1, question1Cd2, question2Cd1,
+                    question2Cd2, question3Cd1, question3Cd2,
+                    question3Cd3, question4Cd1, question4Cd2, question4Cd3, question5Cd1, question5Cd2, question5Cd3,
+                    question5Cd4, question6Cd1, question6Cd2
+                    , question6Cd3, question8Cd1, question8Cd2, question8Cd3, question9Cd1, question9Cd2, question10Cd1,
+                    question10Cd2, question10Cd3, question10Cd4);
+        }
+    }
+
+    /**
+     * 更改checkbox状态
+     *
+     * @param clickable
+     * @param checkBoxes
+     */
+    private void setCheckBoxClickStatus(boolean clickable, CheckBox... checkBoxes) {
+        for (CheckBox checkBox : checkBoxes) {
+            checkBox.setClickable(clickable);
+        }
     }
 
     private CheckBox getCheckBox(BaseViewHolder helper, int cbResId, UnQuailityFormBean formBean) {

@@ -110,6 +110,11 @@ public abstract class BaseCommitFootViewActivity extends BaseInspectionActivity 
 
                 break;
             case R.id.commit_form_tv:
+                if ("下一步".equals(commitName)) {
+                    //消防检查  检查出问题时 下一步的逻辑
+                   next();
+                    return;
+                }
                 BaseAdapterDataBean baseAdapterDataBean = getBaseAdapterData(false);
                 if (baseAdapterDataBean == null) {
                     return;
@@ -124,6 +129,10 @@ public abstract class BaseCommitFootViewActivity extends BaseInspectionActivity 
         }
     }
 
+    /**
+     * 下一步
+     */
+    public void  next(){}
     /**
      * 提交请求
      *

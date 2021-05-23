@@ -1,14 +1,20 @@
 package com.juntai.wisdom.inspection.home_page.baseinspect;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.juntai.disabled.basecomponent.utils.FileCacheUtils;
 import com.juntai.disabled.basecomponent.utils.GsonTools;
+import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.disabled.basecomponent.utils.PickerManager;
 import com.juntai.disabled.basecomponent.utils.RuleTools;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
@@ -17,11 +23,13 @@ import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.base.BaseAppActivity;
 import com.juntai.wisdom.inspection.base.bottomDialog.MultiSelectBottomSheetDialog;
+import com.juntai.wisdom.inspection.base.customview.GestureSignatureView;
 import com.juntai.wisdom.inspection.base.selectPics.SelectPhotosFragment;
 import com.juntai.wisdom.inspection.bean.BaseAdapterDataBean;
 import com.juntai.wisdom.inspection.bean.HeadPicBean;
 import com.juntai.wisdom.inspection.bean.IdNameBean;
 import com.juntai.wisdom.inspection.bean.ItemFragmentBean;
+import com.juntai.wisdom.inspection.bean.ItemSignBean;
 import com.juntai.wisdom.inspection.bean.LocationBean;
 import com.juntai.wisdom.inspection.bean.MultipleItem;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
@@ -38,6 +46,7 @@ import com.juntai.wisdom.inspection.utils.StringTools;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -59,11 +68,16 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     private SmartRefreshLayout mSmartrefreshlayout;
     public static String PARCELABLE_KEY = "parcelable";
     public static String BASEID = "baseid";
+    public static String BASE_STRING = "basestring";
     public final static String ADD_UNIT = "添加单位";
     public final static String ADD_INSPECTION_SITE = "添加治安巡检点";
     public final static String ADD_IMPORTANTOR = "添加重点人员";
     private HeadPicBean headPicBean;
     private int currentPosition;
+    private BottomSheetDialog bottomSheetDialog;
+    private GestureSignatureView gsv_signature;
+    private ImageView mSignIv;
+    private ItemSignBean itemSignBean;
 
 
     protected abstract String getTitleName();
@@ -163,6 +177,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
 
 
+
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 currentPosition = position;
@@ -171,7 +186,12 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                     case R.id.form_head_pic_iv:
                         choseImage(0, BaseInspectionActivity.this, 1);
                         break;
-
+                    case R.id.sign_name_iv:
+                        itemSignBean = (ItemSignBean) multipleItem.getObject();
+                        //签名
+                        mSignIv = (ImageView)view;
+                        showSignatureView();
+                        break;
 
                     case R.id.select_value_tv:
                         mSelectTv = (TextView) adapter.getViewByPosition(mRecyclerview, position,
@@ -358,7 +378,82 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
     @Override
     public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.signature_view_save:
+                if (gsv_signature.getTouched()) {
+                    try {
+                       String signPath = FileCacheUtils.getAppImagePath() + FileCacheUtils.SIGN_PIC_NAME;
+                        //保存到本地
+                        gsv_signature.save(signPath);
+                        if (mSignIv != null) {
+                            ImageLoadUtil.loadImage(mContext,signPath,mSignIv);
+                        }
+                        if (itemSignBean != null) {
+                            itemSignBean.setSignPicPath(signPath);
+                        }
+                        //                        SINGE_STATE = true;
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                    //                    mSignNameTagIv.setVisibility(View.GONE);
+                    //                    mSignNameNoticeTv.setVisibility(View.GONE);
+                    //                    mSignRedactImg.setVisibility(View.VISIBLE);
+                    bottomSheetDialog.dismiss();
+                    //                    mSignResign.getRightTextView().setVisibility(View.VISIBLE);
+                } else {
+                    ToastUtils.toast(mContext, "请签名！");
+                }
 
+                break;
+
+            case R.id.signature_view_rewrite:
+                gsv_signature.clear();
+                break;
+            case R.id.signature_view_cancel:
+                gsv_signature.clear();
+                bottomSheetDialog.dismiss();
+                break;
+            default:
+                break;
+        }
+    }
+    /**
+     * 展示签名的画板
+     */
+    protected void showSignatureView() {
+
+        bottomSheetDialog = new BottomSheetDialog(this);
+        View view = LayoutInflater.from(this).inflate(R.layout.signature_view_layout, null);
+        view.findViewById(R.id.signature_view_save).setOnClickListener(this);
+        view.findViewById(R.id.signature_view_rewrite).setOnClickListener(this);
+        view.findViewById(R.id.signature_view_cancel).setOnClickListener(this);
+        //签名画板
+        gsv_signature = view.findViewById(R.id.gsv_signature);
+
+        bottomSheetDialog.setContentView(view);
+        bottomSheetDialog.setCanceledOnTouchOutside(false);
+        bottomSheetDialog.setCancelable(false);
+        bottomSheetDialog.show();
+
+
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (adapter != null) {
+            adapter.removeAllFooterView();
+            adapter.removeAllHeaderView();
+        }
+        if (bottomSheetDialog != null) {
+            if (bottomSheetDialog.isShowing()) {
+                bottomSheetDialog.dismiss();
+            }
+            bottomSheetDialog = null;
+        }
+        //清除签名文件
+        FileCacheUtils.clearImage(getSignPath(FileCacheUtils.SIGN_PIC_NAME));
+        FileCacheUtils.clearImage(getSignPath(FileCacheUtils.HEAD_PIC));
     }
 
     /**
@@ -381,7 +476,17 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         List<MultipleItem> arrays = adapter.getData();
         for (MultipleItem array : arrays) {
             switch (array.getItemType()) {
-
+                case MultipleItem.ITEM_SIGN:
+                    //签名
+                    ItemSignBean signBean = (ItemSignBean) array.getObject();
+                    if (!StringTools.isStringValueOk(signBean.getSignPicPath())) {
+                        ToastUtils.toast(mContext, "请签名");
+                        return null;
+                    }
+                    builder.addFormDataPart("pictureSign", "pictureSign",
+                            RequestBody.create(MediaType.parse(
+                                    "file"), new File(getSignPath(FileCacheUtils.SIGN_PIC_NAME))));
+                    break;
                 case MultipleItem.ITEM_HEAD_PIC:
                     HeadPicBean headPicBean = (HeadPicBean) array.getObject();
                     if (!skipFilter) {
@@ -631,27 +736,33 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             if (1 == unQualifiedBean.getChild().get(0).getSelectStatus()) {
                                 //如果选择的问题11  必须填写内容描述
                                 if (TextUtils.isEmpty(formBean.getOtherProblem())) {
-                                    ToastUtils.toast(mContext,"请输入问题11的内容");
-                                    return null;
-                                }else {
+                                    if (!skipFilter) {
+                                        ToastUtils.toast(mContext, "请输入问题11的内容");
+                                        return null;
+                                    }
+                                } else {
                                     fireCheckBean.setOtherProblem(formBean.getOtherProblem());
                                     builder.addFormDataPart("otherProblem", formBean.getOtherProblem());
                                 }
                             }
                         }
                     }
-                    builder.addFormDataPart("problems", formBean.getProblems());
+                    builder.addFormDataPart("itemsJson", json);
                     if (TextUtils.isEmpty(formBean.getConcreteProblems())) {
-                        ToastUtils.toast(mContext,"请输入具体问题");
-                        return null;
-                    }else {
+                        if (!skipFilter) {
+                            ToastUtils.toast(mContext, "请输入具体问题");
+                            return null;
+                        }
+                    } else {
                         builder.addFormDataPart("concreteProblems", formBean.getConcreteProblems());
                         fireCheckBean.setConcreteProblems(formBean.getConcreteProblems());
                     }
-                    if (TextUtils.isEmpty(formBean.getItemOne())&&TextUtils.isEmpty(formBean.getItemTwo())) {
-                        ToastUtils.toast(mContext,"请选择需要整改的问题项");
-                        return null;
-                    }else {
+                    if (TextUtils.isEmpty(formBean.getItemOne()) && TextUtils.isEmpty(formBean.getItemTwo())) {
+                        {
+                            ToastUtils.toast(mContext, "请选择需要整改的问题项");
+                            return null;
+                        }
+                    } else {
                         if (!TextUtils.isEmpty(formBean.getItemOne())) {
                             fireCheckBean.setItemOne(formBean.getItemOne());
                             builder.addFormDataPart("itemOne", formBean.getItemOne());
@@ -661,10 +772,12 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             builder.addFormDataPart("itemTwo", formBean.getItemTwo());
                         }
                     }
-                    if (TextUtils.isEmpty(formBean.getItemOneTime())&&TextUtils.isEmpty(formBean.getItemTwoTime())) {
-                        ToastUtils.toast(mContext,"请选择整改的完成时间");
-                        return null;
-                    }else {
+                    if (TextUtils.isEmpty(formBean.getItemOneTime()) && TextUtils.isEmpty(formBean.getItemTwoTime())) {
+                        if (!skipFilter) {
+                            ToastUtils.toast(mContext, "请选择整改的完成时间");
+                            return null;
+                        }
+                    } else {
                         if (!TextUtils.isEmpty(formBean.getItemOneTime())) {
                             fireCheckBean.setItemOneTime(formBean.getItemOneTime());
                             builder.addFormDataPart("itemOneTime", formBean.getItemOneTime());
@@ -674,8 +787,6 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             builder.addFormDataPart("itemTwoTime", formBean.getItemTwoTime());
                         }
                     }
-
-
 
 
                     break;

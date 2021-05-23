@@ -1,6 +1,7 @@
 package com.juntai.wisdom.inspection.home_page.firecheck.check;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -9,12 +10,10 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.juntai.disabled.basecomponent.utils.GsonTools;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
+import com.juntai.wisdom.inspection.bean.BaseAdapterDataBean;
 import com.juntai.wisdom.inspection.bean.firecheck.FireCheckBean;
-import com.juntai.wisdom.inspection.bean.firecheck.UnQuailityFormBean;
-import com.juntai.wisdom.inspection.bean.firecheck.UnQualifiedBean;
 import com.juntai.wisdom.inspection.bean.firecheck.UnitDetailBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseCommitFootViewActivity;
 import com.juntai.wisdom.inspection.home_page.baseinspect.TextKeyValueAdapter;
@@ -23,11 +22,9 @@ import com.juntai.wisdom.inspection.utils.HawkProperty;
 import com.juntai.wisdom.inspection.utils.UserInfoManager;
 import com.orhanobut.hawk.Hawk;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
+
 
 /**
  * @aouther tobato
@@ -61,6 +58,9 @@ public class StartCheckActivity extends BaseCommitFootViewActivity {
                 firecheckbean.setInspectTime(CalendarUtil.getCurrentTime("yyyy-MM-dd HH:mm:ss"));
                 firecheckbean.setUnitLiable(unitBean.getPersonLiable());
                 firecheckbean.setLiablePhone(unitBean.getLiablePhone());
+                firecheckbean.setUnitName(unitBean.getName());
+                firecheckbean.setNoticeName("问题及整改意见");
+                firecheckbean.setNoticeContent(mContext.getString(R.string.fire_check_notice));
                 firecheckbean.setItemsJson(getString(R.string.unquaility_problems));
                 headAdapter.setNewData(mPresenter.getStartFireCheckData(firecheckbean));
                 adapter.setNewData(mPresenter.getFireCheckData(firecheckbean, true));
@@ -91,7 +91,6 @@ public class StartCheckActivity extends BaseCommitFootViewActivity {
         }
 
     }
-
 
 
     /**
@@ -148,8 +147,6 @@ public class StartCheckActivity extends BaseCommitFootViewActivity {
                             firecheckbean.getLiablePhone()).addFormDataPart("qualified", "1").build();
 
             mPresenter.addFireCheckRecord(body, "");
-        } else {
-            //检查有问题
         }
 
     }
@@ -158,17 +155,40 @@ public class StartCheckActivity extends BaseCommitFootViewActivity {
     protected void saveDraft() {
         //保存草稿
         if (getBaseAdapterData(true) != null) {
-            FireCheckBean.DataBean dataBean =
-                    getBaseAdapterData(true).getFireCheckBean();
-            dataBean.setInspectTime(firecheckbean.getInspectTime());
-            dataBean.setInspectName(firecheckbean.getInspectName());
-            dataBean.setQualified("提交".equals(commitName) ? 1 : 2);
-            dataBean.setUnitLiable(firecheckbean.getUnitLiable());
-            dataBean.setLiablePhone(firecheckbean.getLiablePhone());
-            Hawk.put(HawkProperty.ADD_FIRE_CHECK_RECORD_KEY + unitBean.getId(), dataBean);
+            saveDraftLogic(true);
             ToastUtils.toast(mContext, "草稿保存成功");
             finish();
         }
+    }
+
+    /**
+     * 保存草稿
+     */
+    private boolean saveDraftLogic(boolean skip) {
+        BaseAdapterDataBean  baseAdapterDataBean = getBaseAdapterData(skip);
+        if (baseAdapterDataBean == null) {
+            return false;
+        }
+        FireCheckBean.DataBean dataBean =baseAdapterDataBean.getFireCheckBean();
+        dataBean.setInspectTime(firecheckbean.getInspectTime());
+        dataBean.setInspectName(firecheckbean.getInspectName());
+        dataBean.setQualified("提交".equals(commitName) ? 1 : 2);
+        dataBean.setUnitLiable(firecheckbean.getUnitLiable());
+        dataBean.setLiablePhone(firecheckbean.getLiablePhone());
+        dataBean.setNoticeName(firecheckbean.getNoticeName());
+        dataBean.setNoticeContent(firecheckbean.getNoticeContent());
+        dataBean.setUnitName(firecheckbean.getUnitName());
+        dataBean.setBuilder(baseAdapterDataBean.getBuilder());
+        Hawk.put(HawkProperty.ADD_FIRE_CHECK_RECORD_KEY + unitBean.getId(), dataBean);
+        return true;
+    }
+
+    @Override
+    public void next() {
+        if (saveDraftLogic(false)) {
+            startActivity(new Intent(mContext, CreatRectifyNoticeActivity.class).putExtra(BASEID,unitBean.getId()));
+        }
+
     }
 
     @Override

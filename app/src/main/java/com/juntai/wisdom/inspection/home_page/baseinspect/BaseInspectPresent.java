@@ -13,6 +13,7 @@ import com.juntai.wisdom.inspection.bean.HeadPicBean;
 import com.juntai.wisdom.inspection.bean.IdNameBean;
 import com.juntai.wisdom.inspection.bean.ImportantTagBean;
 import com.juntai.wisdom.inspection.bean.ItemFragmentBean;
+import com.juntai.wisdom.inspection.bean.ItemSignBean;
 import com.juntai.wisdom.inspection.bean.LocationBean;
 import com.juntai.wisdom.inspection.bean.MultipleItem;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
@@ -51,22 +52,17 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     }
 
     /**
-     * 消防检查记录详情
+     * 消防检查记录详情  没问题
      *
      * @param dataBean
      * @return
      */
-    public List<MultipleItem> getFireCheckDetailData(FireCheckBean.DataBean dataBean,boolean  isCheckedOk) {
+    public List<MultipleItem> getFireCheckedOkDetailData(FireCheckBean.DataBean dataBean) {
         List<MultipleItem> arrays = new ArrayList<>();
         arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW,
                 getStartFireCheckData(dataBean)));
-        if (isCheckedOk) {
-            initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, dataBean == null ? "" :
-                    dataBean.getConcreteProblems(), false, 1);
-        } else {
-            arrays.add(new MultipleItem(MultipleItem.ITEM_FIRE_CHECK_FORM,
-                    ""));
-        }
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, dataBean == null ? "" :
+                dataBean.getConcreteProblems(), false, 1);
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传检查图片"));
         List<String> fragmentPics = new ArrayList<>();
         if (dataBean != null) {
@@ -81,6 +77,38 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 fragmentPics.size() ,
                 3, false,
                 fragmentPics)));
+        return arrays;
+    }
+    /**
+     * 消防检查记录详情  有问题
+     *
+     * @param dataBean
+     * @return
+     */
+    public List<MultipleItem> getFireCheckedHasQuestionDetailData(FireCheckBean.DataBean dataBean) {
+        List<MultipleItem> arrays = new ArrayList<>();
+        arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW,
+                getStartFireCheckData(dataBean)));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FIRE_CHECK_FORM,
+                new UnQuailityFormBean(dataBean.getItemsJson(),dataBean.getOtherProblem(),
+                        dataBean.getConcreteProblems(),dataBean.getItemOne(),dataBean.getItemOneTime(),dataBean.getItemTwo(),
+                        dataBean.getItemTwoTime(),dataBean.getNoticeName(),dataBean.getNoticeContent(),dataBean.isHideSummarize())));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "检查图片"));
+        List<String> fragmentPics = new ArrayList<>();
+        if (dataBean != null) {
+            addFragmentPics(dataBean.getPhotoOne(), fragmentPics);
+            addFragmentPics(dataBean.getPhotoTwo(), fragmentPics);
+            addFragmentPics(dataBean.getPhotoThree(), fragmentPics);
+            addFragmentPics(dataBean.getPhotoFour(), fragmentPics);
+            addFragmentPics(dataBean.getPhotoFive(), fragmentPics);
+            addFragmentPics(dataBean.getPhotoSix(), fragmentPics);
+        }
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3,
+                fragmentPics.size() ,
+                3, false,
+                fragmentPics)));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_SIGN, new ItemSignBean("责任人签字：", dataBean == null ? "" :
+                dataBean.getSignPhoto(), 0,true)));
         return arrays;
     }
 
@@ -101,7 +129,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
             arrays.add(new MultipleItem(MultipleItem.ITEM_FIRE_CHECK_FORM,
                     new UnQuailityFormBean(dataBean.getItemsJson(),dataBean.getOtherProblem(),
                             dataBean.getConcreteProblems(),dataBean.getItemOne(),dataBean.getItemOneTime(),dataBean.getItemTwo(),
-                            dataBean.getItemTwoTime())));
+                            dataBean.getItemTwoTime(),dataBean.getNoticeName(),dataBean.getNoticeContent(),dataBean.isHideSummarize())));
         }
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传检查图片"));
         List<String> fragmentPics = new ArrayList<>();
@@ -116,6 +144,25 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3, 6,
                 3, false,
                 fragmentPics)));
+        return arrays;
+    }
+    /**
+     * 整改通知书
+     *
+     * @param dataBean
+     * @return
+     */
+    public List<MultipleItem> getFireCheckNoticeData(FireCheckBean.DataBean dataBean) {
+        List<MultipleItem> arrays = new ArrayList<>();
+            arrays.add(new MultipleItem(MultipleItem.ITEM_FIRE_CHECK_FORM,
+                    new UnQuailityFormBean(dataBean.getItemsJson(),dataBean.getOtherProblem(),
+                            dataBean.getConcreteProblems(),dataBean.getItemOne(),dataBean.getItemOneTime(),dataBean.getItemTwo(),
+                            dataBean.getItemTwoTime(),dataBean.getNoticeName(),dataBean.getNoticeContent(),
+                            dataBean.isHideSummarize())));
+
+        arrays.add(new MultipleItem(MultipleItem.ITEM_SIGN, new ItemSignBean("责任人签字：", dataBean == null ? "" :
+                "", 0,true)));
+
         return arrays;
     }
 

@@ -8,11 +8,8 @@
         android:id="@+id/single_text_tv"
         android:layout_width="match_parent"
         android:layout_height="50dp"
+        android:background="@drawable/bg_white_only_bottom_gray_shape_1px"
         android:gravity="center"
         android:textSize="16dp"
         android:textColor="@color/text_gray"/>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1px"
-        android:background="#E0E0E0"></View>
 </LinearLayout>

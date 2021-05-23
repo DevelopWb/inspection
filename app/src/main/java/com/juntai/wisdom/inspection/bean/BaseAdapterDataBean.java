@@ -26,6 +26,7 @@ public class BaseAdapterDataBean {
     private ImportantorVisitRecordDetailBean.DataBean visitRecordDetailBean;
     private FireCheckBean.DataBean fireCheckBean;
 
+
     public FireCheckBean.DataBean getFireCheckBean() {
         return fireCheckBean;
     }

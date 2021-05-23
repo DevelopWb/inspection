@@ -2,6 +2,8 @@ package com.juntai.wisdom.inspection.bean.firecheck;
 
 import com.juntai.disabled.basecomponent.base.BaseResult;
 
+import okhttp3.MultipartBody;
+
 /**
  * @Author: tobato
  * @Description: 作用描述  消防检查
@@ -87,6 +89,9 @@ public class FireCheckBean  extends BaseResult {
         private String punishPhotoThree;
         private String itemsJson;
         private String itemOne;//问题类型1
+        private String unitName;// 单位名称
+        private String noticeName;// 通知书的名字
+        private String noticeContent;// 通知内容
 
         private String itemOneTime;//整改到期时间
 
@@ -95,9 +100,52 @@ public class FireCheckBean  extends BaseResult {
         private String itemTwoTime;//整改到期时间
 
         private String signPhoto;//签名照
+        private boolean  hideSummarize = false;//隐藏总结文字
+
+        public boolean isHideSummarize() {
+            return hideSummarize;
+        }
+
+        public void setHideSummarize(boolean hideSummarize) {
+            this.hideSummarize = hideSummarize;
+        }
+
+        private MultipartBody.Builder builder;
+
+        public MultipartBody.Builder getBuilder() {
+            return builder;
+        }
+
+        public void setBuilder(MultipartBody.Builder builder) {
+            this.builder = builder;
+        }
+
+        public String getNoticeContent() {
+            return noticeContent == null ? "" : noticeContent;
+        }
+
+        public void setNoticeContent(String noticeContent) {
+            this.noticeContent = noticeContent == null ? "" : noticeContent;
+        }
 
         public String getItemOne() {
             return itemOne == null ? "" : itemOne;
+        }
+
+        public String getNoticeName() {
+            return noticeName == null ? "" : noticeName;
+        }
+
+        public void setNoticeName(String noticeName) {
+            this.noticeName = noticeName == null ? "" : noticeName;
+        }
+
+        public String getUnitName() {
+            return unitName == null ? "" : unitName;
+        }
+
+        public void setUnitName(String unitName) {
+            this.unitName = unitName == null ? "" : unitName;
         }
 
         public void setItemOne(String itemOne) {
