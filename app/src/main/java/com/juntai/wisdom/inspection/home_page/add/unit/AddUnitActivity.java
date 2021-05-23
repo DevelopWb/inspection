@@ -8,12 +8,11 @@ import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.AppHttpPath;
-import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
-import com.juntai.wisdom.inspection.bean.unit.UnitDetailBean;
+import com.juntai.wisdom.inspection.bean.firecheck.SearchedUnitsBean;
+import com.juntai.wisdom.inspection.bean.firecheck.UnitDetailBean;
 import com.juntai.wisdom.inspection.home_page.add.BaseAddActivity;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
 import com.juntai.wisdom.inspection.home_page.firecheck.UnitsAdapter;
-import com.juntai.wisdom.inspection.utils.UserInfoManager;
 
 import java.util.List;
 

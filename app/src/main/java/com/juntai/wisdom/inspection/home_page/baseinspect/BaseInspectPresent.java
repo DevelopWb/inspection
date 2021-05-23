@@ -15,8 +15,8 @@ import com.juntai.wisdom.inspection.bean.ImportantTagBean;
 import com.juntai.wisdom.inspection.bean.ItemFragmentBean;
 import com.juntai.wisdom.inspection.bean.LocationBean;
 import com.juntai.wisdom.inspection.bean.MultipleItem;
-import com.juntai.wisdom.inspection.bean.RadioBean;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
+import com.juntai.wisdom.inspection.bean.firecheck.UnQuailityFormBean;
 import com.juntai.wisdom.inspection.bean.importantor.AllImportantorBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordDetailBean;
@@ -25,10 +25,10 @@ import com.juntai.wisdom.inspection.bean.inspectionsite.AllInspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordDetailBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordListBean;
-import com.juntai.wisdom.inspection.bean.unit.FireCheckBean;
-import com.juntai.wisdom.inspection.bean.unit.FireCheckRecordListBean;
-import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
-import com.juntai.wisdom.inspection.bean.unit.UnitDetailBean;
+import com.juntai.wisdom.inspection.bean.firecheck.FireCheckBean;
+import com.juntai.wisdom.inspection.bean.firecheck.FireCheckRecordListBean;
+import com.juntai.wisdom.inspection.bean.firecheck.SearchedUnitsBean;
+import com.juntai.wisdom.inspection.bean.firecheck.UnitDetailBean;
 import com.juntai.wisdom.inspection.utils.AppUtils;
 import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
 
@@ -99,7 +99,9 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                     dataBean.getConcreteProblems(), true, 1);
         } else {
             arrays.add(new MultipleItem(MultipleItem.ITEM_FIRE_CHECK_FORM,
-                    ""));
+                    new UnQuailityFormBean(dataBean.getItemsJson(),dataBean.getOtherProblem(),
+                            dataBean.getConcreteProblems(),dataBean.getItemOne(),dataBean.getItemOneTime(),dataBean.getItemTwo(),
+                            dataBean.getItemTwoTime())));
         }
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传检查图片"));
         List<String> fragmentPics = new ArrayList<>();

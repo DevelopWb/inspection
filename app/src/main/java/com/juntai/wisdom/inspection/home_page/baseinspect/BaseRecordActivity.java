@@ -1,6 +1,5 @@
 package com.juntai.wisdom.inspection.home_page.baseinspect;
 
-import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
@@ -11,7 +10,7 @@ import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.base.BaseAppActivity;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordListBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordListBean;
-import com.juntai.wisdom.inspection.bean.unit.FireCheckRecordListBean;
+import com.juntai.wisdom.inspection.bean.firecheck.FireCheckRecordListBean;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 import com.scwang.smartrefresh.layout.api.RefreshLayout;
 import com.scwang.smartrefresh.layout.listener.OnLoadMoreListener;

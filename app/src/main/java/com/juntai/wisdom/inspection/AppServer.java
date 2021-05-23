@@ -12,10 +12,10 @@ import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.UserBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordDetailBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordListBean;
-import com.juntai.wisdom.inspection.bean.unit.FireCheckBean;
-import com.juntai.wisdom.inspection.bean.unit.FireCheckRecordListBean;
-import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
-import com.juntai.wisdom.inspection.bean.unit.UnitDetailBean;
+import com.juntai.wisdom.inspection.bean.firecheck.FireCheckBean;
+import com.juntai.wisdom.inspection.bean.firecheck.FireCheckRecordListBean;
+import com.juntai.wisdom.inspection.bean.firecheck.SearchedUnitsBean;
+import com.juntai.wisdom.inspection.bean.firecheck.UnitDetailBean;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;

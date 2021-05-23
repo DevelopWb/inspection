@@ -1,4 +1,4 @@
-package com.juntai.wisdom.inspection.bean.unit;
+package com.juntai.wisdom.inspection.bean.firecheck;
 
 import android.os.Parcel;
 import android.os.Parcelable;

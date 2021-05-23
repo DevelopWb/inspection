@@ -1,14 +1,11 @@
 package com.juntai.wisdom.inspection.home_page.firecheck.check;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
-import com.chad.library.adapter.base.BaseQuickAdapter;
-import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordDetailBean;
-import com.juntai.wisdom.inspection.bean.unit.FireCheckBean;
+import com.juntai.wisdom.inspection.bean.firecheck.FireCheckBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
-import com.juntai.wisdom.inspection.home_page.baseinspect.BaseRecordActivity;
+
 /**
  * @aouther tobato
  * @description 描述  消防检查详情

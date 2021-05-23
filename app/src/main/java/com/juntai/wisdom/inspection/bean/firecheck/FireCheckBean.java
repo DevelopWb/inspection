@@ -1,4 +1,4 @@
-package com.juntai.wisdom.inspection.bean.unit;
+package com.juntai.wisdom.inspection.bean.firecheck;
 
 import com.juntai.disabled.basecomponent.base.BaseResult;
 
@@ -80,14 +80,53 @@ public class FireCheckBean  extends BaseResult {
         private String photoFour;
         private String photoFive;
         private String photoSix;
-        private String signPhoto;
         private int punishId;
         private String content;
         private String punishPhotoOne;
         private String punishPhotoTwo;
         private String punishPhotoThree;
         private String itemsJson;
+        private String itemOne;//问题类型1
 
+        private String itemOneTime;//整改到期时间
+
+        private String itemTwo;//问题类型2
+
+        private String itemTwoTime;//整改到期时间
+
+        private String signPhoto;//签名照
+
+        public String getItemOne() {
+            return itemOne == null ? "" : itemOne;
+        }
+
+        public void setItemOne(String itemOne) {
+            this.itemOne = itemOne == null ? "" : itemOne;
+        }
+
+        public String getItemOneTime() {
+            return itemOneTime == null ? "" : itemOneTime;
+        }
+
+        public void setItemOneTime(String itemOneTime) {
+            this.itemOneTime = itemOneTime == null ? "" : itemOneTime;
+        }
+
+        public String getItemTwo() {
+            return itemTwo == null ? "" : itemTwo;
+        }
+
+        public void setItemTwo(String itemTwo) {
+            this.itemTwo = itemTwo == null ? "" : itemTwo;
+        }
+
+        public String getItemTwoTime() {
+            return itemTwoTime == null ? "" : itemTwoTime;
+        }
+
+        public void setItemTwoTime(String itemTwoTime) {
+            this.itemTwoTime = itemTwoTime == null ? "" : itemTwoTime;
+        }
 
         public int getRecordId() {
             return recordId;

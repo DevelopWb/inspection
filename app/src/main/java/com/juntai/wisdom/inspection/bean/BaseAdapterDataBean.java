@@ -4,9 +4,8 @@ import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordDetailBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordDetailBean;
-import com.juntai.wisdom.inspection.bean.unit.FireCheckBean;
-import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
-import com.juntai.wisdom.inspection.bean.unit.UnitDetailBean;
+import com.juntai.wisdom.inspection.bean.firecheck.FireCheckBean;
+import com.juntai.wisdom.inspection.bean.firecheck.UnitDetailBean;
 
 import okhttp3.MultipartBody;
 

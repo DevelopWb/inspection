@@ -1,7 +1,6 @@
 package com.juntai.wisdom.inspection.home_page.add.inspectionsite;
 
 import android.content.Intent;
-import android.os.Bundle;
 import android.text.TextUtils;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
@@ -10,12 +9,8 @@ import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.bean.inspectionsite.AllInspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
-import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
 import com.juntai.wisdom.inspection.home_page.add.BaseAddActivity;
-import com.juntai.wisdom.inspection.home_page.add.unit.SearchAddUnitActivity;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
-import com.juntai.wisdom.inspection.home_page.firecheck.UnitsAdapter;
-import com.juntai.wisdom.inspection.utils.UserInfoManager;
 
 import java.util.List;
 

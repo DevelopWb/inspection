@@ -14,7 +14,7 @@ import com.juntai.wisdom.inspection.base.BaseAppActivity;
 import com.juntai.wisdom.inspection.bean.ActionBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
-import com.juntai.wisdom.inspection.bean.unit.UnitDetailBean;
+import com.juntai.wisdom.inspection.bean.firecheck.UnitDetailBean;
 import com.juntai.wisdom.inspection.home_page.firecheck.check.FireCheckRecordListActivity;
 import com.juntai.wisdom.inspection.home_page.firecheck.check.StartCheckActivity;
 import com.juntai.wisdom.inspection.home_page.importantor.StartVisitActivity;

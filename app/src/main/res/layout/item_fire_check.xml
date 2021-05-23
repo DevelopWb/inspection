@@ -8,14 +8,14 @@
     android:paddingLeft="15dp"
     android:paddingRight="15dp">
 
-<!--    <ScrollView-->
-<!--        android:layout_width="match_parent"-->
-<!--        android:layout_height="wrap_content">-->
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
 
-<!--        <LinearLayout-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:orientation="vertical">-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
 
             <TextView
                 android:layout_width="match_parent"
@@ -334,6 +334,9 @@
                 android:id="@+id/question11_child_et"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
+                android:gravity="top|left"
+                android:padding="5dp"
+                android:textSize="14dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/stroke_gray_square_bg"></EditText>
@@ -351,6 +354,9 @@
                 android:id="@+id/concrete_question_et"
                 android:layout_width="match_parent"
                 android:layout_height="80dp"
+                android:gravity="top|left"
+                android:padding="5dp"
+                android:textSize="14dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginRight="10dp"
                 android:background="@drawable/stroke_gray_square_bg"></EditText>
@@ -366,7 +372,7 @@
                 android:text="@string/fire_check_summarize"
                 android:layout_marginRight="10dp"
                 android:layout_height="wrap_content"></TextView>
-<!--        </LinearLayout>-->
-<!--    </ScrollView>-->
+        </LinearLayout>
+    </ScrollView>
 
 </LinearLayout>

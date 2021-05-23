@@ -1,14 +1,7 @@
 package com.juntai.wisdom.inspection.home_page.firecheck;
 
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.view.View;
-
 import com.juntai.wisdom.inspection.AppHttpPath;
-import com.juntai.wisdom.inspection.bean.unit.UnitDetailBean;
 import com.juntai.wisdom.inspection.home_page.add.unit.BaseAddUnitActivity;
-import com.juntai.wisdom.inspection.home_page.baseinspect.BaseCommitFootViewActivity;
-import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
 import com.juntai.wisdom.inspection.utils.AppUtils;
 import com.juntai.wisdom.inspection.utils.HawkProperty;
 

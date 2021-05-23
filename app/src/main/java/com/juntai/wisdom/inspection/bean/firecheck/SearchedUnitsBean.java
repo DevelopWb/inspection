@@ -1,7 +1,4 @@
-package com.juntai.wisdom.inspection.bean.unit;
-
-import android.os.Parcel;
-import android.os.Parcelable;
+package com.juntai.wisdom.inspection.bean.firecheck;
 
 import com.juntai.disabled.basecomponent.base.BaseResult;
 

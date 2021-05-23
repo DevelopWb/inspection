@@ -5,11 +5,9 @@ import android.content.Intent;
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.AppHttpPath;
-import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordListBean;
-import com.juntai.wisdom.inspection.bean.unit.FireCheckRecordListBean;
+import com.juntai.wisdom.inspection.bean.firecheck.FireCheckRecordListBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseRecordActivity;
-import com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectRecordDetailActivity;
 
 /**
  * @aouther tobato

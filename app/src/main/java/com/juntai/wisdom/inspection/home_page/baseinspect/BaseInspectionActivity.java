@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.juntai.disabled.basecomponent.utils.GsonTools;
 import com.juntai.disabled.basecomponent.utils.PickerManager;
 import com.juntai.disabled.basecomponent.utils.RuleTools;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
@@ -24,13 +25,14 @@ import com.juntai.wisdom.inspection.bean.ItemFragmentBean;
 import com.juntai.wisdom.inspection.bean.LocationBean;
 import com.juntai.wisdom.inspection.bean.MultipleItem;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
+import com.juntai.wisdom.inspection.bean.firecheck.UnQuailityFormBean;
+import com.juntai.wisdom.inspection.bean.firecheck.UnQualifiedBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordDetailBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordDetailBean;
-import com.juntai.wisdom.inspection.bean.unit.FireCheckBean;
-import com.juntai.wisdom.inspection.bean.unit.SearchedUnitsBean;
-import com.juntai.wisdom.inspection.bean.unit.UnitDetailBean;
+import com.juntai.wisdom.inspection.bean.firecheck.FireCheckBean;
+import com.juntai.wisdom.inspection.bean.firecheck.UnitDetailBean;
 import com.juntai.wisdom.inspection.utils.AppUtils;
 import com.juntai.wisdom.inspection.utils.StringTools;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -618,7 +620,65 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                     importantorBean.setLatitude(locationBean.getLatitude());
                     importantorBean.setLongitude(locationBean.getLongitude());
                     break;
+                case MultipleItem.ITEM_FIRE_CHECK_FORM:
+                    //消防检查表单
+                    UnQuailityFormBean formBean = (UnQuailityFormBean) array.getObject();
+                    String json = formBean.getProblems();
+                    fireCheckBean.setItemsJson(json);
+                    List<UnQualifiedBean> list = GsonTools.changeGsonToList(json, UnQualifiedBean.class);
+                    for (UnQualifiedBean unQualifiedBean : list) {
+                        if (11 == unQualifiedBean.getItemid()) {
+                            if (1 == unQualifiedBean.getChild().get(0).getSelectStatus()) {
+                                //如果选择的问题11  必须填写内容描述
+                                if (TextUtils.isEmpty(formBean.getOtherProblem())) {
+                                    ToastUtils.toast(mContext,"请输入问题11的内容");
+                                    return null;
+                                }else {
+                                    fireCheckBean.setOtherProblem(formBean.getOtherProblem());
+                                    builder.addFormDataPart("otherProblem", formBean.getOtherProblem());
+                                }
+                            }
+                        }
+                    }
+                    builder.addFormDataPart("problems", formBean.getProblems());
+                    if (TextUtils.isEmpty(formBean.getConcreteProblems())) {
+                        ToastUtils.toast(mContext,"请输入具体问题");
+                        return null;
+                    }else {
+                        builder.addFormDataPart("concreteProblems", formBean.getConcreteProblems());
+                        fireCheckBean.setConcreteProblems(formBean.getConcreteProblems());
+                    }
+                    if (TextUtils.isEmpty(formBean.getItemOne())&&TextUtils.isEmpty(formBean.getItemTwo())) {
+                        ToastUtils.toast(mContext,"请选择需要整改的问题项");
+                        return null;
+                    }else {
+                        if (!TextUtils.isEmpty(formBean.getItemOne())) {
+                            fireCheckBean.setItemOne(formBean.getItemOne());
+                            builder.addFormDataPart("itemOne", formBean.getItemOne());
+                        }
+                        if (!TextUtils.isEmpty(formBean.getItemTwo())) {
+                            fireCheckBean.setItemTwo(formBean.getItemTwo());
+                            builder.addFormDataPart("itemTwo", formBean.getItemTwo());
+                        }
+                    }
+                    if (TextUtils.isEmpty(formBean.getItemOneTime())&&TextUtils.isEmpty(formBean.getItemTwoTime())) {
+                        ToastUtils.toast(mContext,"请选择整改的完成时间");
+                        return null;
+                    }else {
+                        if (!TextUtils.isEmpty(formBean.getItemOneTime())) {
+                            fireCheckBean.setItemOneTime(formBean.getItemOneTime());
+                            builder.addFormDataPart("itemOneTime", formBean.getItemOneTime());
+                        }
+                        if (!TextUtils.isEmpty(formBean.getItemTwoTime())) {
+                            fireCheckBean.setItemTwoTime(formBean.getItemTwoTime());
+                            builder.addFormDataPart("itemTwoTime", formBean.getItemTwoTime());
+                        }
+                    }
 
+
+
+
+                    break;
                 case MultipleItem.ITEM_FRAGMENT:
                     ItemFragmentBean fragmentBean = (ItemFragmentBean) array.getObject();
                     List<String> photos = fragmentBean.getFragmentPics();

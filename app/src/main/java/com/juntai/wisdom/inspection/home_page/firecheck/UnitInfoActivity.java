@@ -8,12 +8,10 @@ import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.bean.ActionBean;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
-import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
-import com.juntai.wisdom.inspection.bean.unit.UnitDetailBean;
+import com.juntai.wisdom.inspection.bean.firecheck.UnitDetailBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectContract;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionInfoActivity;
-import com.juntai.wisdom.inspection.home_page.importantor.ImportantorInfoMoreActivity;
 import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
 
 import java.util.ArrayList;
