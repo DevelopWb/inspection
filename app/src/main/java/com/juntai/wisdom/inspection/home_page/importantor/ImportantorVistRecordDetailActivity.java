@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.view.View;
 
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordDetailBean;
-import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordDetailBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
 
 /**
@@ -17,7 +16,7 @@ public class ImportantorVistRecordDetailActivity extends BaseInspectionActivity 
     @Override
     public void initData() {
         if (getIntent() != null) {
-            int id = getIntent().getIntExtra(BASEID, 0);
+            int id = getIntent().getIntExtra(BASE_ID, 0);
             mPresenter.getVisitRecordDetail(getBaseBuilder().add("recordId", String.valueOf(id)).build(), "");
         }
     }

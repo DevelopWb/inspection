@@ -16,7 +16,7 @@ public class SecurityInspectRecordDetailActivity extends BaseInspectionActivity 
     @Override
     public void initData() {
         if (getIntent() != null) {
-            int id = getIntent().getIntExtra(BASEID, 0);
+            int id = getIntent().getIntExtra(BASE_ID, 0);
             mPresenter.getSecurityInspectRecordDetail(getBaseBuilder().add("recordId", String.valueOf(id)).build(), "");
         }
     }

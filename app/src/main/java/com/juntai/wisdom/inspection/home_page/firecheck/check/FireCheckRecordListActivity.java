@@ -38,6 +38,6 @@ public class FireCheckRecordListActivity extends BaseRecordActivity {
     protected void onAdapterItemClick(BaseQuickAdapter adapter, int position) {
         FireCheckRecordListBean.DataBean.DatasBean datasBean =
                 (FireCheckRecordListBean.DataBean.DatasBean) adapter.getData().get(position);
-        startActivity(new Intent(mContext, FireCheckRecordDetailActivity.class).putExtra(BaseInspectionActivity.BASEID, datasBean.getId()));
+        startActivity(new Intent(mContext, FireCheckRecordDetailActivity.class).putExtra(BaseInspectionActivity.BASE_ID, datasBean.getId()));
     }
 }

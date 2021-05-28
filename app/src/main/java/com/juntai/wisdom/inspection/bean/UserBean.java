@@ -53,6 +53,7 @@ public class UserBean extends BaseResult {
         private int departmentId;
         private int frozenStatus;
         private String gmtCreate;
+        private String departmentName;
         private String token;
 
         public int getUserId() {
@@ -71,6 +72,21 @@ public class UserBean extends BaseResult {
             this.account = account;
         }
 
+        public String getPassword() {
+            return password == null ? "" : password;
+        }
+
+        public void setPassword(String password) {
+            this.password = password == null ? "" : password;
+        }
+
+        public String getDepartmentName() {
+            return departmentName == null ? "" : departmentName;
+        }
+
+        public void setDepartmentName(String departmentName) {
+            this.departmentName = departmentName == null ? "" : departmentName;
+        }
 
         public String getNickname() {
             return nickname;

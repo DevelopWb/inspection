@@ -34,14 +34,6 @@ public class SecurityInspectionSiteMoreInfoActivity extends BaseInspectionActivi
         return "治安巡检点详情";
     }
 
-    @Override
-    protected View getFootView() {
-        View view = LayoutInflater.from(mContext.getApplicationContext()).inflate(R.layout.footview_commit, null);
-        TextView mCommitBusinessTv = view.findViewById(R.id.commit_form_tv);
-        mCommitBusinessTv.setText("申请修改");
-        mCommitBusinessTv.setOnClickListener(this);
-        return view;
-    }
 
     //    @Override
     //    public int getLayoutView() {
@@ -55,6 +47,7 @@ public class SecurityInspectionSiteMoreInfoActivity extends BaseInspectionActivi
         if (getIntent() != null) {
             dataBean = getIntent().getParcelableExtra(PARCELABLE_KEY);
         }
+        mCommitTv.setText("申请修改");
 //        mRecyclerview = (RecyclerView) findViewById(R.id.recyclerview);
 //        TextKeyValueAdapter textAdapter = new TextKeyValueAdapter(R.layout.text_key_value_item);
 //        initRecyclerview(mRecyclerview, textAdapter, LinearLayoutManager.VERTICAL);
@@ -91,16 +84,8 @@ public class SecurityInspectionSiteMoreInfoActivity extends BaseInspectionActivi
         //        selectPhotosFragment.setIcons(images);
     }
 
-
     @Override
-    public void onClick(View v) {
-        super.onClick(v);
-        switch (v.getId()) {
-            case R.id.commit_form_tv:
-                startActivity(new Intent(mContext, EditSecurityInspectSiteActivity.class).putExtra(PARCELABLE_KEY,dataBean));
-                break;
-            default:
-                break;
-        }
+    protected void commitLogic() {
+        startActivity(new Intent(mContext, EditSecurityInspectSiteActivity.class).putExtra(PARCELABLE_KEY,dataBean));
     }
 }

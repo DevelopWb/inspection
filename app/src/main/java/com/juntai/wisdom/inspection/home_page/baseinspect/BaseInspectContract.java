@@ -14,6 +14,7 @@ import okhttp3.RequestBody;
 public interface BaseInspectContract {
 
     String REMARK = "备注";
+    String PUNISH_INFO = "处罚信息";
     String TAB_TITLES = "tab标题";
     String IMPORTANTOR_TAB_TITLE_ALL = "全部";
     String IMPORTANTOR_TAB_TITLE_TO_VISITE = "待走访";
@@ -146,8 +147,12 @@ public interface BaseInspectContract {
         void getUnitInfoDetail(RequestBody requestBody, String tag);
 
         void applyEditUnitInfo(RequestBody requestBody, String tag);
+
         void addFireCheckRecord(RequestBody requestBody, String tag);
+        void addPunishInfo(RequestBody requestBody, String tag);
+
         void getFireCheckRecords(RequestBody requestBody, String tag);
+
         void getFireCheckRecordDetail(RequestBody requestBody, String tag);
 
         void applyEditInspectionSitInfo(RequestBody requestBody, String tag);

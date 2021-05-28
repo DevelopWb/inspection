@@ -316,6 +316,26 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                     fragment.setIcons(fragmentBean.getFragmentPics());
                 }
                 break;
+            case MultipleItem.ITEM_FRAGMENT2:
+                ItemFragmentBean fragmentBean2 = (ItemFragmentBean) item.getObject();
+                //上传材料时 多选照片
+                SelectPhotosFragment fragment2 =
+                        (SelectPhotosFragment) mFragmentManager.findFragmentById(R.id.photo_fg2);
+                fragment2.setObject(fragmentBean2);
+                fragment2.setSpanCount(fragmentBean2.getmSpanCount())
+                        .setPhotoDelateable(!isDetail)
+                        .setMaxCount(fragmentBean2.getmMaxCount())
+                        .setShowTag(fragmentBean2.isShowTag()).setOnPicLoadSuccessCallBack(new SelectPhotosFragment.OnPicLoadSuccessCallBack() {
+                    @Override
+                    public void loadSuccess(List<String> icons) {
+                        ItemFragmentBean picBean = (ItemFragmentBean) fragment2.getObject();
+                        picBean.setFragmentPics(icons);
+                    }
+                });
+                if (fragmentBean2.getFragmentPics().size() > 0) {
+                    fragment2.setIcons(fragmentBean2.getFragmentPics());
+                }
+                break;
             case MultipleItem.ITEM_RADIO:
                 RadioBean radioBean = (RadioBean) item.getObject();
                 RadioGroup radioGroup = helper.getView(R.id.item_radio_g);
@@ -456,6 +476,9 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
 
                 String json = formBean.getProblems();
                 list = GsonTools.changeGsonToList(json, UnQualifiedBean.class);
+                if (list.size()==0) {
+                    return;
+                }
                 initCheckBoxes(helper, formBean);
                 for (UnQualifiedBean unQualifiedBean : list) {
                     List<UnQualifiedBean.ChildBean> childBeanList = unQualifiedBean.getChild();
@@ -630,6 +653,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
 
     private void initSpannableText(TextView textView, String content) {
         UnQuailityFormBean formBean = (UnQuailityFormBean) textView.getTag();
+        // TODO: 2021/5/28 问题的数据需要优化  只展示已经选择的项目
         CharSequence[] problemItems = getUnQualityItems();
         List<String> selectedProblemItems1 = new ArrayList<>();
         List<String> selectedProblemItems2 = new ArrayList<>();
@@ -853,6 +877,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
 
     /**
      * 获取残疾的种类
+     * 
      *
      * @return
      */

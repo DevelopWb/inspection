@@ -35,14 +35,6 @@ public class ImportantorInfoMoreActivity extends BaseInspectionActivity implemen
         return "重点人员详情-更多";
     }
 
-    @Override
-    protected View getFootView() {
-        View view = LayoutInflater.from(mContext.getApplicationContext()).inflate(R.layout.footview_commit, null);
-        TextView mCommitBusinessTv = view.findViewById(R.id.commit_form_tv);
-        mCommitBusinessTv.setText("申请修改");
-        mCommitBusinessTv.setOnClickListener(this);
-        return view;
-    }
 
     @Override
     public void initView() {
@@ -51,6 +43,7 @@ public class ImportantorInfoMoreActivity extends BaseInspectionActivity implemen
         if (getIntent() != null) {
             dataBean = getIntent().getParcelableExtra(PARCELABLE_KEY);
         }
+        mCommitTv.setText("申请修改");
     }
     @Override
     public void onClick(View v) {

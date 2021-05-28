@@ -94,7 +94,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 new UnQuailityFormBean(dataBean.getItemsJson(),dataBean.getOtherProblem(),
                         dataBean.getConcreteProblems(),dataBean.getItemOne(),dataBean.getItemOneTime(),dataBean.getItemTwo(),
                         dataBean.getItemTwoTime(),dataBean.getNoticeName(),dataBean.getNoticeContent(),dataBean.isHideSummarize())));
-        arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "检查图片"));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "检查照片"));
         List<String> fragmentPics = new ArrayList<>();
         if (dataBean != null) {
             addFragmentPics(dataBean.getPhotoOne(), fragmentPics);
@@ -116,15 +116,16 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
             initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_PUNISH_INFO, dataBean == null ? "" :
                     dataBean.getContent(), true, 1);
             List<String> punishPics = new ArrayList<>();
+            arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "处罚照片"));
             if (dataBean != null) {
                 addFragmentPics(dataBean.getPunishPhotoOne(), punishPics);
                 addFragmentPics(dataBean.getPunishPhotoTwo(), punishPics);
                 addFragmentPics(dataBean.getPunishPhotoThree(), punishPics);
             }
-            arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3,
-                    fragmentPics.size() ,
+            arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT2, new ItemFragmentBean(3,
+                    punishPics.size() ,
                     3, false,
-                    fragmentPics)));
+                    punishPics)));
         }
         return arrays;
     }
@@ -215,6 +216,20 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         return arrays;
     }
 
+    /**
+     * 添加处罚信息
+     *
+     * @return
+     */
+    public List<MultipleItem> getPunishInfo() {
+        List<MultipleItem> arrays = new ArrayList<>();
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.PUNISH_INFO, "", true, 1);
+        arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传处罚照片"));
+        List<String> fragmentPics = new ArrayList<>();
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3, 3, 1,false,
+                fragmentPics)));
+        return arrays;
+    }
     /**
      * 开始走访
      *
@@ -923,6 +938,27 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     public void addFireCheckRecord(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
                 .addFireCheck(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void addPunishInfo(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .addPunishInfo(requestBody)
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<BaseResult>(getView()) {
                     @Override

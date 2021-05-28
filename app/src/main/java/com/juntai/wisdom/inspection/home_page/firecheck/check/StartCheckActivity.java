@@ -143,6 +143,7 @@ public class StartCheckActivity extends BaseCommitFootViewActivity {
                             "inspectTime"
                             , firecheckbean.getInspectTime()).addFormDataPart("inspectName",
                             firecheckbean.getInspectName())
+                            .addFormDataPart("unitName",unitBean.getName())
                             .addFormDataPart("unitLiable", firecheckbean.getUnitLiable()).addFormDataPart("liablePhone",
                             firecheckbean.getLiablePhone()).addFormDataPart("qualified", "1").build();
 
@@ -186,7 +187,9 @@ public class StartCheckActivity extends BaseCommitFootViewActivity {
     @Override
     public void next() {
         if (saveDraftLogic(false)) {
-            startActivity(new Intent(mContext, CreatRectifyNoticeActivity.class).putExtra(BASEID,unitBean.getId()));
+            startActivity(new Intent(mContext, CreatRectifyNoticeActivity.class)
+                    .putExtra(BASE_STRING,unitBean.getName())
+                    .putExtra(BASE_ID,unitBean.getId()));
         }
 
     }

@@ -67,7 +67,8 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     private RecyclerView mRecyclerview;
     private SmartRefreshLayout mSmartrefreshlayout;
     public static String PARCELABLE_KEY = "parcelable";
-    public static String BASEID = "baseid";
+    public static String BASE_ID = "baseid";
+    public static String BASE_ID2 = "baseid2";
     public static String BASE_STRING = "basestring";
     public final static String ADD_UNIT = "添加单位";
     public final static String ADD_INSPECTION_SITE = "添加治安巡检点";
@@ -78,11 +79,11 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     private GestureSignatureView gsv_signature;
     private ImageView mSignIv;
     private ItemSignBean itemSignBean;
+    public TextView mCommitTv;
 
 
     protected abstract String getTitleName();
 
-    protected abstract View getFootView();
 
     private TextKeyValueBean selectBean;
     private TextView mSelectTv;
@@ -121,6 +122,20 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         setAdapterClick();
 
 
+    }
+
+    protected View getFootView() {
+        View view = LayoutInflater.from(mContext.getApplicationContext()).inflate(R.layout.footview_commit, null);
+        mCommitTv = view.findViewById(R.id.commit_form_tv);
+        mCommitTv.setText("提交");
+        mCommitTv.setOnClickListener(this);
+        return view;
+    }
+
+    /**
+     * 提交的逻辑
+     */
+    protected void commitLogic() {
     }
 
     private void setAdapterClick() {
@@ -177,7 +192,6 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
 
 
-
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 currentPosition = position;
@@ -189,7 +203,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                     case R.id.sign_name_iv:
                         itemSignBean = (ItemSignBean) multipleItem.getObject();
                         //签名
-                        mSignIv = (ImageView)view;
+                        mSignIv = (ImageView) view;
                         showSignatureView();
                         break;
 
@@ -382,11 +396,11 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
             case R.id.signature_view_save:
                 if (gsv_signature.getTouched()) {
                     try {
-                       String signPath = FileCacheUtils.getAppImagePath() + FileCacheUtils.SIGN_PIC_NAME;
+                        String signPath = FileCacheUtils.getAppImagePath() + FileCacheUtils.SIGN_PIC_NAME;
                         //保存到本地
                         gsv_signature.save(signPath);
                         if (mSignIv != null) {
-                            ImageLoadUtil.loadImage(mContext,signPath,mSignIv);
+                            ImageLoadUtil.loadImageNoCache(mContext, signPath, mSignIv);
                         }
                         if (itemSignBean != null) {
                             itemSignBean.setSignPicPath(signPath);
@@ -413,10 +427,15 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                 gsv_signature.clear();
                 bottomSheetDialog.dismiss();
                 break;
+            case R.id.commit_form_tv:
+                //提交
+                commitLogic();
+                break;
             default:
                 break;
         }
     }
+
     /**
      * 展示签名的画板
      */
@@ -599,6 +618,10 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             //巡检点
                             formKey = "name";
                             inspectionSiteBean.setName(value);
+                            break;
+                        case BaseInspectContract.PUNISH_INFO:
+                            //处罚信息
+                            formKey = "content";
                             break;
                         case BaseInspectContract.INSPECTION_ADDR:
                             //巡检地址
@@ -808,7 +831,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         String picPah = photos.get(i);
                         switch (i) {
                             case 0:
-                                if ("开始巡检".equals(getTitleName()) || "开始走访".equals(getTitleName())
+                                if ("添加处罚信息".equals(getTitleName()) || "开始巡检".equals(getTitleName()) || "开始走访".equals(getTitleName())
                                         || "开始检查".equals(getTitleName())) {
                                     if (picPah.contains(AppUtils.getAppName())) {
                                         builder.addFormDataPart("pictureOne", "pictureOne",

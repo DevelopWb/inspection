@@ -1,9 +1,9 @@
 package com.juntai.wisdom.inspection.home_page.firecheck.check;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.inspection.bean.firecheck.FireCheckBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
 
@@ -13,6 +13,9 @@ import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity
  * @date 2021/5/21 14:46
  */
 public class FireCheckRecordDetailActivity extends BaseInspectionActivity {
+
+    private int recordId;
+    private FireCheckBean.DataBean dataBean;
 
     @Override
     protected String getTitleName() {
@@ -27,8 +30,8 @@ public class FireCheckRecordDetailActivity extends BaseInspectionActivity {
     @Override
     public void initData() {
         if (getIntent() != null) {
-            int id = getIntent().getIntExtra(BASEID, 0);
-            mPresenter.getFireCheckRecordDetail(getBaseBuilder().add("recordId", String.valueOf(id)).build(), "");
+            recordId = getIntent().getIntExtra(BASE_ID, 0);
+            mPresenter.getFireCheckRecordDetail(getBaseBuilder().add("recordId", String.valueOf(recordId)).build(), "");
         }
     }
 
@@ -43,7 +46,7 @@ public class FireCheckRecordDetailActivity extends BaseInspectionActivity {
     public void onSuccess(String tag, Object o) {
         FireCheckBean fireCheckBean = (FireCheckBean) o;
         if (fireCheckBean != null) {
-            FireCheckBean.DataBean dataBean = fireCheckBean.getData();
+            dataBean = fireCheckBean.getData();
             if (1 == dataBean.getQualified()) {
                 //合格
                 adapter.setNewData(mPresenter.getFireCheckedOkDetailData(dataBean));
@@ -59,16 +62,24 @@ public class FireCheckRecordDetailActivity extends BaseInspectionActivity {
                     getTitleRightTv().setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            //todo  添加处罚信息
-                            ToastUtils.toast(mContext,"添加处罚信息");
+                          startActivityForResult(new Intent(mContext,AddPunishActivity.class).putExtra(BASE_ID,
+                                  dataBean.getUnitId()).putExtra(BASE_ID2,dataBean.getRecordId()),
+                                  BASE_REQUEST_RESULT);
                         }
                     });
                 }
                 adapter.setNewData(mPresenter.getFireCheckedHasQuestionDetailData(dataBean,0== dataBean.getPunishId()
                         ?false:true));
             }
+        }
+    }
 
-
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (BASE_REQUEST_RESULT==requestCode) {
+            mPresenter.getFireCheckRecordDetail(getBaseBuilder().add("recordId", String.valueOf(dataBean.getRecordId())).build(),
+                    "");
         }
     }
 }

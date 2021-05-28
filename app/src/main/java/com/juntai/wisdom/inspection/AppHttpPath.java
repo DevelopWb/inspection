@@ -85,6 +85,10 @@ public class AppHttpPath {
      * 消防检查记录
      */
     public static final String GET_FIRE_INSPECTION_RECORDS = BASE + "/u/appConnector/selectInspectRecordList.shtml";
+    /**
+     * 添加处罚信息
+     */
+    public static final String ADD_PUNISH_INFO = BASE + "/u/appConnector/insertUnitPunish.shtml";
 
     /**
      * 消防检查记录详情

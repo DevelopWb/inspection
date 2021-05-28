@@ -139,6 +139,13 @@ public interface AppServer {
      */
     @POST(AppHttpPath.ADD_FIRE_INSPECTION)
     Observable<BaseResult> addFireCheck(@Body RequestBody requestBody);
+
+    /**
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.ADD_PUNISH_INFO)
+    Observable<BaseResult> addPunishInfo(@Body RequestBody requestBody);
     /**
      *
      * @param requestBody

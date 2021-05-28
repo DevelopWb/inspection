@@ -37,6 +37,6 @@ public class SecurityInspectRecordListActivity extends BaseRecordActivity {
     protected void onAdapterItemClick(BaseQuickAdapter adapter, int position) {
         SecurityInspectRecordListBean.DataBean.DatasBean datasBean =
                 (SecurityInspectRecordListBean.DataBean.DatasBean) adapter.getData().get(position);
-        startActivity(new Intent(mContext, SecurityInspectRecordDetailActivity.class).putExtra(BaseInspectionActivity.BASEID, datasBean.getId()));
+        startActivity(new Intent(mContext, SecurityInspectRecordDetailActivity.class).putExtra(BaseInspectionActivity.BASE_ID, datasBean.getId()));
     }
 }

@@ -62,7 +62,7 @@ public class FireCheckBean  extends BaseResult {
          * punishPhotoThree : /unit_picture/ee3af85bfb7c4211ba797b1e92235aaa.jpeg
          * itemsJson :
          */
-
+        private int unitId;//单位id
         private int recordId;
         private String inspectTime;
         private String inspectName;
@@ -142,6 +142,14 @@ public class FireCheckBean  extends BaseResult {
 
         public String getUnitName() {
             return unitName == null ? "" : unitName;
+        }
+
+        public int getUnitId() {
+            return unitId;
+        }
+
+        public void setUnitId(int unitId) {
+            this.unitId = unitId;
         }
 
         public void setUnitName(String unitName) {
