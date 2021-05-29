@@ -17,6 +17,8 @@ import com.juntai.wisdom.inspection.bean.ItemSignBean;
 import com.juntai.wisdom.inspection.bean.LocationBean;
 import com.juntai.wisdom.inspection.bean.MultipleItem;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
+import com.juntai.wisdom.inspection.bean.firecheck.RectifyNoticeBean;
+import com.juntai.wisdom.inspection.bean.firecheck.RectifyNoticeListBean;
 import com.juntai.wisdom.inspection.bean.firecheck.UnQuailityFormBean;
 import com.juntai.wisdom.inspection.bean.importantor.AllImportantorBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
@@ -181,6 +183,21 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         arrays.add(new MultipleItem(MultipleItem.ITEM_SIGN, new ItemSignBean("责任人签字：", dataBean == null ? "" :
                 "", 0,true)));
 
+        return arrays;
+    }
+    /**
+     * 整改通知书详情
+     *
+     * @param dataBean
+     * @return
+     */
+    public List<MultipleItem> getRectifyNoticeData(RectifyNoticeBean.DataBean dataBean) {
+        List<MultipleItem> arrays = new ArrayList<>();
+            arrays.add(new MultipleItem(MultipleItem.ITEM_FIRE_CHECK_FORM,
+                    new UnQuailityFormBean(dataBean.getItemsJson(),dataBean.getOtherProblem(),
+                            dataBean.getConcreteProblems(),dataBean.getItemOne(),dataBean.getItemOneTime(),dataBean.getItemTwo(),
+                            dataBean.getItemTwoTime(),dataBean.getUnitName(),dataBean.getNoticeContent(),
+                           false)));
         return arrays;
     }
 
@@ -985,6 +1002,49 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 .subscribe(new BaseObserver<FireCheckRecordListBean>(getView()) {
                     @Override
                     public void onSuccess(FireCheckRecordListBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void getRectifyNoticeList(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getRectifyNoticeList(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<RectifyNoticeListBean>(getView()) {
+                    @Override
+                    public void onSuccess(RectifyNoticeListBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getRectifyNoticeDetail(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getRectifyNoticeDetail(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<RectifyNoticeBean>(getView()) {
+                    @Override
+                    public void onSuccess(RectifyNoticeBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

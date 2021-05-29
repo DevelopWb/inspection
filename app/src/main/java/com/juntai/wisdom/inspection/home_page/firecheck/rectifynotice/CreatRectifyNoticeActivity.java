@@ -1,5 +1,6 @@
-package com.juntai.wisdom.inspection.home_page.firecheck.check;
+package com.juntai.wisdom.inspection.home_page.firecheck.rectifynotice;
 
+import android.content.Intent;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.juntai.wisdom.inspection.bean.BaseAdapterDataBean;
 import com.juntai.wisdom.inspection.bean.firecheck.FireCheckBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
 import com.juntai.wisdom.inspection.utils.HawkProperty;
+import com.juntai.wisdom.inspection.utils.UserInfoManager;
 import com.orhanobut.hawk.Hawk;
 
 import java.io.File;
@@ -45,10 +47,6 @@ public class CreatRectifyNoticeActivity extends BaseInspectionActivity {
             unitName = getIntent().getStringExtra(BASE_STRING);
             firecheckbean = Hawk.get(HawkProperty.ADD_FIRE_CHECK_RECORD_KEY + unitId);
             firecheckbean.setNoticeName(firecheckbean.getUnitName());
-            //            StringBuilder sb = new StringBuilder();
-            //            sb.append("根据《中华人民共和国消防法》第五十三条的规定，我单位于");
-            //            sb.
-            //            sb.append("对你单位/场所进行消防监督检查,发现存在下列消防安全违法行为：");
             firecheckbean.setNoticeContent(firecheckbean.getNoticeContent());
             adapter.setDetail(true);
             adapter.setNewData(mPresenter.getFireCheckNoticeData(firecheckbean));
@@ -59,7 +57,7 @@ public class CreatRectifyNoticeActivity extends BaseInspectionActivity {
     private View getHeadView() {
         View view = LayoutInflater.from(mContext).inflate(R.layout.rectify_notice_head, null);
         TextView titleTv = view.findViewById(R.id.single_text_tv);
-        titleTv.setText("派出所");
+        titleTv.setText(UserInfoManager.getDepartmentName());
         return view;
     }
 
@@ -120,7 +118,7 @@ public class CreatRectifyNoticeActivity extends BaseInspectionActivity {
     public void onSuccess(String tag, Object o) {
         BaseResult baseResult = (BaseResult) o;
         String noticeDetailId = baseResult.message;
-        // TODO: 2021/5/23 跳转到整改通知书详情
-        ToastUtils.toast(mContext, noticeDetailId);
+        // 跳转到整改通知书详情
+       startActivity(new Intent(mContext,RectifyNoticeDetailActivity.class).putExtra(BASE_ID,noticeDetailId));
     }
 }

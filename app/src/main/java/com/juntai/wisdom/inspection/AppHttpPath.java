@@ -86,6 +86,14 @@ public class AppHttpPath {
      */
     public static final String GET_FIRE_INSPECTION_RECORDS = BASE + "/u/appConnector/selectInspectRecordList.shtml";
     /**
+     * 整改通知书列表
+     */
+    public static final String GET_RECTIFY_NOTICE_LIST = BASE + "/u/appConnector/selectUnitNoticeList.shtml";
+    /**
+     * 整改通知书详情
+     */
+    public static final String GET_RECTIFY_NOTICE_DETAIL = BASE + "/u/appConnector/selectUnitNoticeInfo.shtml";
+    /**
      * 添加处罚信息
      */
     public static final String ADD_PUNISH_INFO = BASE + "/u/appConnector/insertUnitPunish.shtml";

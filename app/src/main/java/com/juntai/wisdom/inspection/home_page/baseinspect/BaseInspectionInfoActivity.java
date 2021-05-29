@@ -17,6 +17,7 @@ import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.firecheck.UnitDetailBean;
 import com.juntai.wisdom.inspection.home_page.firecheck.check.FireCheckRecordListActivity;
 import com.juntai.wisdom.inspection.home_page.firecheck.check.StartCheckActivity;
+import com.juntai.wisdom.inspection.home_page.firecheck.rectifynotice.RectifyNoticeListActivity;
 import com.juntai.wisdom.inspection.home_page.importantor.StartVisitActivity;
 import com.juntai.wisdom.inspection.home_page.importantor.VisitRecordListActivity;
 import com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectRecordListActivity;
@@ -113,7 +114,8 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
                         // TODO: 2021/5/18  单位详情里面的责任书
                         break;
                     case BaseInspectContract.INSPECTION_RECTIFY_NOTICE:
-                        // TODO: 2021/5/18  单位详情里面的整改通知书
+                        //单位详情里面的整改通知书
+                        startActivity(new Intent(mContext, RectifyNoticeListActivity.class).putExtra(BaseRecordActivity.ID,((UnitDetailBean.DataBean)getBaseBean()).getId()));
 
                         break;
                     case BaseInspectContract.INSPECTION_WORKER:
@@ -158,7 +160,7 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
             case R.id.start_work_tv:
                 switch (getStartWorkName()) {
                     case START_CHECK:
-                        // TODO: 2021/5/18 单位详情中的开始检查
+                        //  单位详情中的开始检查
                         startActivity(new Intent(mContext, StartCheckActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY,((UnitDetailBean.DataBean)getBaseBean())));
                         break;
                     case START_INSPECT:

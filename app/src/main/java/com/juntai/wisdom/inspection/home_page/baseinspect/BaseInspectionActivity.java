@@ -781,7 +781,8 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         fireCheckBean.setConcreteProblems(formBean.getConcreteProblems());
                     }
                     if (TextUtils.isEmpty(formBean.getItemOne()) && TextUtils.isEmpty(formBean.getItemTwo())) {
-                        {
+
+                        if (!skipFilter) {
                             ToastUtils.toast(mContext, "请选择需要整改的问题项");
                             return null;
                         }

@@ -3,6 +3,8 @@ package com.juntai.wisdom.inspection;
 
 import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.wisdom.inspection.bean.IdNameBean;
+import com.juntai.wisdom.inspection.bean.firecheck.RectifyNoticeBean;
+import com.juntai.wisdom.inspection.bean.firecheck.RectifyNoticeListBean;
 import com.juntai.wisdom.inspection.bean.importantor.AllImportantorBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordDetailBean;
@@ -153,6 +155,20 @@ public interface AppServer {
      */
     @POST(AppHttpPath.GET_FIRE_INSPECTION_RECORDS)
     Observable<FireCheckRecordListBean> getFireCheckRecords(@Body RequestBody requestBody);
+    /**
+     *  整改通知书详情
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.GET_RECTIFY_NOTICE_LIST)
+    Observable<RectifyNoticeListBean> getRectifyNoticeList(@Body RequestBody requestBody);
+    /**
+     *  整改通知书详情
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.GET_RECTIFY_NOTICE_DETAIL)
+    Observable<RectifyNoticeBean> getRectifyNoticeDetail(@Body RequestBody requestBody);
     /**
      *
      * @param requestBody

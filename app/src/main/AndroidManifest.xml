@@ -30,8 +30,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.check.AddPunishActivity"></activity>
-        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.check.CreatRectifyNoticeActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.rectifynotice.RectifyNoticeListActivity"></activity>
+        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.rectifynotice.RectifyNoticeDetailActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.check.AddPunishActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.rectifynotice.CreatRectifyNoticeActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.check.FireCheckRecordDetailActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.check.FireCheckRecordListActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.check.StartCheckActivity" />

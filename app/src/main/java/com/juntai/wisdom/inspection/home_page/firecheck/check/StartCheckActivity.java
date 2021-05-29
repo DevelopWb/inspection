@@ -17,6 +17,7 @@ import com.juntai.wisdom.inspection.bean.firecheck.FireCheckBean;
 import com.juntai.wisdom.inspection.bean.firecheck.UnitDetailBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseCommitFootViewActivity;
 import com.juntai.wisdom.inspection.home_page.baseinspect.TextKeyValueAdapter;
+import com.juntai.wisdom.inspection.home_page.firecheck.rectifynotice.CreatRectifyNoticeActivity;
 import com.juntai.wisdom.inspection.utils.CalendarUtil;
 import com.juntai.wisdom.inspection.utils.HawkProperty;
 import com.juntai.wisdom.inspection.utils.UserInfoManager;
@@ -188,7 +189,6 @@ public class StartCheckActivity extends BaseCommitFootViewActivity {
     public void next() {
         if (saveDraftLogic(false)) {
             startActivity(new Intent(mContext, CreatRectifyNoticeActivity.class)
-                    .putExtra(BASE_STRING,unitBean.getName())
                     .putExtra(BASE_ID,unitBean.getId()));
         }
 
