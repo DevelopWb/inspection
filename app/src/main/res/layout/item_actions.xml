@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     android:id="@+id/actions_bg_cl"
-    android:layout_marginTop="10dp"
+    android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:layout_marginLeft="15dp"
+    android:layout_marginTop="10dp"
     android:layout_marginRight="15dp"
     android:background="@drawable/sp_filled_gray_lighter"
     android:padding="10dp">
@@ -41,16 +41,24 @@
 
 
     <TextView
-        android:layout_width="0dp"
+        android:id="@+id/enter_tv"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
         android:maxLines="1"
-        android:text="点击进入>>"
+        android:text="点击进入"
         android:textColor="@color/colorAccent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintLeft_toLeftOf="@+id/item_title_tv"
-        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/item_title_tv" />
 
+    <ImageView
+        android:layout_width="10dp"
+        android:layout_height="10dp"
+        android:scaleType="fitCenter"
+        android:src="@mipmap/arrows_right"
+        app:layout_constraintBottom_toBottomOf="@+id/enter_tv"
+        app:layout_constraintLeft_toRightOf="@+id/enter_tv"
+        app:layout_constraintTop_toTopOf="@+id/enter_tv"></ImageView>
 </android.support.constraint.ConstraintLayout>

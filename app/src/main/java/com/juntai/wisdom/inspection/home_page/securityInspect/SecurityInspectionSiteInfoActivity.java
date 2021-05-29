@@ -36,8 +36,8 @@ public class SecurityInspectionSiteInfoActivity extends BaseInspectionInfoActivi
     @Override
     protected List<ActionBean> getActionAdapterData() {
         List<ActionBean> arrays = new ArrayList<>();
-        arrays.add(new ActionBean(R.drawable.sp_filled_gray_lighter, BaseInspectContract.INSPECTION_SECURITY_RECORD,
-                R.mipmap.app_icon));
+        arrays.add(new ActionBean(R.mipmap.action_bg, BaseInspectContract.INSPECTION_SECURITY_RECORD,
+                R.mipmap.action_check_record));
         return arrays;
     }
 

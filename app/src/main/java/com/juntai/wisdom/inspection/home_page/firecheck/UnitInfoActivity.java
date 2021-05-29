@@ -44,14 +44,14 @@ public class UnitInfoActivity extends BaseInspectionInfoActivity {
     @Override
     protected List<ActionBean> getActionAdapterData() {
         List<ActionBean> arrays = new ArrayList<>();
-        arrays.add(new ActionBean(R.drawable.sp_filled_gray_lighter, BaseInspectContract.INSPECTION_CHECK_RECORD,
-                R.mipmap.app_icon));
-        arrays.add(new ActionBean(R.drawable.sp_filled_gray_lighter, BaseInspectContract.INSPECTION_RESPONSIBILITY,
-                R.mipmap.app_icon));
-        arrays.add(new ActionBean(R.drawable.sp_filled_gray_lighter, BaseInspectContract.INSPECTION_RECTIFY_NOTICE,
-                R.mipmap.app_icon));
-        arrays.add(new ActionBean(R.drawable.sp_filled_gray_lighter, BaseInspectContract.INSPECTION_WORKER,
-                R.mipmap.app_icon));
+        arrays.add(new ActionBean(R.mipmap.action_bg, BaseInspectContract.INSPECTION_CHECK_RECORD,
+                R.mipmap.action_check_record));
+        arrays.add(new ActionBean(R.mipmap.action_bg, BaseInspectContract.INSPECTION_RESPONSIBILITY,
+                R.mipmap.action_responsibility));
+        arrays.add(new ActionBean(R.mipmap.action_bg, BaseInspectContract.INSPECTION_RECTIFY_NOTICE,
+                R.mipmap.action_rectifynotice));
+        arrays.add(new ActionBean(R.mipmap.action_bg, BaseInspectContract.INSPECTION_WORKER,
+                R.mipmap.action_worker));
         return arrays;
     }
 

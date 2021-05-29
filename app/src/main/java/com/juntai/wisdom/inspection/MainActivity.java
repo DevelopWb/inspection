@@ -52,7 +52,7 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
 
     private TabLayout mainTablayout;
     private String[] title = new String[]{"首页", "添加","我的"};
-    private int[] tabDrawables = new int[]{R.drawable.home_index,R.drawable.home_index,R.drawable.home_msg};
+    private int[] tabDrawables = new int[]{R.drawable.home_index,R.drawable.home_add,R.drawable.home_mine};
     private SparseArray<Fragment> mFragments = new SparseArray<>();
     //
     CGBroadcastReceiver broadcastReceiver = new CGBroadcastReceiver();
