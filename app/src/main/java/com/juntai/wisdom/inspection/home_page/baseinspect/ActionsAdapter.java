@@ -10,7 +10,7 @@ import com.juntai.wisdom.inspection.bean.ActionBean;
 
 /**
  * @aouther tobato
- * @description 描述  重点人员适配器
+ * @description 描述
  * @date 2021/4/29 16:24
  */
 
@@ -27,5 +27,6 @@ public class ActionsAdapter extends BaseQuickAdapter<ActionBean, BaseViewHolder>
         bgCl.setBackgroundResource(item.getBgRes());
         ImageLoadUtil.loadImage(mContext,item.getActionPic(),helper.getView(R.id.item_pic_iv));
         helper.setText(R.id.item_title_tv,item.getActionName());
+        // TODO: 2021/5/29  背景和icon都需要优化
     }
 }

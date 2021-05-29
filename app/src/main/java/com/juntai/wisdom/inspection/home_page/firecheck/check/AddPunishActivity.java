@@ -39,13 +39,7 @@ public class AddPunishActivity extends BaseInspectionActivity implements BaseIns
     }
 
     @Override
-    protected void commitLogic() {
-        super.commitLogic();
-        BaseAdapterDataBean baseAdapterDataBean = getBaseAdapterData(false);
-        if (baseAdapterDataBean == null) {
-            return;
-        }
-        MultipartBody.Builder builder = getBaseAdapterData(false).getBuilder();
+    protected void commitLogic(MultipartBody.Builder builder) {
         mPresenter.addPunishInfo(builder.addFormDataPart("unitId",String.valueOf(unitId)).addFormDataPart("recordId",
                 String.valueOf(recordId)).build(),"");
     }

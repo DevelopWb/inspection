@@ -101,8 +101,20 @@ public class AppHttpPath {
     /**
      * 消防检查记录详情
      */
-    public static final String GET_FIRE_INSPECTION_RECORD_DETAIL = BASE + "/u/appConnector/selectInspectRecordInfo" +
-            ".shtml";
+    public static final String GET_FIRE_INSPECTION_RECORD_DETAIL = BASE + "/u/appConnector/selectInspectRecordInfo.shtml";
+    /**
+     * 责任书列表
+     */
+    public static final String GET_RESPONSIBILITY_LIST = BASE + "/u/appConnector/selectCheckResponsibilityList.shtml";
+    /**
+     * 签署责任书
+     */
+    public static final String SIGN_RESPONSIBILITY = BASE + "/u/appConnector/insertResponsibility.shtml";
+
+    /**
+     * 责任书详情
+     */
+    public static final String RESPONSIBILITY_DETAIL = BASE + "/u/appConnector/selectCheckResponsibilityInfo.shtml";
 
 
 

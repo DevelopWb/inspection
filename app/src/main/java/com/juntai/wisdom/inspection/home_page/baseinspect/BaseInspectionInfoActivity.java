@@ -18,6 +18,7 @@ import com.juntai.wisdom.inspection.bean.firecheck.UnitDetailBean;
 import com.juntai.wisdom.inspection.home_page.firecheck.check.FireCheckRecordListActivity;
 import com.juntai.wisdom.inspection.home_page.firecheck.check.StartCheckActivity;
 import com.juntai.wisdom.inspection.home_page.firecheck.rectifynotice.RectifyNoticeListActivity;
+import com.juntai.wisdom.inspection.home_page.firecheck.responsibility.ResponsibilityActivity;
 import com.juntai.wisdom.inspection.home_page.importantor.StartVisitActivity;
 import com.juntai.wisdom.inspection.home_page.importantor.VisitRecordListActivity;
 import com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectRecordListActivity;
@@ -111,7 +112,8 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
                                 ((UnitDetailBean.DataBean)getBaseBean()).getId()));
                         break;
                     case BaseInspectContract.INSPECTION_RESPONSIBILITY:
-                        // TODO: 2021/5/18  单位详情里面的责任书
+                        // 单位详情里面的责任书
+                        startActivity(new Intent(mContext, ResponsibilityActivity.class).putExtra(BASE_ID,((UnitDetailBean.DataBean)getBaseBean()).getId()));
                         break;
                     case BaseInspectContract.INSPECTION_RECTIFY_NOTICE:
                         //单位详情里面的整改通知书

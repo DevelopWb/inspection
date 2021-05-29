@@ -43,8 +43,17 @@ public class IdNameBean  extends BaseResult {
 
         private int id;
         private String name;
+        private String content;
         private int checkTime;
         private boolean selecte;
+
+        public String getContent() {
+            return content == null ? "" : content;
+        }
+
+        public void setContent(String content) {
+            this.content = content == null ? "" : content;
+        }
 
         public boolean isSelecte() {
             return selecte;

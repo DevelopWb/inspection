@@ -115,18 +115,6 @@ public abstract class BaseAppActivity<P extends BasePresenter> extends BaseSelec
         return RequestBody.create(MediaType.parse("application/json;charset=utf-8"), jsonObject.toString());
     }
 
-    /**
-     * 获取builder
-     *
-     * @return
-     */
-    public MultipartBody.Builder getPublishMultipartBody() {
-        return new MultipartBody.Builder()
-                .setType(MultipartBody.FORM)
-                .addFormDataPart("account", UserInfoManager.getUserAccount())
-                .addFormDataPart("token", UserInfoManager.getUserToken())
-                .addFormDataPart("userId", String.valueOf(UserInfoManager.getUserId()));
-    }
 
     //    /**
     //     * 是否是内部账号

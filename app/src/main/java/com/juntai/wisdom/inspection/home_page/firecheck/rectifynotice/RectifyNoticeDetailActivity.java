@@ -1,5 +1,6 @@
 package com.juntai.wisdom.inspection.home_page.firecheck.rectifynotice;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.bean.firecheck.RectifyNoticeBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
+import com.juntai.wisdom.inspection.home_page.firecheck.UnitInfoActivity;
 import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
 import com.juntai.wisdom.inspection.utils.UserInfoManager;
 
@@ -33,11 +35,14 @@ public class RectifyNoticeDetailActivity extends BaseInspectionActivity implemen
      */
     private TextView mDownloadWordTv;
     private TextView mSealedTv;
+    private String enterType;//"0"代表创建整改通知单后跳转过来  “1”代表整改通知单列表进入
 
     @Override
     public void initData() {
         adapter.setDetail(true);
         adapter.addHeaderView(getHeadView());
+        enterType = getIntent().getStringExtra(BASE_STRING);
+
         int noticeId = getIntent().getIntExtra(BASE_ID, 0);
         mPresenter.getRectifyNoticeDetail(getBaseBuilder().add("noticeId", String.valueOf(noticeId)).build(),
                 AppHttpPath.GET_RECTIFY_NOTICE_DETAIL);
@@ -89,6 +94,16 @@ public class RectifyNoticeDetailActivity extends BaseInspectionActivity implemen
         }
     }
 
+
+    @Override
+    public void onBackPressed() {
+        if ("0".equals(enterType)) {
+            startActivity(new Intent(mContext, UnitInfoActivity.class));
+        }else {
+            super.onBackPressed();
+        }
+
+    }
 
     @Override
     public void onClick(View v) {

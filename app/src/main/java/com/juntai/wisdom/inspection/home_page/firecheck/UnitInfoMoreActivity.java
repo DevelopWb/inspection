@@ -10,6 +10,8 @@ import com.juntai.wisdom.inspection.bean.firecheck.UnitDetailBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectContract;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
 
+import okhttp3.MultipartBody;
+
 /**
  * @aouther tobato
  * @description 描述  单位详情 更多
@@ -39,9 +41,8 @@ public class UnitInfoMoreActivity extends BaseInspectionActivity implements Base
     }
 
     @Override
-    protected void commitLogic() {
+    protected void commitLogic(MultipartBody.Builder builder) {
         //申请修改
         startActivity(new Intent(mContext,EditUnitInfoActivity.class).putExtra(PARCELABLE_KEY,dataBean));
     }
-
 }

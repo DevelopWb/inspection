@@ -5,6 +5,7 @@ import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.wisdom.inspection.bean.IdNameBean;
 import com.juntai.wisdom.inspection.bean.firecheck.RectifyNoticeBean;
 import com.juntai.wisdom.inspection.bean.firecheck.RectifyNoticeListBean;
+import com.juntai.wisdom.inspection.bean.firecheck.ResponsibilityBean;
 import com.juntai.wisdom.inspection.bean.importantor.AllImportantorBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordDetailBean;
@@ -176,6 +177,29 @@ public interface AppServer {
      */
     @POST(AppHttpPath.GET_FIRE_INSPECTION_RECORD_DETAIL)
     Observable<FireCheckBean> getFireCheckRecordDetail(@Body RequestBody requestBody);
+
+    /**
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.GET_RESPONSIBILITY_LIST)
+    Observable<IdNameBean> getResponsibilityList(@Body RequestBody requestBody);
+    /**
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.SIGN_RESPONSIBILITY)
+    Observable<BaseResult> signResponsibility(@Body RequestBody requestBody);
+
+    /**
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.RESPONSIBILITY_DETAIL)
+    Observable<ResponsibilityBean> getResponsibilityDetail(@Body RequestBody requestBody);
 
 
 

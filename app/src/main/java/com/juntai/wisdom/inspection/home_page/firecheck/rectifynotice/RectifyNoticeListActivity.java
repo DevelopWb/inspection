@@ -44,7 +44,9 @@ public class RectifyNoticeListActivity extends BaseRecordActivity {
     @Override
     protected void onAdapterItemClick(BaseQuickAdapter adapter, int position) {
         RectifyNoticeListBean.DataBean.DatasBean datasBean = (RectifyNoticeListBean.DataBean.DatasBean) adapter.getData().get(position);
-        startActivity(new Intent(mContext,RectifyNoticeDetailActivity.class).putExtra(BaseInspectionActivity.BASE_ID,
+        startActivity(new Intent(mContext,RectifyNoticeDetailActivity.class)
+                .putExtra(BaseInspectionActivity.BASE_STRING,"1")
+                .putExtra(BaseInspectionActivity.BASE_ID,
                 datasBean.getNoticeId()));
 
     }

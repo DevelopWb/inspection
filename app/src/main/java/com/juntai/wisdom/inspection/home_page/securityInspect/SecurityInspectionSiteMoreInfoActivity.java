@@ -16,6 +16,8 @@ import com.juntai.wisdom.inspection.base.selectPics.SelectPhotosFragment;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.MultipartBody;
+
 /**
  * @aouther tobato
  * @description 描述  巡检点更多信息
@@ -85,7 +87,7 @@ public class SecurityInspectionSiteMoreInfoActivity extends BaseInspectionActivi
     }
 
     @Override
-    protected void commitLogic() {
+    protected void commitLogic(MultipartBody.Builder builder) {
         startActivity(new Intent(mContext, EditSecurityInspectSiteActivity.class).putExtra(PARCELABLE_KEY,dataBean));
     }
 }

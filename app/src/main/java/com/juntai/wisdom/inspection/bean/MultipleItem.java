@@ -22,13 +22,15 @@ public class MultipleItem implements MultiItemEntity {
     public static final int ITEM_PIC = 10;//类型3
     public static final int ITEM_SIGN = 11;//签字
     public static final int ITEM_NOTICE = 12;//提示
-    public static final int ITEM_YEAR = 13;//年度
+    public static final int ITEM_DATE = 13;//日期
     public static final int ITEM_NORMAL_RECYCLEVIEW = 14;//
     public static final int ITEM_EDIT2 = 15;//  key value 类型
     public static final int ITEM_FRAGMENT = 16;//  fragment
-    public static final int ITEM_FRAGMENT2 = 20;//  fragment
     public static final int ITEM_LOCATION = 17;//  定位
     public static final int ITEM_FIRE_CHECK_FORM = 18;//  消防检查表单
+    public static final int ITEM_RESIBILITY = 19;//  责任书列表item
+    public static final int ITEM_FRAGMENT2 = 20;//  fragment
+    public static final int ITEM_TEXT = 21;//  文本展示
 
     private int itemType;
     private Object object;

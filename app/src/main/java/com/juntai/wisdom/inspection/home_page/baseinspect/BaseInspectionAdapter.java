@@ -39,6 +39,7 @@ import com.juntai.disabled.basecomponent.utils.PickerManager;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.base.selectPics.SelectPhotosFragment;
 import com.juntai.wisdom.inspection.bean.HeadPicBean;
+import com.juntai.wisdom.inspection.bean.IdNameBean;
 import com.juntai.wisdom.inspection.bean.ImportantTagBean;
 import com.juntai.wisdom.inspection.bean.ItemFragmentBean;
 import com.juntai.wisdom.inspection.bean.ItemSignBean;
@@ -119,9 +120,6 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         this.checkEdittextValueFormatCallBack = checkEdittextValueFormatCallBack;
     }
 
-    public boolean isDetail() {
-        return isDetail;
-    }
 
     public void setDetail(boolean detail) {
         isDetail = detail;
@@ -148,6 +146,9 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         addItemType(MultipleItem.ITEM_NORMAL_RECYCLEVIEW, R.layout.item_layout_type_recyclerview);
         addItemType(MultipleItem.ITEM_LOCATION, R.layout.item_layout_location);
         addItemType(MultipleItem.ITEM_FIRE_CHECK_FORM, R.layout.item_fire_check);
+        addItemType(MultipleItem.ITEM_RESIBILITY, R.layout.item_resibility);
+        addItemType(MultipleItem.ITEM_TEXT, R.layout.item_text);
+        addItemType(MultipleItem.ITEM_DATE, R.layout.item_text);
         this.isDetail = isDetail;
         this.mFragmentManager = mFragmentManager;
     }
@@ -157,6 +158,35 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
     protected void convert(BaseViewHolder helper, MultipleItem item) {
 
         switch (item.getItemType()) {
+            case MultipleItem.ITEM_TEXT:
+                String des = (String) item.getObject();
+                helper.setText(R.id.single_text_tv, des);
+                break;
+            case MultipleItem.ITEM_DATE:
+                String time = (String) item.getObject();
+                TextView textView = helper.getView(R.id.single_text_tv);
+                helper.setText(R.id.single_text_tv, time);
+                textView.setGravity(Gravity.RIGHT);
+                break;
+            case MultipleItem.ITEM_RESIBILITY:
+                IdNameBean.DataBean responsibilitySign = (IdNameBean.DataBean) item.getObject();
+                helper.setText(R.id.resibility_name_tv, responsibilitySign.getName());
+                if (responsibilitySign.getId() > 0) {
+                    //已签署
+                    ImageLoadUtil.loadImage(mContext, R.mipmap.selected_icon, helper.getView(R.id.arrow_right_iv));
+                } else {
+                    ImageLoadUtil.loadImage(mContext, R.mipmap.arrow_right, helper.getView(R.id.arrow_right_iv));
+                }
+
+                if ("消防安全责任书".equals(responsibilitySign.getName())) {
+                    ImageLoadUtil.loadImage(mContext, R.mipmap.responsibility_fire_icon,
+                            helper.getView(R.id.resibility_icon_iv));
+                } else {
+                    ImageLoadUtil.loadImage(mContext, R.mipmap.responsibility_safe_icon,
+                            helper.getView(R.id.resibility_icon_iv));
+
+                }
+                break;
             case MultipleItem.ITEM_HEAD_PIC:
                 if (!isDetail) {
                     helper.addOnClickListener(R.id.form_head_pic_iv);
@@ -455,7 +485,8 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 }
                 helper.setText(R.id.sign_name_tv, signBean.getSignName());
                 if (StringTools.isStringValueOk(signBean.getSignPicPath())) {
-                    ImageLoadUtil.loadImage(mContext, UrlFormatUtil.getImageOriginalUrl(signBean.getSignPicPath()), signIv);
+                    ImageLoadUtil.loadImage(mContext, UrlFormatUtil.getImageOriginalUrl(signBean.getSignPicPath()),
+                            signIv);
                 }
                 break;
 
@@ -470,13 +501,13 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 }
                 if (formBean.isHideSummarize()) {
                     helper.setGone(R.id.fire_check_summarize_tv, false);
-                }else {
+                } else {
                     helper.setGone(R.id.fire_check_summarize_tv, true);
                 }
 
                 String json = formBean.getProblems();
                 list = GsonTools.changeGsonToList(json, UnQualifiedBean.class);
-                if (list.size()==0) {
+                if (list.size() == 0) {
                     return;
                 }
                 initCheckBoxes(helper, formBean);
@@ -636,13 +667,19 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                     content = content.replaceFirst(content.substring(getLastHeadIndex(content, ITEM_HEAD_TAG1),
                             getLastFootIndex(content, ITEM_FOOT_TAG1)),
                             formBean.getItemTwo());
+                } else {
+                    //如果没有  就不展示后面的东西了
+                    content = content.substring(0, content.indexOf(";"));
+                    content += mContext.getString(R.string.fire_check_summarize2);
+                    initSpannableText(summarizeTv, content, true);
+                    return;
                 }
                 if (!TextUtils.isEmpty(formBean.getItemTwoTime())) {
                     content = content.replaceFirst(content.substring(getLastHeadIndex(content,
                             ITEM_HEAD_TAG2), getLastFootIndex(content,
                             ITEM_FOOT_TAG2)), formBean.getItemTwoTime());
                 }
-                initSpannableText(summarizeTv, content);
+                initSpannableText(summarizeTv, content, false);
 
 
                 break;
@@ -651,7 +688,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         }
     }
 
-    private void initSpannableText(TextView textView, String content) {
+    private void initSpannableText(TextView textView, String content, boolean hideSecendNotice) {
         UnQuailityFormBean formBean = (UnQuailityFormBean) textView.getTag();
         // TODO: 2021/5/28 问题的数据需要优化  只展示已经选择的项目
         CharSequence[] problemItems = getUnQualityItems();
@@ -698,10 +735,10 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                                                             content.replaceFirst(content.substring(getFirstHeadIndex(content, ITEM_HEAD_TAG1),
                                                                     getFirstFootIndex(content, ITEM_FOOT_TAG1)),
                                                                     selectedStr);
-                                                    initSpannableText(textView, str);
+                                                    initSpannableText(textView, str, hideSecendNotice);
                                                     formBean.setItemOne(selectedStr);
                                                 } else {
-                                                    initSpannableText(textView, content);
+                                                    initSpannableText(textView, content, hideSecendNotice);
                                                 }
 
                                             }
@@ -739,7 +776,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                                                                         getFirstFootIndex(content, ITEM_FOOT_TAG2)),
                                                                         CalendarUtil.getTimeFromDate("yyyy-MM-dd",
                                                                                 date));
-                                                        initSpannableText(textView, str);
+                                                        initSpannableText(textView, str, hideSecendNotice);
                                                         formBean.setItemOneTime(CalendarUtil.getTimeFromDate("yyyy-MM" +
                                                                 "-dd", date));
                                                     }
@@ -758,101 +795,110 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 getFirstFootIndex(content, ITEM_FOOT_TAG2),
                 Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 
+        if (!hideSecendNotice) {
 
-        //点击事件
-        spannableString.setSpan(new ClickableSpan() {
-                                    @Override
-                                    public void onClick(@NonNull View widget) {
-                                        if (isDetail) {
-                                            return;
-                                        }
-                                        //第二个选择事项
-                                        new AlertDialog.Builder(mContext)
-                                                .setTitle("请选择事项")
-                                                .setCancelable(false)
-                                                .setMultiChoiceItems(problemItems, new boolean[]{false, false, false,
-                                                                false, false, false,
-                                                                false, false, false, false, false},
-                                                        new DialogInterface.OnMultiChoiceClickListener() {
-                                                            @Override
-                                                            public void onClick(DialogInterface dialog, int which,
-                                                                                boolean isChecked) {
 
-                                                                if (isChecked) {
-                                                                    selectedProblemItems2.add(problemItems[which].toString());
-                                                                } else {
-                                                                    selectedProblemItems2.remove(problemItems[which]);
+            //点击事件
+            spannableString.setSpan(new ClickableSpan() {
+                                        @Override
+                                        public void onClick(@NonNull View widget) {
+                                            if (isDetail) {
+                                                return;
+                                            }
+                                            //第二个选择事项
+                                            new AlertDialog.Builder(mContext)
+                                                    .setTitle("请选择事项")
+                                                    .setCancelable(false)
+                                                    .setMultiChoiceItems(problemItems, new boolean[]{false, false,
+                                                                    false,
+                                                                    false, false, false,
+                                                                    false, false, false, false, false},
+                                                            new DialogInterface.OnMultiChoiceClickListener() {
+                                                                @Override
+                                                                public void onClick(DialogInterface dialog, int which,
+                                                                                    boolean isChecked) {
+
+                                                                    if (isChecked) {
+                                                                        selectedProblemItems2.add(problemItems[which].toString());
+                                                                    } else {
+                                                                        selectedProblemItems2.remove(problemItems[which]);
+                                                                    }
                                                                 }
                                                             }
+                                                    ).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    String selectedStr = selectedProblemItems2.toString();
+                                                    if (selectedProblemItems2.size() > 0) {
+                                                        if (selectedStr.contains("[")) {
+                                                            selectedStr = selectedStr.substring(1,
+                                                                    selectedStr.length() - 1);
                                                         }
-                                                ).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                String selectedStr = selectedProblemItems2.toString();
-                                                if (selectedProblemItems2.size() > 0) {
-                                                    if (selectedStr.contains("[")) {
-                                                        selectedStr = selectedStr.substring(1,
-                                                                selectedStr.length() - 1);
-                                                    }
-                                                    String str =
-                                                            content.replaceFirst(content.substring(getLastHeadIndex(content, ITEM_HEAD_TAG1), getLastFootIndex(content, ITEM_FOOT_TAG1)),
-                                                                    selectedStr);
-                                                    initSpannableText(textView, str);
-                                                    formBean.setItemTwo(selectedStr);
-                                                } else {
-                                                    initSpannableText(textView, content);
-                                                }
-
-                                            }
-                                        }).show();
-                                    }
-                                }, getLastHeadIndex(content, ITEM_HEAD_TAG1), getLastFootIndex(content, ITEM_FOOT_TAG1),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        //下划线
-        spannableString.setSpan(new UnderlineSpan(), getLastHeadIndex(content, ITEM_HEAD_TAG1),
-                getLastFootIndex(content, ITEM_FOOT_TAG1),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        //设置文字颜色
-        spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.colorAccent)),
-                getLastHeadIndex(content, ITEM_HEAD_TAG1), getLastFootIndex(content, ITEM_FOOT_TAG1),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-
-
-        //点击事件
-        spannableString.setSpan(new ClickableSpan() {
-                                    @Override
-                                    public void onClick(@NonNull View widget) {
-                                        if (isDetail) {
-                                            return;
-                                        }
-                                        //第二个选择时间
-                                        PickerManager.getInstance().showTimePickerView(mContext,
-                                                PickerManager.getInstance().getTimeType("day"),
-                                                "选择日期", new PickerManager.OnTimePickerTimeSelectedListener() {
-                                                    @Override
-                                                    public void onTimeSelect(Date date, View v) {
                                                         String str =
-                                                                content.replaceFirst(content.substring(getLastHeadIndex(content,
-                                                                        ITEM_HEAD_TAG2), getLastFootIndex(content,
-                                                                        ITEM_FOOT_TAG2)),
-                                                                        CalendarUtil.getTimeFromDate("yyyy-MM-dd",
-                                                                                date));
-                                                        initSpannableText(textView, str);
-                                                        formBean.setItemTwoTime(CalendarUtil.getTimeFromDate("yyyy-MM" +
-                                                                "-dd", date));
+                                                                content.replaceFirst(content.substring(getLastHeadIndex(content, ITEM_HEAD_TAG1), getLastFootIndex(content, ITEM_FOOT_TAG1)),
+                                                                        selectedStr);
+                                                        initSpannableText(textView, str, hideSecendNotice);
+                                                        formBean.setItemTwo(selectedStr);
+                                                    } else {
+                                                        initSpannableText(textView, content, hideSecendNotice);
                                                     }
-                                                });
-                                    }
-                                }, getLastHeadIndex(content, ITEM_HEAD_TAG2), getLastFootIndex(content, ITEM_FOOT_TAG2),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        //下划线
-        spannableString.setSpan(new UnderlineSpan(), getLastHeadIndex(content, ITEM_HEAD_TAG2),
-                getLastFootIndex(content, ITEM_FOOT_TAG2),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        //设置文字颜色
-        spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.colorAccent)),
-                getLastHeadIndex(content, ITEM_HEAD_TAG2), getLastFootIndex(content, ITEM_FOOT_TAG2),
-                Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+
+                                                }
+                                            }).show();
+                                        }
+                                    }, getLastHeadIndex(content, ITEM_HEAD_TAG1), getLastFootIndex(content,
+                    ITEM_FOOT_TAG1),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            //下划线
+            spannableString.setSpan(new UnderlineSpan(), getLastHeadIndex(content, ITEM_HEAD_TAG1),
+                    getLastFootIndex(content, ITEM_FOOT_TAG1),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            //设置文字颜色
+            spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.colorAccent)),
+                    getLastHeadIndex(content, ITEM_HEAD_TAG1), getLastFootIndex(content, ITEM_FOOT_TAG1),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
+        if (!hideSecendNotice) {
+
+
+            //点击事件
+            spannableString.setSpan(new ClickableSpan() {
+                                        @Override
+                                        public void onClick(@NonNull View widget) {
+                                            if (isDetail) {
+                                                return;
+                                            }
+                                            //第二个选择时间
+                                            PickerManager.getInstance().showTimePickerView(mContext,
+                                                    PickerManager.getInstance().getTimeType("day"),
+                                                    "选择日期", new PickerManager.OnTimePickerTimeSelectedListener() {
+                                                        @Override
+                                                        public void onTimeSelect(Date date, View v) {
+                                                            String str =
+                                                                    content.replaceFirst(content.substring(getLastHeadIndex(content,
+                                                                            ITEM_HEAD_TAG2), getLastFootIndex(content,
+                                                                            ITEM_FOOT_TAG2)),
+                                                                            CalendarUtil.getTimeFromDate("yyyy-MM-dd",
+                                                                                    date));
+                                                            initSpannableText(textView, str, hideSecendNotice);
+                                                            formBean.setItemTwoTime(CalendarUtil.getTimeFromDate(
+                                                                    "yyyy-MM" +
+                                                                            "-dd", date));
+                                                        }
+                                                    });
+                                        }
+                                    }, getLastHeadIndex(content, ITEM_HEAD_TAG2), getLastFootIndex(content,
+                    ITEM_FOOT_TAG2),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            //下划线
+            spannableString.setSpan(new UnderlineSpan(), getLastHeadIndex(content, ITEM_HEAD_TAG2),
+                    getLastFootIndex(content, ITEM_FOOT_TAG2),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+            //设置文字颜色
+            spannableString.setSpan(new ForegroundColorSpan(ContextCompat.getColor(mContext, R.color.colorAccent)),
+                    getLastHeadIndex(content, ITEM_HEAD_TAG2), getLastFootIndex(content, ITEM_FOOT_TAG2),
+                    Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+        }
         builder.append(spannableString);
         textView.setText(builder);
         // 添加这一行之后，指定区域文字点击事件才会生效
@@ -877,7 +923,6 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
 
     /**
      * 获取残疾的种类
-     * 
      *
      * @return
      */

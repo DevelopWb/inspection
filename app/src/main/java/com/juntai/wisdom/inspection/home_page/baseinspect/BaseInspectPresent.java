@@ -19,6 +19,7 @@ import com.juntai.wisdom.inspection.bean.MultipleItem;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
 import com.juntai.wisdom.inspection.bean.firecheck.RectifyNoticeBean;
 import com.juntai.wisdom.inspection.bean.firecheck.RectifyNoticeListBean;
+import com.juntai.wisdom.inspection.bean.firecheck.ResponsibilityBean;
 import com.juntai.wisdom.inspection.bean.firecheck.UnQuailityFormBean;
 import com.juntai.wisdom.inspection.bean.importantor.AllImportantorBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
@@ -35,7 +36,9 @@ import com.juntai.wisdom.inspection.bean.firecheck.UnitDetailBean;
 import com.juntai.wisdom.inspection.utils.AppUtils;
 import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import okhttp3.RequestBody;
@@ -276,6 +279,34 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 fragmentPics.size() : 6,
                 3, false,
                 fragmentPics)));
+        return arrays;
+    }
+    /**
+     * 责任书
+     *
+     * @return
+     */
+    public List<MultipleItem> getResponsibilityData(ResponsibilityBean.DataBean responsibilityBean,boolean isDetail) {
+        List<MultipleItem> arrays = new ArrayList<>();
+        arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "现场照片"));
+        List<String> fragmentPics = new ArrayList<>();
+        if (responsibilityBean != null) {
+            addFragmentPics(responsibilityBean.getPhotoOne(), fragmentPics);
+            addFragmentPics(responsibilityBean.getPhotoTwo(), fragmentPics);
+            addFragmentPics(responsibilityBean.getPhotoThree(), fragmentPics);
+        }
+        arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3, isDetail ?
+                fragmentPics.size() : 3,
+                1, false,
+                fragmentPics)));
+
+        arrays.add(new MultipleItem(MultipleItem.ITEM_TEXT,responsibilityBean.getContent()));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_SIGN,new ItemSignBean("签字：", responsibilityBean == null ? "" :
+                responsibilityBean.getSignPhoto(), 1,true)));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_DATE,TextUtils.isEmpty(responsibilityBean.getGmtCreate())?
+                new SimpleDateFormat("yyyy年MM月dd日").format(new Date()) :
+                responsibilityBean.getGmtCreate()));
+
         return arrays;
     }
 
@@ -1088,6 +1119,70 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 .subscribe(new BaseObserver<BaseResult>(getView()) {
                     @Override
                     public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+
+    @Override
+    public void getResponsibilityList(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getResponsibilityList(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<IdNameBean>(getView()) {
+                    @Override
+                    public void onSuccess(IdNameBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void signResponsibility(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .signResponsibility(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void getResponsibilityDetail(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getResponsibilityDetail(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<ResponsibilityBean>(getView()) {
+                    @Override
+                    public void onSuccess(ResponsibilityBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

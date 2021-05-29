@@ -189,6 +189,7 @@ public class StartCheckActivity extends BaseCommitFootViewActivity {
     public void next() {
         if (saveDraftLogic(false)) {
             startActivity(new Intent(mContext, CreatRectifyNoticeActivity.class)
+                    .putExtra(BASE_STRING,unitBean.getName())
                     .putExtra(BASE_ID,unitBean.getId()));
         }
 

@@ -61,16 +61,10 @@ public class CreatRectifyNoticeActivity extends BaseInspectionActivity {
         return view;
     }
 
-
     @Override
-    protected void commitLogic() {
+    protected void commitLogic(MultipartBody.Builder builder) {
         //完成  提交检查记录  成功后跳转到生成整改通知书界面
         //检查有问题
-        BaseAdapterDataBean baseAdapterDataBean = getBaseAdapterData(false);
-        if (baseAdapterDataBean == null) {
-            return;
-        }
-        MultipartBody.Builder builder = getBaseAdapterData(false).getBuilder();
         if (!TextUtils.isEmpty(firecheckbean.getPhotoOne())) {
             builder.addFormDataPart("pictureOne", "pictureOne",
                     RequestBody.create(MediaType.parse("file"),
@@ -114,11 +108,14 @@ public class CreatRectifyNoticeActivity extends BaseInspectionActivity {
         mPresenter.addFireCheckRecord(body, "");
     }
 
+
     @Override
     public void onSuccess(String tag, Object o) {
         BaseResult baseResult = (BaseResult) o;
         String noticeDetailId = baseResult.message;
         // 跳转到整改通知书详情
-       startActivity(new Intent(mContext,RectifyNoticeDetailActivity.class).putExtra(BASE_ID,noticeDetailId));
+       startActivity(new Intent(mContext,RectifyNoticeDetailActivity.class)
+               .putExtra(BASE_STRING,"0")
+               .putExtra(BASE_ID,Integer.parseInt(noticeDetailId)));
     }
 }

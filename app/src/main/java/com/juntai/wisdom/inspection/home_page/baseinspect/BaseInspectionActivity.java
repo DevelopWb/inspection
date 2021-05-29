@@ -70,6 +70,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     public static String BASE_ID = "baseid";
     public static String BASE_ID2 = "baseid2";
     public static String BASE_STRING = "basestring";
+    public static String BASE_STRING2 = "basestring2";
     public final static String ADD_UNIT = "添加单位";
     public final static String ADD_INSPECTION_SITE = "添加治安巡检点";
     public final static String ADD_IMPORTANTOR = "添加重点人员";
@@ -135,7 +136,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     /**
      * 提交的逻辑
      */
-    protected void commitLogic() {
+    protected void commitLogic(MultipartBody.Builder builder) {
     }
 
     private void setAdapterClick() {
@@ -429,7 +430,11 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                 break;
             case R.id.commit_form_tv:
                 //提交
-                commitLogic();
+                BaseAdapterDataBean baseAdapterDataBean = getBaseAdapterData(false);
+                if (baseAdapterDataBean == null) {
+                    return;
+                }
+                commitLogic(baseAdapterDataBean.getBuilder());
                 break;
             default:
                 break;
@@ -832,7 +837,10 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         String picPah = photos.get(i);
                         switch (i) {
                             case 0:
-                                if ("添加处罚信息".equals(getTitleName()) || "开始巡检".equals(getTitleName()) || "开始走访".equals(getTitleName())
+                                if ("添加处罚信息".equals(getTitleName()) || "开始巡检".equals(getTitleName())
+                                        || "开始走访".equals(getTitleName())
+                                        || "消防安全责任书".equals(getTitleName())
+                                        || "治安管理责任书".equals(getTitleName())
                                         || "开始检查".equals(getTitleName())) {
                                     if (picPah.contains(AppUtils.getAppName())) {
                                         builder.addFormDataPart("pictureOne", "pictureOne",

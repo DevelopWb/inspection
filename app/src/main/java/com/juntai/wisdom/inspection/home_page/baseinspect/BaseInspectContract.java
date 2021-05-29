@@ -153,6 +153,7 @@ public interface BaseInspectContract {
         void addPunishInfo(RequestBody requestBody, String tag);
 
         void getFireCheckRecords(RequestBody requestBody, String tag);
+
         void getRectifyNoticeList(RequestBody requestBody, String tag);
 
         void getRectifyNoticeDetail(RequestBody requestBody, String tag);
@@ -160,5 +161,10 @@ public interface BaseInspectContract {
         void getFireCheckRecordDetail(RequestBody requestBody, String tag);
 
         void applyEditInspectionSitInfo(RequestBody requestBody, String tag);
+
+        void getResponsibilityList(RequestBody requestBody, String tag);
+
+        void signResponsibility(RequestBody requestBody, String tag);
+        void getResponsibilityDetail(RequestBody requestBody, String tag);
     }
 }

@@ -30,7 +30,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.rectifynotice.RectifyNoticeListActivity"></activity>
+        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.responsibility.ResponsibilityDetailActivity"></activity>
+        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.responsibility.SignResponsibilityActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.responsibility.ResponsibilityActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.rectifynotice.RectifyNoticeListActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.rectifynotice.RectifyNoticeDetailActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.check.AddPunishActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.rectifynotice.CreatRectifyNoticeActivity" />
@@ -62,7 +65,9 @@
         <activity android:name="com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectionSiteMoreInfoActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectionSiteInfoActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.ImportantorInfoActivity" />
-        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.UnitInfoActivity" />
+        <activity
+            android:name="com.juntai.wisdom.inspection.home_page.firecheck.UnitInfoActivity"
+            android:launchMode="singleTask" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectionSitesActivity" />
         <activity
             android:name="com.juntai.wisdom.inspection.home_page.QRScanActivity"
