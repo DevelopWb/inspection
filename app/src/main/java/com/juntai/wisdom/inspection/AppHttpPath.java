@@ -116,6 +116,25 @@ public class AppHttpPath {
      */
     public static final String RESPONSIBILITY_DETAIL = BASE + "/u/appConnector/selectCheckResponsibilityInfo.shtml";
 
+    /**
+     * 从业人员列表
+     */
+    public static final String GET_WORKER_LIST = BASE + "/u/appConnector/selectUnitStaffList.shtml";
+    /**
+     * 从业人员详情
+     */
+    public static final String GET_WORKER_DETAIL = BASE + "/u/appConnector/selectUnitStaffInfo.shtml";
+
+    /**
+     * 添加从业人员
+     *
+     */
+    public static final String ADD_WORKER = BASE + "/u/appConnector/insertUnitStaff.shtml";
+    /**
+     * 工作类型
+     */
+    public static final String GET_WORKER_TYPE = BASE + "/u/appConnector/selectUnitStaffPostType.shtml";
+
 
 
     /*==============================================  巡检点  =============================================*/

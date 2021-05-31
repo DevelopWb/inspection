@@ -19,6 +19,7 @@ import com.juntai.wisdom.inspection.home_page.firecheck.check.FireCheckRecordLis
 import com.juntai.wisdom.inspection.home_page.firecheck.check.StartCheckActivity;
 import com.juntai.wisdom.inspection.home_page.firecheck.rectifynotice.RectifyNoticeListActivity;
 import com.juntai.wisdom.inspection.home_page.firecheck.responsibility.ResponsibilityActivity;
+import com.juntai.wisdom.inspection.home_page.firecheck.worker.WorkerListActivity;
 import com.juntai.wisdom.inspection.home_page.importantor.StartVisitActivity;
 import com.juntai.wisdom.inspection.home_page.importantor.VisitRecordListActivity;
 import com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectRecordListActivity;
@@ -121,7 +122,8 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
 
                         break;
                     case BaseInspectContract.INSPECTION_WORKER:
-                        // TODO: 2021/5/18  单位详情里面的从业人员
+                        //   单位详情里面的从业人员
+                        startActivity(new Intent(mContext, WorkerListActivity.class).putExtra(BaseRecordActivity.ID,((UnitDetailBean.DataBean)getBaseBean()).getId()));
 
                         break;
                     default:

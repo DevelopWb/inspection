@@ -6,6 +6,8 @@ import com.juntai.wisdom.inspection.bean.IdNameBean;
 import com.juntai.wisdom.inspection.bean.firecheck.RectifyNoticeBean;
 import com.juntai.wisdom.inspection.bean.firecheck.RectifyNoticeListBean;
 import com.juntai.wisdom.inspection.bean.firecheck.ResponsibilityBean;
+import com.juntai.wisdom.inspection.bean.firecheck.WorkerDetailBean;
+import com.juntai.wisdom.inspection.bean.firecheck.WorkerListBean;
 import com.juntai.wisdom.inspection.bean.importantor.AllImportantorBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordDetailBean;
@@ -200,6 +202,36 @@ public interface AppServer {
      */
     @POST(AppHttpPath.RESPONSIBILITY_DETAIL)
     Observable<ResponsibilityBean> getResponsibilityDetail(@Body RequestBody requestBody);
+
+
+    /**
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.GET_WORKER_LIST)
+    Observable<WorkerListBean> getWorkerList(@Body RequestBody requestBody);
+
+    /**
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.GET_WORKER_DETAIL)
+    Observable<WorkerDetailBean> getWorkerDetail(@Body RequestBody requestBody);
+    /**
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.ADD_WORKER)
+    Observable<BaseResult> addWorker(@Body RequestBody requestBody);
+    /**
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.GET_WORKER_TYPE)
+    Observable<IdNameBean> getWorkerType(@Body RequestBody requestBody);
 
 
 

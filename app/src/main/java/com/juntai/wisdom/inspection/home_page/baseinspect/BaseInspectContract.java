@@ -48,8 +48,10 @@ public interface BaseInspectContract {
     String INSPECTION_NICK_NAME = "曾用名";
     String INSPECTION_SEX = "性别";
     String INSPECTION_POLICE_NAME = "管控民警";
+    String INSPECTION_REGI_POLICE = "登记警员";
     String INSPECTION_ID_CARD = "身份证号";
     String INSPECTION_ADDR_LATEST = "现居住地";
+    String INSPECTION_WORK_TYPE = "工作岗位";
     String INSPECTION_PERSONAL_TYPE = "人员类型";
     String INSPECTION_PERSONAL_STATUS = "人员状态";
     String INSPECTION_WORK_UNIT_LATEST = "现工作单位";
@@ -164,7 +166,16 @@ public interface BaseInspectContract {
 
         void getResponsibilityList(RequestBody requestBody, String tag);
 
+        void getWorkerType(RequestBody requestBody, String tag);
+
         void signResponsibility(RequestBody requestBody, String tag);
+
+        void addWorker(RequestBody requestBody, String tag);
+
         void getResponsibilityDetail(RequestBody requestBody, String tag);
+
+        void getWorkerList(RequestBody requestBody, String tag);
+
+        void getWorkerDetail(RequestBody requestBody, String tag);
     }
 }

@@ -10,6 +10,7 @@ import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.base.BaseAppActivity;
 import com.juntai.wisdom.inspection.bean.firecheck.RectifyNoticeBean;
 import com.juntai.wisdom.inspection.bean.firecheck.RectifyNoticeListBean;
+import com.juntai.wisdom.inspection.bean.firecheck.WorkerListBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordListBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordListBean;
 import com.juntai.wisdom.inspection.bean.firecheck.FireCheckRecordListBean;
@@ -153,6 +154,21 @@ public abstract class BaseRecordActivity extends BaseAppActivity<BaseInspectPres
                 if (rectifyNoticeListBean != null) {
                     List<RectifyNoticeListBean.DataBean.DatasBean> arrays =
                             rectifyNoticeListBean.getData().getDatas();
+                    if (currentPage == 1) {
+                        adapter.setNewData(arrays);
+                    } else {
+                        adapter.addData(arrays);
+                    }
+                    if (arrays != null && arrays.size() < pagesize) {
+                        mSmartrefreshlayout.finishLoadMoreWithNoMoreData();
+                    }
+                }
+                break;
+            case AppHttpPath.GET_WORKER_LIST:
+                WorkerListBean workerListBean = (WorkerListBean) o;
+                if (workerListBean != null) {
+                    List<WorkerListBean.DataBean.DatasBean> arrays =
+                            workerListBean.getData().getDatas();
                     if (currentPage == 1) {
                         adapter.setNewData(arrays);
                     } else {

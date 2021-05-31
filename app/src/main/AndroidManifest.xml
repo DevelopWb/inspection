@@ -30,7 +30,10 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.responsibility.ResponsibilityDetailActivity"></activity>
+        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.worker.WorkerDetailInfoActivity"></activity>
+        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.worker.AddWorkerActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.worker.WorkerListActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.responsibility.ResponsibilityDetailActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.responsibility.SignResponsibilityActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.responsibility.ResponsibilityActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.rectifynotice.RectifyNoticeListActivity" />

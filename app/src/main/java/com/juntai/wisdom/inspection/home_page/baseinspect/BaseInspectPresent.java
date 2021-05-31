@@ -21,6 +21,8 @@ import com.juntai.wisdom.inspection.bean.firecheck.RectifyNoticeBean;
 import com.juntai.wisdom.inspection.bean.firecheck.RectifyNoticeListBean;
 import com.juntai.wisdom.inspection.bean.firecheck.ResponsibilityBean;
 import com.juntai.wisdom.inspection.bean.firecheck.UnQuailityFormBean;
+import com.juntai.wisdom.inspection.bean.firecheck.WorkerDetailBean;
+import com.juntai.wisdom.inspection.bean.firecheck.WorkerListBean;
 import com.juntai.wisdom.inspection.bean.importantor.AllImportantorBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordDetailBean;
@@ -474,6 +476,51 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         arrays.add(new MultipleItem(MultipleItem.ITEM_LOCATION, new LocationBean(bean == null ? null :
                 bean.getGpsAddress()
                 , bean == null ? null : bean.getLatitude(), bean == null ? null : bean.getLongitude())));
+
+        return arrays;
+    }
+    /**
+     * 添加 从业人员
+     *
+     * @return
+     */
+    public List<MultipleItem> getWorkerData(WorkerDetailBean.DataBean bean,boolean isDetail) {
+        List<MultipleItem> arrays = new ArrayList<>();
+        arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL,
+                new ImportantTagBean(BaseInspectContract.INSPECTION_IMPORTANTOR_PHOTO, true)));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_HEAD_PIC,
+                new HeadPicBean(BaseInspectContract.INSPECTION_IMPORTANTOR_PHOTO, -1,
+                        bean == null ? "" : bean.getPersonnelPhoto())));
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_NAME, bean == null ? "" :
+                        bean.getName()
+                , true, 0);
+        initTextType(arrays, MultipleItem.ITEM_SELECT, BaseInspectContract.INSPECTION_SEX, bean == null ? "" :
+                1 == bean.getGender() ? "男" : "女", true, 0);
+        if (isDetail) {
+            initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_REGI_POLICE, bean == null ? "" :
+                            bean.getNickname()
+                    , true, 0);
+        }
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_ID_CARD, bean == null ? "" :
+                        bean.getIdNumber()
+                , true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_ADDR_LATEST, bean == null ? "" :
+                        bean.getAddress()
+                , true, 0);
+
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_TEL, bean == null ? "" :
+                bean.getPhone(), true, 0);
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_WORK_UNIT_LATEST, bean == null ?
+                        "" :
+                        bean.getUnitName()
+                , true, 0);
+        initTextType(arrays, MultipleItem.ITEM_SELECT, BaseInspectContract.INSPECTION_WORK_TYPE, bean == null ?
+                        "" :
+                        bean.getPostName()
+                , true, 0);
+
+        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, bean == null ? "" :
+                bean.getRemarks(), false, 1);
 
         return arrays;
     }
@@ -1155,9 +1202,51 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 });
     }
     @Override
+    public void getWorkerType(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getWorkerType(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<IdNameBean>(getView()) {
+                    @Override
+                    public void onSuccess(IdNameBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
     public void signResponsibility(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
                 .signResponsibility(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void addWorker(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .addWorker(requestBody)
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<BaseResult>(getView()) {
                     @Override
@@ -1183,6 +1272,48 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 .subscribe(new BaseObserver<ResponsibilityBean>(getView()) {
                     @Override
                     public void onSuccess(ResponsibilityBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void getWorkerList(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getWorkerList(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<WorkerListBean>(getView()) {
+                    @Override
+                    public void onSuccess(WorkerListBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void getWorkerDetail(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getWorkerDetail(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<WorkerDetailBean>(getView()) {
+                    @Override
+                    public void onSuccess(WorkerDetailBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

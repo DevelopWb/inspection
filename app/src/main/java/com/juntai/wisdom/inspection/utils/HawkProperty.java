@@ -17,4 +17,5 @@ public class HawkProperty {
     public static String ADD_INSPECRTION_RECORD_KEY = "add_inspectionrecord";//添加巡检记录
     public static String ADD_FIRE_CHECK_RECORD_KEY = "add_firecheckrecord";//添加消防检查记录
     public static String ADD_IMPORTANTOR_VISIT_RECORD_KEY = "add_importantorvisit";//重点人员 上门
+    public static String ADD_WORKER_KEY = "add_worker";//添加从业人员  需要和单位id绑定
 }

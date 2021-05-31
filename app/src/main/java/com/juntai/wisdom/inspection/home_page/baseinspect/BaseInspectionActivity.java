@@ -35,6 +35,7 @@ import com.juntai.wisdom.inspection.bean.MultipleItem;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
 import com.juntai.wisdom.inspection.bean.firecheck.UnQuailityFormBean;
 import com.juntai.wisdom.inspection.bean.firecheck.UnQualifiedBean;
+import com.juntai.wisdom.inspection.bean.firecheck.WorkerDetailBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorVisitRecordDetailBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
@@ -92,6 +93,8 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     public String importantorStatusName;//人员状态
     public int unitTypeId = 0;//单位类型id
     public int questionId = 0;//问题id
+    public int workerType = 0;//从业人员的工作类型
+    public String workerName ;//从业人员的工作类型
     public String questionName;//问题
     public String unitTypeName;//单位类型id
 
@@ -238,6 +241,9 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 break;
                             case BaseInspectContract.INSPECTION_VISIT_PROBLEMS:
                                 mPresenter.getVisitQuestions(getBaseBuilder().build(), AppHttpPath.VISIT_QUESTIONS);
+                                break;
+                            case BaseInspectContract.INSPECTION_WORK_TYPE:
+                                mPresenter.getWorkerType(getBaseBuilder().build(),AppHttpPath.GET_WORKER_TYPE);
                                 break;
                             case BaseInspectContract.INSPECTION_PERSONAL_STATUS:
                                 mPresenter.getImportantorStatus(getBaseBuilder().build(),
@@ -477,7 +483,6 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         }
         //清除签名文件
         FileCacheUtils.clearImage(getSignPath(FileCacheUtils.SIGN_PIC_NAME));
-        FileCacheUtils.clearImage(getSignPath(FileCacheUtils.HEAD_PIC));
     }
 
     /**
@@ -493,6 +498,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         InspectionSiteBean.DataBean inspectionSiteBean = new InspectionSiteBean.DataBean();
         ImportantorBean.DataBean importantorBean = new ImportantorBean.DataBean();
         FireCheckBean.DataBean fireCheckBean = new FireCheckBean.DataBean();
+        WorkerDetailBean.DataBean workerBean= new WorkerDetailBean.DataBean();
         SecurityInspectRecordDetailBean.DataBean recordDetailBean = new SecurityInspectRecordDetailBean.DataBean();
         ImportantorVisitRecordDetailBean.DataBean visitRecordDetailBean =
                 new ImportantorVisitRecordDetailBean.DataBean();
@@ -520,6 +526,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         }
                     }
                     importantorBean.setPersonnelPhoto(headPicBean.getPicPath());
+                    workerBean.setPersonnelPhoto(headPicBean.getPicPath());
                     builder.addFormDataPart("personnelPicture", "personnelPicture",
                             RequestBody.create(MediaType.parse("file"),
                                     new File(headPicBean.getPicPath())));
@@ -554,6 +561,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             }
                             formKey = "phone";
                             importantorBean.setPhone(value);
+                            workerBean.setPhone(value);
                             break;
                         case BaseInspectContract.INSPECTION_UNIT_NAME:
                             //单位名称
@@ -616,6 +624,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             inspectionSiteBean.setRemarks(value);
                             fireCheckBean.setConcreteProblems(value);
                             importantorBean.setRemarks(value);
+                            workerBean.setRemarks(value);
                             recordDetailBean.setRemarks(value);
                             visitRecordDetailBean.setRemarks(value);
                             break;
@@ -637,6 +646,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             //姓名
                             formKey = "name";
                             importantorBean.setName(value);
+                            workerBean.setName(value);
                             break;
                         case BaseInspectContract.INSPECTION_NICK_NAME:
                             //曾用名
@@ -652,16 +662,19 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             //身份证号
                             formKey = "idNumber";
                             importantorBean.setIdNumber(value);
+                            workerBean.setIdNumber(value);
                             break;
                         case BaseInspectContract.INSPECTION_ADDR_LATEST:
                             //现居住地
                             formKey = "address";
                             importantorBean.setAddress(value);
+                            workerBean.setAddress(value);
                             break;
                         case BaseInspectContract.INSPECTION_WORK_UNIT_LATEST:
                             //现工作单位
                             formKey = "unitName";
                             importantorBean.setUnitName(value);
+                            workerBean.setUnitName(value);
                             break;
                         case BaseInspectContract.INSPECTION_OTHER_CONNECT_TYPE:
                             //其他联系方式(QQ、微信、邮箱等)
@@ -702,6 +715,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             if (!TextUtils.isEmpty(selectBeanValue)) {
                                 builder.addFormDataPart("gender", "男".equals(selectBeanValue) ? "1" : "2");
                                 importantorBean.setGender("男".equals(selectBeanValue) ? 1 : 2);
+                                workerBean.setGender("男".equals(selectBeanValue) ? 1 : 2);
                             }
 
                             break;
@@ -725,14 +739,17 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             visitRecordDetailBean.setInspectionId(questionId);
                             visitRecordDetailBean.setInspectionName(questionName);
                             break;
+                        case BaseInspectContract.INSPECTION_WORK_TYPE:
+                            builder.addFormDataPart("postId", String.valueOf(workerType));
+                            workerBean.setPostId(workerType);
+                            workerBean.setPostName(workerName);
+                            break;
                         case BaseInspectContract.INSPECTION_VISIT_TIMES:
                             //走访频率
                             builder.addFormDataPart("checkTime", selectBeanValue);
                             if (!TextUtils.isEmpty(selectBeanValue)) {
                                 importantorBean.setCheckTime(Integer.parseInt(selectBeanValue));
                             }
-
-
                             break;
                         default:
                             break;
@@ -961,13 +978,15 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         bean.setRecordDetailBean(recordDetailBean);
         bean.setVisitRecordDetailBean(visitRecordDetailBean);
         bean.setFireCheckBean(fireCheckBean);
+        bean.setWorkerBean(workerBean);
         return bean;
     }
 
     @Override
     public void onSuccess(String tag, Object o) {
         if (AppHttpPath.UNIT_TYPE.equals(tag) || AppHttpPath.SECURITY_INSPECT_QUESTION.equals(tag)
-                || AppHttpPath.IMPORTANTOR_STATUS.equals(tag) || AppHttpPath.VISIT_QUESTIONS.equals(tag)) {
+                || AppHttpPath.IMPORTANTOR_STATUS.equals(tag)
+                || AppHttpPath.GET_WORKER_TYPE.equals(tag)|| AppHttpPath.VISIT_QUESTIONS.equals(tag)) {
             IdNameBean idNameBean = (IdNameBean) o;
             if (idNameBean != null) {
                 List<IdNameBean.DataBean> arrays = idNameBean.getData();
@@ -991,6 +1010,10 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                         case AppHttpPath.VISIT_QUESTIONS:
                                             questionId = dataBean.getId();
                                             questionName = dataBean.getName();
+                                            break;
+                                        case AppHttpPath.GET_WORKER_TYPE:
+                                            workerType = dataBean.getId();
+                                            workerName = dataBean.getName();
                                             break;
                                         case AppHttpPath.IMPORTANTOR_STATUS:
                                             importantorStatusId = dataBean.getId();

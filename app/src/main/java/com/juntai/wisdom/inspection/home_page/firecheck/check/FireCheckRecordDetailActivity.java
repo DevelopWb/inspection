@@ -78,6 +78,7 @@ public class FireCheckRecordDetailActivity extends BaseInspectionActivity {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (BASE_REQUEST_RESULT==requestCode) {
+            getTitleRightTv().setVisibility(View.GONE);
             mPresenter.getFireCheckRecordDetail(getBaseBuilder().add("recordId", String.valueOf(dataBean.getRecordId())).build(),
                     "");
         }
