@@ -171,6 +171,7 @@ public interface BaseInspectContract {
         void signResponsibility(RequestBody requestBody, String tag);
 
         void addWorker(RequestBody requestBody, String tag);
+        void editWorker(RequestBody requestBody, String tag);
 
         void getResponsibilityDetail(RequestBody requestBody, String tag);
 

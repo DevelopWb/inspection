@@ -124,6 +124,10 @@ public class AppHttpPath {
      * 从业人员详情
      */
     public static final String GET_WORKER_DETAIL = BASE + "/u/appConnector/selectUnitStaffInfo.shtml";
+    /**
+     * 修改单位从业人员
+     */
+    public static final String EDIT_WORKER = BASE + "/u/appConnector/updateUnitStaff.shtml";
 
     /**
      * 添加从业人员

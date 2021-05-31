@@ -1,5 +1,8 @@
 package com.juntai.wisdom.inspection.bean.firecheck;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import com.juntai.disabled.basecomponent.base.BaseResult;
 
 /**
@@ -29,7 +32,7 @@ public class WorkerDetailBean extends BaseResult {
         this.data = data;
     }
 
-    public static class DataBean {
+    public static class DataBean implements Parcelable {
         /**
          * id : 1
          * name : 铁人王进喜
@@ -53,17 +56,10 @@ public class WorkerDetailBean extends BaseResult {
         private String address;
         private String phone;
         private String unitName;
+        private int unitId;
         private String postName;
         private int postId;
         private String remarks;
-
-        public int getPostId() {
-            return postId;
-        }
-
-        public void setPostId(int postId) {
-            this.postId = postId;
-        }
 
         public int getId() {
             return id;
@@ -74,11 +70,11 @@ public class WorkerDetailBean extends BaseResult {
         }
 
         public String getName() {
-            return name;
+            return name == null ? "" : name;
         }
 
         public void setName(String name) {
-            this.name = name;
+            this.name = name == null ? "" : name;
         }
 
         public int getGender() {
@@ -90,67 +86,137 @@ public class WorkerDetailBean extends BaseResult {
         }
 
         public String getNickname() {
-            return nickname;
+            return nickname == null ? "" : nickname;
         }
 
         public void setNickname(String nickname) {
-            this.nickname = nickname;
+            this.nickname = nickname == null ? "" : nickname;
         }
 
         public String getPersonnelPhoto() {
-            return personnelPhoto;
+            return personnelPhoto == null ? "" : personnelPhoto;
         }
 
         public void setPersonnelPhoto(String personnelPhoto) {
-            this.personnelPhoto = personnelPhoto;
+            this.personnelPhoto = personnelPhoto == null ? "" : personnelPhoto;
         }
 
         public String getIdNumber() {
-            return idNumber;
+            return idNumber == null ? "" : idNumber;
         }
 
         public void setIdNumber(String idNumber) {
-            this.idNumber = idNumber;
+            this.idNumber = idNumber == null ? "" : idNumber;
         }
 
         public String getAddress() {
-            return address;
+            return address == null ? "" : address;
         }
 
         public void setAddress(String address) {
-            this.address = address;
+            this.address = address == null ? "" : address;
         }
 
         public String getPhone() {
-            return phone;
+            return phone == null ? "" : phone;
         }
 
         public void setPhone(String phone) {
-            this.phone = phone;
+            this.phone = phone == null ? "" : phone;
         }
 
         public String getUnitName() {
-            return unitName;
+            return unitName == null ? "" : unitName;
         }
 
         public void setUnitName(String unitName) {
-            this.unitName = unitName;
+            this.unitName = unitName == null ? "" : unitName;
+        }
+
+        public int getUnitId() {
+            return unitId;
+        }
+
+        public void setUnitId(int unitId) {
+            this.unitId = unitId;
         }
 
         public String getPostName() {
-            return postName;
+            return postName == null ? "" : postName;
         }
 
         public void setPostName(String postName) {
-            this.postName = postName;
+            this.postName = postName == null ? "" : postName;
+        }
+
+        public int getPostId() {
+            return postId;
+        }
+
+        public void setPostId(int postId) {
+            this.postId = postId;
         }
 
         public String getRemarks() {
-            return remarks;
+            return remarks == null ? "" : remarks;
         }
 
         public void setRemarks(String remarks) {
-            this.remarks = remarks;
+            this.remarks = remarks == null ? "" : remarks;
         }
+
+
+        @Override
+        public int describeContents() {
+            return 0;
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            dest.writeInt(this.id);
+            dest.writeString(this.name);
+            dest.writeInt(this.gender);
+            dest.writeString(this.nickname);
+            dest.writeString(this.personnelPhoto);
+            dest.writeString(this.idNumber);
+            dest.writeString(this.address);
+            dest.writeString(this.phone);
+            dest.writeString(this.unitName);
+            dest.writeInt(this.unitId);
+            dest.writeString(this.postName);
+            dest.writeInt(this.postId);
+            dest.writeString(this.remarks);
+        }
+
+        public DataBean() {
+        }
+
+        protected DataBean(Parcel in) {
+            this.id = in.readInt();
+            this.name = in.readString();
+            this.gender = in.readInt();
+            this.nickname = in.readString();
+            this.personnelPhoto = in.readString();
+            this.idNumber = in.readString();
+            this.address = in.readString();
+            this.phone = in.readString();
+            this.unitName = in.readString();
+            this.unitId = in.readInt();
+            this.postName = in.readString();
+            this.postId = in.readInt();
+            this.remarks = in.readString();
+        }
+
+        public static final Parcelable.Creator<DataBean> CREATOR = new Parcelable.Creator<DataBean>() {
+            @Override
+            public DataBean createFromParcel(Parcel source) {
+                return new DataBean(source);
+            }
+
+            @Override
+            public DataBean[] newArray(int size) {
+                return new DataBean[size];
+            }
+        };
     }
 }

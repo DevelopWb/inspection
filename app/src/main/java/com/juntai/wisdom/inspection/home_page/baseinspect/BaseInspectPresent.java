@@ -510,10 +510,12 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
 
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_TEL, bean == null ? "" :
                 bean.getPhone(), true, 0);
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_WORK_UNIT_LATEST, bean == null ?
-                        "" :
-                        bean.getUnitName()
-                , true, 0);
+        if (isDetail) {
+            initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_WORK_UNIT_LATEST, bean == null ?
+                            "" :
+                            bean.getUnitName()
+                    , true, 0);
+        }
         initTextType(arrays, MultipleItem.ITEM_SELECT, BaseInspectContract.INSPECTION_WORK_TYPE, bean == null ?
                         "" :
                         bean.getPostName()
@@ -1247,6 +1249,27 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     public void addWorker(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
                 .addWorker(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void editWorker(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .editWorker(requestBody)
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<BaseResult>(getView()) {
                     @Override

@@ -219,6 +219,12 @@ public interface AppServer {
     @POST(AppHttpPath.GET_WORKER_DETAIL)
     Observable<WorkerDetailBean> getWorkerDetail(@Body RequestBody requestBody);
     /**
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.EDIT_WORKER)
+    Observable<BaseResult> editWorker(@Body RequestBody requestBody);
+    /**
      *
      * @param requestBody
      * @return

@@ -525,11 +525,18 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             return null;
                         }
                     }
-                    importantorBean.setPersonnelPhoto(headPicBean.getPicPath());
-                    workerBean.setPersonnelPhoto(headPicBean.getPicPath());
-                    builder.addFormDataPart("personnelPicture", "personnelPicture",
-                            RequestBody.create(MediaType.parse("file"),
-                                    new File(headPicBean.getPicPath())));
+                    String  headPicPath = headPicBean.getPicPath();
+                    importantorBean.setPersonnelPhoto(headPicPath);
+                    workerBean.setPersonnelPhoto(headPicPath);
+                    if (headPicPath.contains(AppUtils.getAppName())) {
+                        builder.addFormDataPart("personnelPicture", "personnelPicture",
+                                RequestBody.create(MediaType.parse("file"),
+                                        new File(headPicPath)));
+                    } else {
+                        builder.addFormDataPart("personnelPhoto",
+                                headPicPath.substring(AppHttpPath.BASE_IMAGE.length(),
+                                        headPicPath.length()));
+                    }
                     break;
                 case MultipleItem.ITEM_EDIT:
                     TextKeyValueBean textValueEditBean = (TextKeyValueBean) array
