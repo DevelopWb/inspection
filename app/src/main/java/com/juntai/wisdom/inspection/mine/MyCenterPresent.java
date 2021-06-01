@@ -9,9 +9,9 @@ import com.juntai.disabled.basecomponent.mvp.IView;
 import com.juntai.disabled.basecomponent.utils.RxScheduler;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.AppNetModule;
+import com.juntai.wisdom.inspection.base.BaseAppPresent;
 import com.juntai.wisdom.inspection.bean.MyMenuBean;
 import com.juntai.wisdom.inspection.bean.UserBean;
-import com.juntai.wisdom.inspection.mine.setting.MySettingActivity;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,7 +24,7 @@ import okhttp3.RequestBody;
  * 2020/3/7
  * email:954101549@qq.com
  */
-public class MyCenterPresent extends BasePresenter<IModel, MyCenterContract.ICenterView> implements MyCenterContract.ICenterPresent {
+public class MyCenterPresent extends BaseAppPresent<IModel, MyCenterContract.ICenterView> implements MyCenterContract.ICenterPresent {
     List<MyMenuBean> menuBeans = new ArrayList<>();
     private IView iView;
 
@@ -42,8 +42,13 @@ public class MyCenterPresent extends BasePresenter<IModel, MyCenterContract.ICen
     @Override
     public void initList() {
         menuBeans.clear();
-        menuBeans.add(new MyMenuBean("我的消息", 0, R.mipmap.my_message, MyCenterContract.CENTER_SETTING_TAG, MySettingActivity.class));
-        menuBeans.add(new MyMenuBean("个人设置", -1, R.mipmap.my_set_list, MyCenterContract.CENTER_SETTING_TAG, MySettingActivity.class));
+        menuBeans.add(new MyMenuBean(MyCenterContract.MY_WORK_RECORD, R.mipmap.my_work_record));
+        menuBeans.add(new MyMenuBean(MyCenterContract.MY_MSG, R.mipmap.my_message));
+        menuBeans.add(new MyMenuBean(MyCenterContract.MY_MODIFY_PWD, R.mipmap.my_modify_pwd));
+        menuBeans.add(new MyMenuBean(MyCenterContract.MY_CLEAR_CACHE, R.mipmap.my_clear));
+        menuBeans.add(new MyMenuBean(MyCenterContract.MY_UPDATE, R.mipmap.my_update));
+        menuBeans.add(new MyMenuBean(MyCenterContract.MY_ABOUT_US, R.mipmap.my_about));
+
     }
 
     @Override
@@ -84,6 +89,83 @@ public class MyCenterPresent extends BasePresenter<IModel, MyCenterContract.ICen
 
         AppNetModule.createrRetrofit()
                 .loginOut(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null){
+                            getView().onSuccess(tag,o);
+                        }
+                    }
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null){
+                            getView().onError(tag,msg);
+                        }
+                    }
+                });
+
+    }
+    /**
+     * 修改密码
+     * @param requestBody
+     * @param tag
+     */
+    public void modifyPwd(RequestBody requestBody,String tag){
+
+        AppNetModule.createrRetrofit()
+                .modifyPwd(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null){
+                            getView().onSuccess(tag,o);
+                        }
+                    }
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null){
+                            getView().onError(tag,msg);
+                        }
+                    }
+                });
+
+    }
+    /**
+     * @param requestBody
+     * @param tag
+     */
+    public void updateHeadPic(RequestBody requestBody,String tag){
+
+        AppNetModule.createrRetrofit()
+                .updateHeadPic(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<BaseResult>(getView()) {
+                    @Override
+                    public void onSuccess(BaseResult o) {
+                        if (getView() != null){
+                            getView().onSuccess(tag,o);
+                        }
+                    }
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null){
+                            getView().onError(tag,msg);
+                        }
+                    }
+                });
+
+    }
+    /**
+     * 我的工作记录
+     * @param requestBody
+     * @param tag
+     */
+    public void myWorkRecords(RequestBody requestBody,String tag){
+
+        AppNetModule.createrRetrofit()
+                .myWorkRecords(requestBody)
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<BaseResult>(getView()) {
                     @Override

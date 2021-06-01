@@ -3,50 +3,35 @@ package com.juntai.wisdom.inspection.bean;
 import java.io.Serializable;
 
 /**
- * Describe:个人中心菜单数据
- * Create by zhangzhenlong
- * 2020/3/7
- * email:954101549@qq.com
+ * @aouther tobato
+ * @description 描述
+ * @date 2021/6/1 9:45
  */
-public class MyMenuBean implements Serializable {
+public class MyMenuBean  {
     private String name;
-    private int number;
+    private int unreadNum;
     private int imageId;
-    private String tag;
-    Class<?> cls;
 
-    public MyMenuBean(){}
-
-    public MyMenuBean(String name, int number, int imageId, String tag, Class<?> cls) {
+    public MyMenuBean(String name, int imageId) {
         this.name = name;
-        this.number = number;
-        this.imageId = imageId;
-        this.tag = tag;
-        this.cls = cls;
-    }
-
-    public MyMenuBean(String name, int number, int imageId) {
-        this.name = name;
-        this.number = number;
         this.imageId = imageId;
     }
 
     public String getName() {
-        return name;
+        return name == null ? "" : name;
     }
 
     public void setName(String name) {
-        this.name = name;
+        this.name = name == null ? "" : name;
     }
 
-    public int getNumber() {
-        return number;
+    public int getUnreadNum() {
+        return unreadNum;
     }
 
-    public void setNumber(int number) {
-        this.number = number;
+    public void setUnreadNum(int unreadNum) {
+        this.unreadNum = unreadNum;
     }
-
 
     public int getImageId() {
         return imageId;
@@ -54,21 +39,5 @@ public class MyMenuBean implements Serializable {
 
     public void setImageId(int imageId) {
         this.imageId = imageId;
-    }
-
-    public String getTag() {
-        return tag;
-    }
-
-    public void setTag(String tag) {
-        this.tag = tag;
-    }
-
-    public Class<?> getCls() {
-        return cls;
-    }
-
-    public void setCls(Class<?> cls) {
-        this.cls = cls;
     }
 }

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/set_new_pwd_ll"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginRight="15dp"
+        android:background="@drawable/stroke_gray_square_bg"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:id="@+id/set_pwd_older_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <ImageView
+                style="@style/regist_tag_style"
+                android:src="@mipmap/regist_tag_pwd" />
+
+            <EditText
+                android:id="@+id/set_pwd_older_et"
+                style="@style/edit_tv_style"
+                android:hint="请输入原密码"
+                android:maxLength="20" />
+        </LinearLayout>
+
+        <View style="@style/divider_style"></View>
+
+        <LinearLayout
+            android:id="@+id/set_pwd_ll"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <ImageView
+                style="@style/regist_tag_style"
+                android:src="@mipmap/regist_tag_pwd" />
+
+            <EditText
+                android:id="@+id/regist_set_pwd_et"
+                style="@style/edit_tv_style"
+                android:hint="请设置6-20位(字母数字下划线)密码"
+                android:maxLength="20" />
+        </LinearLayout>
+
+        <View style="@style/divider_style"></View>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center">
+
+            <ImageView
+                style="@style/regist_tag_style"
+                android:src="@mipmap/regist_tag_pwd" />
+
+            <EditText
+                android:id="@+id/regist_check_pwd_et"
+                style="@style/edit_tv_style"
+                android:hint="请再次确认密码"
+                android:maxLength="20" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+
+    <TextView
+        android:id="@+id/commit_request_tv"
+        style="@style/bt_style"
+        android:layout_marginTop="60dp"
+        android:text="提交"></TextView>
+</LinearLayout>

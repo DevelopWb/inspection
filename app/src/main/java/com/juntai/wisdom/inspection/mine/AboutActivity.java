@@ -9,8 +9,9 @@ import com.juntai.disabled.basecomponent.utils.BaseAppUtils;
 import com.juntai.disabled.federation.R;
 
 /**
- * @aouther Ma
- * @date 2019/3/17
+ * @aouther tobato
+ * @description 描述   关于我们
+ * @date 2021/6/1 9:37
  */
 public class AboutActivity extends BaseActivity implements View.OnClickListener {
     /**

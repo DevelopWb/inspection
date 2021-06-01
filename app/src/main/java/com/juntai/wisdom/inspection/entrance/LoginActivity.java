@@ -166,7 +166,7 @@ public class LoginActivity extends BaseAppActivity<EntrancePresent> implements E
                         EntranceContract.LOGIN_TAG);
                 break;
 //            case R.id.reback_pwd_tv:
-////                startActivity(new Intent(this, BackPwdActivity.class));
+////                startActivity(new Intent(this, ModifyPwdActivity.class));
 //                break;
 //            case R.id.login_by_wchat_iv:
 //                loginForQQWeChat(Wechat.NAME);

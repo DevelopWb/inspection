@@ -22,6 +22,12 @@ public interface MyCenterContract {
     String SET_QQ_TAG = "setQQTag";
     String SET_ABOUT_TAG ="setAboutTag";
     String CENTER_SETTING_TAG ="centerSettingTag";
+    String MY_WORK_RECORD ="我的工作记录";
+    String MY_MSG ="我的消息";
+    String MY_MODIFY_PWD ="修改密码";
+    String MY_CLEAR_CACHE ="清理缓存";
+    String MY_UPDATE ="检查更新";
+    String MY_ABOUT_US ="关于我们";
 
     interface ICenterView extends IView {
     }

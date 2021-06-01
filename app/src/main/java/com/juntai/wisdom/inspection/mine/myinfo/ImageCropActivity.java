@@ -12,6 +12,7 @@ import com.juntai.disabled.basecomponent.utils.FileCacheUtils;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.MyApp;
 import com.juntai.wisdom.inspection.utils.cropbitmap.LikeQQCropView;
+
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

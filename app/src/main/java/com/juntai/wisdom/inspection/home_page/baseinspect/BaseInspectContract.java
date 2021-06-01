@@ -17,6 +17,9 @@ public interface BaseInspectContract {
     String PUNISH_INFO = "处罚信息";
     String TAB_TITLES = "tab标题";
     String IMPORTANTOR_TAB_TITLE_ALL = "全部";
+    String IMPORTANTOR_TAB_FIRE_CHECK = "消防检查";
+    String IMPORTANTOR_TAB_INSPECTION = "治安巡检";
+    String IMPORTANTOR_TAB_IMPORTANTOR = "重点人员";
     String IMPORTANTOR_TAB_TITLE_TO_VISITE = "待走访";
     String IMPORTANTOR_TAB_TITLE_VISITED = "已走访";
     String IMPORTANTOR_TAB_TITLE_TO_CHECK = "待检查";

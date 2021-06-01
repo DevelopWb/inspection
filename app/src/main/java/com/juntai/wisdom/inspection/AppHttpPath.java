@@ -16,12 +16,6 @@ public class AppHttpPath {
      */
     public static final String USER_HISTORY_UPLOAD = BASE + "/addStaffHistoryLocation.shtml";
 
-    /**
-     * 检查更新
-     */
-//    public static final String APP_UPDATE = BASE + "/detectionAppVersions.shtml";
-    public static final String APP_UPDATE = BASE + "";
-
 
 
 
@@ -35,6 +29,24 @@ public class AppHttpPath {
      * 退出登录
      */
     public static final String LOGIN_OUT = BASE + "/u/appUserStaff/logout.shtml";
+    /**
+     * 修改密码
+     */
+    public static final String MODIFY_PWD = BASE + "/u/appUserStaff/updateUserPassword.shtml";
+    /**
+     * 检查更新
+     */
+    public static final String APP_UPDATE = BASE + "/u/appUserStaff/detectionAppVersions.shtml";
+
+    /**
+     * 我的工作记录
+     */
+    public static final String MY_WORK_RECORD = BASE + "/u/appUserStaff/selectUserWorkRecordList.shtml";
+
+    /**
+     * 更改头像
+     */
+    public static final String UPDATE_HEAD_PIC = BASE + "/u/appUserStaff/updateUserHeadImg.shtml";
 
 
 

@@ -3,6 +3,7 @@ package com.juntai.wisdom.inspection;
 
 import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.wisdom.inspection.bean.IdNameBean;
+import com.juntai.wisdom.inspection.bean.MyWorkRecordsBean;
 import com.juntai.wisdom.inspection.bean.firecheck.RectifyNoticeBean;
 import com.juntai.wisdom.inspection.bean.firecheck.RectifyNoticeListBean;
 import com.juntai.wisdom.inspection.bean.firecheck.ResponsibilityBean;
@@ -65,6 +66,26 @@ public interface AppServer {
      */
     @POST(AppHttpPath.LOGIN_OUT)
     Observable<BaseResult> loginOut(@Body RequestBody requestBody);
+    /**
+     * 修改密码
+     *
+     * @return
+     */
+    @POST(AppHttpPath.MODIFY_PWD)
+    Observable<BaseResult> modifyPwd(@Body RequestBody requestBody);
+    /**
+     * 我的工作记录
+     *
+     * @return
+     */
+    @POST(AppHttpPath.MY_WORK_RECORD)
+    Observable<MyWorkRecordsBean> myWorkRecords(@Body RequestBody requestBody);
+    /**
+     *
+     * @return
+     */
+    @POST(AppHttpPath.UPDATE_HEAD_PIC)
+    Observable<BaseResult> updateHeadPic(@Body RequestBody requestBody);
 
     /**
      * 单位类型

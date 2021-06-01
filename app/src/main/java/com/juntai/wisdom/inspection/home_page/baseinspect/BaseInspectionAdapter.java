@@ -668,11 +668,14 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                             getLastFootIndex(content, ITEM_FOOT_TAG1)),
                             formBean.getItemTwo());
                 } else {
-                    //如果没有  就不展示后面的东西了
-                    content = content.substring(0, content.indexOf(";"));
-                    content += mContext.getString(R.string.fire_check_summarize2);
-                    initSpannableText(summarizeTv, content, true);
-                    return;
+                    if (isDetail) {
+                        //如果没有  就不展示后面的东西了
+                        content = content.substring(0, content.indexOf(";"));
+                        content += mContext.getString(R.string.fire_check_summarize2);
+                        initSpannableText(summarizeTv, content, true);
+                        return;
+                    }
+
                 }
                 if (!TextUtils.isEmpty(formBean.getItemTwoTime())) {
                     content = content.replaceFirst(content.substring(getLastHeadIndex(content,
