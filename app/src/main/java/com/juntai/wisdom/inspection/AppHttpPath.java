@@ -42,6 +42,14 @@ public class AppHttpPath {
      * 我的工作记录
      */
     public static final String MY_WORK_RECORD = BASE + "/u/appUserStaff/selectUserWorkRecordList.shtml";
+    /**
+     * 未读消息
+     */
+    public static final String UNREAD_MSG = BASE + "/u/appUserStaff/selectUserUnreadMessageCount.shtml";
+    /**
+     * 我的消息
+     */
+    public static final String GET_MY_MSG = BASE + "/u/appUserStaff/selectUserUnreadMessageList.shtml";
 
     /**
      * 更改头像

@@ -39,7 +39,9 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
     public final static String START_CHECK="开始检查";//
     public final static String START_INSPECT="开始巡检";//
     public final static String BASE_ID="baseid";//
+    public final static String BASE_ID2="baseid2";//
     public int  baseId ;
+    public int  contentId ;
 
     private RecyclerView mRecyclerview;
     public ImageView mQrCodeIv;
@@ -73,6 +75,7 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
     public void initView() {
         if (getIntent() != null) {
             baseId = getIntent().getIntExtra(BASE_ID,0);
+            contentId = getIntent().getIntExtra(BASE_ID2,0);
         }
         setTitleName(getTitleName());
         mRecyclerview = (RecyclerView) findViewById(R.id.recyclerview);

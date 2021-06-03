@@ -17,6 +17,8 @@ import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.FormBody;
+
 /**
  * @aouther tobato
  * @description 描述  治安巡检信息
@@ -34,10 +36,10 @@ public class UnitInfoActivity extends BaseInspectionInfoActivity {
 
     @Override
     protected void navigationLogic() {
-                if (dataBean != null) {
-                    navigationLogic(new LatLng(Double.parseDouble(dataBean.getLatitude()),
-                            Double.parseDouble(dataBean.getLongitude())),dataBean.getGpsAddress());
-                }
+        if (dataBean != null) {
+            navigationLogic(new LatLng(Double.parseDouble(dataBean.getLatitude()),
+                    Double.parseDouble(dataBean.getLongitude())), dataBean.getGpsAddress());
+        }
 
     }
 
@@ -68,12 +70,16 @@ public class UnitInfoActivity extends BaseInspectionInfoActivity {
     @Override
     protected void seeMoreInfo() {
         startActivity(new Intent(mContext, UnitInfoMoreActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY
-                ,dataBean));
+                , dataBean));
     }
 
     @Override
     public void initData() {
-        mPresenter.getUnitInfoDetail(getBaseBuilder().add("unitId", String.valueOf(baseId)).build(),
+        FormBody.Builder builder = getBaseBuilder().add("unitId", String.valueOf(baseId));
+        if (contentId > 0) {
+            builder.add("messageId", String.valueOf(contentId));
+        }
+        mPresenter.getUnitInfoDetail(builder.build(),
                 AppHttpPath.GET_UNIT_INFO_DETAIL);
 
     }
@@ -87,7 +93,8 @@ public class UnitInfoActivity extends BaseInspectionInfoActivity {
                     dataBean = unitDetailBean.getData();
                     if (dataBean != null) {
                         baseInfoAdapter.setNewData(getData(dataBean));
-                        ImageLoadUtil.loadImage(mContext, UrlFormatUtil.getImageOriginalUrl(dataBean.getQrCode()),mQrCodeIv);
+                        ImageLoadUtil.loadImage(mContext, UrlFormatUtil.getImageOriginalUrl(dataBean.getQrCode()),
+                                mQrCodeIv);
                     }
                 }
 
@@ -99,7 +106,7 @@ public class UnitInfoActivity extends BaseInspectionInfoActivity {
 
     private List<TextKeyValueBean> getData(UnitDetailBean.DataBean dataBean) {
         List<TextKeyValueBean> arrays = new ArrayList<>();
-        arrays.add(new TextKeyValueBean("单位名称:",dataBean.getName()));
+        arrays.add(new TextKeyValueBean("单位名称:", dataBean.getName()));
         arrays.add(new TextKeyValueBean("单位地址:", dataBean.getAddress()));
         arrays.add(new TextKeyValueBean("单位法人:", dataBean.getLegal()));
         return arrays;

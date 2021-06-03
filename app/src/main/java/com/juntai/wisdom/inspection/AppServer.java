@@ -3,6 +3,7 @@ package com.juntai.wisdom.inspection;
 
 import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.wisdom.inspection.bean.IdNameBean;
+import com.juntai.wisdom.inspection.bean.MyMsgBean;
 import com.juntai.wisdom.inspection.bean.MyWorkRecordsBean;
 import com.juntai.wisdom.inspection.bean.firecheck.RectifyNoticeBean;
 import com.juntai.wisdom.inspection.bean.firecheck.RectifyNoticeListBean;
@@ -80,6 +81,18 @@ public interface AppServer {
      */
     @POST(AppHttpPath.MY_WORK_RECORD)
     Observable<MyWorkRecordsBean> myWorkRecords(@Body RequestBody requestBody);
+    /**
+     *
+     * @return
+     */
+    @POST(AppHttpPath.UNREAD_MSG)
+    Observable<BaseResult> getUnreadMsg(@Body RequestBody requestBody);
+    /**
+     *
+     * @return
+     */
+    @POST(AppHttpPath.GET_MY_MSG)
+    Observable<MyMsgBean> getMyMsgs(@Body RequestBody requestBody);
     /**
      *
      * @return

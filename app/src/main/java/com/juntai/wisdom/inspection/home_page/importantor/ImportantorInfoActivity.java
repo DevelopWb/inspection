@@ -19,6 +19,8 @@ import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import okhttp3.FormBody;
+
 /**
  * @aouther tobato
  * @description 描述  重点人员详情
@@ -69,7 +71,11 @@ public class ImportantorInfoActivity extends BaseInspectionInfoActivity {
 
     @Override
     public void initData() {
-        mPresenter.getImportantorDetail(getBaseBuilder().add("id", String.valueOf(baseId)).build(),
+        FormBody.Builder builder = getBaseBuilder().add("id", String.valueOf(baseId));
+        if (contentId > 0) {
+            builder.add("messageId", String.valueOf(contentId));
+        }
+        mPresenter.getImportantorDetail(builder.build(),
                 AppHttpPath.IMPORTANTOR_DETAIL);
 
     }

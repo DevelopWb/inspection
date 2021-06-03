@@ -11,6 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.disabled.basecomponent.utils.DialogUtil;
 import com.juntai.disabled.basecomponent.utils.FileCacheUtils;
 import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
@@ -23,8 +24,10 @@ import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.base.BaseAppFragment;
 import com.juntai.wisdom.inspection.bean.MyMenuBean;
 import com.juntai.wisdom.inspection.bean.UserBean;
+import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
 import com.juntai.wisdom.inspection.mine.myWorkerRecords.MyWorkerRecordActivity;
 import com.juntai.wisdom.inspection.mine.myinfo.MyInformationActivity;
+import com.juntai.wisdom.inspection.mine.mymsg.MyMessageActivity;
 import com.juntai.wisdom.inspection.utils.AppUtils;
 import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
 import com.juntai.wisdom.inspection.utils.UserInfoManager;
@@ -94,8 +97,8 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
                         startActivity(new Intent(mContext, MyWorkerRecordActivity.class));
                         break;
                     case MyCenterContract.MY_MSG:
-                        // TODO: 2021/6/1 我的消息
-                        //                        startActivity(new Intent(mContext,));
+                        // 我的消息
+                        startActivityForResult(new Intent(mContext, MyMessageActivity.class), BaseInspectionActivity.BASE_REQUEST_RESULT);
                         break;
                     case MyCenterContract.MY_MODIFY_PWD:
                         // 2021/6/1 修改密码
@@ -162,7 +165,19 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
 
 
     @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (BaseInspectionActivity.BASE_REQUEST_RESULT==requestCode) {
+            lazyLoad();
+        }
+    }
+
+    @Override
     protected void lazyLoad() {
+        if (UserInfoManager.isLogin()) {
+            mPresenter.getUnreadMsg(mPresenter.getPublishMultipartBody().build(), AppHttpPath.UNREAD_MSG);
+        }
+
     }
 
     @Override
@@ -229,6 +244,14 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
                 mPresenter.initList();
                 headUrl = "";
                 mHeadImage.setImageResource(R.mipmap.default_user_head_icon);
+                break;
+
+            case AppHttpPath.UNREAD_MSG:
+                BaseResult baseResult = (BaseResult) o;
+                String msg = baseResult.message;
+                //更新未读数  我的消息   列表
+                myMenuAdapter.getData().get(1).setUnreadNum(Integer.parseInt(msg));
+                myMenuAdapter.notifyItemChanged(1);
                 break;
             default:
                 break;

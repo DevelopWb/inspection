@@ -11,10 +11,9 @@ import com.juntai.wisdom.inspection.bean.MyMenuBean;
 import java.util.List;
 
 /**
- * Describe:
- * Create by zhangzhenlong
- * 2020/3/7
- * email:954101549@qq.com
+ * @aouther tobato
+ * @description 描述  菜单
+ * @date 2021/6/3 11:43
  */
 public class MyMenuAdapter extends BaseQuickAdapter<MyMenuBean, BaseViewHolder> {
 
@@ -28,7 +27,7 @@ public class MyMenuAdapter extends BaseQuickAdapter<MyMenuBean, BaseViewHolder> 
         helper.setImageResource(R.id.item_iv, item.getImageId());
         if (item.getUnreadNum() > 0) {
             helper.setVisible(R.id.item_number, true);
-            helper.setText(R.id.item_number, item.getUnreadNum() > 99 ? "99+" : String.valueOf(item.getUnreadNum()));
+            helper.setText(R.id.item_number, item.getUnreadNum() > 99 ? "99" : String.valueOf(item.getUnreadNum()));
         } else {
             helper.setVisible(R.id.item_number, false);
         }

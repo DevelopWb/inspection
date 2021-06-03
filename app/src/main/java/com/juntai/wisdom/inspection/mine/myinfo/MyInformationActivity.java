@@ -51,7 +51,6 @@ public class MyInformationActivity extends BaseRecyclerviewActivity<MyCenterPres
     protected void freshlayoutOnLoadMore() {
 
     }
-
     @Override
     protected void freshlayoutOnRefresh() {
 
