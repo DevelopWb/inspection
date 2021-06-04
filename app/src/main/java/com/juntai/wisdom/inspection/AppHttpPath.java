@@ -58,6 +58,22 @@ public class AppHttpPath {
 
 
 
+    /*==============================================  搜索  =============================================*/
+
+
+    /**
+     * 搜索
+     */
+    public static final String SEARCH = BASE + "/u/appUserStaff/selectSearch.shtml";
+
+
+    /**
+     * 搜索更多
+     */
+    public static final String SEARCH_MORE = BASE + "/u/appUserStaff/selectSearchMore.shtml";
+
+
+
 
     /*==============================================  消防检查  =============================================*/
     /**

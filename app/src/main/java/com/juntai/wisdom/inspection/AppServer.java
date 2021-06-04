@@ -23,6 +23,8 @@ import com.juntai.wisdom.inspection.bean.firecheck.FireCheckBean;
 import com.juntai.wisdom.inspection.bean.firecheck.FireCheckRecordListBean;
 import com.juntai.wisdom.inspection.bean.firecheck.SearchedUnitsBean;
 import com.juntai.wisdom.inspection.bean.firecheck.UnitDetailBean;
+import com.juntai.wisdom.inspection.bean.search.SearchBean;
+import com.juntai.wisdom.inspection.bean.search.SearchResultBean;
 
 import io.reactivex.Observable;
 import okhttp3.RequestBody;
@@ -99,6 +101,18 @@ public interface AppServer {
      */
     @POST(AppHttpPath.UPDATE_HEAD_PIC)
     Observable<BaseResult> updateHeadPic(@Body RequestBody requestBody);
+    /**
+     *
+     * @return
+     */
+    @POST(AppHttpPath.SEARCH)
+    Observable<SearchBean> search(@Body RequestBody requestBody);
+    /**
+     *
+     * @return
+     */
+    @POST(AppHttpPath.SEARCH_MORE)
+    Observable<SearchResultBean> searchMore(@Body RequestBody requestBody);
 
     /**
      * 单位类型

@@ -24,6 +24,7 @@ import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.google.gson.Gson;
+import com.gyf.barlibrary.ImmersionBar;
 import com.juntai.disabled.basecomponent.utils.ActionConfig;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.bdmap.service.LocateAndUpload;
@@ -67,6 +68,7 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
 
     @Override
     public void initView() {
+        mImmersionBar.reset().fitsSystemWindows(false).transparentStatusBar().init();
         mainViewpager = findViewById(R.id.main_viewpager);
         mainTablayout = findViewById(R.id.main_tablayout);
         mainLayout = findViewById(R.id.main_layout);
@@ -117,7 +119,11 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
                 if (tab.getPosition() == 1) {
                     //条件弹窗
                     add(mainTablayout);
-                } else {
+                } else if(tab.getPosition()==0){
+                    mImmersionBar.reset().fitsSystemWindows(false).transparentStatusBar().init();
+                    mainViewpager.setCurrentItem(tab.getPosition(), false);
+                }else{
+                    mImmersionBar.reset().fitsSystemWindows(false).statusBarDarkFont(true).init();
                     mainViewpager.setCurrentItem(tab.getPosition(), false);
 
                 }
@@ -174,17 +180,8 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
         shadowTv.setOnClickListener(this);
         popupWindow = new PopupWindow(viewPop, ViewGroup.LayoutParams.MATCH_PARENT,
                 MyApp.HEIGHT - mainTablayout.getLayoutParams().height - MyApp.statusBarH, true);
-        popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-            @Override
-            public void onDismiss() {
-                mImmersionBar.statusBarColor(R.color.white).statusBarDarkFont(true).init();
-            }
-        });
         //显示（自定义位置）
         popupWindow.showAtLocation(mainTablayout, Gravity.TOP, 0, 0);
-        if (popupWindow.isShowing()) {
-            mImmersionBar.statusBarColor(R.color.gray_light).statusBarDarkFont(true).init();
-        }
         viewPop.findViewById(R.id.add_company_iv).setOnClickListener(v -> {
             startActivity(new Intent(mContext, AddUnitActivity.class));
             popupWindow.dismiss();

@@ -102,6 +102,7 @@ public abstract class BaseAppActivity<P extends BasePresenter> extends BaseSelec
         builder.add("account", UserInfoManager.getUserAccount());
         builder.add("token", UserInfoManager.getUserToken());
         builder.add("userId", String.valueOf(UserInfoManager.getUserId()));
+        builder.add("postId", String.valueOf(UserInfoManager.getPostId()));
         builder.add("departmentId", String.valueOf(UserInfoManager.getDepartmentId()));
         return builder;
     }

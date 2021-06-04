@@ -16,6 +16,7 @@ import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.bean.HomePageMenuBean;
 import com.juntai.wisdom.inspection.home_page.firecheck.check.FireCheckActivity;
 import com.juntai.wisdom.inspection.home_page.importantor.ImportantorsActivity;
+import com.juntai.wisdom.inspection.home_page.search.SearchActivity;
 import com.juntai.wisdom.inspection.mine.MyCenterContract;
 import com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectionSitesActivity;
 import com.juntai.wisdom.inspection.utils.AppUtils;
@@ -33,7 +34,6 @@ public class HomePageFragment extends BaseMvpFragment<HomePagePresent> implement
     private LinearLayout mSearchLl;
     private ImageView mScanIv;
     private RecyclerView mRecyclerview;
-    private SmartRefreshLayout mSmartrefreshlayout;
     private HomePageMenuAdapter menuAdapter;
 
     @Override
@@ -50,9 +50,6 @@ public class HomePageFragment extends BaseMvpFragment<HomePagePresent> implement
         mScanIv = (ImageView) getView(R.id.scan_iv);
         mScanIv.setOnClickListener(this);
         mRecyclerview = (RecyclerView) getView(R.id.recyclerview);
-        mSmartrefreshlayout = (SmartRefreshLayout) getView(R.id.smartrefreshlayout);
-        mSmartrefreshlayout.setEnableLoadMore(false);
-        mSmartrefreshlayout.setEnableRefresh(false);
         menuAdapter = new HomePageMenuAdapter(R.layout.homepage_menu_item);
         GridLayoutManager manager = new GridLayoutManager(mContext, 2);
         mRecyclerview.setLayoutManager(manager);
@@ -139,6 +136,7 @@ public class HomePageFragment extends BaseMvpFragment<HomePagePresent> implement
             default:
                 break;
             case R.id.search_ll:
+                startActivity(new Intent(mContext, SearchActivity.class));
                 break;
             case R.id.scan_iv:
                 getActivity().startActivityForResult(new Intent(getActivity(),

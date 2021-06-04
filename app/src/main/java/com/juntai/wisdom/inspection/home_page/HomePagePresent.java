@@ -1,12 +1,19 @@
 package com.juntai.wisdom.inspection.home_page;
 
+import com.juntai.disabled.basecomponent.base.BaseObserver;
 import com.juntai.disabled.basecomponent.mvp.BasePresenter;
 import com.juntai.disabled.basecomponent.mvp.IModel;
+import com.juntai.disabled.basecomponent.utils.RxScheduler;
 import com.juntai.disabled.federation.R;
+import com.juntai.wisdom.inspection.AppNetModule;
 import com.juntai.wisdom.inspection.bean.HomePageMenuBean;
+import com.juntai.wisdom.inspection.bean.search.SearchBean;
+import com.juntai.wisdom.inspection.bean.search.SearchResultBean;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import okhttp3.RequestBody;
 
 /**
  * @aouther Ma
@@ -24,11 +31,66 @@ public class HomePagePresent extends BasePresenter<IModel, HomePageContract.IHom
 
         List<HomePageMenuBean> arrays = new ArrayList<>();
 
-        arrays.add(new HomePageMenuBean(HomePageContract.HOMEPAGE_MENU_FIRE_CHECK, R.drawable.sp_filled_gray_circle));
-        arrays.add(new HomePageMenuBean(HomePageContract.HOMEPAGE_MENU_IMPORTANTER, R.drawable.sp_filled_gray_circle));
-        arrays.add(new HomePageMenuBean(HomePageContract.HOMEPAGE_MENU_SECURITY_CHECK, R.drawable.sp_filled_gray_circle));
-        arrays.add(new HomePageMenuBean(HomePageContract.HOMEPAGE_MENU_FLOATING_POPULATION, R.drawable.sp_filled_gray_circle));
+        arrays.add(new HomePageMenuBean(HomePageContract.HOMEPAGE_MENU_FIRE_CHECK,"Fire inspection",
+                R.mipmap.home_menu_fire));
+        arrays.add(new HomePageMenuBean(HomePageContract.HOMEPAGE_MENU_IMPORTANTER,"Key persionnel",
+                R.mipmap.home_menu_importantor));
+        arrays.add(new HomePageMenuBean(HomePageContract.HOMEPAGE_MENU_SECURITY_CHECK,"The security check", R.mipmap.home_menu_check));
+        arrays.add(new HomePageMenuBean(HomePageContract.HOMEPAGE_MENU_FLOATING_POPULATION,"Floating population",R.mipmap.home_menu_peoples));
 
         return arrays;
+    }
+
+    /**
+     * @param requestBody
+     * @param tag
+     */
+    public void search(RequestBody requestBody, String tag) {
+
+        AppNetModule.createrRetrofit()
+                .search(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<SearchBean>(getView()) {
+                    @Override
+                    public void onSuccess(SearchBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+
+    }
+    /**
+     * @param requestBody
+     * @param tag
+     */
+    public void searchMore(RequestBody requestBody, String tag) {
+
+        AppNetModule.createrRetrofit()
+                .searchMore(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<SearchResultBean>(getView()) {
+                    @Override
+                    public void onSuccess(SearchResultBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+
     }
 }

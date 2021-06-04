@@ -13,12 +13,21 @@ public class HomePageMenuBean {
 
 
     private  String menuName;
+    private  String menuEnName;
+    private int menuPicId;
 
-    private int menuBgId;
-
-    public HomePageMenuBean(String menuName, int menuBgId) {
+    public HomePageMenuBean(String menuName, String menuEnName, int menuPicId) {
         this.menuName = menuName;
-        this.menuBgId = menuBgId;
+        this.menuEnName = menuEnName;
+        this.menuPicId = menuPicId;
+    }
+
+    public String getMenuEnName() {
+        return menuEnName == null ? "" : menuEnName;
+    }
+
+    public void setMenuEnName(String menuEnName) {
+        this.menuEnName = menuEnName == null ? "" : menuEnName;
     }
 
     public String getMenuName() {
@@ -29,11 +38,11 @@ public class HomePageMenuBean {
         this.menuName = menuName == null ? "" : menuName;
     }
 
-    public int getMenuBgId() {
-        return menuBgId;
+    public int getMenuPicId() {
+        return menuPicId;
     }
 
-    public void setMenuBgId(int menuBgId) {
-        this.menuBgId = menuBgId;
+    public void setMenuPicId(int menuPicId) {
+        this.menuPicId = menuPicId;
     }
 }

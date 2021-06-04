@@ -53,6 +53,7 @@
         <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.ImportantorInfoMoreActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.baseinspect.HeadCropActivity" />
         <activity android:name="com.juntai.wisdom.inspection.mine.ModifyPwdActivity" />
+        <activity android:name="com.juntai.wisdom.inspection.home_page.search.SearchActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.add.importantor.ManualAddImportantorActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.add.importantor.SearchAddImportantorActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.add.unit.ManualAddUnitActivity" />
@@ -79,9 +80,6 @@
         <activity android:name="com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectionSitesActivity" />
         <activity
             android:name="com.juntai.wisdom.inspection.home_page.QRScanActivity"
-            android:launchMode="singleTop" />
-        <activity
-            android:name="com.juntai.wisdom.inspection.mine.setting.MySettingActivity"
             android:launchMode="singleTop" />
 
         <provider

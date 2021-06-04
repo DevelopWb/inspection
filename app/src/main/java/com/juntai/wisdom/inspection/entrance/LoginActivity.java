@@ -174,9 +174,9 @@ public class LoginActivity extends BaseAppActivity<EntrancePresent> implements E
 //            case R.id.login_by_qq_iv:
 //                loginForQQWeChat(QQ.NAME);
 //                break;
-//            case R.id.close_iv:
-//                finish();
-//                break;
+            case R.id.close_iv:
+                finish();
+                break;
 //            case R.id.regist_tv:
 ////                startActivity(new Intent(this, RegistActivity.class));
 //                break;

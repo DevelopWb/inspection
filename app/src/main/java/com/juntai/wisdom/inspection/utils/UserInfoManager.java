@@ -83,6 +83,14 @@ public class UserInfoManager {
         return getUser() != null && getUser().getData() != null ? getUser().getData().getDepartmentId() : 0;
     }
     /**
+     * 获取职务id
+     *
+     * @return
+     */
+    public static int getPostId() {
+        return getUser() != null && getUser().getData() != null ? getUser().getData().getPostId() : 0;
+    }
+    /**
      * 获取部门名称
      *
      * @return

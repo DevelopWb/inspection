@@ -2,6 +2,7 @@ package com.juntai.wisdom.inspection.home_page;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.bean.HomePageMenuBean;
 
@@ -21,6 +22,7 @@ public class HomePageMenuAdapter extends BaseQuickAdapter<HomePageMenuBean, Base
     protected void convert(BaseViewHolder helper, HomePageMenuBean item) {
 
         helper.setText(R.id.homepage_menu_title_tv,item.getMenuName());
-        helper.setBackgroundRes(R.id.homepage_menu_ll,item.getMenuBgId());
+        helper.setText(R.id.homepage_menu_title_en_tv,item.getMenuEnName());
+        ImageLoadUtil.loadImage(mContext,item.getMenuPicId(),helper.getView(R.id.menu_icon_iv));
     }
 }

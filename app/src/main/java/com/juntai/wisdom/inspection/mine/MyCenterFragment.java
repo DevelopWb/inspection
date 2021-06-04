@@ -45,7 +45,6 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
     MyMenuAdapter myMenuAdapter;
     private String headUrl = "";
 
-    private TextView mStatusTopTitle;
     private ImageView mHeadImage;
     private TextView mNickname;
     /**
@@ -67,7 +66,6 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
 
     @Override
     protected void initView() {
-        mStatusTopTitle = getView(R.id.status_top_title);
         mHeadImage = getView(R.id.headImage);
         mInfoCl = getView(R.id.my_info_cl);
         mInfoCl.setOnClickListener(this);
@@ -81,7 +79,6 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
         myMenuAdapter = new MyMenuAdapter(R.layout.my_center_menu_item, mPresenter.getMenuBeans());
         getBaseActivity().initRecyclerview(mMenuRecycler, myMenuAdapter, LinearLayoutManager.VERTICAL);
         mMenuRecycler.setAdapter(myMenuAdapter);
-        mStatusTopTitle.setText("个人中心");
 
         myMenuAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override

@@ -13,6 +13,7 @@ import com.juntai.wisdom.inspection.base.BaseAppPresent;
 import com.juntai.wisdom.inspection.bean.MyMenuBean;
 import com.juntai.wisdom.inspection.bean.MyMsgBean;
 import com.juntai.wisdom.inspection.bean.UserBean;
+import com.juntai.wisdom.inspection.bean.search.SearchBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,12 +33,11 @@ public class MyCenterPresent extends BaseAppPresent<IModel, MyCenterContract.ICe
     public void setCallBack(IView iView) {
         this.iView = iView;
     }
+
     @Override
     protected IModel createModel() {
         return null;
     }
-
-
 
 
     @Override
@@ -53,13 +53,12 @@ public class MyCenterPresent extends BaseAppPresent<IModel, MyCenterContract.ICe
     }
 
     @Override
-    public List<MyMenuBean> getMenuBeans(){
+    public List<MyMenuBean> getMenuBeans() {
         return menuBeans;
     }
 
 
-
-    public void getUserInfo(RequestBody requestBody,String tag){
+    public void getUserInfo(RequestBody requestBody, String tag) {
 
         AppNetModule.createrRetrofit()
                 .getUserInfo(requestBody)
@@ -67,14 +66,15 @@ public class MyCenterPresent extends BaseAppPresent<IModel, MyCenterContract.ICe
                 .subscribe(new BaseObserver<UserBean>(getView()) {
                     @Override
                     public void onSuccess(UserBean o) {
-                        if (getView() != null){
-                            getView().onSuccess(tag,o);
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
                         }
                     }
+
                     @Override
                     public void onError(String msg) {
-                        if (getView() != null){
-                            getView().onError(tag,msg);
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
                         }
                     }
                 });
@@ -83,10 +83,11 @@ public class MyCenterPresent extends BaseAppPresent<IModel, MyCenterContract.ICe
 
     /**
      * 退出登录
+     *
      * @param requestBody
      * @param tag
      */
-    public void loginOut(RequestBody requestBody,String tag){
+    public void loginOut(RequestBody requestBody, String tag) {
 
         AppNetModule.createrRetrofit()
                 .loginOut(requestBody)
@@ -94,25 +95,28 @@ public class MyCenterPresent extends BaseAppPresent<IModel, MyCenterContract.ICe
                 .subscribe(new BaseObserver<BaseResult>(getView()) {
                     @Override
                     public void onSuccess(BaseResult o) {
-                        if (getView() != null){
-                            getView().onSuccess(tag,o);
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
                         }
                     }
+
                     @Override
                     public void onError(String msg) {
-                        if (getView() != null){
-                            getView().onError(tag,msg);
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
                         }
                     }
                 });
 
     }
+
     /**
      * 修改密码
+     *
      * @param requestBody
      * @param tag
      */
-    public void modifyPwd(RequestBody requestBody,String tag){
+    public void modifyPwd(RequestBody requestBody, String tag) {
 
         AppNetModule.createrRetrofit()
                 .modifyPwd(requestBody)
@@ -120,24 +124,26 @@ public class MyCenterPresent extends BaseAppPresent<IModel, MyCenterContract.ICe
                 .subscribe(new BaseObserver<BaseResult>(getView()) {
                     @Override
                     public void onSuccess(BaseResult o) {
-                        if (getView() != null){
-                            getView().onSuccess(tag,o);
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
                         }
                     }
+
                     @Override
                     public void onError(String msg) {
-                        if (getView() != null){
-                            getView().onError(tag,msg);
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
                         }
                     }
                 });
 
     }
+
     /**
      * @param requestBody
      * @param tag
      */
-    public void updateHeadPic(RequestBody requestBody,String tag){
+    public void updateHeadPic(RequestBody requestBody, String tag) {
 
         AppNetModule.createrRetrofit()
                 .updateHeadPic(requestBody)
@@ -145,24 +151,28 @@ public class MyCenterPresent extends BaseAppPresent<IModel, MyCenterContract.ICe
                 .subscribe(new BaseObserver<BaseResult>(getView()) {
                     @Override
                     public void onSuccess(BaseResult o) {
-                        if (getView() != null){
-                            getView().onSuccess(tag,o);
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
                         }
                     }
+
                     @Override
                     public void onError(String msg) {
-                        if (getView() != null){
-                            getView().onError(tag,msg);
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
                         }
                     }
                 });
 
     }
+
+
+
     /**
      * @param requestBody
      * @param tag
      */
-    public void getUnreadMsg(RequestBody requestBody,String tag){
+    public void getUnreadMsg(RequestBody requestBody, String tag) {
 
         AppNetModule.createrRetrofit()
                 .getUnreadMsg(requestBody)
@@ -170,24 +180,26 @@ public class MyCenterPresent extends BaseAppPresent<IModel, MyCenterContract.ICe
                 .subscribe(new BaseObserver<BaseResult>(getView()) {
                     @Override
                     public void onSuccess(BaseResult o) {
-                        if (getView() != null){
-                            getView().onSuccess(tag,o);
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
                         }
                     }
+
                     @Override
                     public void onError(String msg) {
-                        if (getView() != null){
-                            getView().onError(tag,msg);
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
                         }
                     }
                 });
 
     }
+
     /**
      * @param requestBody
      * @param tag
      */
-    public void getMyMsgs(RequestBody requestBody,String tag){
+    public void getMyMsgs(RequestBody requestBody, String tag) {
 
         AppNetModule.createrRetrofit()
                 .getMyMsgs(requestBody)
@@ -195,25 +207,28 @@ public class MyCenterPresent extends BaseAppPresent<IModel, MyCenterContract.ICe
                 .subscribe(new BaseObserver<MyMsgBean>(getView()) {
                     @Override
                     public void onSuccess(MyMsgBean o) {
-                        if (getView() != null){
-                            getView().onSuccess(tag,o);
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
                         }
                     }
+
                     @Override
                     public void onError(String msg) {
-                        if (getView() != null){
-                            getView().onError(tag,msg);
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
                         }
                     }
                 });
 
     }
+
     /**
      * 我的工作记录
+     *
      * @param requestBody
      * @param tag
      */
-    public void myWorkRecords(RequestBody requestBody,String tag){
+    public void myWorkRecords(RequestBody requestBody, String tag) {
 
         AppNetModule.createrRetrofit()
                 .myWorkRecords(requestBody)
@@ -221,14 +236,15 @@ public class MyCenterPresent extends BaseAppPresent<IModel, MyCenterContract.ICe
                 .subscribe(new BaseObserver<BaseResult>(getView()) {
                     @Override
                     public void onSuccess(BaseResult o) {
-                        if (getView() != null){
-                            getView().onSuccess(tag,o);
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
                         }
                     }
+
                     @Override
                     public void onError(String msg) {
-                        if (getView() != null){
-                            getView().onError(tag,msg);
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
                         }
                     }
                 });
