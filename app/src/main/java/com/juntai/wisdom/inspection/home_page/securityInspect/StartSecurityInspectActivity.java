@@ -41,10 +41,6 @@ public class StartSecurityInspectActivity extends BaseInspectionActivity {
                     .setPositiveButton("是", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if (!TextUtils.isEmpty(savedRecordBean.getTypeName())) {
-                                questionName = savedRecordBean.getTypeName();
-                                questionId = savedRecordBean.getTypeId();
-                            }
                             recordDetailBean = savedRecordBean;
                             adapter.setNewData(mPresenter.getSecurityInpsectData(recordDetailBean,false));
                         }

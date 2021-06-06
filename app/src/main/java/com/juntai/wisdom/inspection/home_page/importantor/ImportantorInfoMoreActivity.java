@@ -13,6 +13,8 @@ import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectContract;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
 import com.juntai.wisdom.inspection.home_page.securityInspect.EditSecurityInspectSiteActivity;
 
+import okhttp3.MultipartBody;
+
 /**
  * @aouther tobato
  * @description 描述   重点人员 更多消息
@@ -20,6 +22,7 @@ import com.juntai.wisdom.inspection.home_page.securityInspect.EditSecurityInspec
  */
 public class ImportantorInfoMoreActivity extends BaseInspectionActivity implements BaseInspectContract.IInspectView {
     private ImportantorBean.DataBean dataBean;
+
     @Override
     public void initData() {
         adapter.setNewData(mPresenter.getImportantorData(dataBean));
@@ -45,16 +48,10 @@ public class ImportantorInfoMoreActivity extends BaseInspectionActivity implemen
         }
         mCommitTv.setText("申请修改");
     }
+
     @Override
-    public void onClick(View v) {
-        super.onClick(v);
-        switch (v.getId()) {
-            case R.id.commit_form_tv:
-                // TODO: 2021/5/18 重点人员更多信息  申请修改 
-//                startActivity(new Intent(mContext, EditSecurityInspectSiteActivity.class));
-                break;
-            default:
-                break;
-        }
+    protected void commitLogic(MultipartBody.Builder builder) {
+        //  重点人员更多信息  申请修改
+        startActivity(new Intent(mContext, EditImportantorActivity.class).putExtra(PARCELABLE_KEY,dataBean));
     }
 }

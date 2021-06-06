@@ -89,14 +89,14 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
     private TextKeyValueBean selectBean;
     private TextView mSelectTv;
-    public int importantorStatusId = 0;//人员状态
-    public String importantorStatusName;//人员状态
-    public int unitTypeId = 0;//单位类型id
-    public int questionId = 0;//问题id
-    public int workerType = 0;//从业人员的工作类型
-    public String workerName ;//从业人员的工作类型
-    public String questionName;//问题
-    public String unitTypeName;//单位类型id
+//    public int importantorStatusId = 0;//重点人员状态
+//    public String importantorStatusName;//重点人员状态
+//    public int unitTypeId = 0;//单位类型id
+//    public int questionId = 0;//问题id
+//    public int workerType = 0;//从业人员的工作类型
+//    public String workerName ;//从业人员的工作类型
+//    public String questionName;//问题
+//    public String unitTypeName;//单位类型id
 
     public boolean idDetail = false;
 
@@ -713,9 +713,12 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
                     switch (textValueSelectBean.getKey()) {
                         case BaseInspectContract.INSPECTION_UNIT_TYPE:
-                            builder.addFormDataPart("type", String.valueOf(unitTypeId));
-                            unitDataBean.setTypeName(unitTypeName);
-                            unitDataBean.setTypeId(unitTypeId);
+                            builder.addFormDataPart("type", textValueSelectBean.getIds());
+                            unitDataBean.setTypeName(selectBeanValue);
+                            if (!TextUtils.isEmpty(textValueSelectBean.getIds())) {
+                                unitDataBean.setTypeId(Integer.parseInt(textValueSelectBean.getIds()));
+                            }
+
                             break;
                         case BaseInspectContract.INSPECTION_SEX:
 
@@ -729,27 +732,39 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         case BaseInspectContract.INSPECTION_PERSONAL_TYPE:
                             builder.addFormDataPart("typeId", textValueSelectBean.getIds());
                             importantorBean.setTypeName(selectBeanValue);
-                            importantorBean.setTypeId(textValueSelectBean.getIds());
+                            if (!TextUtils.isEmpty(textValueSelectBean.getIds())) {
+                                importantorBean.setTypeId(textValueSelectBean.getIds());
+                            }
+
                             break;
                         case BaseInspectContract.INSPECTION_PERSONAL_STATUS:
-                            builder.addFormDataPart("keyStatus", String.valueOf(importantorStatusId));
-                            importantorBean.setKeyStatusName(importantorStatusName);
-                            importantorBean.setKeyStatus(importantorStatusId);
+                            builder.addFormDataPart("keyStatus", textValueSelectBean.getIds());
+                            importantorBean.setKeyStatusName(selectBeanValue);
+                            if (!TextUtils.isEmpty(textValueSelectBean.getIds())) {
+                                importantorBean.setKeyStatus(Integer.parseInt(textValueSelectBean.getIds()));
+                            }
+
                             break;
                         case BaseInspectContract.INSPECTION_CHECK_PROBLEMS:
-                            builder.addFormDataPart("typeId", String.valueOf(questionId));
-                            recordDetailBean.setTypeId(questionId);
-                            recordDetailBean.setTypeName(questionName);
+                            builder.addFormDataPart("typeId", textValueSelectBean.getIds());
+                            if (!TextUtils.isEmpty(textValueSelectBean.getIds())) {
+                                recordDetailBean.setTypeId(Integer.parseInt(textValueSelectBean.getIds()));
+                            }
+                            recordDetailBean.setTypeName(selectBeanValue);
                             break;
                         case BaseInspectContract.INSPECTION_VISIT_PROBLEMS:
-                            builder.addFormDataPart("inspectionId", String.valueOf(questionId));
-                            visitRecordDetailBean.setInspectionId(questionId);
-                            visitRecordDetailBean.setInspectionName(questionName);
+                            builder.addFormDataPart("inspectionId", textValueSelectBean.getIds());
+                            if (!TextUtils.isEmpty(textValueSelectBean.getIds())) {
+                                visitRecordDetailBean.setInspectionId(Integer.parseInt(textValueSelectBean.getIds()));
+                            }
+                            visitRecordDetailBean.setInspectionName(selectBeanValue);
                             break;
                         case BaseInspectContract.INSPECTION_WORK_TYPE:
-                            builder.addFormDataPart("postId", String.valueOf(workerType));
-                            workerBean.setPostId(workerType);
-                            workerBean.setPostName(workerName);
+                            builder.addFormDataPart("postId", textValueSelectBean.getIds());
+                            if (!TextUtils.isEmpty(textValueSelectBean.getIds())) {
+                                workerBean.setPostId(Integer.parseInt(textValueSelectBean.getIds()));
+                            }
+                            workerBean.setPostName(selectBeanValue);
                             break;
                         case BaseInspectContract.INSPECTION_VISIT_TIMES:
                             //走访频率
@@ -1004,33 +1019,8 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 public void onOptionsSelect(int options1, int option2, int options3, View v) {
                                     IdNameBean.DataBean dataBean = arrays.get(options1);
                                     selectBean.setValue(dataBean.getName());
+                                    selectBean.setIds(String.valueOf(dataBean.getId()));
                                     mSelectTv.setText(dataBean.getName());
-                                    switch (tag) {
-                                        case AppHttpPath.UNIT_TYPE:
-                                            unitTypeId = dataBean.getId();
-                                            unitTypeName = dataBean.getName();
-                                            break;
-                                        case AppHttpPath.SECURITY_INSPECT_QUESTION:
-                                            questionId = dataBean.getId();
-                                            questionName = dataBean.getName();
-                                            break;
-                                        case AppHttpPath.VISIT_QUESTIONS:
-                                            questionId = dataBean.getId();
-                                            questionName = dataBean.getName();
-                                            break;
-                                        case AppHttpPath.GET_WORKER_TYPE:
-                                            workerType = dataBean.getId();
-                                            workerName = dataBean.getName();
-                                            break;
-                                        case AppHttpPath.IMPORTANTOR_STATUS:
-                                            importantorStatusId = dataBean.getId();
-                                            importantorStatusName = dataBean.getName();
-                                            int checkTime = dataBean.getCheckTime();
-                                            // TODO: 2021/5/14  根据这个值去设置走访频率的默认天数 
-                                            break;
-                                        default:
-                                            break;
-                                    }
 
                                 }
                             });

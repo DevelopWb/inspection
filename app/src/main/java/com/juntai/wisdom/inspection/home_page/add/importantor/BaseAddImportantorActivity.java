@@ -39,6 +39,7 @@ public abstract class BaseAddImportantorActivity extends BaseCommitFootViewActiv
     private boolean isIdUnque = false;//身份证号是否唯一
     public ImportantorBean.DataBean bean;
     private ImportantorBean.DataBean savedImportantorBean;
+    public int importantorId;
 
     @Override
     public void initData() {
@@ -52,10 +53,10 @@ public abstract class BaseAddImportantorActivity extends BaseCommitFootViewActiv
                             if (!TextUtils.isEmpty(savedImportantorBean.getName())) {
                                 isIdUnque = true;
                             }
-                            if (!TextUtils.isEmpty(savedImportantorBean.getKeyStatusName())) {
-                                importantorStatusName = savedImportantorBean.getKeyStatusName();
-                                importantorStatusId = savedImportantorBean.getKeyStatus();
-                            }
+//                            if (!TextUtils.isEmpty(savedImportantorBean.getKeyStatusName())) {
+//                                importantorStatusName = savedImportantorBean.getKeyStatusName();
+//                                importantorStatusId = savedImportantorBean.getKeyStatus();
+//                            }
                             adapter.setNewData(mPresenter.getImportantorData(savedImportantorBean));
                         }
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {
@@ -81,8 +82,8 @@ public abstract class BaseAddImportantorActivity extends BaseCommitFootViewActiv
             bean = getIntent().getParcelableExtra(PARCELABLE_KEY);
 
             if (bean != null) {
-                bean.setPersonnelPhoto(null);
                 isIdUnque = true;
+                importantorId =bean.getId();
             }
             adapter.setNewData(mPresenter.getImportantorData(bean));
         }
@@ -168,6 +169,13 @@ public abstract class BaseAddImportantorActivity extends BaseCommitFootViewActiv
                 break;
             case AppHttpPath.SEARCH_IMPORTANTOR_TO_ADD:
                 ToastUtils.toast(mContext,"添加成功");
+                if (Hawk.contains(getHawkKey())) {
+                    Hawk.delete(getHawkKey());
+                }
+                finish();
+                break;
+            case AppHttpPath.EDIT_IMPORTANTOR:
+                ToastUtils.toast(mContext,"提交成功");
                 if (Hawk.contains(getHawkKey())) {
                     Hawk.delete(getHawkKey());
                 }

@@ -55,11 +55,11 @@ public class AddImportantorActivity extends BaseAddActivity {
 
     @Override
     protected void startSearch(String s) {
-        if (TextUtils.isEmpty(s)) {
-            finishLoading();
-            ToastUtils.toast(mContext,"请输入要搜索的内容");
-            return;
-        }
+//        if (TextUtils.isEmpty(s)) {
+//            finishLoading();
+//            ToastUtils.toast(mContext,"请输入要搜索的内容");
+//            return;
+//        }
         mPresenter.searchImportantorToAdd(getBaseBuilder()
                         .add("keyword", s).add("pageSize", String.valueOf(pagesize)).add("currentPage",
                         String.valueOf(currentPage)).build(),

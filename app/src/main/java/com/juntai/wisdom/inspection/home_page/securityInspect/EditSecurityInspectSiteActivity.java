@@ -38,7 +38,7 @@ public class EditSecurityInspectSiteActivity extends BaseAddInspectionSiteActivi
 
     @Override
     protected String getTitleName() {
-        return "修改治安巡检点";
+        return "编辑治安巡检点";
     }
 
 

@@ -35,10 +35,6 @@ public class AddWorkerActivity extends BaseCommitFootViewActivity {
                     .setPositiveButton("是", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if (!TextUtils.isEmpty(savedWorkerBean.getPostName())) {
-                                workerName = savedWorkerBean.getPostName();
-                                workerType = savedWorkerBean.getPostId();
-                            }
                             adapter.setNewData(mPresenter.getWorkerData(savedWorkerBean,false));
                         }
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {

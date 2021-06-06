@@ -30,7 +30,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         tools:ignore="GoogleAppIndexingWarning">
-        <activity android:name="com.juntai.wisdom.inspection.mine.mymsg.MyMessageActivity"></activity>
+        <activity android:name="com.juntai.wisdom.inspection.home_page.importantor.EditImportantorActivity"></activity>
+        <activity android:name="com.juntai.wisdom.inspection.mine.mymsg.MyMessageActivity" />
         <activity android:name="com.juntai.wisdom.inspection.mine.myWorkerRecords.MyWorkerRecordActivity" />
         <activity android:name="com.juntai.wisdom.inspection.mine.myinfo.MyInformationActivity" />
         <activity android:name="com.juntai.wisdom.inspection.home_page.firecheck.worker.EditWorkerActivity" />

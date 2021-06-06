@@ -32,6 +32,7 @@ public class TextKeyValueBean {
         this.isImportant = isImportant;
     }
 
+
     public TextKeyValueBean(String key, String value, String ids, String hint, int type, boolean isImportant
                             ) {
         this.key = key;

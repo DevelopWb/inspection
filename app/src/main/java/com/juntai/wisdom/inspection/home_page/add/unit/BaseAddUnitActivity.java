@@ -58,10 +58,6 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
         if (!TextUtils.isEmpty(bean.getUnifiedCreditCode())) {
             isUnitUCCUnique = true;
         }
-        if (!TextUtils.isEmpty(bean.getTypeName())) {
-            unitTypeName = bean.getTypeName();
-            unitTypeId = bean.getTypeId();
-        }
     }
 
     /**

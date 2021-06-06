@@ -14,8 +14,14 @@ import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.bean.firecheck.RectifyNoticeBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
 import com.juntai.wisdom.inspection.home_page.firecheck.UnitInfoActivity;
+import com.juntai.wisdom.inspection.utils.ToolShare;
 import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
 import com.juntai.wisdom.inspection.utils.UserInfoManager;
+
+import java.util.HashMap;
+
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
 
 /**
  * @aouther tobato
@@ -36,6 +42,7 @@ public class RectifyNoticeDetailActivity extends BaseInspectionActivity implemen
     private TextView mDownloadWordTv;
     private TextView mSealedTv;
     private String enterType;//"0"代表创建整改通知单后跳转过来  “1”代表整改通知单列表进入
+    private RectifyNoticeBean.DataBean dataBean;
 
     @Override
     public void initData() {
@@ -79,7 +86,7 @@ public class RectifyNoticeDetailActivity extends BaseInspectionActivity implemen
         super.onSuccess(tag, o);
         RectifyNoticeBean rectifyNoticeBean = (RectifyNoticeBean) o;
         if (rectifyNoticeBean != null) {
-            RectifyNoticeBean.DataBean dataBean = rectifyNoticeBean.getData();
+            dataBean = rectifyNoticeBean.getData();
             StringBuilder sb = new StringBuilder();
             sb.append("根据《中华人民共和国消防法》第五十三条的规定，我单位于")
                     .append(dataBean.getGmtCreate())
@@ -111,8 +118,25 @@ public class RectifyNoticeDetailActivity extends BaseInspectionActivity implemen
             default:
                 break;
             case R.id.share_wechat_tv:
-                // TODO: 2021/5/28 整改通知单 分享至微信
-                ToastUtils.toast(mContext,"暂未开放");
+                //整改通知单 分享至微信
+                ToolShare.shareForMob(mContext, "整改通知书", dataBean.getShareUrl(), dataBean.getUnitName(),
+                        UrlFormatUtil.getImageOriginalUrl(dataBean.getSeal()),
+                        new PlatformActionListener() {
+                    @Override
+                    public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+
+                    }
+
+                    @Override
+                    public void onError(Platform platform, int i, Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onCancel(Platform platform, int i) {
+
+                    }
+                });
                 break;
             case R.id.download_word_tv:
                 // TODO: 2021/5/28 整改通知单 下载word版

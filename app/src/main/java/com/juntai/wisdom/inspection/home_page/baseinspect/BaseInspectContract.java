@@ -138,6 +138,7 @@ public interface BaseInspectContract {
         void manualAddImportantor(RequestBody requestBody, String tag);
 
         void startVist(RequestBody requestBody, String tag);
+        void editImportantor(RequestBody requestBody, String tag);
 
         void getImportantorTypes(RequestBody requestBody, String tag);
 

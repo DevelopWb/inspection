@@ -64,10 +64,19 @@ public class RectifyNoticeBean  extends BaseResult {
         private String seal;
         private String gmtCreate;
         private String shareUrl;
+        private String wordFile;
         private String itemsJson;
         private String noticeContent;// 通知内容
         public int getNoticeId() {
             return noticeId;
+        }
+
+        public String getWordFile() {
+            return wordFile == null ? "" : wordFile;
+        }
+
+        public void setWordFile(String wordFile) {
+            this.wordFile = wordFile == null ? "" : wordFile;
         }
 
         public String getNoticeContent() {

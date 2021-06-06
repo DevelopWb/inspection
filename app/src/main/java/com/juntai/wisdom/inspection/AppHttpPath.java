@@ -295,6 +295,11 @@ public class AppHttpPath {
      */
     public static final String START_VISIT = BASE + "/u/appKeyPersonnel/insertKeyPersonnelVisitRecord.shtml";
 
+    /**
+     * 编辑重点人员
+     */
+    public static final String EDIT_IMPORTANTOR = BASE + "/u/appKeyPersonnel/applyKeyPersonnel.shtml";
+
 
 
 

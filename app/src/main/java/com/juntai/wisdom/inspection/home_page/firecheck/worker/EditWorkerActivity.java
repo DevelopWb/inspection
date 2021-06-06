@@ -49,17 +49,13 @@ public class EditWorkerActivity extends BaseCommitFootViewActivity {
 
     @Override
     protected String getTitleName() {
-        return "从业人员修改";
+        return "编辑从业人员";
     }
 
     @Override
     public void initData() {
         dataBean = getIntent().getParcelableExtra(PARCELABLE_KEY);
         if (dataBean != null) {
-            if (!TextUtils.isEmpty(dataBean.getPostName())) {
-                workerName = dataBean.getPostName();
-                workerType = dataBean.getPostId();
-            }
             adapter.setNewData(mPresenter.getWorkerData(dataBean,false));
         }
         WorkerDetailBean.DataBean  savedWorkerBean =
@@ -69,10 +65,6 @@ public class EditWorkerActivity extends BaseCommitFootViewActivity {
                     .setPositiveButton("是", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if (!TextUtils.isEmpty(savedWorkerBean.getPostName())) {
-                                workerName = savedWorkerBean.getPostName();
-                                workerType = savedWorkerBean.getPostId();
-                            }
                             adapter.setNewData(mPresenter.getWorkerData(savedWorkerBean,false));
                         }
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {

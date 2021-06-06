@@ -303,7 +303,12 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 textViewTv.setTag(textValueSelectBean);
                 TextKeyValueBean selectBean = (TextKeyValueBean) textViewTv.getTag();
                 textViewTv.setHint(selectBean.getHint());
-                textViewTv.setText(selectBean.getValue());
+                if (BaseInspectContract.INSPECTION_VISIT_TIMES.equals(textValueSelectBean.getKey())) {
+                    textViewTv.setText(selectBean.getValue()+"日");
+                }else {
+                    textViewTv.setText(selectBean.getValue());
+                }
+
                 break;
             case MultipleItem.ITEM_NORMAL_RECYCLEVIEW:
                 //recycleview

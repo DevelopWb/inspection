@@ -40,10 +40,6 @@ public class StartVisitActivity extends BaseInspectionActivity {
                     .setPositiveButton("是", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            if (!TextUtils.isEmpty(savedRecordBean.getInspectionName())) {
-                                questionName = savedRecordBean.getInspectionName();
-                                questionId = savedRecordBean.getInspectionId();
-                            }
                             recordDetailBean = savedRecordBean;
                             adapter.setNewData(mPresenter.getVisitData(savedRecordBean, false));
                         }
@@ -130,7 +126,7 @@ public class StartVisitActivity extends BaseInspectionActivity {
                 builder.addFormDataPart("keyId", String.valueOf(importantorDataBean.getId()))
                         .addFormDataPart("checkTime", recordDetailBean.getCheckTime())
                         .addFormDataPart("liable", recordDetailBean.getLiable())
-                        .addFormDataPart("inspectionId", String.valueOf(questionId))
+//                        .addFormDataPart("inspectionId", String.valueOf(questionId))
                         .addFormDataPart("liablePhone", recordDetailBean.getLiablePhone());
 
                 mPresenter.startVist(builder.build(), AppHttpPath.START_VISIT);

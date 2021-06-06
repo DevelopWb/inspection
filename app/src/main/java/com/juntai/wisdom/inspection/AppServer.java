@@ -490,6 +490,13 @@ public interface AppServer {
      */
     @POST(AppHttpPath.START_VISIT)
     Observable<BaseResult> startVist(@Body RequestBody requestBody);
+    /**
+     * 编辑重点人员
+     *
+     * @return
+     */
+    @POST(AppHttpPath.EDIT_IMPORTANTOR)
+    Observable<BaseResult> editImportantor(@Body RequestBody requestBody);
 
 
 

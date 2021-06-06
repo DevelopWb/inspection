@@ -17,7 +17,7 @@ public class EditUnitInfoActivity extends BaseAddUnitActivity {
 
     @Override
     protected String getTitleName() {
-        return "修改单位详情";
+        return "编辑单位详情";
     }
 
 
@@ -28,7 +28,7 @@ public class EditUnitInfoActivity extends BaseAddUnitActivity {
 
     @Override
     protected String getHawkKey() {
-        return HawkProperty.EDIT_UNIT_KEY + bean.getId();
+        return HawkProperty.EDIT_UNIT_KEY + unitId;
     }
 
     @Override

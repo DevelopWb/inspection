@@ -14,6 +14,7 @@ public class HawkProperty {
     public static String ADD_INSPECRTION_SITE_KEY = "add_site";//添加巡检点  同上逻辑
     public static String EDIT_INSPECRTION_SITE_KEY = "edit_site";//编辑巡检点  同上逻辑
     public static String ADD_IMPORTANTOR_KEY = "add_importantor";//重点人员 同上逻辑
+    public static String EDIT_IMPORTANTOR_KEY = "edit_importantor";//重点人员 同上逻辑
     public static String ADD_INSPECRTION_RECORD_KEY = "add_inspectionrecord";//添加巡检记录
     public static String ADD_FIRE_CHECK_RECORD_KEY = "add_firecheckrecord";//添加消防检查记录
     public static String ADD_IMPORTANTOR_VISIT_RECORD_KEY = "add_importantorvisit";//重点人员 上门
