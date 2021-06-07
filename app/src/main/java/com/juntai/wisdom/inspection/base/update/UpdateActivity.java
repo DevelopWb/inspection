@@ -61,7 +61,7 @@ public abstract class UpdateActivity<P extends BasePresenter> extends BaseReques
                             return UIData.create()
                                     .setTitle(upgradeBean.getData().getFileName())
                                     .setContent(upgradeBean.getData().getUpdateContent())
-                                    .setDownloadUrl(upgradeBean.getData().getDownloadLink());
+                                    .setDownloadUrl(AppHttpPath.BASE+upgradeBean.getData().getDownloadLink());
                         } else {
                             if (isWarn) {
                                 ToastUtils.toast(mContext, "已是最新版本");

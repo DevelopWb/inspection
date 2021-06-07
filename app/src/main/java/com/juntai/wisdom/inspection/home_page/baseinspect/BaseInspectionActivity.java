@@ -72,6 +72,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     public static String BASE_ID = "baseid";
     public static String BASE_ID2 = "baseid2";
     public static String BASE_STRING = "basestring";
+    public  String SDCARD_TAG = "/storage/emulated";
     public static String BASE_STRING2 = "basestring2";
     public final static String ADD_UNIT = "添加单位";
     public final static String ADD_INSPECTION_SITE = "添加治安巡检点";
@@ -530,7 +531,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                     importantorBean.setPersonnelPhoto(headPicPath);
                     workerBean.setPersonnelPhoto(headPicPath);
 
-                    if (headPicPath.contains(AppUtils.getAppName())) {
+                    if (headPicPath.contains(SDCARD_TAG)) {
                         builder.addFormDataPart("personnelPicture", "personnelPicture",
                                 RequestBody.create(MediaType.parse("file"),
                                         new File(headPicPath)));
@@ -886,14 +887,14 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                         || "消防安全责任书".equals(getTitleName())
                                         || "治安管理责任书".equals(getTitleName())
                                         || "开始检查".equals(getTitleName())) {
-                                    if (picPah.contains(AppUtils.getAppName())) {
+                                    if (picPah.contains(SDCARD_TAG)) {
                                         builder.addFormDataPart("pictureOne", "pictureOne",
                                                 RequestBody.create(MediaType.parse("file"),
                                                         new File(picPah)));
                                     }
 
                                 } else {
-                                    if (picPah.contains(AppUtils.getAppName())) {
+                                    if (picPah.contains(SDCARD_TAG)) {
                                         builder.addFormDataPart("cover", "cover",
                                                 RequestBody.create(MediaType.parse("file"),
                                                         new File(picPah)));
@@ -910,7 +911,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 fireCheckBean.setPhotoOne(picPah);
                                 break;
                             case 1:
-                                if (picPah.contains(AppUtils.getAppName())) {
+                                if (picPah.contains(SDCARD_TAG)) {
                                     builder.addFormDataPart("pictureTwo", "pictureTwo",
                                             RequestBody.create(MediaType.parse("file"),
                                                     new File(picPah)));
@@ -926,7 +927,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 fireCheckBean.setPhotoTwo(picPah);
                                 break;
                             case 2:
-                                if (picPah.contains(AppUtils.getAppName())) {
+                                if (picPah.contains(SDCARD_TAG)) {
                                     builder.addFormDataPart("pictureThree", "pictureThree",
                                             RequestBody.create(MediaType.parse("file"),
                                                     new File(picPah)));
@@ -942,7 +943,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 fireCheckBean.setPhotoThree(picPah);
                                 break;
                             case 3:
-                                if (picPah.contains(AppUtils.getAppName())) {
+                                if (picPah.contains(SDCARD_TAG)) {
                                     builder.addFormDataPart("pictureFour", "pictureFour",
                                             RequestBody.create(MediaType.parse("file"),
                                                     new File(picPah)));
@@ -958,7 +959,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 fireCheckBean.setPhotoFour(picPah);
                                 break;
                             case 4:
-                                if (picPah.contains(AppUtils.getAppName())) {
+                                if (picPah.contains(SDCARD_TAG)) {
                                     builder.addFormDataPart("pictureFive", "pictureFive",
                                             RequestBody.create(MediaType.parse("file"),
                                                     new File(picPah)));
@@ -974,7 +975,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 fireCheckBean.setPhotoFive(picPah);
                                 break;
                             case 5:
-                                if (picPah.contains(AppUtils.getAppName())) {
+                                if (picPah.contains(SDCARD_TAG)) {
                                     builder.addFormDataPart("pictureSix", "pictureSix",
                                             RequestBody.create(MediaType.parse("file"),
                                                     new File(picPah)));

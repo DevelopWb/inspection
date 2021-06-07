@@ -95,7 +95,7 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
 
     @Override
     public void initData() {
-        //        update(false);
+        update(false);
     }
 
 
@@ -322,13 +322,13 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
                 Intent intent = new Intent();
                 int id = 0;
                 if (!TextUtils.isEmpty(result) && result.contains("=")) {
-                    id = Integer.parseInt(result.substring(result.lastIndexOf("=")+1,result.length()));
+                    id = Integer.parseInt(result.substring(result.lastIndexOf("=") + 1, result.length()));
                     intent.putExtra(BaseInspectionInfoActivity.BASE_ID, id);
                 }
                 if (result.contains("xiaofang")) {
                     //跳转到单位详情
-                    intent.setClass(mContext,UnitInfoActivity.class);
-                }else if(result.contains("zhian")){
+                    intent.setClass(mContext, UnitInfoActivity.class);
+                } else if (result.contains("zhian")) {
                     //跳转到巡检点详情
                     intent.setClass(mContext, SecurityInspectionSiteInfoActivity.class);
                 }

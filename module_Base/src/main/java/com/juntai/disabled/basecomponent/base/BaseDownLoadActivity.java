@@ -97,8 +97,9 @@ public abstract class BaseDownLoadActivity<P extends BasePresenter> extends Base
                 if (downloadPath.contains(".jpeg") || downloadPath.contains(".jpg") || downloadPath.contains(".png") || downloadPath.contains(".svg")) {
                     path = FileCacheUtils.getAppImagePath() + downloadPath.substring(downloadPath.lastIndexOf("/") + 1, downloadPath.length());
                 } else {
-                    //巡检图片  直接从crm读取的"xunjiantubiao" +
-                    path = FileCacheUtils.getAppImagePath() + downloadPath.substring(downloadPath.lastIndexOf("/") + 1, downloadPath.length()) + ".jpeg";
+                    //下载文档
+                    path = FileCacheUtils.getAppFilePath() + downloadPath.substring(downloadPath.lastIndexOf("/") + 1
+                            , downloadPath.length());
 
                 }
             }

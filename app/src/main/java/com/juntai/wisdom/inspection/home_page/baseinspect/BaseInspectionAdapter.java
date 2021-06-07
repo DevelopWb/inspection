@@ -36,6 +36,7 @@ import com.juntai.disabled.basecomponent.utils.DisplayUtil;
 import com.juntai.disabled.basecomponent.utils.GsonTools;
 import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.disabled.basecomponent.utils.PickerManager;
+import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.base.selectPics.SelectPhotosFragment;
 import com.juntai.wisdom.inspection.bean.HeadPicBean;
@@ -304,8 +305,8 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 TextKeyValueBean selectBean = (TextKeyValueBean) textViewTv.getTag();
                 textViewTv.setHint(selectBean.getHint());
                 if (BaseInspectContract.INSPECTION_VISIT_TIMES.equals(textValueSelectBean.getKey())) {
-                    textViewTv.setText(selectBean.getValue()+"日");
-                }else {
+                    textViewTv.setText(selectBean.getValue() + "日");
+                } else {
                     textViewTv.setText(selectBean.getValue());
                 }
 
@@ -521,10 +522,12 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                     List<UnQualifiedBean.ChildBean> childBeanList = unQualifiedBean.getChild();
                     for (int i = 0; i < childBeanList.size(); i++) {
                         UnQualifiedBean.ChildBean childBean = childBeanList.get(i);
+                        //如果子项被选中
                         if (1 == childBean.getSelectStatus()) {
                             switch (i) {
                                 case 0:
                                     switch (unQualifiedBean.getItemid()) {
+                                        //第一大项中的 第一个小项
                                         case 1:
                                             question1Cd1.setChecked(true);
                                             break;
@@ -697,10 +700,11 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         }
     }
 
-    private void initSpannableText(TextView textView, String content, boolean hideSecendNotice) {
+    private void initSpannableText(TextView textView, String content,
+                                   boolean hideSecendNotice) {
         UnQuailityFormBean formBean = (UnQuailityFormBean) textView.getTag();
-        // TODO: 2021/5/28 问题的数据需要优化  只展示已经选择的项目
-        CharSequence[] problemItems = getUnQualityItems();
+        //  只展示已经选择的项目
+
         List<String> selectedProblemItems1 = new ArrayList<>();
         List<String> selectedProblemItems2 = new ArrayList<>();
         SpannableStringBuilder builder = new SpannableStringBuilder();
@@ -709,6 +713,10 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         spannableString.setSpan(new ClickableSpan() {
                                     @Override
                                     public void onClick(@NonNull View widget) {
+                                        String[] problemItems = getUnQualityItems(formBean);
+                                        if (problemItems == null) {
+                                            return;
+                                        }
                                         if (isDetail) {
                                             return;
                                         }
@@ -812,6 +820,10 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                                         @Override
                                         public void onClick(@NonNull View widget) {
                                             if (isDetail) {
+                                                return;
+                                            }
+                                            String[] problemItems = getUnQualityItems(formBean);
+                                            if (problemItems == null) {
                                                 return;
                                             }
                                             //第二个选择事项
@@ -935,8 +947,27 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
      *
      * @return
      */
-    private CharSequence[] getUnQualityItems() {
-        return new CharSequence[]{"1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"};
+    private String[] getUnQualityItems(UnQuailityFormBean formBean) {
+        String items = formBean.getProblems();
+        List<UnQualifiedBean> list = GsonTools.changeGsonToList(items, UnQualifiedBean.class);
+        List<String> strs = new ArrayList<>();
+        for (int i = 0; i < list.size(); i++) {
+            UnQualifiedBean unQualifiedBean = list.get(i);
+            List<UnQualifiedBean.ChildBean> childBeanList = unQualifiedBean.getChild();
+            for (UnQualifiedBean.ChildBean childBean : childBeanList) {
+                if (1 == childBean.getSelectStatus()) {
+                    //最少有一个子项被选中
+                    strs.add(String.valueOf(i + 1));
+                    break;
+                }
+            }
+        }
+        if (strs.isEmpty()) {
+            ToastUtils.toast(mContext, "请先选择有问题的项目");
+            return null;
+        }
+        String[] arrays = new String[strs.size()];
+        return strs.toArray(arrays);
     }
 
     /**
@@ -1177,7 +1208,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
     private void initPresentCheckBoxStatus(UnQuailityFormBean formBean, int presentIndex, boolean isChecked,
                                            CheckBox... childsBox) {
         if (6 == presentIndex || 10 == presentIndex) {
-            //问题7
+            //问题7或者问题11
             list.get(presentIndex).getChild().get(0).setSelectStatus(isChecked ? 1 : 0);
             formBean.setProblems(GsonTools.createGsonString(list));
             return;
@@ -1203,7 +1234,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         list.get(itemPosition).getChild().get(childPosition).setSelectStatus(isChecked ? 1 : 0);
         formBean.setProblems(GsonTools.createGsonString(list));
         if (isChecked) {
-            //子条目被选中  父控件状态更改
+            //子条目有一个被选中  父控件状态更改
             presentBox.setChecked(true);
         } else {
             //false

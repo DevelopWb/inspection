@@ -18,6 +18,7 @@ import com.juntai.wisdom.inspection.utils.ToolShare;
 import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
 import com.juntai.wisdom.inspection.utils.UserInfoManager;
 
+import java.util.Arrays;
 import java.util.HashMap;
 
 import cn.sharesdk.framework.Platform;
@@ -139,8 +140,8 @@ public class RectifyNoticeDetailActivity extends BaseInspectionActivity implemen
                 });
                 break;
             case R.id.download_word_tv:
-                // TODO: 2021/5/28 整改通知单 下载word版
-                ToastUtils.toast(mContext,"暂未开放");
+                // 整改通知单 下载word版
+                initBottomDialog(Arrays.asList("保存文档"),UrlFormatUtil.getImageOriginalUrl(dataBean.getWordFile()));
                 break;
         }
     }

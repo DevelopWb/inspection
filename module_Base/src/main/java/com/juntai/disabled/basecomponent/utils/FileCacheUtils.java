@@ -64,6 +64,17 @@ public class FileCacheUtils {
      * 压缩图片存放目录
      * @return
      */
+    public static String getAppFilePath(){
+        File destDir = new File(getAppPath() + "file/");
+        if (!destDir.exists()) {
+            destDir.mkdirs();
+        }
+        return destDir.getAbsolutePath() + "/";
+    }
+    /**
+     * 压缩图片存放目录
+     * @return
+     */
     public static String getAppImagePath(String dirName){
         File destDir = new File(getAppPath() + "image/"+ dirName+File.separator);
         if (!destDir.exists()) {
