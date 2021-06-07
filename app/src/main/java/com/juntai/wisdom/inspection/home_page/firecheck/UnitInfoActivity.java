@@ -68,6 +68,11 @@ public class UnitInfoActivity extends BaseInspectionInfoActivity {
     }
 
     @Override
+    protected String getQrCodePath() {
+        return UrlFormatUtil.getImageOriginalUrl(dataBean.getQrCode());
+    }
+
+    @Override
     protected void seeMoreInfo() {
         startActivity(new Intent(mContext, UnitInfoMoreActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY
                 , dataBean));

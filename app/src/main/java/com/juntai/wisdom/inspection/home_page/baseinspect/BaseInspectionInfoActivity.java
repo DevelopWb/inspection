@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.juntai.disabled.federation.R;
+import com.juntai.disabled.video.img.ImageZoomActivity;
 import com.juntai.wisdom.inspection.base.BaseAppActivity;
 import com.juntai.wisdom.inspection.bean.ActionBean;
 import com.juntai.wisdom.inspection.bean.importantor.ImportantorBean;
@@ -25,6 +26,8 @@ import com.juntai.wisdom.inspection.home_page.importantor.VisitRecordListActivit
 import com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectRecordListActivity;
 import com.juntai.wisdom.inspection.home_page.securityInspect.StartSecurityInspectActivity;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -35,13 +38,13 @@ import java.util.List;
 public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseInspectPresent> implements BaseInspectContract.IInspectView, View.OnClickListener {
 
 
-    public final  static String START_VISIT="开始走访";//
-    public final static String START_CHECK="开始检查";//
-    public final static String START_INSPECT="开始巡检";//
-    public final static String BASE_ID="baseid";//
-    public final static String BASE_ID2="baseid2";//
-    public int  baseId ;
-    public int  contentId ;
+    public final static String START_VISIT = "开始走访";//
+    public final static String START_CHECK = "开始检查";//
+    public final static String START_INSPECT = "开始巡检";//
+    public final static String BASE_ID = "baseid";//
+    public final static String BASE_ID2 = "baseid2";//
+    public int baseId;
+    public int contentId;
 
     private RecyclerView mRecyclerview;
     public ImageView mQrCodeIv;
@@ -74,8 +77,8 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
     @Override
     public void initView() {
         if (getIntent() != null) {
-            baseId = getIntent().getIntExtra(BASE_ID,0);
-            contentId = getIntent().getIntExtra(BASE_ID2,0);
+            baseId = getIntent().getIntExtra(BASE_ID, 0);
+            contentId = getIntent().getIntExtra(BASE_ID2, 0);
         }
         setTitleName(getTitleName());
         mRecyclerview = (RecyclerView) findViewById(R.id.recyclerview);
@@ -84,9 +87,16 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
         addDivider(true, mRecyclerview, false, true);
         mQrCodeIv = (ImageView) findViewById(R.id.qr_code_iv);
         mQrCodeIv.setOnClickListener(this);
+        mQrCodeIv.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                initBottomDialog(Arrays.asList("保存图片"),getQrCodePath());
+                return true;
+            }
+        });
         mNavigationTv = (TextView) findViewById(R.id.navigation_tv);
         Group noQrcodeGp = (Group) findViewById(R.id.no_qr_code_gp);
-        noQrcodeGp.setVisibility("重点人员详情".equals(getTitleName())?View.GONE:View.VISIBLE);
+        noQrcodeGp.setVisibility("重点人员详情".equals(getTitleName()) ? View.GONE : View.VISIBLE);
         mNavigationTv.setOnClickListener(this);
         mSeeMoreInfoTv = (TextView) findViewById(R.id.see_more_info_tv);
         mSeeMoreInfoTv.setOnClickListener(this);
@@ -100,33 +110,35 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
         actionsAdapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
-                ActionBean  actionBean = (ActionBean) adapter.getData().get(position);
+                ActionBean actionBean = (ActionBean) adapter.getData().get(position);
                 switch (actionBean.getActionName()) {
                     case BaseInspectContract.INSPECTION_SECURITY_RECORD:
                         //治安巡检记录
-                        startActivity(new Intent(mContext, SecurityInspectRecordListActivity.class).putExtra(BaseRecordActivity.ID,((InspectionSiteBean.DataBean)getBaseBean()).getId()));
+                        startActivity(new Intent(mContext, SecurityInspectRecordListActivity.class).putExtra(BaseRecordActivity.ID, ((InspectionSiteBean.DataBean) getBaseBean()).getId()));
                         break;
                     case BaseInspectContract.INSPECTION_VISIT_RECORD:
                         //走访记录
-                        startActivity(new Intent(mContext, VisitRecordListActivity.class).putExtra(BaseRecordActivity.ID,((ImportantorBean.DataBean)getBaseBean()).getId()));
+                        startActivity(new Intent(mContext, VisitRecordListActivity.class).putExtra(BaseRecordActivity.ID, ((ImportantorBean.DataBean) getBaseBean()).getId()));
                         break;
                     case BaseInspectContract.INSPECTION_CHECK_RECORD:
                         //  单位详情里面的检查记录
                         startActivity(new Intent(mContext, FireCheckRecordListActivity.class).putExtra(BaseRecordActivity.ID,
-                                ((UnitDetailBean.DataBean)getBaseBean()).getId()));
+                                ((UnitDetailBean.DataBean) getBaseBean()).getId()));
                         break;
                     case BaseInspectContract.INSPECTION_RESPONSIBILITY:
                         // 单位详情里面的责任书
-                        startActivity(new Intent(mContext, ResponsibilityActivity.class).putExtra(BASE_ID,((UnitDetailBean.DataBean)getBaseBean()).getId()));
+                        startActivity(new Intent(mContext, ResponsibilityActivity.class).putExtra(BASE_ID,
+                                ((UnitDetailBean.DataBean) getBaseBean()).getId()));
                         break;
                     case BaseInspectContract.INSPECTION_RECTIFY_NOTICE:
                         //单位详情里面的整改通知书
-                        startActivity(new Intent(mContext, RectifyNoticeListActivity.class).putExtra(BaseRecordActivity.ID,((UnitDetailBean.DataBean)getBaseBean()).getId()));
+                        startActivity(new Intent(mContext, RectifyNoticeListActivity.class).putExtra(BaseRecordActivity.ID, ((UnitDetailBean.DataBean) getBaseBean()).getId()));
 
                         break;
                     case BaseInspectContract.INSPECTION_WORKER:
                         //   单位详情里面的从业人员
-                        startActivity(new Intent(mContext, WorkerListActivity.class).putExtra(BaseRecordActivity.ID,((UnitDetailBean.DataBean)getBaseBean()).getId()));
+                        startActivity(new Intent(mContext, WorkerListActivity.class).putExtra(BaseRecordActivity.ID,
+                                ((UnitDetailBean.DataBean) getBaseBean()).getId()));
 
                         break;
                     default:
@@ -144,7 +156,11 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
 
     protected abstract String getStartWorkName();
 
-
+    /**
+     * 二维码地址
+     * @return
+     */
+    protected abstract String getQrCodePath();
 
 
     @Override
@@ -154,7 +170,12 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
                 break;
             case R.id.qr_code_iv:
                 //二维码
-                // TODO: 2021/5/18 信息详情中的二维码点击时间   长按也没做
+                //查看图片
+                ArrayList<String> photos = new ArrayList<>();
+                photos.add(getQrCodePath());
+                startActivity(new Intent(mContext, ImageZoomActivity.class)
+                        .putExtra("paths", photos)
+                        .putExtra("item", 0));
                 break;
             case R.id.navigation_tv:
                 //导航
@@ -162,20 +183,20 @@ public abstract class BaseInspectionInfoActivity extends BaseAppActivity<BaseIns
                 break;
             case R.id.see_more_info_tv:
                 //查看更多信息
-               seeMoreInfo();
+                seeMoreInfo();
                 break;
             case R.id.start_work_tv:
                 switch (getStartWorkName()) {
                     case START_CHECK:
                         //  单位详情中的开始检查
-                        startActivity(new Intent(mContext, StartCheckActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY,((UnitDetailBean.DataBean)getBaseBean())));
+                        startActivity(new Intent(mContext, StartCheckActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY, ((UnitDetailBean.DataBean) getBaseBean())));
                         break;
                     case START_INSPECT:
                         //开始巡检
-                        startActivity(new Intent(mContext, StartSecurityInspectActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY,((InspectionSiteBean.DataBean)getBaseBean())));
+                        startActivity(new Intent(mContext, StartSecurityInspectActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY, ((InspectionSiteBean.DataBean) getBaseBean())));
                         break;
                     case START_VISIT:
-                        startActivity(new Intent(mContext, StartVisitActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY,((ImportantorBean.DataBean)getBaseBean())));
+                        startActivity(new Intent(mContext, StartVisitActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY, ((ImportantorBean.DataBean) getBaseBean())));
                         break;
                     default:
                         break;

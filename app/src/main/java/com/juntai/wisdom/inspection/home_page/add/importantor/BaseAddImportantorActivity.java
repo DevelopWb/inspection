@@ -91,7 +91,7 @@ public abstract class BaseAddImportantorActivity extends BaseCommitFootViewActiv
 
     @Override
     public boolean requestLocation() {
-        if (savedImportantorBean != null && !TextUtils.isEmpty(savedImportantorBean.getGpsAddress())) {
+        if (savedImportantorBean != null && !TextUtils.isEmpty(savedImportantorBean.getGpsAddress())||bean != null && !TextUtils.isEmpty(bean.getGpsAddress())) {
             return false;
         }
         return true;
@@ -168,6 +168,11 @@ public abstract class BaseAddImportantorActivity extends BaseCommitFootViewActiv
                 }
                 break;
             case AppHttpPath.SEARCH_IMPORTANTOR_TO_ADD:
+                ToastUtils.toast(mContext,"添加成功");
+
+                finish();
+                break;
+            case AppHttpPath.MANUAL_ADD_IMPORTANTOR:
                 ToastUtils.toast(mContext,"添加成功");
                 if (Hawk.contains(getHawkKey())) {
                     Hawk.delete(getHawkKey());

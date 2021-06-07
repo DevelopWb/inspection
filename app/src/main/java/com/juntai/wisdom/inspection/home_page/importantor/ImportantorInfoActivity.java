@@ -62,6 +62,11 @@ public class ImportantorInfoActivity extends BaseInspectionInfoActivity {
         return START_VISIT;
     }
 
+    @Override
+    protected String getQrCodePath() {
+        return null;
+    }
+
 
     @Override
     protected void seeMoreInfo() {

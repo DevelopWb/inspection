@@ -65,10 +65,9 @@
 
         <ImageView
             android:id="@+id/scan_iv"
-            android:layout_width="30dp"
-            android:layout_height="30dp"
-            android:layout_marginRight="20dp"
-            android:padding="5dp"
+            android:layout_width="60dp"
+            android:layout_height="60dp"
+            android:padding="20dp"
             android:src="@mipmap/scan_sel"
             app:layout_constraintBottom_toBottomOf="@+id/app_name_tv"
             app:layout_constraintRight_toRightOf="parent"

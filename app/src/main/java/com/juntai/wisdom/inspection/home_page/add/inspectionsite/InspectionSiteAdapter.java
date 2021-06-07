@@ -30,8 +30,8 @@ public class InspectionSiteAdapter extends BaseQuickAdapter<InspectionSiteBean.D
                 helper.getView(R.id.cover_pic_iv));
         helper.setText(R.id.item_title_tv, item.getName());
         helper.setText(R.id.item_des_tv, item.getAddress());
-        helper.addOnClickListener(R.id.item_navigation_tv);
         if (hasNavigation) {
+            helper.addOnClickListener(R.id.item_navigation_tv);
             helper.setText(R.id.item_navigation_tv,"导航");
             helper.setTextColor(R.id.item_navigation_tv, ContextCompat.getColor(mContext,R.color.white));
             helper.setBackgroundRes(R.id.item_navigation_tv,R.drawable.sp_blue_square_button);

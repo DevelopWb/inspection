@@ -339,6 +339,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 fragment.setObject(fragmentBean);
                 fragment.setSpanCount(fragmentBean.getmSpanCount())
                         .setPhotoDelateable(!isDetail)
+                        .setType(fragmentBean.getType())
                         .setMaxCount(fragmentBean.getmMaxCount())
                         .setShowTag(fragmentBean.isShowTag()).setOnPicLoadSuccessCallBack(new SelectPhotosFragment.OnPicLoadSuccessCallBack() {
                     @Override

@@ -20,6 +20,7 @@ import com.juntai.disabled.basecomponent.utils.RuleTools;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.bdmap.act.LocateSelectionActivity;
 import com.juntai.disabled.federation.R;
+import com.juntai.disabled.video.img.ImageZoomActivity;
 import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.base.BaseAppActivity;
 import com.juntai.wisdom.inspection.base.bottomDialog.MultiSelectBottomSheetDialog;
@@ -89,14 +90,6 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
     private TextKeyValueBean selectBean;
     private TextView mSelectTv;
-//    public int importantorStatusId = 0;//重点人员状态
-//    public String importantorStatusName;//重点人员状态
-//    public int unitTypeId = 0;//单位类型id
-//    public int questionId = 0;//问题id
-//    public int workerType = 0;//从业人员的工作类型
-//    public String workerName ;//从业人员的工作类型
-//    public String questionName;//问题
-//    public String unitTypeName;//单位类型id
 
     public boolean idDetail = false;
 
@@ -394,7 +387,15 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
     @Override
     public void onPicClick(BaseQuickAdapter adapter, int position) {
-
+        ArrayList<String> photos = new ArrayList<>();
+        List<String> arrays = adapter.getData();
+        for (String array : arrays) {
+            photos.add(array);
+        }
+        //查看图片
+        startActivity(new Intent(mContext, ImageZoomActivity.class)
+                .putExtra("paths", photos)
+                .putExtra("item", position));
     }
 
     @Override
@@ -528,14 +529,18 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                     String  headPicPath = headPicBean.getPicPath();
                     importantorBean.setPersonnelPhoto(headPicPath);
                     workerBean.setPersonnelPhoto(headPicPath);
+
                     if (headPicPath.contains(AppUtils.getAppName())) {
                         builder.addFormDataPart("personnelPicture", "personnelPicture",
                                 RequestBody.create(MediaType.parse("file"),
                                         new File(headPicPath)));
                     } else {
-                        builder.addFormDataPart("personnelPhoto",
-                                headPicPath.substring(AppHttpPath.BASE_IMAGE.length(),
-                                        headPicPath.length()));
+                        if (headPicPath.contains(AppHttpPath.BASE_IMAGE)) {
+                            builder.addFormDataPart("personnelPhoto",
+                                    headPicPath.substring(AppHttpPath.BASE_IMAGE.length(),
+                                            headPicPath.length()));
+                        }
+
                     }
                     break;
                 case MultipleItem.ITEM_EDIT:

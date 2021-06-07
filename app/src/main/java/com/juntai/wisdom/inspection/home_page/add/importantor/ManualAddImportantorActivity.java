@@ -32,7 +32,7 @@ public class ManualAddImportantorActivity extends BaseAddImportantorActivity {
 
     @Override
     protected void commit(MultipartBody.Builder builder) {
-        mPresenter.manualAddImportantor(builder.build(), AppHttpPath.SEARCH_IMPORTANTOR_TO_ADD);
+        mPresenter.manualAddImportantor(builder.build(), AppHttpPath.MANUAL_ADD_IMPORTANTOR);
     }
 
     @Override

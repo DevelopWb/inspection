@@ -12,6 +12,7 @@ import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.SparseArray;
 import android.view.Gravity;
@@ -38,7 +39,11 @@ import com.juntai.wisdom.inspection.home_page.HomePageFragment;
 import com.juntai.wisdom.inspection.home_page.add.unit.AddUnitActivity;
 import com.juntai.wisdom.inspection.home_page.add.importantor.AddImportantorActivity;
 import com.juntai.wisdom.inspection.home_page.add.inspectionsite.AddInspectSiteActivity;
+import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionInfoActivity;
+import com.juntai.wisdom.inspection.home_page.firecheck.UnitInfoActivity;
+import com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectionSiteInfoActivity;
 import com.juntai.wisdom.inspection.mine.MyCenterFragment;
+import com.juntai.wisdom.inspection.utils.AppUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -52,8 +57,8 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
     List<LocationBean> cacheDatas = new ArrayList<>();//
 
     private TabLayout mainTablayout;
-    private String[] title = new String[]{"首页", "添加","我的"};
-    private int[] tabDrawables = new int[]{R.drawable.home_index,R.drawable.home_add,R.drawable.home_mine};
+    private String[] title = new String[]{"首页", "添加", "我的"};
+    private int[] tabDrawables = new int[]{R.drawable.home_index, R.drawable.home_add, R.drawable.home_mine};
     private SparseArray<Fragment> mFragments = new SparseArray<>();
     //
     CGBroadcastReceiver broadcastReceiver = new CGBroadcastReceiver();
@@ -74,7 +79,7 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
         mainLayout = findViewById(R.id.main_layout);
         mainViewpager.setScanScroll(false);
         mFragments.append(0, new HomePageFragment());//
-//        mFragments.append(1, new HandlerBusinessFragment());//
+        //        mFragments.append(1, new HandlerBusinessFragment());//
         mFragments.append(1, new MyCenterFragment());//资讯
         //
         getToolbar().setVisibility(View.GONE);
@@ -90,7 +95,7 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
 
     @Override
     public void initData() {
-//        update(false);
+        //        update(false);
     }
 
 
@@ -119,10 +124,10 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
                 if (tab.getPosition() == 1) {
                     //条件弹窗
                     add(mainTablayout);
-                } else if(tab.getPosition()==0){
+                } else if (tab.getPosition() == 0) {
                     mImmersionBar.reset().fitsSystemWindows(false).transparentStatusBar().init();
                     mainViewpager.setCurrentItem(tab.getPosition(), false);
-                }else{
+                } else {
                     mImmersionBar.reset().fitsSystemWindows(false).statusBarDarkFont(true).init();
                     mainViewpager.setCurrentItem(tab.getPosition(), false);
 
@@ -163,16 +168,17 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
     public void onPageScrollStateChanged(int i) {
 
     }
+
     /**
      * 添加
      *
      * @param view
      */
     public void add(View view) {
-//        if (!MyApp.isLogin()) {
-//            MyApp.goLogin();
-//            return;
-//        }
+        //        if (!MyApp.isLogin()) {
+        //            MyApp.goLogin();
+        //            return;
+        //        }
         View viewPop = LayoutInflater.from(mContext.getApplicationContext()).inflate(R.layout.pop_add, null);
         //背景颜色
         view.setBackgroundColor(Color.WHITE);
@@ -310,6 +316,26 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        if (requestCode == AppUtils.QR_SCAN_NOMAL && resultCode == RESULT_OK) {
+            if (data != null) {
+                String result = data.getStringExtra("result");
+                Intent intent = new Intent();
+                int id = 0;
+                if (!TextUtils.isEmpty(result) && result.contains("=")) {
+                    id = Integer.parseInt(result.substring(result.lastIndexOf("=")+1,result.length()));
+                    intent.putExtra(BaseInspectionInfoActivity.BASE_ID, id);
+                }
+                if (result.contains("xiaofang")) {
+                    //跳转到单位详情
+                    intent.setClass(mContext,UnitInfoActivity.class);
+                }else if(result.contains("zhian")){
+                    //跳转到巡检点详情
+                    intent.setClass(mContext, SecurityInspectionSiteInfoActivity.class);
+                }
+                startActivity(intent);
+            }
+
+        }
         super.onActivityResult(requestCode, resultCode, data);
     }
 

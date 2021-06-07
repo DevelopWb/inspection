@@ -7,6 +7,7 @@ import android.util.Log;
 import com.baidu.location.BDAbstractLocationListener;
 import com.baidu.location.BDLocation;
 import com.baidu.location.LocationClient;
+import com.juntai.disabled.basecomponent.base.BaseDownLoadActivity;
 import com.juntai.disabled.basecomponent.base.BaseMvpActivity;
 import com.juntai.disabled.basecomponent.mvp.BasePresenter;
 import com.juntai.disabled.bdmap.utils.BaiDuLocationUtils;
@@ -16,7 +17,7 @@ import com.juntai.disabled.bdmap.utils.BaiDuLocationUtils;
  * @description 描述
  * @date 2020/4/27 8:48  app的基类
  */
-public abstract class BaseRequestLocationActivity<P extends BasePresenter> extends BaseMvpActivity<P> {
+public abstract class BaseRequestLocationActivity<P extends BasePresenter> extends BaseDownLoadActivity<P> {
     public Double lat = 0.0;
     public Double lng = 0.0;
     public String  address = null;
@@ -24,7 +25,15 @@ public abstract class BaseRequestLocationActivity<P extends BasePresenter> exten
 
     public abstract void onLocationReceived(BDLocation bdLocation);
     public abstract boolean requestLocation();
+    @Override
+    protected String getTitleRightName() {
+        return null;
+    }
 
+    @Override
+    protected String getDownLoadPath() {
+        return null;
+    }
 
     private BDAbstractLocationListener listener = new BDAbstractLocationListener() {
         @Override

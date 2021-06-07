@@ -92,7 +92,6 @@ public class HomePageFragment extends BaseMvpFragment<HomePagePresent> implement
         });
 
         mSearchLl = (LinearLayout) getView(R.id.search_ll);
-        mScanIv = (ImageView) getView(R.id.scan_iv);
     }
 
     @Override
@@ -144,4 +143,6 @@ public class HomePageFragment extends BaseMvpFragment<HomePagePresent> implement
                 break;
         }
     }
+
+
 }

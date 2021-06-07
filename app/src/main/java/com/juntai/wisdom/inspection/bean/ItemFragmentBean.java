@@ -16,6 +16,7 @@ public class ItemFragmentBean  {
     private int mSpanCount = 3;//一行的个数，默认4
     private int mMaxCount = 9;//最大个数，默认9个
     private int minCount = 0;//最少数
+    private int type = 0;////0拍照照片，1拍照
     private boolean isShowTag = false;//是否显示底部标记
 
     private List<String> fragmentPics;//选中的图片库
@@ -29,8 +30,26 @@ public class ItemFragmentBean  {
         this.fragmentPics = fragmentPics;
     }
 
+    public ItemFragmentBean(int mSpanCount, int mMaxCount, int minCount, int type, boolean isShowTag,
+                            List<String> fragmentPics) {
+        this.mSpanCount = mSpanCount;
+        this.mMaxCount = mMaxCount;
+        this.minCount = minCount;
+        this.type = type;
+        this.isShowTag = isShowTag;
+        this.fragmentPics = fragmentPics;
+    }
+
     public int getMinCount() {
         return minCount;
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 
     public void setMinCount(int minCount) {

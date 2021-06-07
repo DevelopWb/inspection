@@ -257,6 +257,8 @@ public class LocateSelectionActivity extends BaseRequestLocationActivity impleme
         return null;
     }
 
+
+
     @Override
     protected void onDestroy() {
         locationMarker.recycle();

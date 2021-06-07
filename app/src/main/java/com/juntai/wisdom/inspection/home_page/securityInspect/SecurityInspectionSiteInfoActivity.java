@@ -40,7 +40,10 @@ public class SecurityInspectionSiteInfoActivity extends BaseInspectionInfoActivi
                 R.mipmap.action_check_record));
         return arrays;
     }
-
+    @Override
+    protected String getQrCodePath() {
+        return UrlFormatUtil.getImageOriginalUrl(dataBean.getQrCode());
+    }
     @Override
     protected String getTitleName() {
         return "治安巡检点详情";

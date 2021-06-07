@@ -91,7 +91,7 @@ public abstract class BaseAddInspectionSiteActivity extends BaseCommitFootViewAc
 
     @Override
     public boolean requestLocation() {
-        if (savedSiteBean != null && !TextUtils.isEmpty(savedSiteBean.getGpsAddress())) {
+        if (savedSiteBean != null && !TextUtils.isEmpty(savedSiteBean.getGpsAddress())||bean != null && !TextUtils.isEmpty(bean.getGpsAddress())) {
             return false;
         }
         return true;
@@ -172,6 +172,10 @@ public abstract class BaseAddInspectionSiteActivity extends BaseCommitFootViewAc
                 if (Hawk.contains(getHawkKey())) {
                     Hawk.delete(getHawkKey());
                 }
+                finish();
+                break;
+            case AppHttpPath.SEARCH_ADD_INSP_SITE:
+                ToastUtils.toast(mContext,"添加成功");
                 finish();
                 break;
             case AppHttpPath.APPLY_EDIT_INSPECTION_SITE_INFO:

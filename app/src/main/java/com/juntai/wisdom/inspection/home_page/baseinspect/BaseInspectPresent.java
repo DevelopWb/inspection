@@ -243,7 +243,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         }
         arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3, isDetail ?
                 fragmentPics.size() : 6,
-                3, false,
+                3, 1,false,
                 fragmentPics)));
         return arrays;
     }
@@ -317,7 +317,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
 
         arrays.add(new MultipleItem(MultipleItem.ITEM_TEXT, responsibilityBean.getContent()));
         arrays.add(new MultipleItem(MultipleItem.ITEM_SIGN, new ItemSignBean("签字：", responsibilityBean == null ? "" :
-                responsibilityBean.getSignPhoto(), 1, true)));
+                responsibilityBean.getSignPhoto(), 1, !isDetail)));
         arrays.add(new MultipleItem(MultipleItem.ITEM_DATE, TextUtils.isEmpty(responsibilityBean.getGmtCreate()) ?
                 new SimpleDateFormat("yyyy年MM月dd日").format(new Date()) :
                 responsibilityBean.getGmtCreate()));

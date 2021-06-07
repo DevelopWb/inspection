@@ -82,7 +82,7 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
 
     @Override
     public boolean requestLocation() {
-        if (savedUnitBean != null && !TextUtils.isEmpty(savedUnitBean.getGpsAddress())) {
+        if (savedUnitBean != null && !TextUtils.isEmpty(savedUnitBean.getGpsAddress())||bean != null && !TextUtils.isEmpty(bean.getGpsAddress())) {
             return false;
         }
         return true;
@@ -194,6 +194,10 @@ public abstract class BaseAddUnitActivity extends BaseCommitFootViewActivity {
                 if (Hawk.contains(getHawkKey())) {
                     Hawk.delete(getHawkKey());
                 }
+                finish();
+                break;
+            case AppHttpPath.SEARCH_ADD_UNIT:
+                ToastUtils.toast(mContext,"添加成功");
                 finish();
                 break;
             case AppHttpPath.APPLY_EDIT_UNIT_INFO:
