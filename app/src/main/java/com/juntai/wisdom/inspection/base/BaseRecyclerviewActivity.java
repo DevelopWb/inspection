@@ -34,6 +34,7 @@ public abstract class BaseRecyclerviewActivity<P extends BasePresenter> extends 
         mRecyclerview = (RecyclerView) findViewById(R.id.recyclerview);
         mSmartrefreshlayout = (SmartRefreshLayout) findViewById(R.id.smartrefreshlayout);
         adapter = getAdapter();
+        adapter.setEmptyView(getAdapterEmptyView("一条数据也没有...",-1));
         initRecyclerview(mRecyclerview, adapter, LinearLayoutManager.VERTICAL);
         mSmartrefreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override

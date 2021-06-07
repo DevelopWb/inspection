@@ -23,7 +23,7 @@ public class AddInspectSiteActivity extends BaseAddActivity {
 
     @Override
     public void initData() {
-
+        startSearch("");
     }
 
 
@@ -51,12 +51,6 @@ public class AddInspectSiteActivity extends BaseAddActivity {
 
     @Override
     protected void startSearch(String s) {
-        // TODO: 2021/6/7 暂时关闭
-//        if (TextUtils.isEmpty(s)) {
-//            finishLoading();
-//            ToastUtils.toast(mContext,"请输入要搜索的内容");
-//            return;
-//        }
         mPresenter.searchInspectionSitesToAdd(getBaseBuilder()
                         .add("keyword", s).add("pageSize", String.valueOf(pagesize)).add("currentPage",
                         String.valueOf(currentPage)).build(),

@@ -25,7 +25,7 @@ public class AddUnitActivity extends BaseAddActivity {
 
     @Override
     public void initData() {
-
+        startSearch("");
     }
 
     @Override
@@ -57,13 +57,6 @@ public class AddUnitActivity extends BaseAddActivity {
 
     @Override
     protected void startSearch(String s) {
-        // TODO: 2021/6/7 暂时关闭
-//        if (TextUtils.isEmpty(s)) {
-//            finishLoading();
-//            ToastUtils.toast(mContext, "请输入要搜索的内容");
-//            finishLoading();
-//            return;
-//        }
         mPresenter.searchCompanys(getBaseBuilder()
                         .add("keyword", s).add("pageSize", String.valueOf(pagesize)).add("currentPage",
                         String.valueOf(currentPage)).build(),

@@ -28,21 +28,19 @@ public class AddImportantorActivity extends BaseAddActivity {
 
     @Override
     public void initData() {
-
+        startSearch("");
     }
-
-
 
 
     @Override
     protected void onAdapterItemClick(BaseQuickAdapter adapter, int position) {
         ImportantorBean.DataBean bean =
                 (ImportantorBean.DataBean) adapter.getData().get(position);
-        if (0==bean.getIsAdd()) {
+        if (0 == bean.getIsAdd()) {
             //未添加
-            startActivityForResult(new Intent(mContext, SearchAddImportantorActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY,bean),BASE_REQUEST_RESULT);
-        }else {
-            ToastUtils.toast(mContext,"此人已添加");
+            startActivityForResult(new Intent(mContext, SearchAddImportantorActivity.class).putExtra(BaseInspectionActivity.PARCELABLE_KEY, bean), BASE_REQUEST_RESULT);
+        } else {
+            ToastUtils.toast(mContext, "此人已添加");
 
         }
 
@@ -50,17 +48,11 @@ public class AddImportantorActivity extends BaseAddActivity {
 
     @Override
     protected BaseQuickAdapter getAdapter() {
-        return new ImportantorAdapter(R.layout.check_item,false);
+        return new ImportantorAdapter(R.layout.check_item, false);
     }
 
     @Override
     protected void startSearch(String s) {
-        // TODO: 2021/6/7 暂时关闭 
-//        if (TextUtils.isEmpty(s)) {
-//            finishLoading();
-//            ToastUtils.toast(mContext,"请输入要搜索的内容");
-//            return;
-//        }
         mPresenter.searchImportantorToAdd(getBaseBuilder()
                         .add("keyword", s).add("pageSize", String.valueOf(pagesize)).add("currentPage",
                         String.valueOf(currentPage)).build(),

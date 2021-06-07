@@ -9,6 +9,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.InputFilter;
+import android.text.InputType;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -272,7 +273,33 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 });
                 editText.setHint(textValueEditBean.getHint());
                 editText.setText(textValueEditBean.getValue());
-
+                //正则
+                switch (textValueEditBean.getKey()) {
+                    case BaseInspectContract.INSPECTION_TEL:
+                        //联系电话
+                        editText.setInputType(InputType.TYPE_CLASS_PHONE);
+                        break;
+                    case BaseInspectContract.INSPECTION_RESPONSIBLE_TEL:
+                        //联系电话
+                        editText.setInputType(InputType.TYPE_CLASS_PHONE);
+                        break;
+                    case BaseInspectContract.INSPECTION_SPARE_PERSON_TEL:
+                        //联系电话
+                        editText.setInputType(InputType.TYPE_CLASS_PHONE);
+                        break;
+                    case BaseInspectContract.INSPECTION_UNIT_LEGAL_PERSON_TEL:
+                        //联系电话
+                        editText.setInputType(InputType.TYPE_CLASS_PHONE);
+                        break;
+//                    case BusinessContract.TABLE_TITLE_CARD_NUM:
+//                        //卡号
+//                        editText.setInputType(InputType.TYPE_CLASS_NUMBER);
+//                        break;
+                    default:
+                        //输入类型为普通文本
+                        editText.setInputType(InputType.TYPE_CLASS_TEXT);
+                        break;
+                }
                 break;
             case MultipleItem.ITEM_EDIT2:
                 TextKeyValueBean textValueEditBean2 = (TextKeyValueBean) item.getObject();

@@ -71,6 +71,7 @@ public abstract class BaseAddActivity extends BaseAppActivity<BaseInspectPresent
         mRecyclerview = (RecyclerView) findViewById(R.id.recyclerview);
         mSmartrefreshlayout = (SmartRefreshLayout) findViewById(R.id.smartrefreshlayout);
         adapter = getAdapter();
+        adapter.setEmptyView(getAdapterEmptyView("一条数据也没有，快去添加吧",-1));
         initRecyclerview(mRecyclerview, adapter, LinearLayoutManager.VERTICAL);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {
             @Override

@@ -52,6 +52,7 @@ public abstract class BaseRecordActivity extends BaseAppActivity<BaseInspectPres
         mRecyclerview = (RecyclerView) findViewById(R.id.recyclerview);
         mSmartrefreshlayout = (SmartRefreshLayout) findViewById(R.id.smartrefreshlayout);
         adapter = getAdapter();
+        adapter.setEmptyView(getAdapterEmptyView("一条记录也没有...",-1));
         initRecyclerview(mRecyclerview, adapter, LinearLayoutManager.VERTICAL);
         mSmartrefreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override

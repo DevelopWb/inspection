@@ -135,7 +135,7 @@ public abstract class BaseDownLoadActivity<P extends BasePresenter> extends Base
         String savePath = getSavePath(downloadPath);
         final File file = new File(savePath);
         if (file.exists()) {
-            String msg = String.format("%s%s%s", notice, "已保存至", savePath);
+            String msg = String.format("%s%s", "已保存至", savePath);
             ToastUtils.toast(mContext, msg);
             return;
         }
@@ -238,7 +238,7 @@ public abstract class BaseDownLoadActivity<P extends BasePresenter> extends Base
                 os.write(buffer, 0, bytesRead);
             }
             if (!file.getAbsolutePath().contains(FileCacheUtils.STREAM_THUMBNAIL)) {
-                String msg = String.format("%s%s%s", notice, "已下载至", file.getAbsolutePath());
+                String msg = String.format("%s%s", "已下载至", file.getAbsolutePath());
                 ToastUtils.toast(mContext, msg);
             }
             if (fileDownLoadCallBack != null) {

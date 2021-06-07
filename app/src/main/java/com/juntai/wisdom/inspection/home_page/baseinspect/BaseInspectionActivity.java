@@ -72,7 +72,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     public static String BASE_ID = "baseid";
     public static String BASE_ID2 = "baseid2";
     public static String BASE_STRING = "basestring";
-    public  String SDCARD_TAG = "/storage/emulated";
+    public String SDCARD_TAG = "/storage/emulated";
     public static String BASE_STRING2 = "basestring2";
     public final static String ADD_UNIT = "添加单位";
     public final static String ADD_INSPECTION_SITE = "添加治安巡检点";
@@ -237,7 +237,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 mPresenter.getVisitQuestions(getBaseBuilder().build(), AppHttpPath.VISIT_QUESTIONS);
                                 break;
                             case BaseInspectContract.INSPECTION_WORK_TYPE:
-                                mPresenter.getWorkerType(getBaseBuilder().build(),AppHttpPath.GET_WORKER_TYPE);
+                                mPresenter.getWorkerType(getBaseBuilder().build(), AppHttpPath.GET_WORKER_TYPE);
                                 break;
                             case BaseInspectContract.INSPECTION_PERSONAL_STATUS:
                                 mPresenter.getImportantorStatus(getBaseBuilder().build(),
@@ -500,7 +500,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         InspectionSiteBean.DataBean inspectionSiteBean = new InspectionSiteBean.DataBean();
         ImportantorBean.DataBean importantorBean = new ImportantorBean.DataBean();
         FireCheckBean.DataBean fireCheckBean = new FireCheckBean.DataBean();
-        WorkerDetailBean.DataBean workerBean= new WorkerDetailBean.DataBean();
+        WorkerDetailBean.DataBean workerBean = new WorkerDetailBean.DataBean();
         SecurityInspectRecordDetailBean.DataBean recordDetailBean = new SecurityInspectRecordDetailBean.DataBean();
         ImportantorVisitRecordDetailBean.DataBean visitRecordDetailBean =
                 new ImportantorVisitRecordDetailBean.DataBean();
@@ -527,7 +527,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             return null;
                         }
                     }
-                    String  headPicPath = headPicBean.getPicPath();
+                    String headPicPath = headPicBean.getPicPath();
                     importantorBean.setPersonnelPhoto(headPicPath);
                     workerBean.setPersonnelPhoto(headPicPath);
 
@@ -598,6 +598,12 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             break;
                         case BaseInspectContract.INSPECTION_UNIT_LEGAL_PERSON_TEL:
                             //法人手机号
+                            if (!skipFilter) {
+                                if (textValueEditBean.isImportant() && !RuleTools.isMobileNO(value)) {
+                                    ToastUtils.toast(mContext, "法人手机号格式不正确");
+                                    return null;
+                                }
+                            }
                             formKey = "legalPhone";
                             unitDataBean.setLegalPhone(value);
                             break;
@@ -609,6 +615,12 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             break;
                         case BaseInspectContract.INSPECTION_RESPONSIBLE_TEL:
                             //安全责任人电话
+                            if (!skipFilter) {
+                                if (textValueEditBean.isImportant() && !RuleTools.isMobileNO(value)) {
+                                    ToastUtils.toast(mContext, "安全责任人电话格式不正确");
+                                    return null;
+                                }
+                            }
                             formKey = "liablePhone";
                             unitDataBean.setLiablePhone(value);
                             inspectionSiteBean.setLiablePhone(value);
@@ -622,6 +634,12 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             break;
                         case BaseInspectContract.INSPECTION_SPARE_PERSON_TEL:
                             //备用联系人电话
+                            if (!skipFilter) {
+                                if (textValueEditBean.isImportant() && !RuleTools.isMobileNO(value)) {
+                                    ToastUtils.toast(mContext, "备用联系人电话格式不正确");
+                                    return null;
+                                }
+                            }
                             formKey = "sparePhone";
                             unitDataBean.setSparePhone(value);
                             inspectionSiteBean.setSparePhone(value);
@@ -672,6 +690,14 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             importantorBean.setPoliceName(value);
                             break;
                         case BaseInspectContract.INSPECTION_ID_CARD:
+                            //身份证号
+                            if (!skipFilter) {
+                                if (textValueEditBean.isImportant()&&!RuleTools.isIdNO(mContext,
+                                        textValueEditBean.getValue())) {
+                                    ToastUtils.toast(mContext, "身份证号格式不正确");
+                                    return null;
+                                }
+                            }
                             //身份证号
                             formKey = "idNumber";
                             importantorBean.setIdNumber(value);
@@ -1014,7 +1040,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     public void onSuccess(String tag, Object o) {
         if (AppHttpPath.UNIT_TYPE.equals(tag) || AppHttpPath.SECURITY_INSPECT_QUESTION.equals(tag)
                 || AppHttpPath.IMPORTANTOR_STATUS.equals(tag)
-                || AppHttpPath.GET_WORKER_TYPE.equals(tag)|| AppHttpPath.VISIT_QUESTIONS.equals(tag)) {
+                || AppHttpPath.GET_WORKER_TYPE.equals(tag) || AppHttpPath.VISIT_QUESTIONS.equals(tag)) {
             IdNameBean idNameBean = (IdNameBean) o;
             if (idNameBean != null) {
                 List<IdNameBean.DataBean> arrays = idNameBean.getData();
