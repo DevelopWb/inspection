@@ -117,15 +117,15 @@ public abstract class BaseAddActivity extends BaseAppActivity<BaseInspectPresent
                 switch (getTitleName()) {
                     case BaseInspectionActivity.ADD_UNIT:
                         //手动添加单位
-                        startActivity(new Intent(mContext, ManualAddUnitActivity.class));
+                        startActivityForResult(new Intent(mContext, ManualAddUnitActivity.class),BASE_REQUEST_RESULT);
                         break;
                     case BaseInspectionActivity.ADD_INSPECTION_SITE:
                         //手动巡检地址
-                        startActivity(new Intent(mContext, ManualAddInspectionSiteActivity.class));
+                        startActivityForResult(new Intent(mContext, ManualAddInspectionSiteActivity.class),BASE_REQUEST_RESULT);
                         break;
                     case BaseInspectionActivity.ADD_IMPORTANTOR:
                         //手动重点人员
-                        startActivity(new Intent(mContext, ManualAddImportantorActivity.class));
+                        startActivityForResult(new Intent(mContext, ManualAddImportantorActivity.class),BASE_REQUEST_RESULT);
                         break;
                     default:
                         break;

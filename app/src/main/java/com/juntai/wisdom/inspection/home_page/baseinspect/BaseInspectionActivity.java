@@ -85,7 +85,6 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     private ItemSignBean itemSignBean;
     public TextView mCommitTv;
 
-
     protected abstract String getTitleName();
 
 
@@ -692,7 +691,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         case BaseInspectContract.INSPECTION_ID_CARD:
                             //身份证号
                             if (!skipFilter) {
-                                if (textValueEditBean.isImportant()&&!RuleTools.isIdNO(mContext,
+                                if (textValueEditBean.isImportant() && !RuleTools.isIdNO(mContext,
                                         textValueEditBean.getValue())) {
                                     ToastUtils.toast(mContext, "身份证号格式不正确");
                                     return null;
@@ -1053,6 +1052,22 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                     selectBean.setValue(dataBean.getName());
                                     selectBean.setIds(String.valueOf(dataBean.getId()));
                                     mSelectTv.setText(dataBean.getName());
+                                    if (AppHttpPath.IMPORTANTOR_STATUS.equals(tag)) {
+                                       int defaultCheckTime = dataBean.getCheckTime();
+                                        //更新适配器中 走访频率的值
+                                        List<MultipleItem> arrays = adapter.getData();
+                                        for (MultipleItem array : arrays) {
+                                            if (array.getItemType() == MultipleItem.ITEM_SELECT) {
+                                                TextKeyValueBean textKeyValueBean = (TextKeyValueBean) array.getObject();
+                                                if (BaseInspectContract.INSPECTION_VISIT_TIMES.equals(textKeyValueBean.getKey())) {
+                                                    textKeyValueBean.setValue(String.valueOf(defaultCheckTime));
+                                                    adapter.notifyDataSetChanged();
+                                                    break;
+                                                }
+                                            }
+                                        }
+
+                                    }
 
                                 }
                             });

@@ -224,8 +224,6 @@ public class FileCacheUtils {
     public static boolean clearAll(Context context){
         try {
             deleteFile(new File(getAppPath()));
-            deleteFile(new File(getAppImagePath()));
-            deleteFile(new File(getAppVideoPath()));
             clearImageAllCache(context);
             return true;
         }catch (Exception e){
