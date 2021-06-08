@@ -9,6 +9,7 @@ import com.juntai.wisdom.inspection.AppNetModule;
 import com.juntai.wisdom.inspection.bean.HomePageMenuBean;
 import com.juntai.wisdom.inspection.bean.search.SearchBean;
 import com.juntai.wisdom.inspection.bean.search.SearchResultBean;
+import com.juntai.wisdom.inspection.utils.UserInfoManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,11 +31,14 @@ public class HomePagePresent extends BasePresenter<IModel, HomePageContract.IHom
     protected List<HomePageMenuBean> getMenuList(){
 
         List<HomePageMenuBean> arrays = new ArrayList<>();
+        if (2!= UserInfoManager.getPostId()) {
+            //2代表警务助理  警务助理不能消防检查 和 重点人员走访
+            arrays.add(new HomePageMenuBean(HomePageContract.HOMEPAGE_MENU_FIRE_CHECK,"Fire inspection",
+                    R.mipmap.home_menu_fire));
+            arrays.add(new HomePageMenuBean(HomePageContract.HOMEPAGE_MENU_IMPORTANTER,"Key persionnel",
+                    R.mipmap.home_menu_importantor));
 
-        arrays.add(new HomePageMenuBean(HomePageContract.HOMEPAGE_MENU_FIRE_CHECK,"Fire inspection",
-                R.mipmap.home_menu_fire));
-        arrays.add(new HomePageMenuBean(HomePageContract.HOMEPAGE_MENU_IMPORTANTER,"Key persionnel",
-                R.mipmap.home_menu_importantor));
+        }
         arrays.add(new HomePageMenuBean(HomePageContract.HOMEPAGE_MENU_SECURITY_CHECK,"The security check", R.mipmap.home_menu_check));
         arrays.add(new HomePageMenuBean(HomePageContract.HOMEPAGE_MENU_FLOATING_POPULATION,"Floating population",R.mipmap.home_menu_peoples));
 

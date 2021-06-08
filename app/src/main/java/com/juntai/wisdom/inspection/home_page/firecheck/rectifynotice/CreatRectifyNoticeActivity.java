@@ -111,6 +111,7 @@ public class CreatRectifyNoticeActivity extends BaseInspectionActivity {
 
     @Override
     public void onSuccess(String tag, Object o) {
+        Hawk.delete(HawkProperty.ADD_FIRE_CHECK_RECORD_KEY + unitId);
         BaseResult baseResult = (BaseResult) o;
         String noticeDetailId = baseResult.message;
         // 跳转到整改通知书详情

@@ -197,10 +197,10 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                     case R.id.form_head_pic_iv:
                         choseImage(0, BaseInspectionActivity.this, 1);
                         break;
-                    case R.id.sign_name_iv:
+                    case R.id.sign_ll:
                         itemSignBean = (ItemSignBean) multipleItem.getObject();
                         //签名
-                        mSignIv = (ImageView) view;
+                        mSignIv = (ImageView) view.findViewById(R.id.sign_name_iv);
                         showSignatureView();
                         break;
 

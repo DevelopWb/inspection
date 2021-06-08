@@ -505,7 +505,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
             case MultipleItem.ITEM_SIGN:
                 ItemSignBean signBean = (ItemSignBean) item.getObject();
                 if (signBean.isCanSign()) {
-                    helper.addOnClickListener(R.id.sign_name_iv);
+                    helper.addOnClickListener(R.id.sign_ll);
                 }
                 int gravity = signBean.getLayoutGravity();
                 LinearLayout signLl = helper.getView(R.id.item_sign_ll);

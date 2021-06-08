@@ -13,6 +13,7 @@ import com.juntai.wisdom.inspection.base.customview.MainPagerAdapter;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectContract;
 import com.juntai.wisdom.inspection.mine.MyCenterContract;
 import com.juntai.wisdom.inspection.mine.MyCenterPresent;
+import com.juntai.wisdom.inspection.utils.UserInfoManager;
 
 /**
  * @aouther tobato
@@ -48,14 +49,23 @@ public class MyWorkerRecordActivity extends BaseAppActivity<MyCenterPresent> imp
 
     protected SparseArray<Fragment> getFragments() {
         SparseArray<Fragment> arrays = new SparseArray<>();
-        arrays.append(0, WorkRecordFragment.newInstance(BaseInspectContract.IMPORTANTOR_TAB_TITLE_ALL));
-        arrays.append(1, WorkRecordFragment.newInstance(BaseInspectContract.IMPORTANTOR_TAB_FIRE_CHECK));
-        arrays.append(2, WorkRecordFragment.newInstance(BaseInspectContract.IMPORTANTOR_TAB_INSPECTION));
-        arrays.append(3, WorkRecordFragment.newInstance(BaseInspectContract.IMPORTANTOR_TAB_IMPORTANTOR));
+
+        if (2== UserInfoManager.getPostId()) {
+            arrays.append(0, WorkRecordFragment.newInstance(BaseInspectContract.IMPORTANTOR_TAB_INSPECTION));
+        }else {
+            arrays.append(0, WorkRecordFragment.newInstance(BaseInspectContract.IMPORTANTOR_TAB_TITLE_ALL));
+            arrays.append(1, WorkRecordFragment.newInstance(BaseInspectContract.IMPORTANTOR_TAB_FIRE_CHECK));
+            arrays.append(2, WorkRecordFragment.newInstance(BaseInspectContract.IMPORTANTOR_TAB_INSPECTION));
+            arrays.append(3, WorkRecordFragment.newInstance(BaseInspectContract.IMPORTANTOR_TAB_IMPORTANTOR));
+        }
+
         return arrays;
     }
 
     protected String[] getTabTitles() {
+        if (2== UserInfoManager.getPostId()) {
+            return new String[]{ BaseInspectContract.IMPORTANTOR_TAB_INSPECTION};
+        }
         return new String[]{BaseInspectContract.IMPORTANTOR_TAB_TITLE_ALL,
                 BaseInspectContract.IMPORTANTOR_TAB_FIRE_CHECK,
                 BaseInspectContract.IMPORTANTOR_TAB_INSPECTION, BaseInspectContract.IMPORTANTOR_TAB_IMPORTANTOR};

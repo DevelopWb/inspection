@@ -203,6 +203,7 @@ public class StartCheckActivity extends BaseCommitFootViewActivity {
 
     @Override
     public void onSuccess(String tag, Object o) {
+        Hawk.delete(HawkProperty.ADD_FIRE_CHECK_RECORD_KEY + unitBean.getId());
         ToastUtils.toast(mContext, "提交成功");
         finish();
     }

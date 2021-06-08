@@ -8,6 +8,7 @@ import android.content.IntentFilter;
 import android.graphics.Color;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.constraint.Group;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
@@ -44,6 +45,7 @@ import com.juntai.wisdom.inspection.home_page.firecheck.UnitInfoActivity;
 import com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectionSiteInfoActivity;
 import com.juntai.wisdom.inspection.mine.MyCenterFragment;
 import com.juntai.wisdom.inspection.utils.AppUtils;
+import com.juntai.wisdom.inspection.utils.UserInfoManager;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -180,6 +182,16 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
         //            return;
         //        }
         View viewPop = LayoutInflater.from(mContext.getApplicationContext()).inflate(R.layout.pop_add, null);
+        Group   unitGroup = viewPop.findViewById(R.id.add_unit_g);
+        Group   importantorGroup = viewPop.findViewById(R.id.add_importantor_g);
+        if (2== UserInfoManager.getPostId()) {
+            //警务助理没有添加单位和重点人员的权限
+            unitGroup.setVisibility(View.GONE);
+            importantorGroup.setVisibility(View.GONE);
+        }else {
+            unitGroup.setVisibility(View.VISIBLE);
+            importantorGroup.setVisibility(View.VISIBLE);
+        }
         //背景颜色
         view.setBackgroundColor(Color.WHITE);
         TextView shadowTv = viewPop.findViewById(R.id.shadow_tv);
@@ -326,13 +338,18 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
                     intent.putExtra(BaseInspectionInfoActivity.BASE_ID, id);
                 }
                 if (result.contains("xiaofang")) {
-                    //跳转到单位详情
-                    intent.setClass(mContext, UnitInfoActivity.class);
+                    if (2!= UserInfoManager.getPostId()) {
+                        //跳转到单位详情
+                        intent.setClass(mContext, UnitInfoActivity.class);
+                        startActivity(intent);
+                    }else {
+                    ToastUtils.toast(mContext,"您的账号暂不支持此类型的二维码");
+                    }
                 } else if (result.contains("zhian")) {
                     //跳转到巡检点详情
                     intent.setClass(mContext, SecurityInspectionSiteInfoActivity.class);
+                    startActivity(intent);
                 }
-                startActivity(intent);
             }
 
         }

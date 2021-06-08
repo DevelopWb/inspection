@@ -31,6 +31,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/unit_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="单位"
@@ -39,6 +40,12 @@
             app:layout_constraintLeft_toLeftOf="@+id/add_company_iv"
             app:layout_constraintRight_toRightOf="@+id/add_company_iv"
             app:layout_constraintTop_toBottomOf="@+id/add_company_iv" />
+
+        <android.support.constraint.Group
+            android:id="@+id/add_unit_g"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="add_company_iv,unit_tv"></android.support.constraint.Group>
 
         <ImageView
             android:id="@+id/add_site_iv"
@@ -75,6 +82,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
+            android:id="@+id/importantor_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="重点人员"
@@ -83,6 +91,12 @@
             app:layout_constraintLeft_toLeftOf="@+id/add_importantor_iv"
             app:layout_constraintRight_toRightOf="@+id/add_importantor_iv"
             app:layout_constraintTop_toBottomOf="@+id/add_importantor_iv" />
+
+        <android.support.constraint.Group
+            android:id="@+id/add_importantor_g"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:constraint_referenced_ids="add_importantor_iv,importantor_tv"></android.support.constraint.Group>
 
     </android.support.constraint.ConstraintLayout>
 </LinearLayout>

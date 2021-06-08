@@ -107,6 +107,7 @@ public class MyInformationActivity extends BaseRecyclerviewActivity<MyCenterPres
             beanList.add(new TextKeyValueBean("账号", userBean.getAccount()));
             beanList.add(new TextKeyValueBean("昵称", userBean.getNickname()));
             beanList.add(new TextKeyValueBean("部门", userBean.getDepartmentName()));
+            beanList.add(new TextKeyValueBean("职务", userBean.getPostName()));
             adapter.setNewData(beanList);
             nicknameTv.setText(userBean.getNickname());
             ImageLoadUtil.loadCirImgNoCrash(getApplicationContext(), UrlFormatUtil.getImageOriginalUrl(userBean.getHeadPortrait()),
