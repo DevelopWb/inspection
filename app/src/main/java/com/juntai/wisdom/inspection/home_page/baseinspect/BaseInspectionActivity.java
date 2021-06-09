@@ -390,6 +390,9 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         ArrayList<String> photos = new ArrayList<>();
         List<String> arrays = adapter.getData();
         for (String array : arrays) {
+            if (array.contains(AppHttpPath.BASE_IMAGE_THUM)) {
+                array = array.replace(AppHttpPath.BASE_IMAGE_THUM,AppHttpPath.BASE_IMAGE);
+            }
             photos.add(array);
         }
         //查看图片
