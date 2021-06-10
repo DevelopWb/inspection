@@ -14,15 +14,15 @@
         android:layout_height="32dp"
         android:background="@drawable/stroke_gray_square_bg"
         android:lines="1"
+        android:ellipsize="end"
         android:textColor="@color/text_title"
         android:gravity="center_vertical"
-        android:maxLength="11"
+        app:layout_constraintTop_toTopOf="parent"
         android:minHeight="26dp"
         android:paddingLeft="5dp"
-        android:paddingRight="5dp"
+        android:paddingRight="20dp"
         android:textSize="14dp"
-        app:layout_constraintLeft_toLeftOf="@+id/item_small_title_tv"
-        app:layout_constraintTop_toBottomOf="@+id/item_small_title_tv"></TextView>
+       ></TextView>
 
     <ImageView
         android:layout_width="12dp"

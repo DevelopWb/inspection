@@ -203,7 +203,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                     } else {
                         //网络照片
                         ImageLoadUtil.loadImageNoCache(mContext, UrlFormatUtil.getImageOriginalUrl(headPicPath),
-                                headIv, R.mipmap.default_user_head_icon);
+                                headIv, R.mipmap.two_inch_pic);
                     }
 
                 } else {

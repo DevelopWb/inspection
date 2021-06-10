@@ -2,12 +2,10 @@ package com.juntai.wisdom.inspection;
 
 public class AppHttpPath {
 
-                public static final String BASE = "http://192.168.124.118:8080/inspection";
-//                public static final String BASE = "http://www.juntaikeji.com:19215/inspection";
-    public static final String BASE_IMAGE = "http://192.168.124.118:9595";
-//    public static final String BASE_IMAGE = "http://www.juntaikeji.com:19214";
-    public static final String BASE_IMAGE_THUM = "http://192.168.124.118:9595/thumbnail";
-//    public static final String BASE_IMAGE_THUM = "http://www.juntaikeji.com:19214/thumbnail";
+    //                public static final String BASE = "http://192.168.124.118:8080/inspection";
+    public static final String BASE = "http://www.juntaikeji.com:19215/inspection";
+    public static final String BASE_IMAGE = "http://www.juntaikeji.com:19214";
+    public static final String BASE_IMAGE_THUM = "http://www.juntaikeji.com:19214/thumbnail";
     /**
      * 登录
      */
@@ -139,7 +137,8 @@ public class AppHttpPath {
     /**
      * 消防检查记录详情
      */
-    public static final String GET_FIRE_INSPECTION_RECORD_DETAIL = BASE + "/u/appConnector/selectInspectRecordInfo.shtml";
+    public static final String GET_FIRE_INSPECTION_RECORD_DETAIL = BASE + "/u/appConnector/selectInspectRecordInfo" +
+            ".shtml";
     /**
      * 责任书列表
      */
@@ -169,7 +168,6 @@ public class AppHttpPath {
 
     /**
      * 添加从业人员
-     *
      */
     public static final String ADD_WORKER = BASE + "/u/appConnector/insertUnitStaff.shtml";
     /**
@@ -187,7 +185,8 @@ public class AppHttpPath {
     /**
      * 搜索所有的巡检点
      */
-    public static final String SEARCH_INSPECTION_SITES_TO_ADD = BASE + "/u/appSecurity/selectSearchSecurityPublic.shtml";
+    public static final String SEARCH_INSPECTION_SITES_TO_ADD = BASE + "/u/appSecurity/selectSearchSecurityPublic" +
+            ".shtml";
     /**
      * 查询巡检点是否存在
      */
@@ -226,7 +225,6 @@ public class AppHttpPath {
      * 添加巡检记录
      */
     public static final String ADD_INSPECTION_RECORD = BASE + "/u/appSecurity/insertInspectionRecord.shtml";
-
 
 
     /**
@@ -291,7 +289,6 @@ public class AppHttpPath {
     public static final String VISIT_RECORD_DETAIL = BASE + "/u/appKeyPersonnel/selectKeyPersonnelRecordInfo.shtml";
 
 
-
     /**
      * 开始走访
      */
@@ -301,8 +298,6 @@ public class AppHttpPath {
      * 编辑重点人员
      */
     public static final String EDIT_IMPORTANTOR = BASE + "/u/appKeyPersonnel/applyKeyPersonnel.shtml";
-
-
 
 
 }

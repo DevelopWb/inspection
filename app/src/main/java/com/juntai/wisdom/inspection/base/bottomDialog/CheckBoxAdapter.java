@@ -70,7 +70,6 @@ public class CheckBoxAdapter extends BaseQuickAdapter<IdNameBean.DataBean, BaseV
                 } else {
                     item.setSelecte(true);
                 }
-                item.setId(helper.getAdapterPosition());
                 new Handler().post(new Runnable() {
                     @Override
                     public void run() {
