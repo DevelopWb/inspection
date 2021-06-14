@@ -190,9 +190,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 }
                 break;
             case MultipleItem.ITEM_HEAD_PIC:
-                if (!isDetail) {
                     helper.addOnClickListener(R.id.form_head_pic_iv);
-                }
                 HeadPicBean headPicBean = (HeadPicBean) item.getObject();
                 ImageView headIv = helper.getView(R.id.form_head_pic_iv);
                 String headPicPath = headPicBean.getPicPath();
@@ -203,7 +201,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                     } else {
                         //网络照片
                         ImageLoadUtil.loadImageNoCache(mContext, UrlFormatUtil.getImageOriginalUrl(headPicPath),
-                                headIv, R.mipmap.two_inch_pic);
+                                headIv, R.mipmap.ic_error);
                     }
 
                 } else {
@@ -224,9 +222,12 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 if (isDetail) {
                     editText.setClickable(false);
                     editText.setFocusable(false);
+                    helper.setBackgroundRes(R.id.edit_value_et,R.drawable.sp_filled_gray_lighter);
                 } else {
                     editText.setClickable(true);
                     editText.setFocusable(true);
+                    helper.setBackgroundRes(R.id.edit_value_et,R.drawable.stroke_gray_square_bg);
+
                 }
                 int editType = textValueEditBean.getType();
                 LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) editText.getLayoutParams();
@@ -327,6 +328,11 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 if (!isDetail) {
                     helper.addOnClickListener(R.id.select_value_tv);
                     helper.addOnClickListener(R.id.tool_pic_iv);
+                    helper.setBackgroundRes(R.id.select_value_tv,R.drawable.stroke_gray_square_bg);
+                    helper.setGone(R.id.select_arrow_right_iv,true);
+                }else {
+                    helper.setGone(R.id.select_arrow_right_iv,false);
+                    helper.setBackgroundRes(R.id.select_value_tv,R.drawable.sp_filled_gray_lighter);
                 }
                 textViewTv.setTag(textValueSelectBean);
                 TextKeyValueBean selectBean = (TextKeyValueBean) textViewTv.getTag();
@@ -354,8 +360,12 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 LocationBean locationBean = (LocationBean) item.getObject();
                 if (!isDetail) {
                     helper.addOnClickListener(R.id.location_ll);
+                    helper.setGone(R.id.location_iv,true);
+                }else {
+                    helper.setGone(R.id.location_iv,false);
                 }
                 if (!TextUtils.isEmpty(locationBean.getAddress())) {
+
                     helper.setText(R.id.location_tv, locationBean.getAddress());
                 }
 

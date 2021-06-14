@@ -80,11 +80,12 @@ public abstract class BaseRequestLocationActivity<P extends BasePresenter> exten
 
     @Override
     protected void onDestroy() {
-        if (requestLocation()) {
+        super.onDestroy();
+        if (mLocationClient != null) {
             mLocationClient.stop();
             mLocationClient.unRegisterLocationListener(listener);
             listener=null;
         }
-        super.onDestroy();
+
     }
 }

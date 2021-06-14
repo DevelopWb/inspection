@@ -45,6 +45,7 @@ import com.juntai.wisdom.inspection.bean.firecheck.FireCheckBean;
 import com.juntai.wisdom.inspection.bean.firecheck.UnitDetailBean;
 import com.juntai.wisdom.inspection.utils.AppUtils;
 import com.juntai.wisdom.inspection.utils.StringTools;
+import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 import java.io.File;
@@ -187,15 +188,29 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
             }
         });
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
-
-
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 currentPosition = position;
                 MultipleItem multipleItem = (MultipleItem) adapter.getData().get(position);
                 switch (view.getId()) {
                     case R.id.form_head_pic_iv:
-                        choseImage(0, BaseInspectionActivity.this, 1);
+                        HeadPicBean headPicBean = (HeadPicBean) multipleItem.getObject();
+                        if (TextUtils.isEmpty(headPicBean.getPicPath())) {
+                            choseImage(0, BaseInspectionActivity.this, 1);
+                        }else {
+                            if (headPicBean.getPicPath().contains("/key_personnel/keyPersonnel.png")) {
+                                choseImage(0, BaseInspectionActivity.this, 1);
+                            }else {
+                                ArrayList<String> photos = new ArrayList<>();
+                                photos.add(UrlFormatUtil.getImageOriginalUrl(headPicBean.getPicPath()));
+                                //查看图片
+                                startActivity(new Intent(mContext, ImageZoomActivity.class)
+                                        .putExtra("paths", photos)
+                                        .putExtra("item", 0));
+                            }
+
+                        }
+
                         break;
                     case R.id.sign_ll:
                         itemSignBean = (ItemSignBean) multipleItem.getObject();

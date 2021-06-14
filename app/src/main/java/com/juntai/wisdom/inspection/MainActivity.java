@@ -333,17 +333,21 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
                 String result = data.getStringExtra("result");
                 Intent intent = new Intent();
                 int id = 0;
+                String str = result.substring(result.lastIndexOf("=") + 1, result.length());
+                if ("null".equals(str)) {
+                    ToastUtils.error(mContext,"二维码异常");
+                    return;
+                }
                 if (!TextUtils.isEmpty(result) && result.contains("=")) {
-                    id = Integer.parseInt(result.substring(result.lastIndexOf("=") + 1, result.length()));
+                    id = Integer.parseInt(str);
                     intent.putExtra(BaseInspectionInfoActivity.BASE_ID, id);
                 }
                 if (result.contains("xiaofang")) {
                     if (2!= UserInfoManager.getPostId()) {
-                        //跳转到单位详情
                         intent.setClass(mContext, UnitInfoActivity.class);
                         startActivity(intent);
                     }else {
-                    ToastUtils.toast(mContext,"您的账号暂不支持此类型的二维码");
+                    ToastUtils.warning(mContext,"您的账号暂不支持此类型的二维码");
                     }
                 } else if (result.contains("zhian")) {
                     //跳转到巡检点详情

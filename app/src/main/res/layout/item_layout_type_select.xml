@@ -25,6 +25,7 @@
        ></TextView>
 
     <ImageView
+        android:id="@+id/select_arrow_right_iv"
         android:layout_width="12dp"
         android:layout_height="8dp"
         android:src="@mipmap/arrow_down"
