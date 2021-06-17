@@ -85,7 +85,15 @@ public final class ScreenUtils {
         }
         return point.y;
     }
+    public int getScreenStatusBarH() {
+        //依赖于手机系统，获取到的是系统的屏幕信息；
+        int resourceId = context.getResources().getIdentifier("status_bar_height", "dimen", "android");
+        if (resourceId > 0) {
+           return context.getResources().getDimensionPixelSize(resourceId);
+        }
 
+       return 0;
+    }
     /**
      * Return the density of screen.
      *

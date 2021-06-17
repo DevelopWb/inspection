@@ -34,7 +34,7 @@ public class MyMessageActivity extends BaseRecyclerviewActivity<MyCenterPresent>
     public void initData() {
         setTitleName("我的消息");
         mSmartrefreshlayout.setEnableRefresh(false);
-        mSmartrefreshlayout.setEnableRefresh(false);
+        mSmartrefreshlayout.setEnableLoadMore(false);
         mPresenter.getMyMsgs(mPresenter.getPublishMultipartBody().build(), "");
         addDivider(true, mRecyclerview, false, true);
         adapter.setOnItemClickListener(new BaseQuickAdapter.OnItemClickListener() {

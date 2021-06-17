@@ -11,6 +11,7 @@ import com.allenliu.versionchecklib.v2.builder.DownloadBuilder;
 import com.allenliu.versionchecklib.v2.builder.UIData;
 import com.allenliu.versionchecklib.v2.callback.RequestVersionListener;
 import com.juntai.disabled.basecomponent.mvp.BasePresenter;
+import com.juntai.disabled.basecomponent.utils.ActivityManagerTool;
 import com.juntai.disabled.basecomponent.utils.FileCacheUtils;
 import com.juntai.disabled.basecomponent.utils.GsonTools;
 import com.juntai.disabled.basecomponent.utils.LogUtil;
@@ -92,7 +93,7 @@ public abstract class UpdateActivity<P extends BasePresenter> extends BaseReques
                 .setForceUpdateListener(() -> {
                     //强制更新
                     if (isForceUpdate) {
-                        MyApp.app.clearActivitys();
+                        ActivityManagerTool.getInstance().finishApp();
                     }
                     cancle();
                 })

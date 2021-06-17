@@ -1,11 +1,13 @@
 package com.juntai.disabled.basecomponent.app;
 
 import android.app.Activity;
+import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.multidex.MultiDex;
 import android.support.multidex.MultiDexApplication;
 import android.util.DisplayMetrics;
+import android.widget.Toast;
 
 import com.juntai.disabled.basecomponent.BuildConfig;
 import com.juntai.disabled.basecomponent.R;
@@ -24,11 +26,16 @@ import com.scwang.smartrefresh.layout.footer.ClassicsFooter;
 import com.scwang.smartrefresh.layout.header.ClassicsHeader;
 import com.squareup.leakcanary.LeakCanary;
 import com.squareup.leakcanary.RefWatcher;
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.beta.Beta;
+import com.tencent.bugly.beta.interfaces.BetaPatchListener;
 
 import java.lang.ref.SoftReference;
 import java.util.ArrayList;
+import java.util.Locale;
 
-public abstract class BaseApplication extends MultiDexApplication {
+
+public abstract class BaseApplication extends Application {
     public static int HEIGHT, width, statusBarH;
     public static int navigationBarH;
     public static BaseApplication app;
@@ -39,7 +46,7 @@ public abstract class BaseApplication extends MultiDexApplication {
     /*app处于后台true,前台false*/
     public abstract void appBackground(boolean isBackground, Activity activity);
 
-//    public abstract String getTinkerId();
+    public abstract String getTinkerId();
 
     //活动的activity数量
     int mActivityCount;
@@ -62,64 +69,67 @@ public abstract class BaseApplication extends MultiDexApplication {
             com.juntai.disabled.basecomponent.utils.Logger.LOG_ENABLE = true;
         }
         initLeakCanary();
-        registerActivityLifecycleCallbacks(mCallbacks);
+//        registerActivityLifecycleCallbacks(mCallbacks);
 //        hotFix();
+        // 调试时，将第三个参数改为true
+        Bugly.init(this, "5210cffba0", true);
+
     }
 
-//    private void hotFix() {
-//        // 设置是否开启热更新能力，默认为true
-//        Beta.enableHotfix = true;
-//        // 设置是否自动下载补丁，默认为true
-//        Beta.canAutoDownloadPatch = true;
-//        // 设置是否自动合成补丁，默认为true
-//        Beta.canAutoPatch = true;
-//        // 设置是否提示用户重启，默认为false
-//        Beta.canNotifyUserRestart = true;
-//        // 补丁回调接口
-//        Beta.betaPatchListener = new BetaPatchListener() {
-//            @Override
-//            public void onPatchReceived(String patchFile) {
-//                Toast.makeText(getApplicationContext(), "补丁下载地址" + patchFile, Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onDownloadReceived(long savedLength, long totalLength) {
-//                Toast.makeText(getApplicationContext(), String.format(Locale.getDefault(), "%s %d%%", Beta.strNotificationDownloading, (int) (totalLength == 0 ? 0 : savedLength * 100 / totalLength)), Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onDownloadSuccess(String msg) {
-//                Toast.makeText(getApplicationContext(), "补丁下载成功", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onDownloadFailure(String msg) {
-//                Toast.makeText(getApplicationContext(), "补丁下载失败", Toast.LENGTH_SHORT).show();
-//
-//            }
-//
-//            @Override
-//            public void onApplySuccess(String msg) {
-//                Toast.makeText(getApplicationContext(), "补丁应用成功", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onApplyFailure(String msg) {
-//                Toast.makeText(getApplicationContext(), "补丁应用失败", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onPatchRollback() {
-//
-//            }
-//        };
-//
-//        // 设置开发设备，默认为false，上传补丁如果下发范围指定为“开发设备”，需要调用此接口来标识开发设备
-//        Bugly.setIsDevelopmentDevice(getApplicationContext(), true);
-//        // 调试时，将第三个参数改为true
-//        Bugly.init(this, getTinkerId(), false);
-//    }
-//
+    private void hotFix() {
+        // 设置是否开启热更新能力，默认为true
+        Beta.enableHotfix = true;
+        // 设置是否自动下载补丁，默认为true
+        Beta.canAutoDownloadPatch = true;
+        // 设置是否自动合成补丁，默认为true
+        Beta.canAutoPatch = true;
+        // 设置是否提示用户重启，默认为false
+        Beta.canNotifyUserRestart = true;
+        // 补丁回调接口
+        Beta.betaPatchListener = new BetaPatchListener() {
+            @Override
+            public void onPatchReceived(String patchFile) {
+                Toast.makeText(getApplicationContext(), "补丁下载地址" + patchFile, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onDownloadReceived(long savedLength, long totalLength) {
+                Toast.makeText(getApplicationContext(), String.format(Locale.getDefault(), "%s %d%%", Beta.strNotificationDownloading, (int) (totalLength == 0 ? 0 : savedLength * 100 / totalLength)), Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onDownloadSuccess(String msg) {
+                Toast.makeText(getApplicationContext(), "补丁下载成功", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onDownloadFailure(String msg) {
+                Toast.makeText(getApplicationContext(), "补丁下载失败", Toast.LENGTH_SHORT).show();
+
+            }
+
+            @Override
+            public void onApplySuccess(String msg) {
+                Toast.makeText(getApplicationContext(), "补丁应用成功", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onApplyFailure(String msg) {
+                Toast.makeText(getApplicationContext(), "补丁应用失败", Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onPatchRollback() {
+
+            }
+        };
+
+        // 设置开发设备，默认为false，上传补丁如果下发范围指定为“开发设备”，需要调用此接口来标识开发设备
+        Bugly.setIsDevelopmentDevice(getApplicationContext(), true);
+        // 调试时，将第三个参数改为true
+        Bugly.init(this, getTinkerId(), true);
+    }
+
 
     @Override
     protected void attachBaseContext(Context base) {
@@ -127,7 +137,7 @@ public abstract class BaseApplication extends MultiDexApplication {
         // you must install multiDex whatever tinker is installed!
         MultiDex.install(base);
         //  安装tinker
-//        Beta.installTinker(this);
+        Beta.installTinker(this);
     }
 
     /**
@@ -195,67 +205,52 @@ public abstract class BaseApplication extends MultiDexApplication {
         });
     }
 
-    private ActivityLifecycleCallbacks mCallbacks = new ActivityLifecycleCallbacks() {
-
-        @Override
-        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
-            //LogUtil.d("Activity-onActivityCreated = " + activity.getClass().getName());
-            activities.add(activity);
-        }
-
-        @Override
-        public void onActivityStarted(Activity activity) {
-            mActivityCount++;
-            if (mActivityCount == 1) {
-                appBackground(false, activity);
-                isRun = true;
-            }
-            softReference = null;
-            softReference = new SoftReference<>(activity);
-        }
-
-        @Override
-        public void onActivityResumed(Activity activity) {
-        }
-
-        @Override
-        public void onActivityPaused(Activity activity) {
-        }
-
-        @Override
-        public void onActivityStopped(Activity activity) {
-            mActivityCount--;
-            if (mActivityCount == 0) {
-                appBackground(true, activity);
-                isRun = false;
-            }
-        }
-
-        @Override
-        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
-        }
-
-        @Override
-        public void onActivityDestroyed(Activity activity) {
-            //LogUtil.d("Activity-onActivityDestroyed = " + activity.getClass().getName());
-            activities.remove(activity);
-        }
-    };
-
-    /**
-     * 清理当前的所有activity
-     */
-    public void clearActivitys() {
-        for (Activity a : activities) {
-            //LogUtil.d("Activity-clearActivitys = " + a.getClass().getName());
-            a.finish();
-        }
-    }
+//    private ActivityLifecycleCallbacks mCallbacks = new ActivityLifecycleCallbacks() {
+//
+//        @Override
+//        public void onActivityCreated(Activity activity, Bundle savedInstanceState) {
+//            //LogUtil.d("Activity-onActivityCreated = " + activity.getClass().getName());
+//            activities.add(activity);
+//        }
+//
+//        @Override
+//        public void onActivityStarted(Activity activity) {
+//            mActivityCount++;
+//            if (mActivityCount == 1) {
+//                appBackground(false, activity);
+//                isRun = true;
+//            }
+//            softReference = null;
+//            softReference = new SoftReference<>(activity);
+//        }
+//
+//        @Override
+//        public void onActivityResumed(Activity activity) {
+//        }
+//
+//        @Override
+//        public void onActivityPaused(Activity activity) {
+//        }
+//
+//        @Override
+//        public void onActivityStopped(Activity activity) {
+//            mActivityCount--;
+//            if (mActivityCount == 0) {
+//                appBackground(true, activity);
+//                isRun = false;
+//            }
+//        }
+//
+//        @Override
+//        public void onActivitySaveInstanceState(Activity activity, Bundle outState) {
+//        }
+//
+//        @Override
+//        public void onActivityDestroyed(Activity activity) {
+//            //LogUtil.d("Activity-onActivityDestroyed = " + activity.getClass().getName());
+//            activities.remove(activity);
+//        }
+//    };
 
 
-    @Override
-    public void onTerminate() {
-        super.onTerminate();
-//        Beta.unInit();
-    }
 }

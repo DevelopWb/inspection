@@ -51,10 +51,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="10dp"
+            app:layout_constraintBottom_toBottomOf="@+id/seal_iv"
             android:textColor="@color/text_title"
             app:layout_constraintLeft_toLeftOf="@+id/seal_iv"
             app:layout_constraintRight_toRightOf="@+id/seal_iv"
-            app:layout_constraintTop_toBottomOf="@+id/seal_iv"></TextView>
+          ></TextView>
     </android.support.constraint.ConstraintLayout>
 
 

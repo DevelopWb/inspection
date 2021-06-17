@@ -8,7 +8,9 @@ import android.widget.Button;
 import android.widget.SeekBar;
 
 import com.juntai.disabled.basecomponent.base.BaseActivity;
+import com.juntai.disabled.basecomponent.utils.DisplayUtil;
 import com.juntai.disabled.basecomponent.utils.FileCacheUtils;
+import com.juntai.disabled.basecomponent.utils.ScreenUtils;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.MyApp;
 import com.juntai.wisdom.inspection.utils.cropbitmap.LikeQQCropView;
@@ -61,7 +63,7 @@ public class ImageCropActivity extends BaseActivity implements View.OnClickListe
         btClip.setOnClickListener(this);
 
 
-        likeView.setBitmapForWidth(path, MyApp.width);
+        likeView.setBitmapForWidth(path, ScreenUtils.getInstance(mContext).getScreenWidth());
         sb.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {

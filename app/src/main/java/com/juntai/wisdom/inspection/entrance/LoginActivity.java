@@ -125,7 +125,6 @@ public class LoginActivity extends BaseAppActivity<EntrancePresent> implements E
             case EntranceContract.LOGIN_TAG:
                 UserBean loginBean = (UserBean) o;
                 ToastUtils.success(mContext, "登录成功");
-                MyApp.isReLoadWarn = true;
                 Hawk.put(AppUtils.SP_KEY_USER, loginBean);
                 Hawk.put(AppUtils.SP_KEY_TOKEN, loginBean.getData().getToken());
                 startActivity(new Intent(mContext, MainActivity.class));

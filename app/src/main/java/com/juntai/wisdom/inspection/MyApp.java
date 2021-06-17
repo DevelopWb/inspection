@@ -3,8 +3,10 @@ package com.juntai.wisdom.inspection;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
+import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Build;
+import android.support.multidex.MultiDex;
 import android.text.TextUtils;
 
 import com.baidu.location.BDLocation;
@@ -18,6 +20,8 @@ import com.juntai.wisdom.inspection.greenDao.DaoMaster;
 import com.juntai.wisdom.inspection.greenDao.DaoSession;
 import com.mob.MobSDK;
 import com.orhanobut.hawk.Hawk;
+import com.tencent.bugly.Bugly;
+import com.tencent.bugly.beta.Beta;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -31,7 +35,7 @@ public class MyApp extends BaseApplication {
     public static MyApp app;
     public static int CHECK_UPDATE_TYPE = 1;//类型id（1：警小宝）（2：巡小管）（3：邻小帮）
     public boolean isFinish = false;
-    private String BUGLY_APPID = "77648a6776";//bugly appid警小宝
+    private String BUGLY_APPID = "5210cffba0";//
     public LatLng myLocation;
     public BDLocation bdLocation;
     public static long lastClickTime;//上次点击按钮时间
@@ -58,7 +62,6 @@ public class MyApp extends BaseApplication {
 
         //创建压缩图片存放目录
         FileCacheUtils.creatFile(FileCacheUtils.getAppImagePath());
-//        initBugly();
         initGreenDao();
     }
 
@@ -77,7 +80,6 @@ public class MyApp extends BaseApplication {
     public static DaoSession getDaoSession() {
         return daoSession;
     }
-
 
     /**
      * 获取当前定位
@@ -121,7 +123,10 @@ public class MyApp extends BaseApplication {
         }
     }
 
-
+    @Override
+    public String getTinkerId() {
+        return BUGLY_APPID;
+    }
 
 
     /**

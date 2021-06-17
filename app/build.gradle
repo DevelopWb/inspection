@@ -2,12 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'org.greenrobot.greendao'
 //// 依赖插件脚本
 //apply from: 'tinker-support.gradle'
+apply from: 'mob_share.gradle'
 //mob sdk
-def currentModule = rootProject.ext.currentModule
-if (1 == currentModule) {
-    apply from: 'mob_share.gradle'
-}
-def isDebug = rootProject.ext.isDebug
 def configs = rootProject.ext.android
 android {
     compileSdkVersion configs.compileSdkVersion
@@ -39,22 +35,24 @@ android {
             v1SigningEnabled true
             v2SigningEnabled true
         }
+
     }
+
+
     buildTypes {
         release {
             minifyEnabled false
-            //是否优化zip
-            zipAlignEnabled true
-            // 移除无用的resource文件
-            shrinkResources false
+//            //是否优化zip
+//            zipAlignEnabled true
+//            // 移除无用的resource文件
+//            shrinkResources false
             signingConfig signingConfigs.release
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
         debug {
+            debuggable true
             minifyEnabled false
-//            shrinkResources false
             signingConfig signingConfigs.release
-            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
 
