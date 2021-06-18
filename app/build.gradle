@@ -8,7 +8,7 @@ def configs = rootProject.ext.android
 android {
     compileSdkVersion configs.compileSdkVersion
     defaultConfig {
-        applicationId "com.juntai.wisdom.inspection666"
+        applicationId "com.juntai.wisdom.inspection"
         minSdkVersion configs.minSdkVersion
         targetSdkVersion configs.targetSdkVersion
         versionCode configs.versionCode
