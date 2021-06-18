@@ -120,7 +120,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         initTextType(arrays, MultipleItem.ITEM_EDIT2, "整改截止日期：",
                 dataBean == null ? "" : dataBean.getTime(), true, 0);
         arrays.add(new MultipleItem(MultipleItem.ITEM_SIGN, new ItemSignBean("责任人签字：", dataBean == null ? "" :
-                dataBean.getSignPhoto(), 0, true)));
+                dataBean.getSignPhoto(), 0, false)));
         if (hasPunish) {
             initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_PUNISH_INFO,
                     dataBean == null ? "" :

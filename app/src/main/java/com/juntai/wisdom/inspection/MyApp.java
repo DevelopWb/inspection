@@ -63,8 +63,16 @@ public class MyApp extends BaseApplication {
         //创建压缩图片存放目录
         FileCacheUtils.creatFile(FileCacheUtils.getAppImagePath());
         initGreenDao();
+        Bugly.init(this, "e7ede7b346", true);
     }
-
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        // you must install multiDex whatever tinker is installed!
+        MultiDex.install(base);
+        //  安装tinker
+        Beta.installTinker(this);
+    }
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 
     /**

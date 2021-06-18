@@ -54,6 +54,7 @@ public class SecurityInspectionSitesActivity extends BaseAppActivity<BaseInspect
         mSearchContentSv = (SearchView) findViewById(R.id.search_content_sv);
         mRecyclerview = (RecyclerView) findViewById(R.id.recyclerview);
         adapter = new InspectionSiteAdapter(R.layout.check_item, true);
+        adapter.setEmptyView(getAdapterEmptyView("一条数据也没有...",-1));
         initRecyclerview(mRecyclerview, adapter, LinearLayoutManager.VERTICAL);
         mSmartrefreshlayout = (SmartRefreshLayout) findViewById(R.id.smartrefreshlayout);
         mSearchContentSv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

@@ -72,7 +72,7 @@ public abstract class BaseApplication extends Application {
 //        registerActivityLifecycleCallbacks(mCallbacks);
 //        hotFix();
         // 调试时，将第三个参数改为true
-        Bugly.init(this, "5210cffba0", true);
+
 
     }
 
@@ -131,14 +131,7 @@ public abstract class BaseApplication extends Application {
     }
 
 
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        // you must install multiDex whatever tinker is installed!
-        MultiDex.install(base);
-        //  安装tinker
-        Beta.installTinker(this);
-    }
+
 
     /**
      * 记录当前正在活动的activity
