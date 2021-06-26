@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
+import com.juntai.disabled.basecomponent.utils.DialogUtil;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.bean.BaseAdapterDataBean;
@@ -70,7 +71,7 @@ public class StartCheckActivity extends BaseCommitFootViewActivity {
         FireCheckBean.DataBean savedRecordBean =
                 Hawk.get(HawkProperty.ADD_FIRE_CHECK_RECORD_KEY + unitBean.getId());
         if (savedRecordBean != null) {
-            new AlertDialog.Builder(mContext).setMessage("您上次还有未提交的草稿,是否进入草稿？")
+            setAlertDialogHeightWidth(  DialogUtil.getDialog(mContext).setMessage("您上次还有未提交的草稿,是否进入草稿？")
                     .setPositiveButton("是", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -82,13 +83,17 @@ public class StartCheckActivity extends BaseCommitFootViewActivity {
                             } else {
                                 mRadioUnqualifiedRb.setChecked(true);
                             }
+                            for (int i = 0; i < mItemRadioG.getChildCount(); i++) {
+                                mItemRadioG.getChildAt(i).setEnabled(false);
+                            }
+
 
                         }
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                }
-            }).show();
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).show(),-1,0);
         }
 
     }

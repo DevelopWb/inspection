@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.juntai.disabled.basecomponent.utils.DialogUtil;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.AppHttpPath;
@@ -35,22 +36,21 @@ public class StartSecurityInspectActivity extends BaseInspectionActivity {
     public void initData() {
         unSavedLogic();
         SecurityInspectRecordDetailBean.DataBean savedRecordBean =
-                Hawk.get(HawkProperty.ADD_INSPECRTION_RECORD_KEY+ siteDataBean.getId());
+                Hawk.get(HawkProperty.ADD_INSPECRTION_RECORD_KEY + siteDataBean.getId());
         if (savedRecordBean != null) {
-            new AlertDialog.Builder(mContext).setMessage("您上次还有未提交的草稿,是否进入草稿？")
+            setAlertDialogHeightWidth(DialogUtil.getDialog(mContext).setMessage("您上次还有未提交的草稿,是否进入草稿？")
                     .setPositiveButton("是", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             recordDetailBean = savedRecordBean;
-                            adapter.setNewData(mPresenter.getSecurityInpsectData(recordDetailBean,false));
+                            adapter.setNewData(mPresenter.getSecurityInpsectData(recordDetailBean, false));
                         }
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                }
-            }).show();
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).show(), -1, 0);
         }
-
     }
 
     private void unSavedLogic() {
@@ -62,7 +62,7 @@ public class StartSecurityInspectActivity extends BaseInspectionActivity {
         recordDetailBean.setInspectName(UserInfoManager.getUserNickName());
         recordDetailBean.setUnitLiable(siteDataBean.getPersonLiable());
         recordDetailBean.setLiablePhone(siteDataBean.getLiablePhone());
-        adapter.setNewData(mPresenter.getSecurityInpsectData(recordDetailBean,false));
+        adapter.setNewData(mPresenter.getSecurityInpsectData(recordDetailBean, false));
     }
 
     @Override
@@ -86,7 +86,7 @@ public class StartSecurityInspectActivity extends BaseInspectionActivity {
         super.onSuccess(tag, o);
         switch (tag) {
             case AppHttpPath.ADD_INSPECTION_RECORD:
-                Hawk.delete(HawkProperty.ADD_INSPECRTION_RECORD_KEY+ siteDataBean.getId());
+                Hawk.delete(HawkProperty.ADD_INSPECRTION_RECORD_KEY + siteDataBean.getId());
                 ToastUtils.toast(mContext, "提交成功");
                 finish();
                 break;
@@ -109,7 +109,7 @@ public class StartSecurityInspectActivity extends BaseInspectionActivity {
                     dataBean.setInspectName(recordDetailBean.getInspectName());
                     dataBean.setUnitLiable(recordDetailBean.getUnitLiable());
                     dataBean.setLiablePhone(recordDetailBean.getLiablePhone());
-                    Hawk.put(HawkProperty.ADD_INSPECRTION_RECORD_KEY+siteDataBean.getId(), dataBean);
+                    Hawk.put(HawkProperty.ADD_INSPECRTION_RECORD_KEY + siteDataBean.getId(), dataBean);
                     ToastUtils.toast(mContext, "草稿保存成功");
                     finish();
                 }

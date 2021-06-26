@@ -107,7 +107,7 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
                         break;
                     case MyCenterContract.MY_CLEAR_CACHE:
                         // 清理缓存
-                        DialogUtil.getMessageDialog(mContext, "将清理掉应用本地的图片和视频缓存文件",
+                        getBaseActivity().setAlertDialogHeightWidth( DialogUtil.getMessageDialog(mContext, "将清理掉应用本地的图片和视频缓存文件",
                                 new DialogInterface.OnClickListener() {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
@@ -124,7 +124,7 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
                                             }
                                         });
                                     }
-                                }).show();
+                                }).show(),-1,0);
                         break;
                     case MyCenterContract.MY_UPDATE:
                         //检查更新
@@ -197,13 +197,13 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
                 break;
             case R.id.login_out:
                 //退出登录
-                DialogUtil.getMessageDialog(mContext, "是否退出登录", new DialogInterface.OnClickListener() {
+                getBaseActivity().setAlertDialogHeightWidth( DialogUtil.getMessageDialog(mContext, "是否退出登录", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         mPresenter.loginOut(getBaseAppActivity().getBaseBuilder().build(), AppHttpPath.LOGIN_OUT);
                         dialog.dismiss();
                     }
-                }).show();
+                }).show(),-1,0);
                 break;
         }
     }

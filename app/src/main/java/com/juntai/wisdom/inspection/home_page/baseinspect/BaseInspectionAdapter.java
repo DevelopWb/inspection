@@ -1,5 +1,6 @@
 package com.juntai.wisdom.inspection.home_page.baseinspect;
 
+import android.app.Activity;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
@@ -32,7 +33,9 @@ import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
+import com.juntai.disabled.basecomponent.base.BaseActivity;
 import com.juntai.disabled.basecomponent.utils.CalendarUtil;
+import com.juntai.disabled.basecomponent.utils.DialogUtil;
 import com.juntai.disabled.basecomponent.utils.DisplayUtil;
 import com.juntai.disabled.basecomponent.utils.GsonTools;
 import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
@@ -113,6 +116,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
     public String ITEM_HEAD_TAG2 = "场所于(";
     public String ITEM_FOOT_TAG1 = ")项";
     public String ITEM_FOOT_TAG2 = ")前改正";
+    private  BaseActivity baseActivity;
 
     public void setRadioCheckedCallBack(OnRadioCheckedCallBack radioCheckedCallBack) {
         this.radioCheckedCallBack = radioCheckedCallBack;
@@ -158,7 +162,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
 
     @Override
     protected void convert(BaseViewHolder helper, MultipleItem item) {
-
+        baseActivity = (BaseActivity) mContext;
         switch (item.getItemType()) {
             case MultipleItem.ITEM_TEXT:
                 String des = (String) item.getObject();
@@ -739,6 +743,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
 
     private void initSpannableText(TextView textView, String content,
                                    boolean hideSecendNotice) {
+
         UnQuailityFormBean formBean = (UnQuailityFormBean) textView.getTag();
         //  只展示已经选择的项目
 
@@ -758,7 +763,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                                             return;
                                         }
                                         //第一个选择事项
-                                        new AlertDialog.Builder(mContext)
+                                        baseActivity.setAlertDialogHeightWidth(DialogUtil.getDialog(mContext)
                                                 .setTitle("请选择事项")
                                                 .setCancelable(false)
                                                 .setMultiChoiceItems(problemItems, new boolean[]{false, false, false,
@@ -777,26 +782,26 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                                                             }
                                                         }
                                                 ).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                            @Override
-                                            public void onClick(DialogInterface dialog, int which) {
-                                                String selectedStr = selectedProblemItems1.toString();
-                                                if (selectedProblemItems1.size() > 0) {
-                                                    if (selectedStr.contains("[")) {
-                                                        selectedStr = selectedStr.substring(1,
-                                                                selectedStr.length() - 1);
-                                                    }
-                                                    String str =
-                                                            content.replaceFirst(content.substring(getFirstHeadIndex(content, ITEM_HEAD_TAG1),
-                                                                    getFirstFootIndex(content, ITEM_FOOT_TAG1)),
-                                                                    selectedStr);
-                                                    initSpannableText(textView, str, hideSecendNotice);
-                                                    formBean.setItemOne(selectedStr);
-                                                } else {
-                                                    initSpannableText(textView, content, hideSecendNotice);
-                                                }
+                                                    @Override
+                                                    public void onClick(DialogInterface dialog, int which) {
+                                                        String selectedStr = selectedProblemItems1.toString();
+                                                        if (selectedProblemItems1.size() > 0) {
+                                                            if (selectedStr.contains("[")) {
+                                                                selectedStr = selectedStr.substring(1,
+                                                                        selectedStr.length() - 1);
+                                                            }
+                                                            String str =
+                                                                    content.replaceFirst(content.substring(getFirstHeadIndex(content, ITEM_HEAD_TAG1),
+                                                                            getFirstFootIndex(content, ITEM_FOOT_TAG1)),
+                                                                            selectedStr);
+                                                            initSpannableText(textView, str, hideSecendNotice);
+                                                            formBean.setItemOne(selectedStr);
+                                                        } else {
+                                                            initSpannableText(textView, content, hideSecendNotice);
+                                                        }
 
-                                            }
-                                        }).show();
+                                                    }
+                                                }).show(),-1,0);
                                     }
                                 }, getFirstHeadIndex(content, ITEM_HEAD_TAG1), getFirstFootIndex(content,
                 ITEM_FOOT_TAG1),
@@ -864,7 +869,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                                                 return;
                                             }
                                             //第二个选择事项
-                                            new AlertDialog.Builder(mContext)
+                                            baseActivity.setAlertDialogHeightWidth(DialogUtil.getDialog(mContext)
                                                     .setTitle("请选择事项")
                                                     .setCancelable(false)
                                                     .setMultiChoiceItems(problemItems, new boolean[]{false, false,
@@ -884,25 +889,25 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                                                                 }
                                                             }
                                                     ).setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                                @Override
-                                                public void onClick(DialogInterface dialog, int which) {
-                                                    String selectedStr = selectedProblemItems2.toString();
-                                                    if (selectedProblemItems2.size() > 0) {
-                                                        if (selectedStr.contains("[")) {
-                                                            selectedStr = selectedStr.substring(1,
-                                                                    selectedStr.length() - 1);
-                                                        }
-                                                        String str =
-                                                                content.replaceFirst(content.substring(getLastHeadIndex(content, ITEM_HEAD_TAG1), getLastFootIndex(content, ITEM_FOOT_TAG1)),
-                                                                        selectedStr);
-                                                        initSpannableText(textView, str, hideSecendNotice);
-                                                        formBean.setItemTwo(selectedStr);
-                                                    } else {
-                                                        initSpannableText(textView, content, hideSecendNotice);
-                                                    }
+                                                        @Override
+                                                        public void onClick(DialogInterface dialog, int which) {
+                                                            String selectedStr = selectedProblemItems2.toString();
+                                                            if (selectedProblemItems2.size() > 0) {
+                                                                if (selectedStr.contains("[")) {
+                                                                    selectedStr = selectedStr.substring(1,
+                                                                            selectedStr.length() - 1);
+                                                                }
+                                                                String str =
+                                                                        content.replaceFirst(content.substring(getLastHeadIndex(content, ITEM_HEAD_TAG1), getLastFootIndex(content, ITEM_FOOT_TAG1)),
+                                                                                selectedStr);
+                                                                initSpannableText(textView, str, hideSecendNotice);
+                                                                formBean.setItemTwo(selectedStr);
+                                                            } else {
+                                                                initSpannableText(textView, content, hideSecendNotice);
+                                                            }
 
-                                                }
-                                            }).show();
+                                                        }
+                                                    }).show(),-1,0);
                                         }
                                     }, getLastHeadIndex(content, ITEM_HEAD_TAG1), getLastFootIndex(content,
                     ITEM_FOOT_TAG1),

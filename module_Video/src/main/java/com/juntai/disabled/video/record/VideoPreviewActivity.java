@@ -14,6 +14,7 @@ import android.widget.VideoView;
 
 import com.juntai.disabled.basecomponent.base.BaseActivity;
 import com.juntai.disabled.basecomponent.utils.ActionConfig;
+import com.juntai.disabled.basecomponent.utils.DialogUtil;
 import com.juntai.disabled.video.R;
 import com.juntai.disabled.video.player.PlayerActivity;
 import com.mabeijianxi.smallvideorecord2.MediaRecorderActivity;
@@ -109,7 +110,7 @@ public class VideoPreviewActivity extends BaseActivity implements View.OnClickLi
 
     private void hesitate() {
         if (dialog == null) {
-            dialog = new AlertDialog.Builder(this)
+            dialog = DialogUtil.getDialog(mContext)
                     .setTitle(R.string.hint)
                     .setMessage(R.string.record_camera_exit_dialog_message)
                     .setNegativeButton(
@@ -130,6 +131,7 @@ public class VideoPreviewActivity extends BaseActivity implements View.OnClickLi
         } else {
             dialog.show();
         }
+        setAlertDialogHeightWidth(dialog,-1,0);
     }
 
     @Override

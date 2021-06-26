@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.juntai.disabled.basecomponent.utils.DialogUtil;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.bean.firecheck.WorkerDetailBean;
@@ -61,18 +62,18 @@ public class EditWorkerActivity extends BaseCommitFootViewActivity {
         WorkerDetailBean.DataBean  savedWorkerBean =
                 Hawk.get(HawkProperty.EDIT_WORKER_KEY+ dataBean.getUnitName()+ dataBean.getId());
         if (savedWorkerBean != null) {
-            new AlertDialog.Builder(mContext).setMessage("您上次还有未提交的草稿,是否进入草稿？")
+            setAlertDialogHeightWidth( DialogUtil.getDialog(mContext).setMessage("您上次还有未提交的草稿,是否进入草稿？")
                     .setPositiveButton("是", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             adapter.setNewData(mPresenter.getWorkerData(savedWorkerBean,false));
                         }
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    startLocation();
-                }
-            }).show();
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startLocation();
+                        }
+                    }).show(),-1,0);
         }
     }
 

@@ -1,9 +1,12 @@
 package com.juntai.wisdom.inspection.home_page.firecheck;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 
 import com.baidu.mapapi.model.LatLng;
+import com.juntai.disabled.basecomponent.utils.DialogUtil;
 import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
+import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.bean.ActionBean;
@@ -100,6 +103,15 @@ public class UnitInfoActivity extends BaseInspectionInfoActivity {
                         baseInfoAdapter.setNewData(getData(dataBean));
                         ImageLoadUtil.loadImage(mContext, UrlFormatUtil.getImageOriginalUrl(dataBean.getQrCode()),
                                 mQrCodeIv);
+                    } else {
+                        //单位被删除了
+                        setAlertDialogHeightWidth( DialogUtil.getMessageDialog(mContext, "单位信息不存在", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                finish();
+                            }
+                        }).setCancelable(false).show(),-1,0);
+
                     }
                 }
 

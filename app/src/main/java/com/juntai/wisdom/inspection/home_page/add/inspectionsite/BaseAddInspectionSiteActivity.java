@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.juntai.disabled.basecomponent.base.BaseResult;
+import com.juntai.disabled.basecomponent.utils.DialogUtil;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.bdmap.act.LocateSelectionActivity;
 import com.juntai.disabled.federation.R;
@@ -39,14 +40,14 @@ public abstract class BaseAddInspectionSiteActivity extends BaseCommitFootViewAc
     private boolean isSiteNameUnque = false;//单位名称是否唯一
     public InspectionSiteBean.DataBean bean;
     private InspectionSiteBean.DataBean savedSiteBean;
-    public  int inspectionSiteId;
+    public int inspectionSiteId;
 
     @Override
     public void initData() {
         unSavedLogic();
         savedSiteBean = Hawk.get(getHawkKey());
         if (savedSiteBean != null) {
-            new AlertDialog.Builder(mContext).setMessage("您上次还有未提交的草稿,是否进入草稿？")
+            setAlertDialogHeightWidth(DialogUtil.getDialog(mContext).setMessage("您上次还有未提交的草稿,是否进入草稿？")
                     .setPositiveButton("是", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -54,28 +55,29 @@ public abstract class BaseAddInspectionSiteActivity extends BaseCommitFootViewAc
 
                         }
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    startLocation();
-                }
-            }).show();
-
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startLocation();
+                        }
+                    }).show(), -1, 0);
         }
 
     }
 
     private void initStatus(InspectionSiteBean.DataBean bean) {
-        if (bean!=null&&!TextUtils.isEmpty(bean.getName())) {
+        if (bean != null && !TextUtils.isEmpty(bean.getName())) {
             isSiteNameUnque = true;
         }
-        adapter.setNewData(mPresenter.getInspectionSiteInfoData(bean,false));
+        adapter.setNewData(mPresenter.getInspectionSiteInfoData(bean, false));
     }
 
     /**
      * 获取key
+     *
      * @return
      */
     protected abstract String getHawkKey();
+
     /**
      * 未保存草稿的逻辑
      */
@@ -91,7 +93,7 @@ public abstract class BaseAddInspectionSiteActivity extends BaseCommitFootViewAc
 
     @Override
     public boolean requestLocation() {
-        if (savedSiteBean != null && !TextUtils.isEmpty(savedSiteBean.getGpsAddress())||bean != null && !TextUtils.isEmpty(bean.getGpsAddress())) {
+        if (savedSiteBean != null && !TextUtils.isEmpty(savedSiteBean.getGpsAddress()) || bean != null && !TextUtils.isEmpty(bean.getGpsAddress())) {
             return false;
         }
         return true;
@@ -168,18 +170,18 @@ public abstract class BaseAddInspectionSiteActivity extends BaseCommitFootViewAc
                 }
                 break;
             case AppHttpPath.MANUAL_ADD_INSP_SITE:
-                ToastUtils.toast(mContext,"添加成功");
+                ToastUtils.toast(mContext, "添加成功");
                 if (Hawk.contains(getHawkKey())) {
                     Hawk.delete(getHawkKey());
                 }
                 finish();
                 break;
             case AppHttpPath.SEARCH_ADD_INSP_SITE:
-                ToastUtils.toast(mContext,"添加成功");
+                ToastUtils.toast(mContext, "添加成功");
                 finish();
                 break;
             case AppHttpPath.APPLY_EDIT_INSPECTION_SITE_INFO:
-                ToastUtils.toast(mContext,"提交成功");
+                ToastUtils.toast(mContext, "提交成功");
                 if (Hawk.contains(getHawkKey())) {
                     Hawk.delete(getHawkKey());
                 }

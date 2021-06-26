@@ -10,6 +10,7 @@ import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.juntai.disabled.basecomponent.base.BaseResult;
+import com.juntai.disabled.basecomponent.utils.DialogUtil;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.bdmap.act.LocateSelectionActivity;
 import com.juntai.disabled.federation.R;
@@ -46,7 +47,7 @@ public abstract class BaseAddImportantorActivity extends BaseCommitFootViewActiv
         unSavedLogic();
         savedImportantorBean = Hawk.get(getHawkKey());
         if (savedImportantorBean != null) {
-            new AlertDialog.Builder(mContext).setMessage("您上次还有未提交的草稿,是否进入草稿？")
+            setAlertDialogHeightWidth(DialogUtil.getDialog(mContext).setMessage("您上次还有未提交的草稿,是否进入草稿？")
                     .setPositiveButton("是", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -60,20 +61,22 @@ public abstract class BaseAddImportantorActivity extends BaseCommitFootViewActiv
                             adapter.setNewData(mPresenter.getImportantorData(savedImportantorBean));
                         }
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    startLocation();
-                }
-            }).show();
-
-        } 
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startLocation();
+                        }
+                    }).show(), -1, 0);
+        }
 
     }
+
     /**
      * 获取key
+     *
      * @return
      */
     protected abstract String getHawkKey();
+
     /**
      * 未保存草稿的逻辑
      */
@@ -83,7 +86,7 @@ public abstract class BaseAddImportantorActivity extends BaseCommitFootViewActiv
 
             if (bean != null) {
                 isIdUnque = true;
-                importantorId =bean.getId();
+                importantorId = bean.getId();
             }
             adapter.setNewData(mPresenter.getImportantorData(bean));
         }
@@ -91,7 +94,7 @@ public abstract class BaseAddImportantorActivity extends BaseCommitFootViewActiv
 
     @Override
     public boolean requestLocation() {
-        if (savedImportantorBean != null && !TextUtils.isEmpty(savedImportantorBean.getGpsAddress())||bean != null && !TextUtils.isEmpty(bean.getGpsAddress())) {
+        if (savedImportantorBean != null && !TextUtils.isEmpty(savedImportantorBean.getGpsAddress()) || bean != null && !TextUtils.isEmpty(bean.getGpsAddress())) {
             return false;
         }
         return true;
@@ -168,19 +171,19 @@ public abstract class BaseAddImportantorActivity extends BaseCommitFootViewActiv
                 }
                 break;
             case AppHttpPath.SEARCH_IMPORTANTOR_TO_ADD:
-                ToastUtils.toast(mContext,"添加成功");
+                ToastUtils.toast(mContext, "添加成功");
 
                 finish();
                 break;
             case AppHttpPath.MANUAL_ADD_IMPORTANTOR:
-                ToastUtils.toast(mContext,"添加成功");
+                ToastUtils.toast(mContext, "添加成功");
                 if (Hawk.contains(getHawkKey())) {
                     Hawk.delete(getHawkKey());
                 }
                 finish();
                 break;
             case AppHttpPath.EDIT_IMPORTANTOR:
-                ToastUtils.toast(mContext,"提交成功");
+                ToastUtils.toast(mContext, "提交成功");
                 if (Hawk.contains(getHawkKey())) {
                     Hawk.delete(getHawkKey());
                 }

@@ -28,6 +28,7 @@ import com.baidu.location.BDLocation;
 import com.google.gson.Gson;
 import com.gyf.barlibrary.ImmersionBar;
 import com.juntai.disabled.basecomponent.utils.ActionConfig;
+import com.juntai.disabled.basecomponent.utils.DialogUtil;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.bdmap.service.LocateAndUpload;
 import com.juntai.disabled.federation.R;
@@ -298,7 +299,7 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
 
     @Override
     public void onBackPressed() {
-        new AlertDialog.Builder(mContext)
+        setAlertDialogHeightWidth( DialogUtil.getDialog(mContext)
                 .setMessage("请选择退出方式")
                 .setPositiveButton("退出", new DialogInterface.OnClickListener() {
                     @Override
@@ -318,7 +319,7 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
                         intent.addCategory(Intent.CATEGORY_HOME);
                         startActivity(intent);
                     }
-                }).show();
+                }).show(),-1,0);
     }
 
     @Override

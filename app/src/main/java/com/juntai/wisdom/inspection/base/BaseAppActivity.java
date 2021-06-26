@@ -1,16 +1,17 @@
 package com.juntai.wisdom.inspection.base;
 
-import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 
 import com.baidu.location.BDLocation;
 import com.baidu.mapapi.model.LatLng;
 import com.juntai.disabled.basecomponent.mvp.BasePresenter;
+import com.juntai.disabled.basecomponent.utils.DialogUtil;
 import com.juntai.disabled.basecomponent.utils.FileCacheUtils;
 import com.juntai.disabled.basecomponent.utils.MD5;
 import com.juntai.disabled.bdmap.utils.NagivationUtils;
@@ -54,7 +55,7 @@ public abstract class BaseAppActivity<P extends BasePresenter> extends BaseSelec
      * @param endName   目的地名称
      */
     public void navigationLogic(LatLng endLatlng, String endName) {
-        AlertDialog.Builder build = new AlertDialog.Builder(mContext);
+        AlertDialog.Builder build = DialogUtil.getDialog(mContext);
         final String item_list[] = {"腾讯地图", "高德地图", "百度地图"};
         build.setItems(item_list, new DialogInterface.OnClickListener() {
             @Override
@@ -78,8 +79,7 @@ public abstract class BaseAppActivity<P extends BasePresenter> extends BaseSelec
             }
         });
         build.setTitle("请选择导航方式");
-        AlertDialog alertDialog = build.create();
-        alertDialog.show();
+        setAlertDialogHeightWidth(build.show(),-1,0);
     }
 
 

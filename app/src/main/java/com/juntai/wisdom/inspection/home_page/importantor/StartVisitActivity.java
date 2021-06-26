@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.juntai.disabled.basecomponent.utils.DialogUtil;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.AppHttpPath;
@@ -36,7 +37,7 @@ public class StartVisitActivity extends BaseInspectionActivity {
         ImportantorVisitRecordDetailBean.DataBean savedRecordBean =
                 Hawk.get(HawkProperty.ADD_IMPORTANTOR_VISIT_RECORD_KEY + importantorDataBean.getId());
         if (savedRecordBean != null) {
-            new AlertDialog.Builder(mContext).setMessage("您上次还有未提交的草稿,是否进入草稿？")
+            setAlertDialogHeightWidth(DialogUtil.getDialog(mContext).setMessage("您上次还有未提交的草稿,是否进入草稿？")
                     .setPositiveButton("是", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -44,11 +45,10 @@ public class StartVisitActivity extends BaseInspectionActivity {
                             adapter.setNewData(mPresenter.getVisitData(savedRecordBean, false));
                         }
                     }).setNegativeButton("否", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                }
-            }).show();
-
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                        }
+                    }).show(), -1, 0);
         }
     }
 

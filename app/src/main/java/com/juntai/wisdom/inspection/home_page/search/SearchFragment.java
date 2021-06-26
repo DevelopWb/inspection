@@ -17,9 +17,12 @@ import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.juntai.disabled.basecomponent.mvp.IPresenter;
+import com.juntai.disabled.basecomponent.utils.DialogUtil;
 import com.juntai.disabled.basecomponent.utils.DisplayUtil;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
+import com.juntai.wisdom.inspection.base.BaseAppFragment;
 import com.juntai.wisdom.inspection.base.customview.flowlayout.FlowLayout;
 import com.juntai.wisdom.inspection.base.customview.flowlayout.TagAdapter;
 import com.juntai.wisdom.inspection.base.customview.flowlayout.TagFlowLayout;
@@ -36,7 +39,7 @@ import java.util.List;
  * @UpdateUser: 更新者
  * @UpdateDate: 2020/3/15 9:18
  */
-public class SearchFragment extends Fragment implements View.OnClickListener {
+public class SearchFragment extends BaseAppFragment implements View.OnClickListener {
 
     public static String SEARCH_HIS_KEY = "search_his_key";//保存本地的历史记录的key
     private View view;
@@ -58,47 +61,34 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
     private OnSearchCallBack searchCallBack;
 
     @Override
+    protected IPresenter createPresenter() {
+        return null;
+    }
+
+    @Override
     public void onAttach(Context context) {
         this.searchCallBack = (OnSearchCallBack) context;
         super.onAttach(context);
     }
 
     @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        //        Hawk.delete(SEARCH_HIS_KEY);
+    protected int getLayoutRes() {
+        return R.layout.fragment_search;
     }
 
-    @Nullable
     @Override
-    public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = LayoutInflater.from(getContext()).inflate(R.layout.fragment_search, null);
-        initView(view);
-        return view;
-    }
-    /**
-     * 设置图标
-     *
-     * @param textView
-     * @param drawableId
-     */
-    private void initViewLeftDrawable(TextView textView, int drawableId) {
-        Drawable drawable = getResources().getDrawable(drawableId);
-        drawable.setBounds(0, 0, DisplayUtil.dp2px(getContext(), 23), DisplayUtil.dp2px(getContext(), 23));//第一个 0 是距左边距离，第二个 0 是距上边距离，40 分别是长宽
-        textView.setCompoundDrawables(drawable, null, null, null);//只放左边
-    }
-    private void initView(View view) {
-        mBackTv = (TextView) view.findViewById(R.id.back_tv);
-        initViewLeftDrawable(mBackTv,R.drawable.app_back);
+    protected void initView() {
+        mBackTv = (TextView) getView(R.id.back_tv);
+        initViewLeftDrawable(mBackTv, R.drawable.app_back);
         mBackTv.setOnClickListener(this);
-        mSearchContentSv = (SearchView) view.findViewById(R.id.search_content_sv);
-        mSearchTv = (TextView) view.findViewById(R.id.search_tv);
+        mSearchContentSv = (SearchView) getView(R.id.search_content_sv);
+        mSearchTv = (TextView) getView(R.id.search_tv);
         mSearchTv.setOnClickListener(this);
-        mDeleteHistoryIv = (ImageView) view.findViewById(R.id.delete_history_iv);
+        mDeleteHistoryIv = (ImageView) getView(R.id.delete_history_iv);
         mDeleteHistoryIv.setOnClickListener(this);
-        tagFlowLayout = (TagFlowLayout) view.findViewById(R.id.history_item_tfl);
-        mShowMoreArrowIv = (ImageView) view.findViewById(R.id.show_more_arrow_iv);
-        mHisRecordCl = (ConstraintLayout) view.findViewById(R.id.his_record_cl);
+        tagFlowLayout = (TagFlowLayout) getView(R.id.history_item_tfl);
+        mShowMoreArrowIv = (ImageView) getView(R.id.show_more_arrow_iv);
+        mHisRecordCl = (ConstraintLayout) getView(R.id.his_record_cl);
         initFlowLayoutData();
         mSearchContentSv.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -116,6 +106,24 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
                 return false;
             }
         });
+    }
+
+    @Override
+    protected void initData() {
+
+    }
+
+
+    /**
+     * 设置图标
+     *
+     * @param textView
+     * @param drawableId
+     */
+    private void initViewLeftDrawable(TextView textView, int drawableId) {
+        Drawable drawable = getResources().getDrawable(drawableId);
+        drawable.setBounds(0, 0, DisplayUtil.dp2px(getContext(), 23), DisplayUtil.dp2px(getContext(), 23));//第一个 0 是距左边距离，第二个 0 是距上边距离，40 分别是长宽
+        textView.setCompoundDrawables(drawable, null, null, null);//只放左边
     }
 
     /**
@@ -197,11 +205,11 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
      * @param onClickListener
      */
     private void showDialog(String dialogTitle, @NonNull DialogInterface.OnClickListener onClickListener) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        AlertDialog.Builder builder = DialogUtil.getDialog(mContext);
         builder.setMessage(dialogTitle);
         builder.setPositiveButton("确定", onClickListener);
         builder.setNegativeButton("取消", null);
-        builder.create().show();
+        getBaseActivity().setAlertDialogHeightWidth(builder.show(), -1, 0);
     }
 
     @Override
@@ -268,6 +276,16 @@ public class SearchFragment extends Fragment implements View.OnClickListener {
         his_data.remove(position);
         Hawk.put(SEARCH_HIS_KEY, his_data);
         initFlowLayoutData();
+    }
+
+    @Override
+    protected void lazyLoad() {
+
+    }
+
+    @Override
+    public void onSuccess(String tag, Object o) {
+
     }
 
     /**
