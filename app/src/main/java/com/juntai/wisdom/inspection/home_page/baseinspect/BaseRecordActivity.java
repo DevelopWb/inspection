@@ -57,6 +57,7 @@ public abstract class BaseRecordActivity extends BaseAppActivity<BaseInspectPres
         mSmartrefreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
+                mSmartrefreshlayout.setNoMoreData(false);
                 currentPage = 1;
                 requestHisData();
             }

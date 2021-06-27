@@ -82,6 +82,7 @@ public abstract class BaseAddActivity extends BaseAppActivity<BaseInspectPresent
         mSmartrefreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
+                mSmartrefreshlayout.setNoMoreData(false);
                 currentPage = 1;
                 startSearch(mSearchSv.getQuery().toString().trim());
             }

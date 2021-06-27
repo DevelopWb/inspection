@@ -77,6 +77,7 @@ public class SecurityInspectionSitesActivity extends BaseAppActivity<BaseInspect
         mSmartrefreshlayout.setOnRefreshListener(new OnRefreshListener() {
             @Override
             public void onRefresh(RefreshLayout refreshLayout) {
+                mSmartrefreshlayout.setNoMoreData(false);
                 currentPage = 1;
                 startSearch(mSearchContentSv.getQuery().toString().trim());
             }
