@@ -36,6 +36,11 @@ public class SignResponsibilityActivity extends BaseResponsibilityActivity  {
 
 
     @Override
+    boolean isDetail() {
+        return false;
+    }
+
+    @Override
     public void initData() {
         super.initData();
         mCommitTv.setText("完成");

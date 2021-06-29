@@ -118,6 +118,7 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
         initLeftBackTv(true);
         initView();
         initData();
+        adapterScreen();
         ActivityManagerTool.getInstance().addActivity(this);
     }
 
@@ -142,7 +143,18 @@ public abstract class BaseActivity extends RxAppCompatActivity implements Toolba
         }
 
     }
+    /**
+     * 初始化窗口 在界面为初始化之前调用
+     */
+    protected void adapterScreen() {
+        ScreenUtils screenUtils = ScreenUtils.getInstance(this);
+        if (screenUtils.isPortrait()) {
+            screenUtils.adaptScreen4VerticalSlide(this, 360);
+        } else {
+            screenUtils.adaptScreen4HorizontalSlide(this, 360);
+        }
 
+    }
     /**
      * 初始化左侧按钮 默认不显示
      *

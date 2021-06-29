@@ -4,6 +4,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 
+import com.juntai.wisdom.inspection.base.ResponseListBean;
 import com.juntai.wisdom.inspection.bean.firecheck.ResponsibilityBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
 
@@ -12,7 +13,7 @@ import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity
  * @description 描述  责任书详情
  * @date 2021/5/29 16:31
  */
-public class ResponsibilityDetailActivity extends BaseInspectionActivity {
+public class ResponsibilityDetailActivity extends BaseResponsibilityActivity {
 
     private int letterId;
     private String titleName;
@@ -23,9 +24,10 @@ public class ResponsibilityDetailActivity extends BaseInspectionActivity {
     }
 
 
+
     @Override
-    protected View getFootView() {
-        return null;
+    boolean isDetail() {
+        return true;
     }
 
     @Override
@@ -44,6 +46,17 @@ public class ResponsibilityDetailActivity extends BaseInspectionActivity {
             setTitleName(titleName);
             adapter.setDetail(true);
             adapter.setNewData(mPresenter.getResponsibilityData(dataBean,true));
+            ResponseListBean.DataBean itemBean = new ResponseListBean.DataBean();
+            itemBean.setName(dataBean.getName());
+            itemBean.setContent(dataBean.getContent());
+            itemBean.setLegal(dataBean.getLegal());
+            itemBean.setLegalPhone(dataBean.getLegalPhone());
+            itemBean.setSeal(dataBean.getSeal());
+            itemBean.setNameSeal(dataBean.getNameSeal());
+            itemBean.setUnitName(dataBean.getUnitName());
+            itemBean.setSignPic(dataBean.getSignPhoto());
+            itemBean.setGmtCreate(dataBean.getGmtCreate());
+            initfootlayoutviews(itemBean);
         }
     }
 }

@@ -54,6 +54,24 @@ public class ResponseListBean extends BaseResult {
         private String unitName;
         private String legal;
         private String legalPhone;
+        private String signPic;
+        private String gmtCreate;
+
+        public String getGmtCreate() {
+            return gmtCreate == null ? "" : gmtCreate;
+        }
+
+        public void setGmtCreate(String gmtCreate) {
+            this.gmtCreate = gmtCreate == null ? "" : gmtCreate;
+        }
+
+        public String getSignPic() {
+            return signPic == null ? "" : signPic;
+        }
+
+        public void setSignPic(String signPic) {
+            this.signPic = signPic == null ? "" : signPic;
+        }
 
         public int getId() {
             return id;
@@ -143,6 +161,8 @@ public class ResponseListBean extends BaseResult {
             dest.writeString(this.unitName);
             dest.writeString(this.legal);
             dest.writeString(this.legalPhone);
+            dest.writeString(this.signPic);
+            dest.writeString(this.gmtCreate);
         }
 
         public void readFromParcel(Parcel source) {
@@ -155,6 +175,8 @@ public class ResponseListBean extends BaseResult {
             this.unitName = source.readString();
             this.legal = source.readString();
             this.legalPhone = source.readString();
+            this.signPic = source.readString();
+            this.gmtCreate = source.readString();
         }
 
         public DataBean() {
@@ -170,6 +192,8 @@ public class ResponseListBean extends BaseResult {
             this.unitName = in.readString();
             this.legal = in.readString();
             this.legalPhone = in.readString();
+            this.signPic = in.readString();
+            this.gmtCreate = in.readString();
         }
 
         public static final Parcelable.Creator<DataBean> CREATOR = new Parcelable.Creator<DataBean>() {

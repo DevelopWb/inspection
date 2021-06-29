@@ -43,14 +43,33 @@ public class ResponsibilityBean  extends BaseResult {
          * gmtCreate : 2021-05-15
          */
 
-        private int id;
-        private String name;
-        private String content;
-        private String signPhoto;
-        private String photoOne;
-        private String photoTwo;
-        private String photoThree;
-        private String gmtCreate;
+        private Integer id;//责任书id
+
+        private String name;//责任书名称
+
+        private String content;//责任书内容
+
+        private String signPhoto;//签字图片
+
+        private String photoOne;//图片地址
+
+        private String photoTwo;//图片
+
+        private String photoThree;//图片
+
+        private String gmtCreate;//签署时间
+
+        private String seal;//单位印章
+
+        private String logo;//单位logo
+
+        private String nameSeal;//派出所长姓名印章
+
+        private String unitName;//单位名称
+
+        private String legal;//法人名称
+
+        private String legalPhone;//法人电话
 
         public int getId() {
             return id;
@@ -114,6 +133,58 @@ public class ResponsibilityBean  extends BaseResult {
 
         public void setGmtCreate(String gmtCreate) {
             this.gmtCreate = gmtCreate;
+        }
+
+        public void setId(Integer id) {
+            this.id = id;
+        }
+
+        public String getSeal() {
+            return seal == null ? "" : seal;
+        }
+
+        public void setSeal(String seal) {
+            this.seal = seal == null ? "" : seal;
+        }
+
+        public String getLogo() {
+            return logo == null ? "" : logo;
+        }
+
+        public void setLogo(String logo) {
+            this.logo = logo == null ? "" : logo;
+        }
+
+        public String getNameSeal() {
+            return nameSeal == null ? "" : nameSeal;
+        }
+
+        public void setNameSeal(String nameSeal) {
+            this.nameSeal = nameSeal == null ? "" : nameSeal;
+        }
+
+        public String getUnitName() {
+            return unitName == null ? "" : unitName;
+        }
+
+        public void setUnitName(String unitName) {
+            this.unitName = unitName == null ? "" : unitName;
+        }
+
+        public String getLegal() {
+            return legal == null ? "" : legal;
+        }
+
+        public void setLegal(String legal) {
+            this.legal = legal == null ? "" : legal;
+        }
+
+        public String getLegalPhone() {
+            return legalPhone == null ? "" : legalPhone;
+        }
+
+        public void setLegalPhone(String legalPhone) {
+            this.legalPhone = legalPhone == null ? "" : legalPhone;
         }
     }
 }
