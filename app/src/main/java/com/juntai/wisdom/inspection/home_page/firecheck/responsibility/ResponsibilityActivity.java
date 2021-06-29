@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.view.View;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.juntai.wisdom.inspection.base.ResponseListBean;
 import com.juntai.wisdom.inspection.bean.IdNameBean;
 import com.juntai.wisdom.inspection.bean.MultipleItem;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
@@ -38,7 +39,10 @@ public class ResponsibilityActivity extends BaseInspectionActivity {
                 MultipleItem  item= (MultipleItem) adapter.getData().get(position);
                 switch (item.getItemType()) {
                     case MultipleItem.ITEM_RESIBILITY:
-                        IdNameBean.DataBean dataBean = (IdNameBean.DataBean) item.getObject();
+                        ResponseListBean.DataBean dataBean = (ResponseListBean.DataBean) item.getObject();
+                        if (dataBean == null) {
+                            return;
+                        }
                         if (dataBean.getId() > 0) {
                             //跳转到详情页面
                             startActivity(new Intent(mContext, ResponsibilityDetailActivity.class)
@@ -46,9 +50,8 @@ public class ResponsibilityActivity extends BaseInspectionActivity {
                         } else {
                             //跳转到  签责任书页
                             startActivityForResult(new Intent(mContext, SignResponsibilityActivity.class)
-                                    .putExtra(BASE_STRING,dataBean.getName())
-                                    .putExtra(BASE_ID,unitId)
-                                    .putExtra(BASE_STRING2,dataBean.getContent()),BASE_REQUEST_RESULT);
+                                    .putExtra(PARCELABLE_KEY,dataBean)
+                                    .putExtra(BASE_ID,unitId),BASE_REQUEST_RESULT);
                         }
                         break;
                     default:
@@ -76,13 +79,13 @@ public class ResponsibilityActivity extends BaseInspectionActivity {
     @Override
     public void onSuccess(String tag, Object o) {
 
-        IdNameBean idNameBean = (IdNameBean) o;
-        if (idNameBean != null) {
-            List<IdNameBean.DataBean> arrays = idNameBean.getData();
+        ResponseListBean responseListBean = (ResponseListBean) o;
+        if (responseListBean != null) {
+            List<ResponseListBean.DataBean> arrays = responseListBean.getData();
             if (arrays != null) {
-                List<IdNameBean.DataBean> signings = new ArrayList<>();
-                List<IdNameBean.DataBean> signeds = new ArrayList<>();
-                for (IdNameBean.DataBean array : arrays) {
+                List<ResponseListBean.DataBean> signings = new ArrayList<>();
+                List<ResponseListBean.DataBean> signeds = new ArrayList<>();
+                for (ResponseListBean.DataBean array : arrays) {
                     if (array.getId() > 0) {
                         //已经签过了
                         signeds.add(array);
@@ -93,19 +96,16 @@ public class ResponsibilityActivity extends BaseInspectionActivity {
                 List<MultipleItem> datas = new ArrayList<>();
                 if (signings.size() > 0) {
                     datas.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "签署责任书"));
-                    for (IdNameBean.DataBean signing : signings) {
+                    for (ResponseListBean.DataBean signing : signings) {
                         datas.add(new MultipleItem(MultipleItem.ITEM_RESIBILITY, signing));
                     }
                 }
                 if (signeds.size() > 0) {
                     datas.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "已签责任书"));
-                    for (IdNameBean.DataBean signed : signeds) {
+                    for (ResponseListBean.DataBean signed : signeds) {
                         datas.add(new MultipleItem(MultipleItem.ITEM_RESIBILITY, signed));
-
                     }
-
                 }
-
                 adapter.setNewData(datas);
             }
         }

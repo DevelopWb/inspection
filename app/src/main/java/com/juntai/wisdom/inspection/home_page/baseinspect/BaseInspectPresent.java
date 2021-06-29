@@ -9,6 +9,7 @@ import com.juntai.disabled.basecomponent.utils.RxScheduler;
 import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.AppNetModule;
 import com.juntai.wisdom.inspection.base.BaseAppPresent;
+import com.juntai.wisdom.inspection.base.ResponseListBean;
 import com.juntai.wisdom.inspection.bean.HeadPicBean;
 import com.juntai.wisdom.inspection.bean.IdNameBean;
 import com.juntai.wisdom.inspection.bean.ImportantTagBean;
@@ -316,11 +317,11 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 fragmentPics)));
 
         arrays.add(new MultipleItem(MultipleItem.ITEM_TEXT, responsibilityBean.getContent()));
-        arrays.add(new MultipleItem(MultipleItem.ITEM_SIGN, new ItemSignBean("签字：", responsibilityBean == null ? "" :
-                responsibilityBean.getSignPhoto(), 1, !isDetail)));
-        arrays.add(new MultipleItem(MultipleItem.ITEM_DATE, TextUtils.isEmpty(responsibilityBean.getGmtCreate()) ?
-                new SimpleDateFormat("yyyy年MM月dd日").format(new Date()) :
-                responsibilityBean.getGmtCreate()));
+//        arrays.add(new MultipleItem(MultipleItem.ITEM_SIGN, new ItemSignBean("签字：", responsibilityBean == null ? "" :
+//                responsibilityBean.getSignPhoto(), 1, !isDetail)));
+//        arrays.add(new MultipleItem(MultipleItem.ITEM_DATE, TextUtils.isEmpty(responsibilityBean.getGmtCreate()) ?
+//                new SimpleDateFormat("yyyy年MM月dd日").format(new Date()):
+//                responsibilityBean.getGmtCreate()));
 
         return arrays;
     }
@@ -1225,9 +1226,9 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         AppNetModule.createrRetrofit()
                 .getResponsibilityList(requestBody)
                 .compose(RxScheduler.ObsIoMain(getView()))
-                .subscribe(new BaseObserver<IdNameBean>(getView()) {
+                .subscribe(new BaseObserver<ResponseListBean>(getView()) {
                     @Override
-                    public void onSuccess(IdNameBean o) {
+                    public void onSuccess(ResponseListBean o) {
                         if (getView() != null) {
                             getView().onSuccess(tag, o);
                         }

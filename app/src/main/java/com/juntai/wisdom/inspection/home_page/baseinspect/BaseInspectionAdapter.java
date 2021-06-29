@@ -42,6 +42,7 @@ import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
 import com.juntai.disabled.basecomponent.utils.PickerManager;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
+import com.juntai.wisdom.inspection.base.ResponseListBean;
 import com.juntai.wisdom.inspection.base.selectPics.SelectPhotosFragment;
 import com.juntai.wisdom.inspection.bean.HeadPicBean;
 import com.juntai.wisdom.inspection.bean.IdNameBean;
@@ -175,7 +176,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 textView.setGravity(Gravity.RIGHT);
                 break;
             case MultipleItem.ITEM_RESIBILITY:
-                IdNameBean.DataBean responsibilitySign = (IdNameBean.DataBean) item.getObject();
+                ResponseListBean.DataBean responsibilitySign = (ResponseListBean.DataBean) item.getObject();
                 helper.setText(R.id.resibility_name_tv, responsibilitySign.getName());
                 if (responsibilitySign.getId() > 0) {
                     //已签署

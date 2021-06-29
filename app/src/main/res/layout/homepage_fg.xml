@@ -12,42 +12,45 @@
         android:background="@mipmap/home_top_bg"
         app:layout_constraintTop_toTopOf="parent">
 
+        <ImageView
+            android:id="@+id/police_icon_iv"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="35dp"
+            android:src="@mipmap/police_icon"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </ImageView>
+
         <TextView
             android:id="@+id/app_name_tv"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="20dp"
-            android:layout_marginTop="35dp"
-            android:text="智慧巡检"
+            android:text="智慧管理 精准服务"
             android:textColor="@color/white"
-            android:textSize="32dp"
+            android:textSize="18dp"
             android:textStyle="bold"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="parent"></TextView>
+            android:layout_marginTop="10dp"
+            app:layout_constraintLeft_toLeftOf="@+id/police_icon_iv"
+            app:layout_constraintRight_toRightOf="@+id/police_icon_iv"
+            app:layout_constraintTop_toBottomOf="@+id/police_icon_iv"></TextView>
 
-        <TextView
-            android:id="@+id/app_name_en_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Intelligent inspection"
-            android:textColor="@color/white"
-            android:textSize="24dp"
-            app:layout_constraintLeft_toLeftOf="@+id/app_name_tv"
-            app:layout_constraintTop_toBottomOf="@+id/app_name_tv"></TextView>
 
         <LinearLayout
             android:id="@+id/search_ll"
             android:layout_width="0dp"
             android:layout_height="45dp"
-           android:layout_marginLeft="20dp"
-            android:layout_marginRight="20dp"
+            android:layout_marginLeft="20dp"
             android:layout_marginTop="10dp"
+            android:layout_marginRight="20dp"
             android:background="@mipmap/home_search_bg"
             android:gravity="center|left"
             android:padding="5dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/app_name_en_tv">
+            app:layout_constraintTop_toBottomOf="@+id/app_name_tv">
 
             <ImageView
                 android:layout_width="20dp"
@@ -69,19 +72,17 @@
             android:layout_height="60dp"
             android:padding="20dp"
             android:src="@mipmap/scan_sel"
-            app:layout_constraintBottom_toBottomOf="@+id/app_name_tv"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/app_name_tv" />
+            app:layout_constraintTop_toTopOf="@+id/police_icon_iv" />
     </android.support.constraint.ConstraintLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/recyclerview"
         android:layout_width="match_parent"
+        android:layout_height="wrap_content"
         android:layout_marginLeft="25dp"
         android:layout_marginRight="25dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/map_top_cl"
-        android:background="@color/white">
-    </android.support.v7.widget.RecyclerView>
+        android:background="@color/white"
+        app:layout_constraintTop_toBottomOf="@+id/map_top_cl"></android.support.v7.widget.RecyclerView>
 
 </android.support.constraint.ConstraintLayout>

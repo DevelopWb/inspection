@@ -2,6 +2,7 @@ package com.juntai.wisdom.inspection;
 
 
 import com.juntai.disabled.basecomponent.base.BaseResult;
+import com.juntai.wisdom.inspection.base.ResponseListBean;
 import com.juntai.wisdom.inspection.bean.IdNameBean;
 import com.juntai.wisdom.inspection.bean.MyMsgBean;
 import com.juntai.wisdom.inspection.bean.MyWorkRecordsBean;
@@ -234,7 +235,7 @@ public interface AppServer {
      * @return
      */
     @POST(AppHttpPath.GET_RESPONSIBILITY_LIST)
-    Observable<IdNameBean> getResponsibilityList(@Body RequestBody requestBody);
+    Observable<ResponseListBean> getResponsibilityList(@Body RequestBody requestBody);
     /**
      *
      * @param requestBody

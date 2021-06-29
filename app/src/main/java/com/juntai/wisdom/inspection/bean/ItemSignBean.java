@@ -14,7 +14,7 @@ public class ItemSignBean {
     private int  layoutGravity;//0点居左  1代表居右
     private boolean canSign;//是否可以签名
 
-    public ItemSignBean(String signName, String signPicPath, int layoutGravity, boolean canSign) {
+   public ItemSignBean(String signName, String signPicPath, int layoutGravity, boolean canSign) {
         this.signName = signName;
         this.signPicPath = signPicPath;
         this.layoutGravity = layoutGravity;

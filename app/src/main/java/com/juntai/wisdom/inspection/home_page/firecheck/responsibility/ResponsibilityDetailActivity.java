@@ -37,10 +37,7 @@ public class ResponsibilityDetailActivity extends BaseInspectionActivity {
 
     @Override
     public void onSuccess(String tag, Object o) {
-
-
         ResponsibilityBean responsibilityBean = (ResponsibilityBean) o;
-
         ResponsibilityBean.DataBean dataBean = responsibilityBean.getData();
         if (dataBean != null) {
             titleName = dataBean.getName();

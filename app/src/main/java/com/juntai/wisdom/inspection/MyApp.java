@@ -65,14 +65,14 @@ public class MyApp extends BaseApplication {
         initGreenDao();
         Bugly.init(this, "e7ede7b346", true);
     }
-    @Override
-    protected void attachBaseContext(Context base) {
-        super.attachBaseContext(base);
-        // you must install multiDex whatever tinker is installed!
-        MultiDex.install(base);
-        //  安装tinker
-        Beta.installTinker(this);
-    }
+//    @Override
+//    protected void attachBaseContext(Context base) {
+//        super.attachBaseContext(base);
+//        // you must install multiDex whatever tinker is installed!
+//        MultiDex.install(base);
+//        //  安装tinker
+//        Beta.installTinker(this);
+//    }
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 
     /**

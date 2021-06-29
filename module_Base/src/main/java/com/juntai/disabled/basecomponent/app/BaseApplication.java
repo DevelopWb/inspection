@@ -35,7 +35,7 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 
-public abstract class BaseApplication extends Application {
+public abstract class BaseApplication extends MultiDexApplication {
     public static int HEIGHT, width, statusBarH;
     public static int navigationBarH;
     public static BaseApplication app;

@@ -93,7 +93,12 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     private TextView mSelectTv;
 
     public boolean idDetail = false;
+    private OnSignedCallBack  onSignedCallBack;
 
+
+    public void setOnSignedCallBack(OnSignedCallBack onSignedCallBack) {
+        this.onSignedCallBack = onSignedCallBack;
+    }
 
     @Override
     protected BaseInspectPresent createPresenter() {
@@ -428,6 +433,9 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         if (mSignIv != null) {
                             ImageLoadUtil.loadImageNoCache(mContext, signPath, mSignIv);
                         }
+                        if (onSignedCallBack != null) {
+                            onSignedCallBack.signed(signPath);
+                        }
                         if (itemSignBean != null) {
                             itemSignBean.setSignPicPath(signPath);
                         }
@@ -465,6 +473,8 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                 break;
         }
     }
+
+
 
     /**
      * 展示签名的画板
@@ -1110,5 +1120,10 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         } else {
 
         }
+    }
+
+
+    public interface  OnSignedCallBack{
+        void    signed(String picPath);
     }
 }
