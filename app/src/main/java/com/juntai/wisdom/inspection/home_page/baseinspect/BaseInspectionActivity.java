@@ -1,7 +1,6 @@
 package com.juntai.wisdom.inspection.home_page.baseinspect;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -43,7 +42,6 @@ import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.SecurityInspectRecordDetailBean;
 import com.juntai.wisdom.inspection.bean.firecheck.FireCheckBean;
 import com.juntai.wisdom.inspection.bean.firecheck.UnitDetailBean;
-import com.juntai.wisdom.inspection.utils.AppUtils;
 import com.juntai.wisdom.inspection.utils.StringTools;
 import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
@@ -87,13 +85,13 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     public TextView mCommitTv;
 
     protected abstract String getTitleName();
-
+    private UnQuailityFormBean formBean;
 
     private TextKeyValueBean selectBean;
     private TextView mSelectTv;
 
     public boolean idDetail = false;
-    private OnSignedCallBack  onSignedCallBack;
+    private OnSignedCallBack onSignedCallBack;
 
 
     public void setOnSignedCallBack(OnSignedCallBack onSignedCallBack) {
@@ -193,105 +191,139 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
             }
         });
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
+
+
+
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 currentPosition = position;
                 MultipleItem multipleItem = (MultipleItem) adapter.getData().get(position);
-                switch (view.getId()) {
-                    case R.id.form_head_pic_iv:
-                        HeadPicBean headPicBean = (HeadPicBean) multipleItem.getObject();
-                        if (TextUtils.isEmpty(headPicBean.getPicPath())) {
-                            choseImage(0, BaseInspectionActivity.this, 1);
-                        }else {
-                            if (headPicBean.getPicPath().contains("/key_personnel/keyPersonnel.png")) {
-                                choseImage(0, BaseInspectionActivity.this, 1);
-                            }else {
-                                ArrayList<String> photos = new ArrayList<>();
-                                photos.add(UrlFormatUtil.getImageOriginalUrl(headPicBean.getPicPath()));
-                                //查看图片
-                                startActivity(new Intent(mContext, ImageZoomActivity.class)
-                                        .putExtra("paths", photos)
-                                        .putExtra("item", 0));
-                            }
-
-                        }
-
-                        break;
-                    case R.id.sign_ll:
-                        itemSignBean = (ItemSignBean) multipleItem.getObject();
-                        //签名
-                        mSignIv = (ImageView) view.findViewById(R.id.sign_name_iv);
-                        showSignatureView();
-                        break;
-
-                    case R.id.select_value_tv:
-                        mSelectTv = (TextView) adapter.getViewByPosition(mRecyclerview, position,
+                switch (multipleItem.getItemType()) {
+                    case MultipleItem.ITEM_FIRE_CHECK_FORM:
+                        mSelectTv = (TextView) adapter.getViewByPosition(mRecyclerview, position+1,
                                 R.id.select_value_tv);
-                        selectBean = (TextKeyValueBean) multipleItem.getObject();
-                        switch (selectBean.getKey()) {
-                            case BaseInspectContract.INSPECTION_UNIT_TYPE:
-                                mPresenter.getUnitType(getBaseBuilder().build(), AppHttpPath.UNIT_TYPE);
+                        formBean = (UnQuailityFormBean) multipleItem.getObject();
+                        mPresenter.getRemarkOfFireCheck(getBaseBuilder().build(), AppHttpPath.GET_REMARK_FIRE_CHECK);
+
+                        break;
+                    default:
+                        switch (view.getId()) {
+                            case R.id.form_head_pic_iv:
+                                HeadPicBean headPicBean = (HeadPicBean) multipleItem.getObject();
+                                if (TextUtils.isEmpty(headPicBean.getPicPath())) {
+                                    choseImage(0, BaseInspectionActivity.this, 1);
+                                } else {
+                                    if (headPicBean.getPicPath().contains("/key_personnel/keyPersonnel.png")) {
+                                        choseImage(0, BaseInspectionActivity.this, 1);
+                                    } else {
+                                        ArrayList<String> photos = new ArrayList<>();
+                                        photos.add(UrlFormatUtil.getImageOriginalUrl(headPicBean.getPicPath()));
+                                        //查看图片
+                                        startActivity(new Intent(mContext, ImageZoomActivity.class)
+                                                .putExtra("paths", photos)
+                                                .putExtra("item", 0));
+                                    }
+
+                                }
+
                                 break;
-                            case BaseInspectContract.INSPECTION_SEX:
-                                List<String> sexs = getSexContent();
-                                PickerManager.getInstance().showOptionPicker(mContext, sexs,
-                                        new PickerManager.OnOptionPickerSelectedListener() {
-                                            @Override
-                                            public void onOptionsSelect(int options1, int option2, int options3,
-                                                                        View v) {
-                                                String str = sexs.get(options1);
-                                                selectBean.setValue(str);
-                                                mSelectTv.setText(str);
-                                            }
-                                        });
-                                break;
-                            case BaseInspectContract.INSPECTION_PERSONAL_TYPE:
-                                mPresenter.getImportantorTypes(getBaseBuilder().build(), AppHttpPath.IMPORTANTOR_TYPES);
-                                break;
-                            case BaseInspectContract.INSPECTION_CHECK_PROBLEMS:
-                                mPresenter.getInspectQuestions(getBaseBuilder().build(),
-                                        AppHttpPath.SECURITY_INSPECT_QUESTION);
-                                break;
-                            case BaseInspectContract.INSPECTION_VISIT_PROBLEMS:
-                                mPresenter.getVisitQuestions(getBaseBuilder().build(), AppHttpPath.VISIT_QUESTIONS);
-                                break;
-                            case BaseInspectContract.INSPECTION_WORK_TYPE:
-                                mPresenter.getWorkerType(getBaseBuilder().build(), AppHttpPath.GET_WORKER_TYPE);
-                                break;
-                            case BaseInspectContract.INSPECTION_PERSONAL_STATUS:
-                                mPresenter.getImportantorStatus(getBaseBuilder().build(),
-                                        AppHttpPath.IMPORTANTOR_STATUS);
-                                break;
-                            case BaseInspectContract.INSPECTION_VISIT_TIMES:
-                                List<String> nums = getNums();
-                                List<List<String>> timeUnits = getTimeUnits();
-                                PickerManager.getInstance().showOptionPicker(mContext, nums, timeUnits,
-                                        new PickerManager.OnOptionPickerSelectedListener() {
-                                            @Override
-                                            public void onOptionsSelect(int options1, int option2, int options3,
-                                                                        View v) {
-                                                String day = String.format("%s%s", nums.get(options1),
-                                                        timeUnits.get(options1).get(option2));
-                                                selectBean.setValue(String.valueOf(getVistTime(nums.get(options1),
-                                                        timeUnits.get(options1).get(option2))));
-                                                mSelectTv.setText(day);
-                                            }
-                                        });
+                            case R.id.sign_ll:
+                                itemSignBean = (ItemSignBean) multipleItem.getObject();
+                                //签名
+                                mSignIv = (ImageView) view.findViewById(R.id.sign_name_iv);
+                                showSignatureView();
                                 break;
 
+                            case R.id.select_value_tv:
+                                mSelectTv = (TextView) adapter.getViewByPosition(mRecyclerview, position,
+                                        R.id.select_value_tv);
+                                if (mSelectTv == null) {
+                                    mSelectTv = (TextView) adapter.getViewByPosition(mRecyclerview, position + 1,
+                                            R.id.select_value_tv);
+                                }
+                                selectBean = (TextKeyValueBean) multipleItem.getObject();
+                                switch (selectBean.getKey()) {
+                                    case BaseInspectContract.INSPECTION_UNIT_TYPE:
+                                        mPresenter.getUnitType(getBaseBuilder().build(), AppHttpPath.UNIT_TYPE);
+                                        break;
+                                    case BaseInspectContract.INSPECTION_SEX:
+                                        List<String> sexs = getSexContent();
+                                        PickerManager.getInstance().showOptionPicker(mContext, sexs,
+                                                new PickerManager.OnOptionPickerSelectedListener() {
+                                                    @Override
+                                                    public void onOptionsSelect(int options1, int option2, int options3,
+                                                                                View v) {
+                                                        String str = sexs.get(options1);
+                                                        selectBean.setValue(str);
+                                                        mSelectTv.setText(str);
+                                                    }
+                                                });
+                                        break;
+                                    case BaseInspectContract.INSPECTION_PERSONAL_TYPE:
+                                        mPresenter.getImportantorTypes(getBaseBuilder().build(), AppHttpPath.IMPORTANTOR_TYPES);
+                                        break;
+                                    case BaseInspectContract.INSPECTION_CHECK_PROBLEMS:
+                                        mPresenter.getInspectQuestions(getBaseBuilder().build(),
+                                                AppHttpPath.SECURITY_INSPECT_QUESTION);
+                                        break;
+                                    case BaseInspectContract.REMARK:
+                                        switch (getTitleName()) {
+                                            case "开始检查":
+                                                mPresenter.getRemarkOfFireCheck(getBaseBuilder().build(), AppHttpPath.GET_REMARK_FIRE_CHECK);
+                                                break;
+//                                   case "开始检查":
+//                                       mPresenter.getRemarkOfFireCheck(getBaseBuilder().build(),AppHttpPath.GET_REMARK_FIRE_CHECK);
+//                                       break;
+//                                   case "开始检查":
+//                                       mPresenter.getRemarkOfFireCheck(getBaseBuilder().build(),AppHttpPath.GET_REMARK_FIRE_CHECK);
+//                                       break;
+                                            default:
+                                                break;
+                                        }
+                                        break;
+                                    case BaseInspectContract.INSPECTION_VISIT_PROBLEMS:
+                                        mPresenter.getVisitQuestions(getBaseBuilder().build(), AppHttpPath.VISIT_QUESTIONS);
+                                        break;
+                                    case BaseInspectContract.INSPECTION_WORK_TYPE:
+                                        mPresenter.getWorkerType(getBaseBuilder().build(), AppHttpPath.GET_WORKER_TYPE);
+                                        break;
+                                    case BaseInspectContract.INSPECTION_PERSONAL_STATUS:
+                                        mPresenter.getImportantorStatus(getBaseBuilder().build(),
+                                                AppHttpPath.IMPORTANTOR_STATUS);
+                                        break;
+                                    case BaseInspectContract.INSPECTION_VISIT_TIMES:
+                                        List<String> nums = getNums();
+                                        List<List<String>> timeUnits = getTimeUnits();
+                                        PickerManager.getInstance().showOptionPicker(mContext, nums, timeUnits,
+                                                new PickerManager.OnOptionPickerSelectedListener() {
+                                                    @Override
+                                                    public void onOptionsSelect(int options1, int option2, int options3,
+                                                                                View v) {
+                                                        String day = String.format("%s%s", nums.get(options1),
+                                                                timeUnits.get(options1).get(option2));
+                                                        selectBean.setValue(String.valueOf(getVistTime(nums.get(options1),
+                                                                timeUnits.get(options1).get(option2))));
+                                                        mSelectTv.setText(day);
+                                                    }
+                                                });
+                                        break;
+
+                                    default:
+                                        break;
+                                }
+                                break;
+
+                            case R.id.location_ll:
+                                //跳转到选择位置类
+                                startActivityForResult(new Intent(mContext, LocateSelectionActivity.class),
+                                        LocateSelectionActivity.SELECT_ADDR);
+                                break;
                             default:
                                 break;
                         }
                         break;
-
-                    case R.id.location_ll:
-                        //跳转到选择位置类
-                        startActivityForResult(new Intent(mContext, LocateSelectionActivity.class),
-                                LocateSelectionActivity.SELECT_ADDR);
-                        break;
-                    default:
-                        break;
                 }
+
 
             }
         });
@@ -411,7 +443,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         List<String> arrays = adapter.getData();
         for (String array : arrays) {
             if (array.contains(AppHttpPath.BASE_IMAGE_THUM)) {
-                array = array.replace(AppHttpPath.BASE_IMAGE_THUM,AppHttpPath.BASE_IMAGE);
+                array = array.replace(AppHttpPath.BASE_IMAGE_THUM, AppHttpPath.BASE_IMAGE);
             }
             photos.add(array);
         }
@@ -473,7 +505,6 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                 break;
         }
     }
-
 
 
     /**
@@ -672,20 +703,21 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             inspectionSiteBean.setSparePhone(value);
                             importantorBean.setSparePhone(value);
                             break;
-                        case BaseInspectContract.REMARK:
-                            //备注
-                            formKey = "remarks";
-                            if ("开始检查".equals(getTitleName())) {
-                                formKey = "concreteProblems";
-                            }
-                            unitDataBean.setRemarks(value);
-                            inspectionSiteBean.setRemarks(value);
-                            fireCheckBean.setConcreteProblems(value);
-                            importantorBean.setRemarks(value);
-                            workerBean.setRemarks(value);
-                            recordDetailBean.setRemarks(value);
-                            visitRecordDetailBean.setRemarks(value);
-                            break;
+                        // TODO: 2021/6/30  这个回头删掉就可以了
+//                        case BaseInspectContract.REMARK:
+//                            //备注
+//                            formKey = "remarks";
+//                            if ("开始检查".equals(getTitleName())) {
+//                                formKey = "concreteProblems";
+//                            }
+//                            unitDataBean.setRemarks(value);
+//                            inspectionSiteBean.setRemarks(value);
+//                            fireCheckBean.setRemarks(value);
+//                            importantorBean.setRemarks(value);
+//                            workerBean.setRemarks(value);
+//                            recordDetailBean.setRemarks(value);
+//                            visitRecordDetailBean.setRemarks(value);
+//                            break;
                         case BaseInspectContract.INSPECTION_SITE:
                             //巡检点
                             formKey = "name";
@@ -796,6 +828,19 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             }
 
                             break;
+                        case BaseInspectContract.REMARK:
+                            builder.addFormDataPart("remarks", textValueSelectBean.getIds());
+                            builder.addFormDataPart("remarksName", selectBeanValue);
+                            fireCheckBean.setRemarks(textValueSelectBean.getIds());
+                            fireCheckBean.setRemarksName(selectBeanValue);
+//                            unitDataBean.setRemarks(value);
+//                            inspectionSiteBean.setRemarks(value);
+//
+//                            importantorBean.setRemarks(value);
+//                            workerBean.setRemarks(value);
+//                            recordDetailBean.setRemarks(value);
+//                            visitRecordDetailBean.setRemarks(value);
+                            break;
                         case BaseInspectContract.INSPECTION_PERSONAL_STATUS:
                             builder.addFormDataPart("keyStatus", textValueSelectBean.getIds());
                             importantorBean.setKeyStatusName(selectBeanValue);
@@ -874,14 +919,16 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         }
                     }
                     builder.addFormDataPart("itemsJson", json);
-                    if (TextUtils.isEmpty(formBean.getConcreteProblems())) {
+                    if (TextUtils.isEmpty(formBean.getRemarks())) {
                         if (!skipFilter) {
                             ToastUtils.toast(mContext, "请输入具体问题");
                             return null;
                         }
                     } else {
-                        builder.addFormDataPart("concreteProblems", formBean.getConcreteProblems());
-                        fireCheckBean.setConcreteProblems(formBean.getConcreteProblems());
+                        builder.addFormDataPart("remarks", formBean.getRemarks());
+                        builder.addFormDataPart("remarksName", formBean.getRemarkNames());
+                        fireCheckBean.setRemarks(formBean.getRemarks());
+                        fireCheckBean.setRemarksName(formBean.getRemarkNames());
                     }
                     if (TextUtils.isEmpty(formBean.getItemOne()) && TextUtils.isEmpty(formBean.getItemTwo())) {
 
@@ -1081,7 +1128,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                     selectBean.setIds(String.valueOf(dataBean.getId()));
                                     mSelectTv.setText(dataBean.getName());
                                     if (AppHttpPath.IMPORTANTOR_STATUS.equals(tag)) {
-                                       int defaultCheckTime = dataBean.getCheckTime();
+                                        int defaultCheckTime = dataBean.getCheckTime();
                                         //更新适配器中 走访频率的值
                                         List<MultipleItem> arrays = adapter.getData();
                                         for (MultipleItem array : arrays) {
@@ -1101,7 +1148,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             });
                 }
             }
-        } else if (AppHttpPath.IMPORTANTOR_TYPES.equals(tag)) {
+        } else if (AppHttpPath.IMPORTANTOR_TYPES.equals(tag) || AppHttpPath.GET_REMARK_FIRE_CHECK.equals(tag)) {
             IdNameBean idNameBean = (IdNameBean) o;
             if (idNameBean != null) {
                 List<IdNameBean.DataBean> arrays = idNameBean.getData();
@@ -1110,8 +1157,13 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                 new MultiSelectBottomSheetDialog.OnConfirmCallBack() {
                                     @Override
                                     public void confirm(String names, String ids) {
-                                        selectBean.setValue(names);
-                                        selectBean.setIds(ids);
+                                        if (selectBean == null) {
+                                            formBean.setRemarks(ids);
+                                            formBean.setRemarkNames(names);
+                                        }else {
+                                            selectBean.setValue(names);
+                                            selectBean.setIds(ids);
+                                        }
                                         mSelectTv.setText(names);
                                     }
                                 });
@@ -1123,7 +1175,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     }
 
 
-    public interface  OnSignedCallBack{
-        void    signed(String picPath);
+    public interface OnSignedCallBack {
+        void signed(String picPath);
     }
 }

@@ -288,6 +288,14 @@ public interface AppServer {
     @POST(AppHttpPath.GET_WORKER_TYPE)
     Observable<IdNameBean> getWorkerType(@Body RequestBody requestBody);
 
+    /**
+     *
+     * @param requestBody
+     * @return
+     */
+    @POST(AppHttpPath.GET_REMARK_FIRE_CHECK)
+    Observable<IdNameBean> getRemarkOfFireCheck(@Body RequestBody requestBody);
+
 
 
     /*==============================================  巡检点  =============================================*/
@@ -376,6 +384,13 @@ public interface AppServer {
      */
     @POST(AppHttpPath.SECURITY_INSPECT_QUESTION)
     Observable<IdNameBean> getInspectQuestions(@Body RequestBody requestBody);
+    /**
+     * 备注详情
+     *
+     * @return
+     */
+    @POST(AppHttpPath.GET_REMARK_FROM_INSPECTION)
+    Observable<IdNameBean> getRemarkFromInspection(@Body RequestBody requestBody);
 
     /**
      *
@@ -466,6 +481,14 @@ public interface AppServer {
      */
     @POST(AppHttpPath.VISIT_QUESTIONS)
     Observable<IdNameBean> getVisitQuestions(@Body RequestBody requestBody);
+
+    /**
+     * 重点人员中的备注
+     *
+     * @return
+     */
+    @POST(AppHttpPath.GET_REMARK_FROM_IMPORTANTOR)
+    Observable<IdNameBean> getRemarkFromImportantor(@Body RequestBody requestBody);
 
 
 

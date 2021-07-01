@@ -39,9 +39,7 @@ import com.juntai.wisdom.inspection.bean.firecheck.UnitDetailBean;
 import com.juntai.wisdom.inspection.utils.AppUtils;
 import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import okhttp3.RequestBody;
@@ -69,8 +67,9 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         List<MultipleItem> arrays = new ArrayList<>();
         arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW,
                 getStartFireCheckData(dataBean)));
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, dataBean == null ? "" :
-                dataBean.getConcreteProblems(), false, 1);
+        initTextSelectType(arrays,BaseInspectContract.REMARK,dataBean==null?"":
+                        String.valueOf(dataBean.getRemarks()),
+                dataBean == null ? "" : dataBean.getRemarksName(), true);
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传检查图片"));
         List<String> fragmentPics = new ArrayList<>();
         if (dataBean != null) {
@@ -100,7 +99,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 getStartFireCheckData(dataBean)));
         arrays.add(new MultipleItem(MultipleItem.ITEM_FIRE_CHECK_FORM,
                 new UnQuailityFormBean(dataBean.getItemsJson(), dataBean.getOtherProblem(),
-                        dataBean.getConcreteProblems(), dataBean.getItemOne(), dataBean.getItemOneTime(),
+                        dataBean.getRemarks(),dataBean.getRemarksName(), dataBean.getItemOne(), dataBean.getItemOneTime(),
                         dataBean.getItemTwo(),
                         dataBean.getItemTwoTime(), dataBean.getNoticeName(), dataBean.getNoticeContent(),
                         dataBean.isHideSummarize())));
@@ -152,12 +151,13 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                                                boolean isCheckedOk) {
         List<MultipleItem> arrays = new ArrayList<>();
         if (isCheckedOk) {
-            initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, dataBean == null ? "" :
-                    dataBean.getConcreteProblems(), true, 1);
+            initTextSelectType(arrays,BaseInspectContract.REMARK,dataBean==null?"":
+                            String.valueOf(dataBean.getRemarks()),
+                    dataBean == null ? "" : dataBean.getRemarksName(), true);
         } else {
             arrays.add(new MultipleItem(MultipleItem.ITEM_FIRE_CHECK_FORM,
                     new UnQuailityFormBean(dataBean.getItemsJson(), dataBean.getOtherProblem(),
-                            dataBean.getConcreteProblems(), dataBean.getItemOne(), dataBean.getItemOneTime(),
+                            dataBean.getRemarks(),dataBean.getRemarksName(), dataBean.getItemOne(), dataBean.getItemOneTime(),
                             dataBean.getItemTwo(),
                             dataBean.getItemTwoTime(), dataBean.getNoticeName(), dataBean.getNoticeContent(),
                             dataBean.isHideSummarize())));
@@ -188,7 +188,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         List<MultipleItem> arrays = new ArrayList<>();
         arrays.add(new MultipleItem(MultipleItem.ITEM_FIRE_CHECK_FORM,
                 new UnQuailityFormBean(dataBean.getItemsJson(), dataBean.getOtherProblem(),
-                        dataBean.getConcreteProblems(), dataBean.getItemOne(), dataBean.getItemOneTime(),
+                        dataBean.getRemarks(), dataBean.getRemarksName(),dataBean.getItemOne(), dataBean.getItemOneTime(),
                         dataBean.getItemTwo(),
                         dataBean.getItemTwoTime(), dataBean.getNoticeName(), dataBean.getNoticeContent(),
                         dataBean.isHideSummarize())));
@@ -209,7 +209,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         List<MultipleItem> arrays = new ArrayList<>();
         arrays.add(new MultipleItem(MultipleItem.ITEM_FIRE_CHECK_FORM,
                 new UnQuailityFormBean(dataBean.getItemsJson(), dataBean.getOtherProblem(),
-                        dataBean.getConcreteProblems(), dataBean.getItemOne(), dataBean.getItemOneTime(),
+                        dataBean.getRemarks(), dataBean.getRemarksName(),dataBean.getItemOne(), dataBean.getItemOneTime(),
                         dataBean.getItemTwo(),
                         dataBean.getItemTwoTime(), dataBean.getUnitName(), dataBean.getNoticeContent(),
                         false)));
@@ -1264,6 +1264,27 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                     }
                 });
     }
+    @Override
+    public void getRemarkOfFireCheck(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getRemarkOfFireCheck(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<IdNameBean>(getView()) {
+                    @Override
+                    public void onSuccess(IdNameBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
 
     @Override
     public void signResponsibility(RequestBody requestBody, String tag) {
@@ -1594,11 +1615,53 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                     }
                 });
     }
+    @Override
+    public void getRemarkFromInspection(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getRemarkFromInspection(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<IdNameBean>(getView()) {
+                    @Override
+                    public void onSuccess(IdNameBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
 
     @Override
     public void getVisitQuestions(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
                 .getVisitQuestions(requestBody)
+                .compose(RxScheduler.ObsIoMain(getView()))
+                .subscribe(new BaseObserver<IdNameBean>(getView()) {
+                    @Override
+                    public void onSuccess(IdNameBean o) {
+                        if (getView() != null) {
+                            getView().onSuccess(tag, o);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String msg) {
+                        if (getView() != null) {
+                            getView().onError(tag, msg);
+                        }
+                    }
+                });
+    }
+    @Override
+    public void getRemarkFromImportantor(RequestBody requestBody, String tag) {
+        AppNetModule.createrRetrofit()
+                .getRemarkFromImportantor(requestBody)
                 .compose(RxScheduler.ObsIoMain(getView()))
                 .subscribe(new BaseObserver<IdNameBean>(getView()) {
                     @Override

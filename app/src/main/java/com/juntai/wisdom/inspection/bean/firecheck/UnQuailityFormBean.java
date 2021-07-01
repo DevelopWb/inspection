@@ -11,7 +11,8 @@ public class UnQuailityFormBean {
 
     private  String problems;//表格  选择的问题json（如下）
     private  String otherProblem;//其他问题（第11项）
-    private  String concreteProblems;//	具体问题（备注）
+    private  String remarks;//	具体问题（备注）
+    private  String remarkNames;//	具体问题（备注）
     private  String itemOne;//问题项目1；例：（1,2）
     private  String itemOneTime;//	到期时间1
     private  String itemTwo;//问题项目1；例：（1,2）
@@ -21,13 +22,11 @@ public class UnQuailityFormBean {
     private boolean  hideSummarize = false;//隐藏总结文字
 
 
-
-    public UnQuailityFormBean(String problems, String otherProblem, String concreteProblems, String itemOne,
-                              String itemOneTime, String itemTwo, String itemTwoTime, String noticeName,
-                              String noticeContent,boolean hideSummarize) {
+    public UnQuailityFormBean(String problems, String otherProblem, String remarks, String remarkNames, String itemOne, String itemOneTime, String itemTwo, String itemTwoTime, String noticeName, String noticeContent, boolean hideSummarize) {
         this.problems = problems;
         this.otherProblem = otherProblem;
-        this.concreteProblems = concreteProblems;
+        this.remarks = remarks;
+        this.remarkNames = remarkNames;
         this.itemOne = itemOne;
         this.itemOneTime = itemOneTime;
         this.itemTwo = itemTwo;
@@ -35,6 +34,14 @@ public class UnQuailityFormBean {
         this.noticeName = noticeName;
         this.noticeContent = noticeContent;
         this.hideSummarize = hideSummarize;
+    }
+
+    public String getRemarkNames() {
+        return remarkNames == null ? "" : remarkNames;
+    }
+
+    public void setRemarkNames(String remarkNames) {
+        this.remarkNames = remarkNames == null ? "" : remarkNames;
     }
 
     public boolean isHideSummarize() {
@@ -77,12 +84,12 @@ public class UnQuailityFormBean {
         this.otherProblem = otherProblem == null ? "" : otherProblem;
     }
 
-    public String getConcreteProblems() {
-        return concreteProblems == null ? "" : concreteProblems;
+    public String getRemarks() {
+        return remarks == null ? "" : remarks;
     }
 
-    public void setConcreteProblems(String concreteProblems) {
-        this.concreteProblems = concreteProblems == null ? "" : concreteProblems;
+    public void setRemarks(String remarks) {
+        this.remarks = remarks == null ? "" : remarks;
     }
 
     public String getItemOne() {

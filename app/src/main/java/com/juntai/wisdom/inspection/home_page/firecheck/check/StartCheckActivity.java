@@ -13,6 +13,7 @@ import android.widget.RadioGroup;
 import com.juntai.disabled.basecomponent.utils.DialogUtil;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
+import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.bean.BaseAdapterDataBean;
 import com.juntai.wisdom.inspection.bean.firecheck.FireCheckBean;
 import com.juntai.wisdom.inspection.bean.firecheck.UnitDetailBean;
@@ -153,7 +154,7 @@ public class StartCheckActivity extends BaseCommitFootViewActivity {
                             .addFormDataPart("unitLiable", firecheckbean.getUnitLiable()).addFormDataPart("liablePhone",
                             firecheckbean.getLiablePhone()).addFormDataPart("qualified", "1").build();
 
-            mPresenter.addFireCheckRecord(body, "");
+            mPresenter.addFireCheckRecord(body, AppHttpPath.ADD_FIRE_INSPECTION);
         }
 
     }
@@ -208,8 +209,16 @@ public class StartCheckActivity extends BaseCommitFootViewActivity {
 
     @Override
     public void onSuccess(String tag, Object o) {
-        Hawk.delete(HawkProperty.ADD_FIRE_CHECK_RECORD_KEY + unitBean.getId());
-        ToastUtils.toast(mContext, "提交成功");
-        finish();
+        super.onSuccess(tag,o);
+        switch (tag) {
+            case AppHttpPath.ADD_FIRE_INSPECTION:
+                Hawk.delete(HawkProperty.ADD_FIRE_CHECK_RECORD_KEY + unitBean.getId());
+                ToastUtils.toast(mContext, "提交成功");
+                finish();
+                break;
+            default:
+                break;
+        }
+
     }
 }

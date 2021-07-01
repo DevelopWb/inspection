@@ -55,7 +55,8 @@ public class RectifyNoticeBean  extends BaseResult {
         private String unitName;
         private String item;
         private String otherProblem;
-        private String concreteProblems;
+        private String remarksName;
+        private String remarks;
         private String itemOne;
         private String itemOneTime;
         private String itemTwo;
@@ -77,6 +78,14 @@ public class RectifyNoticeBean  extends BaseResult {
 
         public void setWordFile(String wordFile) {
             this.wordFile = wordFile == null ? "" : wordFile;
+        }
+
+        public String getRemarks() {
+            return remarks == null ? "" : remarks;
+        }
+
+        public void setRemarks(String remarks) {
+            this.remarks = remarks == null ? "" : remarks;
         }
 
         public String getNoticeContent() {
@@ -123,12 +132,12 @@ public class RectifyNoticeBean  extends BaseResult {
             this.otherProblem = otherProblem;
         }
 
-        public String getConcreteProblems() {
-            return concreteProblems;
+        public String getRemarksName() {
+            return remarksName;
         }
 
-        public void setConcreteProblems(String concreteProblems) {
-            this.concreteProblems = concreteProblems;
+        public void setRemarksName(String remarksName) {
+            this.remarksName = remarksName;
         }
 
         public String getItemOne() {

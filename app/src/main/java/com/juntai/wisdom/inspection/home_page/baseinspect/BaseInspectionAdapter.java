@@ -1,11 +1,9 @@
 package com.juntai.wisdom.inspection.home_page.baseinspect;
 
-import android.app.Activity;
 import android.content.DialogInterface;
 import android.support.annotation.NonNull;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -45,7 +43,6 @@ import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.base.ResponseListBean;
 import com.juntai.wisdom.inspection.base.selectPics.SelectPhotosFragment;
 import com.juntai.wisdom.inspection.bean.HeadPicBean;
-import com.juntai.wisdom.inspection.bean.IdNameBean;
 import com.juntai.wisdom.inspection.bean.ImportantTagBean;
 import com.juntai.wisdom.inspection.bean.ItemFragmentBean;
 import com.juntai.wisdom.inspection.bean.ItemSignBean;
@@ -692,11 +689,18 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 question11ChildEt.setTag(formBean);
                 addTextChange(question11ChildEt);
                 question11ChildEt.setText(formBean.getOtherProblem());
-                EditText remark = helper.getView(R.id.concrete_question_et);
-                initEdittextFocuseStatus(remark);
-                remark.setTag(formBean);
-                addTextChange(remark);
-                remark.setText(formBean.getConcreteProblems());
+
+                //备注
+                TextView remarkTv = helper.getView(R.id.select_value_tv);
+                remarkTv.setText(formBean.getRemarkNames());
+                if (!isDetail) {
+                    helper.addOnClickListener(R.id.select_value_tv);
+                    helper.setBackgroundRes(R.id.select_value_tv, R.drawable.stroke_gray_square_bg);
+                    helper.setGone(R.id.select_arrow_right_iv, true);
+                } else {
+                    helper.setGone(R.id.select_arrow_right_iv, false);
+                    helper.setBackgroundRes(R.id.select_value_tv, R.drawable.sp_filled_gray_lighter);
+                }
 
                 /**
                  * 总结
@@ -1337,10 +1341,6 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                     case R.id.question11_child_et:
                         UnQuailityFormBean formBean = (UnQuailityFormBean) editText.getTag();
                         formBean.setOtherProblem(s.toString().trim());
-                        break;
-                    case R.id.concrete_question_et:
-                        UnQuailityFormBean unQuailityFormBean = (UnQuailityFormBean) editText.getTag();
-                        unQuailityFormBean.setConcreteProblems(s.toString().trim());
                         break;
                     default:
                         break;

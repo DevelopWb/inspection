@@ -175,6 +175,11 @@ public class AppHttpPath {
      */
     public static final String GET_WORKER_TYPE = BASE + "/u/appConnector/selectUnitStaffPostType.shtml";
 
+    /**
+     *  消防检查  备注
+     */
+    public static final String GET_REMARK_FIRE_CHECK = BASE + "/u/appConnector/selectInspectRemarksType.shtml";
+
 
 
     /*==============================================  巡检点  =============================================*/
@@ -231,6 +236,10 @@ public class AppHttpPath {
      * 修改巡检点
      */
     public static final String APPLY_EDIT_INSPECTION_SITE_INFO = BASE + "/u/appSecurity/applySecurityPublic.shtml";
+    /**
+     *  备注信息
+     */
+    public static final String GET_REMARK_FROM_INSPECTION = BASE + "/u/appSecurity/selectSecurityRemarksType.shtml";
 
 
 
@@ -298,6 +307,10 @@ public class AppHttpPath {
      * 编辑重点人员
      */
     public static final String EDIT_IMPORTANTOR = BASE + "/u/appKeyPersonnel/applyKeyPersonnel.shtml";
+    /**
+     * 编辑重点人员
+     */
+    public static final String GET_REMARK_FROM_IMPORTANTOR = BASE + "/u/appKeyPersonnel/selectKeyPersonnelRemarksType.shtml";
 
 
 }

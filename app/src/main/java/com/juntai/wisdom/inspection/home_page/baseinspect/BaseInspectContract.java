@@ -114,7 +114,11 @@ public interface BaseInspectContract {
 
         void getInspectQuestions(RequestBody requestBody, String tag);
 
+        void getRemarkFromInspection(RequestBody requestBody, String tag);
+
         void getVisitQuestions(RequestBody requestBody, String tag);
+
+        void getRemarkFromImportantor(RequestBody requestBody, String tag);
 
         void getVisitRecordList(RequestBody requestBody, String tag);
 
@@ -138,6 +142,7 @@ public interface BaseInspectContract {
         void manualAddImportantor(RequestBody requestBody, String tag);
 
         void startVist(RequestBody requestBody, String tag);
+
         void editImportantor(RequestBody requestBody, String tag);
 
         void getImportantorTypes(RequestBody requestBody, String tag);
@@ -172,9 +177,12 @@ public interface BaseInspectContract {
 
         void getWorkerType(RequestBody requestBody, String tag);
 
+        void getRemarkOfFireCheck(RequestBody requestBody, String tag);
+
         void signResponsibility(RequestBody requestBody, String tag);
 
         void addWorker(RequestBody requestBody, String tag);
+
         void editWorker(RequestBody requestBody, String tag);
 
         void getResponsibilityDetail(RequestBody requestBody, String tag);

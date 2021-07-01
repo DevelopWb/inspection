@@ -74,7 +74,8 @@ public class FireCheckBean  extends BaseResult {
         private String problemOne;
         private String problemTwo;
         private String otherProblem;
-        private String concreteProblems;
+        private String remarks;
+        private String remarksName;
         private int qualified;
         private String photoOne;
         private String photoTwo;
@@ -108,6 +109,14 @@ public class FireCheckBean  extends BaseResult {
 
         public void setHideSummarize(boolean hideSummarize) {
             this.hideSummarize = hideSummarize;
+        }
+
+        public String getRemarksName() {
+            return remarksName == null ? "" : remarksName;
+        }
+
+        public void setRemarksName(String remarksName) {
+            this.remarksName = remarksName == null ? "" : remarksName;
         }
 
         private MultipartBody.Builder builder;
@@ -272,12 +281,12 @@ public class FireCheckBean  extends BaseResult {
             this.otherProblem = otherProblem == null ? "" : otherProblem;
         }
 
-        public String getConcreteProblems() {
-            return concreteProblems == null ? "" : concreteProblems;
+        public String getRemarks() {
+            return remarks == null ? "" : remarks;
         }
 
-        public void setConcreteProblems(String concreteProblems) {
-            this.concreteProblems = concreteProblems == null ? "" : concreteProblems;
+        public void setRemarks(String remarks) {
+            this.remarks = remarks == null ? "" : remarks;
         }
 
         public int getQualified() {
