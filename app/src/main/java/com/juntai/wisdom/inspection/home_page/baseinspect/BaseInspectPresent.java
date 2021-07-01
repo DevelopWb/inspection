@@ -229,9 +229,9 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         initTextSelectType(arrays,BaseInspectContract.INSPECTION_CHECK_PROBLEMS,recordDetailBean==null?"":
                 String.valueOf(recordDetailBean.getTypeId()),
                 recordDetailBean == null ? "" : recordDetailBean.getTypeName(), false);
-
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, recordDetailBean == null ? "" :
-                recordDetailBean.getRemarks(), false, 1);
+        initTextSelectType(arrays,BaseInspectContract.REMARK,recordDetailBean==null?"":
+                        String.valueOf(recordDetailBean.getRemarks()),
+                recordDetailBean == null ? "" : recordDetailBean.getRemarksName(), true);
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传巡检图片"));
         List<String> fragmentPics = new ArrayList<>();
         if (recordDetailBean != null) {
@@ -278,8 +278,9 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                         String.valueOf(recordDetailBean.getInspectionId()),
                 recordDetailBean == null ? "" : recordDetailBean.getInspectionName(), false);
 
-        initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, recordDetailBean == null ? "" :
-                recordDetailBean.getRemarks(), false, 1);
+        initTextSelectType(arrays,BaseInspectContract.REMARK,recordDetailBean==null?"":
+                        String.valueOf(recordDetailBean.getRemarks()),
+                recordDetailBean == null ? "" : recordDetailBean.getRemarksName(), true);
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传走访图片"));
         List<String> fragmentPics = new ArrayList<>();
         if (recordDetailBean != null) {
@@ -542,7 +543,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
 
     private void addFragmentPics(String picPath, List<String> fragmentPics) {
         if (!TextUtils.isEmpty(picPath)) {
-            if (picPath.contains(AppUtils.getAppName())) {
+            if (picPath.contains(BaseInspectionActivity.SDCARD_TAG)) {
                 fragmentPics.add(picPath);
             } else {
                 if (picPath.contains(AppHttpPath.BASE_IMAGE_THUM)) {
@@ -1265,7 +1266,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 });
     }
     @Override
-    public void getRemarkOfFireCheck(RequestBody requestBody, String tag) {
+    public void getRemarkFromFireCheck(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
                 .getRemarkOfFireCheck(requestBody)
                 .compose(RxScheduler.ObsIoMain(getView()))

@@ -59,6 +59,7 @@ public class SecurityInspectRecordDetailBean extends BaseResult {
         private String typeName;
         private int typeId;
         private String remarks;
+        private String remarksName;//备注
         private String photoOne;
         private String photoTwo;
         private String photoThree;
@@ -84,6 +85,14 @@ public class SecurityInspectRecordDetailBean extends BaseResult {
 
         public int getSecurityId() {
             return securityId;
+        }
+
+        public String getRemarksName() {
+            return remarksName == null ? "" : remarksName;
+        }
+
+        public void setRemarksName(String remarksName) {
+            this.remarksName = remarksName == null ? "" : remarksName;
         }
 
         public void setSecurityId(int securityId) {

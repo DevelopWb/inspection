@@ -177,7 +177,7 @@ public interface BaseInspectContract {
 
         void getWorkerType(RequestBody requestBody, String tag);
 
-        void getRemarkOfFireCheck(RequestBody requestBody, String tag);
+        void getRemarkFromFireCheck(RequestBody requestBody, String tag);
 
         void signResponsibility(RequestBody requestBody, String tag);
 

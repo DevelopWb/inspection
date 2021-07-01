@@ -71,7 +71,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     public static String BASE_ID = "baseid";
     public static String BASE_ID2 = "baseid2";
     public static String BASE_STRING = "basestring";
-    public String SDCARD_TAG = "/storage/emulated";
+    public static String SDCARD_TAG = "/storage/emulated";
     public static String BASE_STRING2 = "basestring2";
     public final static String ADD_UNIT = "添加单位";
     public final static String ADD_INSPECTION_SITE = "添加治安巡检点";
@@ -85,6 +85,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
     public TextView mCommitTv;
 
     protected abstract String getTitleName();
+
     private UnQuailityFormBean formBean;
 
     private TextKeyValueBean selectBean;
@@ -193,17 +194,16 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
         adapter.setOnItemChildClickListener(new BaseQuickAdapter.OnItemChildClickListener() {
 
 
-
             @Override
             public void onItemChildClick(BaseQuickAdapter adapter, View view, int position) {
                 currentPosition = position;
                 MultipleItem multipleItem = (MultipleItem) adapter.getData().get(position);
                 switch (multipleItem.getItemType()) {
                     case MultipleItem.ITEM_FIRE_CHECK_FORM:
-                        mSelectTv = (TextView) adapter.getViewByPosition(mRecyclerview, position+1,
+                        mSelectTv = (TextView) adapter.getViewByPosition(mRecyclerview, position + 1,
                                 R.id.select_value_tv);
                         formBean = (UnQuailityFormBean) multipleItem.getObject();
-                        mPresenter.getRemarkOfFireCheck(getBaseBuilder().build(), AppHttpPath.GET_REMARK_FIRE_CHECK);
+                        mPresenter.getRemarkFromFireCheck(getBaseBuilder().build(), AppHttpPath.GET_REMARK_FIRE_CHECK);
 
                         break;
                     default:
@@ -269,14 +269,14 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                     case BaseInspectContract.REMARK:
                                         switch (getTitleName()) {
                                             case "开始检查":
-                                                mPresenter.getRemarkOfFireCheck(getBaseBuilder().build(), AppHttpPath.GET_REMARK_FIRE_CHECK);
+                                                mPresenter.getRemarkFromFireCheck(getBaseBuilder().build(), AppHttpPath.GET_REMARK_FIRE_CHECK);
                                                 break;
-//                                   case "开始检查":
-//                                       mPresenter.getRemarkOfFireCheck(getBaseBuilder().build(),AppHttpPath.GET_REMARK_FIRE_CHECK);
-//                                       break;
-//                                   case "开始检查":
-//                                       mPresenter.getRemarkOfFireCheck(getBaseBuilder().build(),AppHttpPath.GET_REMARK_FIRE_CHECK);
-//                                       break;
+                                            case "开始走访":
+                                                mPresenter.getRemarkFromImportantor(getBaseBuilder().build(), AppHttpPath.GET_REMARK_FROM_IMPORTANTOR);
+                                                break;
+                                            case "开始巡检":
+                                                mPresenter.getRemarkFromInspection(getBaseBuilder().build(), AppHttpPath.GET_REMARK_FROM_INSPECTION);
+                                       break;
                                             default:
                                                 break;
                                         }
@@ -703,21 +703,14 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             inspectionSiteBean.setSparePhone(value);
                             importantorBean.setSparePhone(value);
                             break;
-                        // TODO: 2021/6/30  这个回头删掉就可以了
-//                        case BaseInspectContract.REMARK:
-//                            //备注
-//                            formKey = "remarks";
-//                            if ("开始检查".equals(getTitleName())) {
-//                                formKey = "concreteProblems";
-//                            }
-//                            unitDataBean.setRemarks(value);
-//                            inspectionSiteBean.setRemarks(value);
-//                            fireCheckBean.setRemarks(value);
-//                            importantorBean.setRemarks(value);
-//                            workerBean.setRemarks(value);
-//                            recordDetailBean.setRemarks(value);
-//                            visitRecordDetailBean.setRemarks(value);
-//                            break;
+                        case BaseInspectContract.REMARK:
+                            //备注
+                            formKey = "remarks";
+                            unitDataBean.setRemarks(value);
+                            inspectionSiteBean.setRemarks(value);
+                            importantorBean.setRemarks(value);
+                            workerBean.setRemarks(value);
+                            break;
                         case BaseInspectContract.INSPECTION_SITE:
                             //巡检点
                             formKey = "name";
@@ -833,13 +826,10 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             builder.addFormDataPart("remarksName", selectBeanValue);
                             fireCheckBean.setRemarks(textValueSelectBean.getIds());
                             fireCheckBean.setRemarksName(selectBeanValue);
-//                            unitDataBean.setRemarks(value);
-//                            inspectionSiteBean.setRemarks(value);
-//
-//                            importantorBean.setRemarks(value);
-//                            workerBean.setRemarks(value);
-//                            recordDetailBean.setRemarks(value);
-//                            visitRecordDetailBean.setRemarks(value);
+                            recordDetailBean.setRemarks(textValueSelectBean.getIds());
+                            recordDetailBean.setRemarksName(selectBeanValue);
+                            visitRecordDetailBean.setRemarks(textValueSelectBean.getIds());
+                            visitRecordDetailBean.setRemarksName(selectBeanValue);
                             break;
                         case BaseInspectContract.INSPECTION_PERSONAL_STATUS:
                             builder.addFormDataPart("keyStatus", textValueSelectBean.getIds());
@@ -1148,7 +1138,8 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                             });
                 }
             }
-        } else if (AppHttpPath.IMPORTANTOR_TYPES.equals(tag) || AppHttpPath.GET_REMARK_FIRE_CHECK.equals(tag)) {
+        } else if (AppHttpPath.IMPORTANTOR_TYPES.equals(tag) || AppHttpPath.GET_REMARK_FIRE_CHECK.equals(tag)
+                || AppHttpPath.GET_REMARK_FROM_IMPORTANTOR.equals(tag)|| AppHttpPath.GET_REMARK_FROM_INSPECTION.equals(tag)) {
             IdNameBean idNameBean = (IdNameBean) o;
             if (idNameBean != null) {
                 List<IdNameBean.DataBean> arrays = idNameBean.getData();
@@ -1160,7 +1151,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                         if (selectBean == null) {
                                             formBean.setRemarks(ids);
                                             formBean.setRemarkNames(names);
-                                        }else {
+                                        } else {
                                             selectBean.setValue(names);
                                             selectBean.setIds(ids);
                                         }
