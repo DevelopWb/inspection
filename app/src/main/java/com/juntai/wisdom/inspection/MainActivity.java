@@ -26,7 +26,6 @@ import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
 import com.google.gson.Gson;
-import com.gyf.barlibrary.ImmersionBar;
 import com.juntai.disabled.basecomponent.utils.ActionConfig;
 import com.juntai.disabled.basecomponent.utils.DialogUtil;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
@@ -215,20 +214,6 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
         });
     }
 
-    @Override
-    public void onSuccess(String tag, Object o) {
-        switch (tag) {
-            case MainPageContract.UPLOAD_HISTORY:
-                if (cacheDatas != null) {
-                    for (LocationBean locationBean : cacheDatas) {
-                        MyApp.getDaoSession().getLocationBeanDao().delete(locationBean);
-                    }
-                }
-                break;
-            default:
-                break;
-        }
-    }
 
     AlertDialog alertDialog;
     int id22;
@@ -237,6 +222,11 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
 
     @Override
     public void onClick(View v) {
+
+    }
+
+    @Override
+    public void onSuccess(String tag, Object o) {
 
     }
 
@@ -252,8 +242,6 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
                 String error = intent.getStringExtra("error");
                 ToastUtils.info(MyApp.app, error);
                 //                SPTools.saveString(mContext, "login", "");
-                mHandler.removeCallbacks(runnable);
-                mHandler.removeCallbacksAndMessages(null);
                 startActivity(new Intent(mContext, LoginActivity.class));
                 //重置界面
                 //                EventManager.sendStringMsg(ActionConfig.UN_READ_MESSAG_TAG);
@@ -292,8 +280,6 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
         if (broadcastReceiver != null) {
             unregisterReceiver(broadcastReceiver);
         }
-        mHandler.removeCallbacks(runnable);
-        mHandler.removeCallbacksAndMessages(null);
         super.onDestroy();
     }
 
@@ -362,29 +348,4 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
     }
 
 
-    /**
-     * 查询本地数据并上传
-     */
-    Runnable runnable = new Runnable() {
-        @Override
-        public void run() {
-            //do something
-            List<LocationBean> datas = null;
-            try {
-                datas = MyApp.getDaoSession().getLocationBeanDao().loadAll();
-            } catch (Exception e) {
-                e.printStackTrace();
-                datas = new ArrayList<>();
-            }
-            if (datas.size() > 0 && datas.size() < 30) {
-                cacheDatas.clear();
-                cacheDatas.addAll(datas);
-                mPresenter.uploadHistory(new Gson().toJson(datas), MainPageContract.UPLOAD_HISTORY);
-            } else {
-                MyApp.getDaoSession().getLocationBeanDao().deleteAll();
-            }
-            //每隔62s循环执行run方法
-            mHandler.postDelayed(runnable, 1000 * 62);
-        }
-    };
 }

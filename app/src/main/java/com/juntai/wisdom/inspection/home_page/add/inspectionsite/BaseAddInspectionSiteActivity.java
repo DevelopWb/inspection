@@ -4,29 +4,16 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.widget.TextView;
-
-import com.baidu.location.BDLocation;
 import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.disabled.basecomponent.utils.DialogUtil;
 import com.juntai.disabled.basecomponent.utils.ToastUtils;
-import com.juntai.disabled.bdmap.act.LocateSelectionActivity;
-import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.AppHttpPath;
-import com.juntai.wisdom.inspection.bean.BaseAdapterDataBean;
-import com.juntai.wisdom.inspection.bean.LocationBean;
-import com.juntai.wisdom.inspection.bean.MultipleItem;
 import com.juntai.wisdom.inspection.bean.TextKeyValueBean;
 import com.juntai.wisdom.inspection.bean.inspectionsite.InspectionSiteBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseCommitFootViewActivity;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectContract;
-import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
-import com.juntai.wisdom.inspection.utils.HawkProperty;
 import com.orhanobut.hawk.Hawk;
 
-import java.util.List;
 
 import okhttp3.MultipartBody;
 

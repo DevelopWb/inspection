@@ -19,10 +19,5 @@ public interface MainPageContract {
 
     interface IMainPagePresent extends IPresenter<IMainPageView> {
 
-        /**
-         * 轨迹长传
-         * @param data
-         */
-        void uploadHistory(String data, String tag);
     }
 }

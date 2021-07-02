@@ -16,8 +16,6 @@ import com.baidu.mapapi.model.LatLng;
 import com.juntai.disabled.basecomponent.app.BaseApplication;
 import com.juntai.disabled.basecomponent.utils.FileCacheUtils;
 import com.juntai.disabled.video.ModuleVideo_Init;
-import com.juntai.wisdom.inspection.greenDao.DaoMaster;
-import com.juntai.wisdom.inspection.greenDao.DaoSession;
 import com.mob.MobSDK;
 import com.orhanobut.hawk.Hawk;
 import com.tencent.bugly.Bugly;
@@ -36,15 +34,11 @@ public class MyApp extends BaseApplication {
     public static int CHECK_UPDATE_TYPE = 1;//类型id（1：警小宝）（2：巡小管）（3：邻小帮）
     public boolean isFinish = false;
     private String BUGLY_APPID = "5210cffba0";//
-    public LatLng myLocation;
     public BDLocation bdLocation;
     public static long lastClickTime;//上次点击按钮时间
     public static int timeLimit = 1000;
-    private static DaoSession daoSession;
     private static final String DATA_BASE_NAME = "db_dgjxb";//数据库名称
 
-    public static int BASE_REQUESR = 10086;
-    public static int BASE_RESULT = 10087;
 
     @Override
     public void onCreate() {
@@ -62,7 +56,6 @@ public class MyApp extends BaseApplication {
 
         //创建压缩图片存放目录
         FileCacheUtils.creatFile(FileCacheUtils.getAppImagePath());
-        initGreenDao();
         Bugly.init(this, "e7ede7b346", true);
     }
     @Override
@@ -75,35 +68,7 @@ public class MyApp extends BaseApplication {
     }
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
 
-    /**
-     * 初始化GreenDao,直接在Application中进行初始化操作
-     */
-    private void initGreenDao() {
-        DaoMaster.DevOpenHelper helper = new DaoMaster.DevOpenHelper(this, DATA_BASE_NAME);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        DaoMaster daoMaster = new DaoMaster(db);
-        daoSession = daoMaster.newSession();
-    }
 
-    public static DaoSession getDaoSession() {
-        return daoSession;
-    }
-
-    /**
-     * 获取当前定位
-     *
-     * @return
-     */
-    public LatLng getMyLocation() {
-        if (myLocation == null) {
-            myLocation = new LatLng(0, 0);
-        }
-        return myLocation;
-    }
-
-    public void setMyLocation(LatLng myLocation) {
-        this.myLocation = myLocation;
-    }
 
 
     public BDLocation getBdLocation() {

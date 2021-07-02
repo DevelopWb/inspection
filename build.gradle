@@ -19,7 +19,6 @@ buildscript {
         classpath "com.tencent.bugly:tinker-support:1.2.0"
         //mob
         classpath "com.mob.sdk:MobSDK:2018.0319.1724"
-        classpath 'org.greenrobot:greendao-gradle-plugin:3.2.2'
     }
 }
 android.useDeprecatedNdk=true
