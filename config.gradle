@@ -6,8 +6,8 @@ ext {
             minSdkVersion    : 19,
             targetSdkVersion : 28,
             //添加场所上传
-            versionCode      : 111,
-            versionName      : "1.1.1",
+            versionCode      : 112,
+            versionName      : "1.1.2",
     ]
     libsVersion = [
             // App dependencies version

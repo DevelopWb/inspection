@@ -49,13 +49,26 @@ public class SignResponsibilityActivity extends BaseResponsibilityActivity  {
         content = dataBean.getContent();
         unitId = getIntent().getIntExtra(BASE_ID, 0);
         ResponsibilityBean.DataBean dataBean = new ResponsibilityBean.DataBean();
-        dataBean.setName(titleName);
-        dataBean.setContent(content);
+        if ("消防安全责任书".equals(titleName)) {
+            dataBean.setName(getString(R.string.fire_safe_responsibility_title));
+            dataBean.setContent(getString(R.string.fire_safe_responsibility_content));
+        }else {
+            dataBean.setName(getString(R.string.security_manager_responsibility_title));
+            dataBean.setContent(getString(R.string.security_manager_responsibility_content));
+        }
         adapter.setNewData(mPresenter.getResponsibilityData(dataBean, false));
 
     }
 
+    @Override
+    protected void downloadFile() {
 
+    }
+
+    @Override
+    public void shareToWechat() {
+
+    }
 
 
     @Override
@@ -89,6 +102,8 @@ public class SignResponsibilityActivity extends BaseResponsibilityActivity  {
                         "file"), new File(getSignPath(FileCacheUtils.SIGN_PIC_NAME))));
         mPresenter.signResponsibility(builder.addFormDataPart("unitId", String.valueOf(unitId))
                 .addFormDataPart("typeId", isFireSafeResponsibility ? "1" : "2")
+                .addFormDataPart("unitName", dataBean.getUnitName())
+                .addFormDataPart("legalPhone", dataBean.getLegalPhone())
                 .addFormDataPart("content", content).build(), "");
     }
 

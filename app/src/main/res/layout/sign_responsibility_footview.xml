@@ -51,8 +51,8 @@
 
         <ImageView
             android:id="@+id/police_manager_seal_iv"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
             android:alpha="0.5"
             android:scaleType="fitCenter"
             app:layout_constraintBottom_toBottomOf="@+id/police_manager_name_tv"
@@ -97,6 +97,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:paddingLeft="5dp"
+            android:layout_marginTop="5dp"
             android:paddingTop="15dp"
             android:paddingBottom="15dp"
             android:text="所长:"
@@ -159,6 +160,29 @@
 
 
     </android.support.constraint.ConstraintLayout>
+    <LinearLayout
+        android:id="@+id/detail_bottom_bt_ll"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:id="@+id/share_wechat_tv"
+            style="@style/bt_style"
+            android:layout_marginLeft="40dp"
+            android:layout_marginRight="10dp"
+            android:layout_weight="1"
+            android:text="分享微信"></TextView>
+
+        <TextView
+            android:id="@+id/download_word_tv"
+            style="@style/bt_style"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="40dp"
+            android:layout_weight="1"
+            android:text="下载Word版"></TextView>
+
+    </LinearLayout>
 
     <TextView
         android:id="@+id/commit_form_tv"

@@ -1,15 +1,19 @@
 package com.juntai.wisdom.inspection.home_page.baseinspect;
 
 import android.text.TextUtils;
+import android.view.Gravity;
 
 import com.juntai.disabled.basecomponent.base.BaseObserver;
 import com.juntai.disabled.basecomponent.base.BaseResult;
 import com.juntai.disabled.basecomponent.mvp.IModel;
 import com.juntai.disabled.basecomponent.utils.RxScheduler;
+import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.AppHttpPath;
 import com.juntai.wisdom.inspection.AppNetModule;
 import com.juntai.wisdom.inspection.base.BaseAppPresent;
 import com.juntai.wisdom.inspection.base.ResponseListBean;
+import com.juntai.wisdom.inspection.bean.BaseNormalRecyclerviewBean;
+import com.juntai.wisdom.inspection.bean.BaseStringBean;
 import com.juntai.wisdom.inspection.bean.HeadPicBean;
 import com.juntai.wisdom.inspection.bean.IdNameBean;
 import com.juntai.wisdom.inspection.bean.ImportantTagBean;
@@ -65,9 +69,10 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
      */
     public List<MultipleItem> getFireCheckedOkDetailData(FireCheckBean.DataBean dataBean) {
         List<MultipleItem> arrays = new ArrayList<>();
-        arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW,
-                getStartFireCheckData(dataBean)));
-        initTextSelectType(arrays,BaseInspectContract.REMARK,dataBean==null?"":
+        arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW, new BaseNormalRecyclerviewBean(
+                BaseInspectContract.BASE_RECYCLERVIEW_TYPE_TEXT_VALUE,
+                getStartFireCheckData(dataBean), new TextKeyValueAdapter(R.layout.text_key_value_item))));
+        initTextSelectType(arrays, BaseInspectContract.REMARK, dataBean == null ? "" :
                         String.valueOf(dataBean.getRemarks()),
                 dataBean == null ? "" : dataBean.getRemarksName(), true);
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传检查图片"));
@@ -95,11 +100,12 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
      */
     public List<MultipleItem> getFireCheckedHasQuestionDetailData(FireCheckBean.DataBean dataBean, boolean hasPunish) {
         List<MultipleItem> arrays = new ArrayList<>();
-        arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW,
-                getStartFireCheckData(dataBean)));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW, new BaseNormalRecyclerviewBean(
+                BaseInspectContract.BASE_RECYCLERVIEW_TYPE_TEXT_VALUE,
+                getStartFireCheckData(dataBean), new TextKeyValueAdapter(R.layout.text_key_value_item))));
         arrays.add(new MultipleItem(MultipleItem.ITEM_FIRE_CHECK_FORM,
                 new UnQuailityFormBean(dataBean.getItemsJson(), dataBean.getOtherProblem(),
-                        dataBean.getRemarks(),dataBean.getRemarksName(), dataBean.getItemOne(), dataBean.getItemOneTime(),
+                        dataBean.getRemarks(), dataBean.getRemarksName(), dataBean.getItemOne(), dataBean.getItemOneTime(),
                         dataBean.getItemTwo(),
                         dataBean.getItemTwoTime(), dataBean.getNoticeName(), dataBean.getNoticeContent(),
                         dataBean.isHideSummarize())));
@@ -151,13 +157,13 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                                                boolean isCheckedOk) {
         List<MultipleItem> arrays = new ArrayList<>();
         if (isCheckedOk) {
-            initTextSelectType(arrays,BaseInspectContract.REMARK,dataBean==null?"":
+            initTextSelectType(arrays, BaseInspectContract.REMARK, dataBean == null ? "" :
                             String.valueOf(dataBean.getRemarks()),
                     dataBean == null ? "" : dataBean.getRemarksName(), true);
         } else {
             arrays.add(new MultipleItem(MultipleItem.ITEM_FIRE_CHECK_FORM,
                     new UnQuailityFormBean(dataBean.getItemsJson(), dataBean.getOtherProblem(),
-                            dataBean.getRemarks(),dataBean.getRemarksName(), dataBean.getItemOne(), dataBean.getItemOneTime(),
+                            dataBean.getRemarks(), dataBean.getRemarksName(), dataBean.getItemOne(), dataBean.getItemOneTime(),
                             dataBean.getItemTwo(),
                             dataBean.getItemTwoTime(), dataBean.getNoticeName(), dataBean.getNoticeContent(),
                             dataBean.isHideSummarize())));
@@ -188,7 +194,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         List<MultipleItem> arrays = new ArrayList<>();
         arrays.add(new MultipleItem(MultipleItem.ITEM_FIRE_CHECK_FORM,
                 new UnQuailityFormBean(dataBean.getItemsJson(), dataBean.getOtherProblem(),
-                        dataBean.getRemarks(), dataBean.getRemarksName(),dataBean.getItemOne(), dataBean.getItemOneTime(),
+                        dataBean.getRemarks(), dataBean.getRemarksName(), dataBean.getItemOne(), dataBean.getItemOneTime(),
                         dataBean.getItemTwo(),
                         dataBean.getItemTwoTime(), dataBean.getNoticeName(), dataBean.getNoticeContent(),
                         dataBean.isHideSummarize())));
@@ -209,7 +215,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         List<MultipleItem> arrays = new ArrayList<>();
         arrays.add(new MultipleItem(MultipleItem.ITEM_FIRE_CHECK_FORM,
                 new UnQuailityFormBean(dataBean.getItemsJson(), dataBean.getOtherProblem(),
-                        dataBean.getRemarks(), dataBean.getRemarksName(),dataBean.getItemOne(), dataBean.getItemOneTime(),
+                        dataBean.getRemarks(), dataBean.getRemarksName(), dataBean.getItemOne(), dataBean.getItemOneTime(),
                         dataBean.getItemTwo(),
                         dataBean.getItemTwoTime(), dataBean.getUnitName(), dataBean.getNoticeContent(),
                         false)));
@@ -224,12 +230,13 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     public List<MultipleItem> getSecurityInpsectData(SecurityInspectRecordDetailBean.DataBean recordDetailBean,
                                                      boolean isDetail) {
         List<MultipleItem> arrays = new ArrayList<>();
-        arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW,
-                getStartInspectBaseData(recordDetailBean)));
-        initTextSelectType(arrays,BaseInspectContract.INSPECTION_CHECK_PROBLEMS,recordDetailBean==null?"":
-                String.valueOf(recordDetailBean.getTypeId()),
+        arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW, new BaseNormalRecyclerviewBean(
+                BaseInspectContract.BASE_RECYCLERVIEW_TYPE_TEXT_VALUE,
+                getStartInspectBaseData(recordDetailBean), new TextKeyValueAdapter(R.layout.text_key_value_item))));
+        initTextSelectType(arrays, BaseInspectContract.INSPECTION_CHECK_PROBLEMS, recordDetailBean == null ? "" :
+                        String.valueOf(recordDetailBean.getTypeId()),
                 recordDetailBean == null ? "" : recordDetailBean.getTypeName(), false);
-        initTextSelectType(arrays,BaseInspectContract.REMARK,recordDetailBean==null?"":
+        initTextSelectType(arrays, BaseInspectContract.REMARK, recordDetailBean == null ? "" :
                         String.valueOf(recordDetailBean.getRemarks()),
                 recordDetailBean == null ? "" : recordDetailBean.getRemarksName(), true);
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传巡检图片"));
@@ -244,7 +251,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         }
         arrays.add(new MultipleItem(MultipleItem.ITEM_FRAGMENT, new ItemFragmentBean(3, isDetail ?
                 fragmentPics.size() : 6,
-                3, 1,false,
+                3, 1, false,
                 fragmentPics)));
         return arrays;
     }
@@ -272,13 +279,14 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
     public List<MultipleItem> getVisitData(ImportantorVisitRecordDetailBean.DataBean recordDetailBean,
                                            boolean isDetail) {
         List<MultipleItem> arrays = new ArrayList<>();
-        arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW,
-                getStartVisitBaseData(recordDetailBean)));
-        initTextSelectType(arrays,  BaseInspectContract.INSPECTION_VISIT_PROBLEMS,recordDetailBean==null?"":
+        arrays.add(new MultipleItem(MultipleItem.ITEM_NORMAL_RECYCLEVIEW, new BaseNormalRecyclerviewBean(
+                BaseInspectContract.BASE_RECYCLERVIEW_TYPE_TEXT_VALUE,
+                getStartVisitBaseData(recordDetailBean), new TextKeyValueAdapter(R.layout.text_key_value_item))));
+        initTextSelectType(arrays, BaseInspectContract.INSPECTION_VISIT_PROBLEMS, recordDetailBean == null ? "" :
                         String.valueOf(recordDetailBean.getInspectionId()),
                 recordDetailBean == null ? "" : recordDetailBean.getInspectionName(), false);
 
-        initTextSelectType(arrays,BaseInspectContract.REMARK,recordDetailBean==null?"":
+        initTextSelectType(arrays, BaseInspectContract.REMARK, recordDetailBean == null ? "" :
                         String.valueOf(recordDetailBean.getRemarks()),
                 recordDetailBean == null ? "" : recordDetailBean.getRemarksName(), true);
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传走访图片"));
@@ -316,14 +324,8 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 fragmentPics.size() : 3,
                 1, false,
                 fragmentPics)));
-
-        arrays.add(new MultipleItem(MultipleItem.ITEM_TEXT, responsibilityBean.getContent()));
-//        arrays.add(new MultipleItem(MultipleItem.ITEM_SIGN, new ItemSignBean("签字：", responsibilityBean == null ? "" :
-//                responsibilityBean.getSignPhoto(), 1, !isDetail)));
-//        arrays.add(new MultipleItem(MultipleItem.ITEM_DATE, TextUtils.isEmpty(responsibilityBean.getGmtCreate()) ?
-//                new SimpleDateFormat("yyyy年MM月dd日").format(new Date()):
-//                responsibilityBean.getGmtCreate()));
-
+        arrays.add(new MultipleItem(MultipleItem.ITEM_TEXT, new BaseStringBean(Gravity.CENTER,responsibilityBean.getName())));
+        arrays.add(new MultipleItem(MultipleItem.ITEM_TEXT, new BaseStringBean(Gravity.LEFT,responsibilityBean.getContent())));
         return arrays;
     }
 
@@ -350,8 +352,8 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_UNIT_LEGAL_PERSON_TEL, bean == null
                 ? "" : bean.getLegalPhone(), true, 0);
 
-        initTextSelectType(arrays, BaseInspectContract.INSPECTION_UNIT_TYPE, bean == null ? "" :String.valueOf( bean.getTypeId()),
-                bean == null ? "" :bean.getTypeName(),true);
+        initTextSelectType(arrays, BaseInspectContract.INSPECTION_UNIT_TYPE, bean == null ? "" : String.valueOf(bean.getTypeId()),
+                bean == null ? "" : bean.getTypeName(), true);
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_RESPONSIBLE, bean == null ? "" :
                 bean.getPersonLiable(), true, 0);
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_RESPONSIBLE_TEL, bean == null ? "" :
@@ -529,11 +531,11 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 bean.getPhone(), true, 0);
         if (isDetail) {
             initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_WORK_UNIT_LATEST, bean == null ?
-                            "" : bean.getUnitName(), true, 0);
+                    "" : bean.getUnitName(), true, 0);
         }
         initTextSelectType(arrays, BaseInspectContract.INSPECTION_WORK_TYPE, bean == null ? "" :
                         String.valueOf(bean.getPostId()),
-                bean == null ? "" :bean.getPostName(), true);
+                bean == null ? "" : bean.getPostName(), true);
 
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, bean == null ? "" :
                 bean.getRemarks(), false, 1);
@@ -1265,6 +1267,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                     }
                 });
     }
+
     @Override
     public void getRemarkFromFireCheck(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
@@ -1616,6 +1619,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                     }
                 });
     }
+
     @Override
     public void getRemarkFromInspection(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()
@@ -1659,6 +1663,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                     }
                 });
     }
+
     @Override
     public void getRemarkFromImportantor(RequestBody requestBody, String tag) {
         AppNetModule.createrRetrofit()

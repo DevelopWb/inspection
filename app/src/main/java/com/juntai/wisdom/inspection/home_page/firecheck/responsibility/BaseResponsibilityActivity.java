@@ -12,8 +12,14 @@ import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.base.ResponseListBean;
 import com.juntai.wisdom.inspection.home_page.baseinspect.BaseInspectionActivity;
 import com.juntai.wisdom.inspection.utils.CalendarUtil;
+import com.juntai.wisdom.inspection.utils.ToolShare;
 import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
 import com.juntai.wisdom.inspection.utils.UserInfoManager;
+
+import java.util.HashMap;
+
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
 
 /**
  * @Author: tobato
@@ -61,10 +67,17 @@ public abstract class BaseResponsibilityActivity extends BaseInspectionActivity 
         mTelephoneTv = view.findViewById(R.id.telephone_tv);
         mDateTv = view.findViewById(R.id.date_tv);
         mCommitTv = view.findViewById(R.id.commit_form_tv);
+        LinearLayout mDetailBottomBtLl = view.findViewById(R.id.detail_bottom_bt_ll);
+        TextView mShareWechatTv = view.findViewById(R.id.share_wechat_tv);
+        TextView mDownloadWordTv = view.findViewById(R.id.download_word_tv);
         mCommitTv.setOnClickListener(this);
         if (isDetail()) {
+            mDetailBottomBtLl.setVisibility(View.VISIBLE);
             mCommitTv.setVisibility(View.GONE);
-        }else {
+            mDownloadWordTv.setOnClickListener(this);
+            mShareWechatTv.setOnClickListener(this);
+        } else {
+            mDetailBottomBtLl.setVisibility(View.GONE);
             mCommitTv.setVisibility(View.VISIBLE);
             mSignLl.setOnClickListener(this);
         }
@@ -72,7 +85,8 @@ public abstract class BaseResponsibilityActivity extends BaseInspectionActivity 
     }
 
 
-    abstract  boolean isDetail();
+    abstract boolean isDetail();
+
     @Override
     public void initData() {
         dataBean = getIntent().getParcelableExtra(PARCELABLE_KEY);
@@ -91,23 +105,22 @@ public abstract class BaseResponsibilityActivity extends BaseInspectionActivity 
         }
         setOnSignedCallBack(this);
         mUnitNameTv.setText(dataBean.getUnitName());
-        mTelephoneTv.setText("联系电话:"+dataBean.getLegalPhone());
-        mPoliceStationTagTv.setText(isFireSafeResponsibility ? "单位:" : "甲方:" );
-        mUnitTagTv.setText(isFireSafeResponsibility ? "单位名称:" : "乙方:" );
-        mPoliceManagerNameTv.setText(isFireSafeResponsibility ? "所长:" : "派出所:" );
-        mSignNameTv.setText(isFireSafeResponsibility ? "单位法人:" : "责任人:" );
+        mTelephoneTv.setText("联系电话:" + dataBean.getLegalPhone());
+        mPoliceStationTagTv.setText(isFireSafeResponsibility ? "单位:" : "甲方:");
+        mUnitTagTv.setText(isFireSafeResponsibility ? "单位名称:" : "乙方:");
+        mPoliceManagerNameTv.setText(isFireSafeResponsibility ? "所长:" : "派出所:");
+        mSignNameTv.setText(isFireSafeResponsibility ? "单位法人:" : "责任人:");
         mPoliceStationNameTv.setText(UserInfoManager.getDepartmentName());
-
-        if (isFireSafeResponsibility) {
-            ImageLoadUtil.loadImageNoCache(mContext, UrlFormatUtil.getImageOriginalUrl(dataBean.getSeal()), mPoliceSealIv);
-            ImageLoadUtil.loadImageNoCache(mContext, UrlFormatUtil.getImageOriginalUrl(dataBean.getNameSeal()), mPoliceManagerSealIv);
-        }else {
-            ImageLoadUtil.loadImageNoCache(mContext, UrlFormatUtil.getImageOriginalUrl(dataBean.getSeal()), mPoliceManagerSealIv);
-        }
         if (isDetail()) {
+            if (isFireSafeResponsibility) {
+                ImageLoadUtil.loadImageNoCache(mContext, UrlFormatUtil.getImageOriginalUrl(dataBean.getSeal()), mPoliceSealIv);
+                ImageLoadUtil.loadImageNoCache(mContext, UrlFormatUtil.getImageOriginalUrl(dataBean.getNameSeal()), mPoliceManagerSealIv);
+            } else {
+                ImageLoadUtil.loadImageNoCache(mContext, UrlFormatUtil.getImageOriginalUrl(dataBean.getSeal()), mPoliceManagerSealIv);
+            }
             mDateTv.setText(dataBean.getGmtCreate());
             ImageLoadUtil.loadImageNoCache(mContext, UrlFormatUtil.getImageOriginalUrl(dataBean.getSignPic()), mSignNameIv);
-        }else {
+        } else {
             mDateTv.setText(CalendarUtil.getCurrentTime("yyyy年MM月dd日"));
         }
     }
@@ -127,9 +140,22 @@ public abstract class BaseResponsibilityActivity extends BaseInspectionActivity 
                 //签名
                 showSignatureView();
                 break;
+            case R.id.share_wechat_tv:
+                //整改通知单 分享至微信
+                
+                shareToWechat();
+               
+                break;
+            case R.id.download_word_tv:
+                downloadFile();
+                break;
             default:
                 break;
         }
     }
+
+    protected abstract void downloadFile();
+
+    public abstract void shareToWechat() ;
 
 }

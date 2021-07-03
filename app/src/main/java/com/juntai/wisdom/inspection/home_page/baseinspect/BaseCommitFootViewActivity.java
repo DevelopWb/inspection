@@ -1,20 +1,17 @@
 package com.juntai.wisdom.inspection.home_page.baseinspect;
 
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.baidu.location.BDLocation;
-import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.bdmap.act.LocateSelectionActivity;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.bean.BaseAdapterDataBean;
 import com.juntai.wisdom.inspection.bean.LocationBean;
 import com.juntai.wisdom.inspection.bean.MultipleItem;
-import com.juntai.wisdom.inspection.utils.HawkProperty;
-import com.orhanobut.hawk.Hawk;
 
 import java.util.List;
 
@@ -112,7 +109,7 @@ public abstract class BaseCommitFootViewActivity extends BaseInspectionActivity 
             case R.id.commit_form_tv:
                 if ("下一步".equals(commitName)) {
                     //消防检查  检查出问题时 下一步的逻辑
-                   next();
+                    next();
                     return;
                 }
                 BaseAdapterDataBean baseAdapterDataBean = getBaseAdapterData(false);
@@ -132,7 +129,9 @@ public abstract class BaseCommitFootViewActivity extends BaseInspectionActivity 
     /**
      * 下一步
      */
-    public void  next(){}
+    public void next() {
+    }
+
     /**
      * 提交请求
      *
@@ -141,4 +140,8 @@ public abstract class BaseCommitFootViewActivity extends BaseInspectionActivity 
     protected abstract void commitRequest(MultipartBody.Builder builder);
 
     protected abstract void saveDraft();
+
+
+    public void initView() {
+    }
 }

@@ -30,6 +30,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseMultiItemQuickAdapter;
+import com.chad.library.adapter.base.BaseQuickAdapter;
 import com.chad.library.adapter.base.BaseViewHolder;
 import com.juntai.disabled.basecomponent.base.BaseActivity;
 import com.juntai.disabled.basecomponent.utils.CalendarUtil;
@@ -42,6 +43,8 @@ import com.juntai.disabled.basecomponent.utils.ToastUtils;
 import com.juntai.disabled.federation.R;
 import com.juntai.wisdom.inspection.base.ResponseListBean;
 import com.juntai.wisdom.inspection.base.selectPics.SelectPhotosFragment;
+import com.juntai.wisdom.inspection.bean.BaseNormalRecyclerviewBean;
+import com.juntai.wisdom.inspection.bean.BaseStringBean;
 import com.juntai.wisdom.inspection.bean.HeadPicBean;
 import com.juntai.wisdom.inspection.bean.ImportantTagBean;
 import com.juntai.wisdom.inspection.bean.ItemFragmentBean;
@@ -55,6 +58,7 @@ import com.juntai.wisdom.inspection.bean.firecheck.UnQualifiedBean;
 import com.juntai.wisdom.inspection.utils.AppUtils;
 import com.juntai.wisdom.inspection.utils.StringTools;
 import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
+import com.tencent.bugly.proguard.T;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -114,7 +118,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
     public String ITEM_HEAD_TAG2 = "场所于(";
     public String ITEM_FOOT_TAG1 = ")项";
     public String ITEM_FOOT_TAG2 = ")前改正";
-    private  BaseActivity baseActivity;
+    private BaseActivity baseActivity;
 
     public void setRadioCheckedCallBack(OnRadioCheckedCallBack radioCheckedCallBack) {
         this.radioCheckedCallBack = radioCheckedCallBack;
@@ -152,7 +156,6 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         addItemType(MultipleItem.ITEM_FIRE_CHECK_FORM, R.layout.item_fire_check);
         addItemType(MultipleItem.ITEM_RESIBILITY, R.layout.item_resibility);
         addItemType(MultipleItem.ITEM_TEXT, R.layout.item_text);
-        addItemType(MultipleItem.ITEM_DATE, R.layout.item_text);
         this.isDetail = isDetail;
         this.mFragmentManager = mFragmentManager;
     }
@@ -163,14 +166,11 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
         baseActivity = (BaseActivity) mContext;
         switch (item.getItemType()) {
             case MultipleItem.ITEM_TEXT:
-                String des = (String) item.getObject();
-                helper.setText(R.id.single_text_tv, des);
-                break;
-            case MultipleItem.ITEM_DATE:
-                String time = (String) item.getObject();
+                BaseStringBean baseStringBean = (BaseStringBean) item.getObject();
+//                String des = mContext.getString(R.string.test);
                 TextView textView = helper.getView(R.id.single_text_tv);
-                helper.setText(R.id.single_text_tv, time);
-                textView.setGravity(Gravity.RIGHT);
+                helper.setText(R.id.single_text_tv, baseStringBean.getContent());
+                textView.setGravity(baseStringBean.getGrivityType());
                 break;
             case MultipleItem.ITEM_RESIBILITY:
                 ResponseListBean.DataBean responsibilitySign = (ResponseListBean.DataBean) item.getObject();
@@ -348,15 +348,21 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                 break;
             case MultipleItem.ITEM_NORMAL_RECYCLEVIEW:
                 //recycleview
-
-                List<TextKeyValueBean> arrays = (List<TextKeyValueBean>) item.getObject();
+                BaseNormalRecyclerviewBean baseNormalRecyclerviewBean = (BaseNormalRecyclerviewBean) item.getObject();
                 RecyclerView recyclerView = helper.getView(R.id.item_normal_rv);
                 LinearLayoutManager manager = new LinearLayoutManager(mContext, LinearLayoutManager.VERTICAL
                         , false);
-                TextKeyValueAdapter adapter = new TextKeyValueAdapter(R.layout.text_key_value_item);
-                adapter.setNewData(arrays);
+                BaseQuickAdapter adapter = baseNormalRecyclerviewBean.getAdapter();
                 recyclerView.setAdapter(adapter);
                 recyclerView.setLayoutManager(manager);
+                switch (baseNormalRecyclerviewBean.getType()) {
+                    case BaseInspectContract.BASE_RECYCLERVIEW_TYPE_TEXT_VALUE:
+                        List<TextKeyValueBean> arrays = (List<TextKeyValueBean>) baseNormalRecyclerviewBean.getObject();
+                        adapter.setNewData(arrays);
+                        break;
+                    default:
+                        break;
+                }
                 break;
             case MultipleItem.ITEM_LOCATION:
                 LocationBean locationBean = (LocationBean) item.getObject();
@@ -806,7 +812,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                                                         }
 
                                                     }
-                                                }).show(),-1,0);
+                                                }).show(), -1, 0);
                                     }
                                 }, getFirstHeadIndex(content, ITEM_HEAD_TAG1), getFirstFootIndex(content,
                 ITEM_FOOT_TAG1),
@@ -912,7 +918,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                                                             }
 
                                                         }
-                                                    }).show(),-1,0);
+                                                    }).show(), -1, 0);
                                         }
                                     }, getLastHeadIndex(content, ITEM_HEAD_TAG1), getLastFootIndex(content,
                     ITEM_FOOT_TAG1),

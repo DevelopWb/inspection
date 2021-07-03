@@ -64,6 +64,9 @@ public interface BaseInspectContract {
     String INSPECTION_PUNISH_INFO = "处罚信息";
     String INSPECTION_OTHER_CONNECT_TYPE = "其他联系方式(QQ、微信、邮箱等)";
 
+    int  BASE_RECYCLERVIEW_TYPE_TEXT_VALUE = 0;//textvalue。类型
+    int  BASE_RECYCLERVIEW_TYPE_RESPONSIBILITY_CONTENT = 1;//责任书内容类型
+
     interface IInspectView extends IView {
     }
 

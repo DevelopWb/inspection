@@ -70,6 +70,16 @@ public class ResponsibilityBean  extends BaseResult {
         private String legal;//法人名称
 
         private String legalPhone;//法人电话
+        private String shareUrl;//
+        private String wordFile;//
+
+        public String getShareUrl() {
+            return shareUrl == null ? "" : shareUrl;
+        }
+
+        public String getWordFile() {
+            return wordFile == null ? "" : wordFile;
+        }
 
         public int getId() {
             return id;
