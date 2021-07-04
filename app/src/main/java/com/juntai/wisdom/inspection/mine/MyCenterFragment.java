@@ -231,7 +231,6 @@ public class MyCenterFragment extends BaseAppFragment<MyCenterPresent> implement
                 break;
             case AppHttpPath.LOGIN_OUT:
                 ToastUtils.success(mContext, "退出成功");
-                SPTools.saveString(mContext, "login", "");
                 UserInfoManager.clearUserData();//清理数据
                 //重置界面
                 mNickname.setText("点击登录");

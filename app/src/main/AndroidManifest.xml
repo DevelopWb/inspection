@@ -96,6 +96,7 @@
         <activity android:name="com.juntai.wisdom.inspection.home_page.add.unit.AddUnitActivity"
             android:launchMode="singleTop"/>
         <activity android:name="com.juntai.wisdom.inspection.home_page.add.importantor.AddImportantorActivity"
+            android:exported="true"
             android:launchMode="singleTop"/>
         <activity android:name="com.juntai.wisdom.inspection.home_page.add.inspectionsite.AddInspectSiteActivity"
             android:launchMode="singleTop"/>
@@ -127,6 +128,7 @@
         <activity android:name="com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectionSitesActivity" />
         <activity
             android:name="com.juntai.wisdom.inspection.home_page.QRScanActivity"
+            android:exported="true"
             android:launchMode="singleTop" />
 
         <provider

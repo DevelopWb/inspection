@@ -126,6 +126,11 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
 
     }
 
+    @Override
+    public void initData() {
+
+    }
+
     protected View getFootView() {
         View view = LayoutInflater.from(mContext.getApplicationContext()).inflate(R.layout.footview_commit, null);
         mCommitTv = view.findViewById(R.id.commit_form_tv);

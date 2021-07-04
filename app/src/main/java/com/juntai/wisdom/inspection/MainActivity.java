@@ -181,17 +181,14 @@ public class MainActivity extends BaseAppActivity<MainPagePresent> implements Vi
         //            MyApp.goLogin();
         //            return;
         //        }
+        if (2 == UserInfoManager.getPostId()) {
+            //2代表警员助理 无查看消防和重点人员的权限
+            ToastUtils.toast(mContext,"该账户暂无权限");
+            return;
+        }
         View viewPop = LayoutInflater.from(mContext.getApplicationContext()).inflate(R.layout.pop_add, null);
         Group   unitGroup = viewPop.findViewById(R.id.add_unit_g);
         Group   importantorGroup = viewPop.findViewById(R.id.add_importantor_g);
-        if (2== UserInfoManager.getPostId()) {
-            //警务助理没有添加单位和重点人员的权限
-            unitGroup.setVisibility(View.GONE);
-            importantorGroup.setVisibility(View.GONE);
-        }else {
-            unitGroup.setVisibility(View.VISIBLE);
-            importantorGroup.setVisibility(View.VISIBLE);
-        }
         //背景颜色
         view.setBackgroundColor(Color.WHITE);
         TextView shadowTv = viewPop.findViewById(R.id.shadow_tv);

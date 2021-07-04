@@ -20,6 +20,7 @@ import com.juntai.wisdom.inspection.home_page.search.SearchActivity;
 import com.juntai.wisdom.inspection.mine.MyCenterContract;
 import com.juntai.wisdom.inspection.home_page.securityInspect.SecurityInspectionSitesActivity;
 import com.juntai.wisdom.inspection.utils.AppUtils;
+import com.juntai.wisdom.inspection.utils.UserInfoManager;
 import com.scwang.smartrefresh.layout.SmartRefreshLayout;
 
 /**
@@ -60,18 +61,26 @@ public class HomePageFragment extends BaseMvpFragment<HomePagePresent> implement
             public void onItemClick(BaseQuickAdapter adapter, View view, int position) {
                 HomePageMenuBean menuBean = (HomePageMenuBean) adapter.getData().get(position);
                 String menuName = menuBean.getMenuName();
-                if (TextUtils.isEmpty(menuName)) {
-                    return;
-                }
+
                 Intent intent = new Intent();
                 switch (menuName) {
                     case HomePageContract.HOMEPAGE_MENU_FIRE_CHECK:
                         //消防检查
+                        if (2 == UserInfoManager.getPostId()) {
+                            //2代表警员助理 无查看消防和重点人员的权限
+                            ToastUtils.toast(mContext,"该账户暂无权限");
+                            return;
+                        }
                         intent.setClass(mContext, FireCheckActivity.class);
                         startActivity(intent);
                         break;
                     case HomePageContract.HOMEPAGE_MENU_IMPORTANTER:
                         //重点人员
+                        if (2 == UserInfoManager.getPostId()) {
+                            //2代表警员助理 无查看消防和重点人员的权限
+                            ToastUtils.toast(mContext,"该账户暂无权限");
+                            return;
+                        }
                         intent.setClass(mContext, ImportantorsActivity.class);
                         startActivity(intent);
                         break;

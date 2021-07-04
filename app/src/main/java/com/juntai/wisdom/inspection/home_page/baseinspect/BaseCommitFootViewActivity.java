@@ -142,6 +142,4 @@ public abstract class BaseCommitFootViewActivity extends BaseInspectionActivity 
     protected abstract void saveDraft();
 
 
-    public void initView() {
-    }
 }

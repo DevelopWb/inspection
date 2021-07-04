@@ -12,18 +12,6 @@ public class SPTools {
     public static final String SP_NAME = BaseAppUtils.getAppName();
     private static SharedPreferences sp;
 
-    /**
-     * 保存字符串
-     *
-     * @param context
-     * @param key
-     * @param value
-     */
-    public static void saveString(Context context, String key, String value) {
-        if (sp == null)
-            sp = context.getSharedPreferences(SP_NAME, 0);
-        boolean ss = sp.edit().putString(key, value).commit();
-    }
 
 
     /**
