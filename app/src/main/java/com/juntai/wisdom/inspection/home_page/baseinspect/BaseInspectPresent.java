@@ -74,7 +74,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 getStartFireCheckData(dataBean), new TextKeyValueAdapter(R.layout.text_key_value_item))));
         initTextSelectType(arrays, BaseInspectContract.REMARK, dataBean == null ? "" :
                         String.valueOf(dataBean.getRemarks()),
-                dataBean == null ? "" : dataBean.getRemarksName(), true);
+                dataBean == null ? "" : dataBean.getRemarksName(), true,dataBean.getOther());
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传检查图片"));
         List<String> fragmentPics = new ArrayList<>();
         if (dataBean != null) {
@@ -108,7 +108,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                         dataBean.getRemarks(), dataBean.getRemarksName(), dataBean.getItemOne(), dataBean.getItemOneTime(),
                         dataBean.getItemTwo(),
                         dataBean.getItemTwoTime(), dataBean.getNoticeName(), dataBean.getNoticeContent(),
-                        dataBean.isHideSummarize())));
+                        dataBean.isHideSummarize(),dataBean.getOther())));
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "检查照片"));
         List<String> fragmentPics = new ArrayList<>();
         if (dataBean != null) {
@@ -159,14 +159,14 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         if (isCheckedOk) {
             initTextSelectType(arrays, BaseInspectContract.REMARK, dataBean == null ? "" :
                             String.valueOf(dataBean.getRemarks()),
-                    dataBean == null ? "" : dataBean.getRemarksName(), true);
+                    dataBean == null ? "" : dataBean.getRemarksName(), true,dataBean.getOther());
         } else {
             arrays.add(new MultipleItem(MultipleItem.ITEM_FIRE_CHECK_FORM,
                     new UnQuailityFormBean(dataBean.getItemsJson(), dataBean.getOtherProblem(),
                             dataBean.getRemarks(), dataBean.getRemarksName(), dataBean.getItemOne(), dataBean.getItemOneTime(),
                             dataBean.getItemTwo(),
                             dataBean.getItemTwoTime(), dataBean.getNoticeName(), dataBean.getNoticeContent(),
-                            dataBean.isHideSummarize())));
+                            dataBean.isHideSummarize(),dataBean.getOther())));
         }
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传检查图片"));
         List<String> fragmentPics = new ArrayList<>();
@@ -197,7 +197,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                         dataBean.getRemarks(), dataBean.getRemarksName(), dataBean.getItemOne(), dataBean.getItemOneTime(),
                         dataBean.getItemTwo(),
                         dataBean.getItemTwoTime(), dataBean.getNoticeName(), dataBean.getNoticeContent(),
-                        dataBean.isHideSummarize())));
+                        dataBean.isHideSummarize(),dataBean.getOther())));
 
         arrays.add(new MultipleItem(MultipleItem.ITEM_SIGN, new ItemSignBean("责任人签字：", dataBean == null ? "" :
                 "", 0, true)));
@@ -218,7 +218,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                         dataBean.getRemarks(), dataBean.getRemarksName(), dataBean.getItemOne(), dataBean.getItemOneTime(),
                         dataBean.getItemTwo(),
                         dataBean.getItemTwoTime(), dataBean.getUnitName(), dataBean.getNoticeContent(),
-                        false)));
+                        false,dataBean.getOther())));
         return arrays;
     }
 
@@ -235,10 +235,10 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 getStartInspectBaseData(recordDetailBean), new TextKeyValueAdapter(R.layout.text_key_value_item))));
         initTextSelectType(arrays, BaseInspectContract.INSPECTION_CHECK_PROBLEMS, recordDetailBean == null ? "" :
                         String.valueOf(recordDetailBean.getTypeId()),
-                recordDetailBean == null ? "" : recordDetailBean.getTypeName(), false);
+                recordDetailBean == null ? "" : recordDetailBean.getTypeName(), false,null);
         initTextSelectType(arrays, BaseInspectContract.REMARK, recordDetailBean == null ? "" :
                         String.valueOf(recordDetailBean.getRemarks()),
-                recordDetailBean == null ? "" : recordDetailBean.getRemarksName(), true);
+                recordDetailBean == null ? "" : recordDetailBean.getRemarksName(), true,recordDetailBean.getOther());
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传巡检图片"));
         List<String> fragmentPics = new ArrayList<>();
         if (recordDetailBean != null) {
@@ -284,11 +284,11 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 getStartVisitBaseData(recordDetailBean), new TextKeyValueAdapter(R.layout.text_key_value_item))));
         initTextSelectType(arrays, BaseInspectContract.INSPECTION_VISIT_PROBLEMS, recordDetailBean == null ? "" :
                         String.valueOf(recordDetailBean.getInspectionId()),
-                recordDetailBean == null ? "" : recordDetailBean.getInspectionName(), false);
+                recordDetailBean == null ? "" : recordDetailBean.getInspectionName(), false,null);
 
         initTextSelectType(arrays, BaseInspectContract.REMARK, recordDetailBean == null ? "" :
                         String.valueOf(recordDetailBean.getRemarks()),
-                recordDetailBean == null ? "" : recordDetailBean.getRemarksName(), true);
+                recordDetailBean == null ? "" : recordDetailBean.getRemarksName(), true,recordDetailBean.getOther());
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_BIG, "上传走访图片"));
         List<String> fragmentPics = new ArrayList<>();
         if (recordDetailBean != null) {
@@ -353,7 +353,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 ? "" : bean.getLegalPhone(), true, 0);
 
         initTextSelectType(arrays, BaseInspectContract.INSPECTION_UNIT_TYPE, bean == null ? "" : String.valueOf(bean.getTypeId()),
-                bean == null ? "" : bean.getTypeName(), true);
+                bean == null ? "" : bean.getTypeName(), true,null);
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_RESPONSIBLE, bean == null ? "" :
                 bean.getPersonLiable(), true, 0);
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_RESPONSIBLE_TEL, bean == null ? "" :
@@ -458,11 +458,11 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
                 , true, 0);
         initTextSelectType(arrays, BaseInspectContract.INSPECTION_PERSONAL_TYPE, bean == null ? "" : bean.getTypeId()
                 , bean == null ? "" :
-                        bean.getTypeName(), true);
+                        bean.getTypeName(), true,null);
         initTextSelectType(arrays, BaseInspectContract.INSPECTION_PERSONAL_STATUS, bean == null ? "" :
                         String.valueOf(bean.getKeyStatus())
                 , bean == null ? "" :
-                        bean.getKeyStatusName(), true);
+                        bean.getKeyStatusName(), true,null);
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.INSPECTION_WORK_UNIT_LATEST, bean == null ?
                         "" :
                         bean.getUnitName()
@@ -535,7 +535,7 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
         }
         initTextSelectType(arrays, BaseInspectContract.INSPECTION_WORK_TYPE, bean == null ? "" :
                         String.valueOf(bean.getPostId()),
-                bean == null ? "" : bean.getPostName(), true);
+                bean == null ? "" : bean.getPostName(), true,null);
 
         initTextType(arrays, MultipleItem.ITEM_EDIT, BaseInspectContract.REMARK, bean == null ? "" :
                 bean.getRemarks(), false, 1);
@@ -639,12 +639,12 @@ public class BaseInspectPresent extends BaseAppPresent<IModel, BaseInspectContra
      * @param key
      */
     private void initTextSelectType(List<MultipleItem> arrays, String key, String id, String value,
-                                    boolean isImportant) {
+                                    boolean isImportant,String other) {
         arrays.add(new MultipleItem(MultipleItem.ITEM_TITILE_SMALL, new ImportantTagBean
                 (key, isImportant)));
         arrays.add(new MultipleItem(MultipleItem.ITEM_SELECT,
                 new TextKeyValueBean(key, value, id, String.format("%s%s", "请选择",
-                        key), 0, isImportant)));
+                        key), 0, isImportant,other)));
     }
 
     @Override

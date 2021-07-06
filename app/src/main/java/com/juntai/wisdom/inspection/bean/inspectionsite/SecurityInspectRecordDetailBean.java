@@ -60,12 +60,21 @@ public class SecurityInspectRecordDetailBean extends BaseResult {
         private int typeId;
         private String remarks;
         private String remarksName;//备注
+        private String other;//备注中的其他
         private String photoOne;
         private String photoTwo;
         private String photoThree;
         private String photoFour;
         private String photoFive;
         private String photoSix;
+
+        public String getOther() {
+            return other == null ? "" : other;
+        }
+
+        public void setOther(String other) {
+            this.other = other == null ? "" : other;
+        }
 
         public int getTypeId() {
             return typeId;

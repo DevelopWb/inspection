@@ -58,7 +58,6 @@ import com.juntai.wisdom.inspection.bean.firecheck.UnQualifiedBean;
 import com.juntai.wisdom.inspection.utils.AppUtils;
 import com.juntai.wisdom.inspection.utils.StringTools;
 import com.juntai.wisdom.inspection.utils.UrlFormatUtil;
-import com.tencent.bugly.proguard.T;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -327,6 +326,7 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
             case MultipleItem.ITEM_SELECT:
                 TextKeyValueBean textValueSelectBean = (TextKeyValueBean) item.getObject();
                 TextView textViewTv = helper.getView(R.id.select_value_tv);
+                String selectTextValue = textValueSelectBean.getValue();
                 if (!isDetail) {
                     helper.addOnClickListener(R.id.select_value_tv);
                     helper.addOnClickListener(R.id.tool_pic_iv);
@@ -337,12 +337,14 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
                     helper.setBackgroundRes(R.id.select_value_tv, R.drawable.sp_filled_gray_lighter);
                 }
                 textViewTv.setTag(textValueSelectBean);
-                TextKeyValueBean selectBean = (TextKeyValueBean) textViewTv.getTag();
-                textViewTv.setHint(selectBean.getHint());
+                textViewTv.setHint(textValueSelectBean.getHint());
                 if (BaseInspectContract.INSPECTION_VISIT_TIMES.equals(textValueSelectBean.getKey())) {
-                    textViewTv.setText(selectBean.getValue() + "日");
+                    textViewTv.setText(selectTextValue + "日");
                 } else {
-                    textViewTv.setText(selectBean.getValue());
+                    if (selectTextValue.contains("\\n")) {
+                        selectTextValue = selectTextValue.replace("\\n","\n");
+                    }
+                    textViewTv.setText(selectTextValue);
                 }
 
                 break;
@@ -698,7 +700,11 @@ public class BaseInspectionAdapter extends BaseMultiItemQuickAdapter<MultipleIte
 
                 //备注
                 TextView remarkTv = helper.getView(R.id.select_value_tv);
-                remarkTv.setText(formBean.getRemarkNames());
+                String remarknames = formBean.getRemarkNames();
+                if (remarknames.contains("\\n")) {
+                    remarknames =remarknames.replace("\\n","\n");
+                }
+                remarkTv.setText(remarknames);
                 if (!isDetail) {
                     helper.addOnClickListener(R.id.select_value_tv);
                     helper.setBackgroundRes(R.id.select_value_tv, R.drawable.stroke_gray_square_bg);

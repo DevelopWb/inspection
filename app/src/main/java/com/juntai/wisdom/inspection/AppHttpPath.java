@@ -2,8 +2,8 @@ package com.juntai.wisdom.inspection;
 
 public class AppHttpPath {
 
-//                    public static final String BASE = "http://192.168.124.118:8082/inspection";
-    public static final String BASE = "http://www.juntaikeji.com:19215/inspection";
+                    public static final String BASE = "http://192.168.124.118:8082/inspection";
+//    public static final String BASE = "http://www.juntaikeji.com:19215/inspection";
     public static final String BASE_IMAGE = "http://www.juntaikeji.com:19214";
     public static final String BASE_IMAGE_THUM = "http://www.juntaikeji.com:19214/thumbnail";
     /**

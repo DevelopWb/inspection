@@ -11,8 +11,10 @@ public class UnQuailityFormBean {
 
     private  String problems;//表格  选择的问题json（如下）
     private  String otherProblem;//其他问题（第11项）
+
     private  String remarks;//	具体问题（备注）
     private  String remarkNames;//	具体问题（备注）
+
     private  String itemOne;//问题项目1；例：（1,2）
     private  String itemOneTime;//	到期时间1
     private  String itemTwo;//问题项目1；例：（1,2）
@@ -20,9 +22,9 @@ public class UnQuailityFormBean {
     private String noticeName;// 通知书的名字
     private String noticeContent;// 内容
     private boolean  hideSummarize = false;//隐藏总结文字
+    private  String other;//备注里面的其他问题
 
-
-    public UnQuailityFormBean(String problems, String otherProblem, String remarks, String remarkNames, String itemOne, String itemOneTime, String itemTwo, String itemTwoTime, String noticeName, String noticeContent, boolean hideSummarize) {
+    public UnQuailityFormBean(String problems, String otherProblem, String remarks, String remarkNames, String itemOne, String itemOneTime, String itemTwo, String itemTwoTime, String noticeName, String noticeContent, boolean hideSummarize, String other) {
         this.problems = problems;
         this.otherProblem = otherProblem;
         this.remarks = remarks;
@@ -34,6 +36,15 @@ public class UnQuailityFormBean {
         this.noticeName = noticeName;
         this.noticeContent = noticeContent;
         this.hideSummarize = hideSummarize;
+        this.other = other;
+    }
+
+    public String getOther() {
+        return other == null ? "" : other;
+    }
+
+    public void setOther(String other) {
+        this.other = other == null ? "" : other;
     }
 
     public String getRemarkNames() {

@@ -15,6 +15,7 @@ public class TextKeyValueBean {
     private String value;
     private String ids;//用于多选时 多个item的id
     private String hint;
+    private String other;//多选时 存在其他 这个选项的时候
     private int type;//0代表高度固定的edittext  1代表高度不固定的edittext
     private boolean isImportant;//是否必填
     private boolean valueGravityToRight;//value靠右
@@ -34,13 +35,22 @@ public class TextKeyValueBean {
 
 
     public TextKeyValueBean(String key, String value, String ids, String hint, int type, boolean isImportant
-                            ) {
+                            ,String other) {
         this.key = key;
         this.value = value;
         this.ids = ids;
         this.hint = hint;
         this.type = type;
         this.isImportant = isImportant;
+        this.other = other;
+    }
+
+    public String getOther() {
+        return other == null ? "" : other;
+    }
+
+    public void setOther(String other) {
+        this.other = other == null ? "" : other;
     }
 
     public String getIds() {

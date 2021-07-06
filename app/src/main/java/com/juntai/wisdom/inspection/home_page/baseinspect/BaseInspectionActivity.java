@@ -1,7 +1,9 @@
 package com.juntai.wisdom.inspection.home_page.baseinspect;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.support.design.widget.BottomSheetDialog;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chad.library.adapter.base.BaseQuickAdapter;
+import com.juntai.disabled.basecomponent.utils.DialogUtil;
 import com.juntai.disabled.basecomponent.utils.FileCacheUtils;
 import com.juntai.disabled.basecomponent.utils.GsonTools;
 import com.juntai.disabled.basecomponent.utils.ImageLoadUtil;
@@ -281,7 +284,7 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                                                 break;
                                             case "开始巡检":
                                                 mPresenter.getRemarkFromInspection(getBaseBuilder().build(), AppHttpPath.GET_REMARK_FROM_INSPECTION);
-                                       break;
+                                                break;
                                             default:
                                                 break;
                                         }
@@ -829,12 +832,21 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                         case BaseInspectContract.REMARK:
                             builder.addFormDataPart("remarks", textValueSelectBean.getIds());
                             builder.addFormDataPart("remarksName", selectBeanValue);
+                            if (!TextUtils.isEmpty(textValueSelectBean.getOther())) {
+                                builder.addFormDataPart("other", textValueSelectBean.getOther());
+                                fireCheckBean.setOther(textValueSelectBean.getOther());
+                                recordDetailBean.setOther(textValueSelectBean.getOther());
+                                visitRecordDetailBean.setOther(textValueSelectBean.getOther());
+                            }
                             fireCheckBean.setRemarks(textValueSelectBean.getIds());
                             fireCheckBean.setRemarksName(selectBeanValue);
+
                             recordDetailBean.setRemarks(textValueSelectBean.getIds());
                             recordDetailBean.setRemarksName(selectBeanValue);
+
                             visitRecordDetailBean.setRemarks(textValueSelectBean.getIds());
                             visitRecordDetailBean.setRemarksName(selectBeanValue);
+
                             break;
                         case BaseInspectContract.INSPECTION_PERSONAL_STATUS:
                             builder.addFormDataPart("keyStatus", textValueSelectBean.getIds());
@@ -922,8 +934,12 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                     } else {
                         builder.addFormDataPart("remarks", formBean.getRemarks());
                         builder.addFormDataPart("remarksName", formBean.getRemarkNames());
+                        if (!TextUtils.isEmpty(formBean.getOther())) {
+                            builder.addFormDataPart("other", formBean.getOther());
+                        }
                         fireCheckBean.setRemarks(formBean.getRemarks());
                         fireCheckBean.setRemarksName(formBean.getRemarkNames());
+                        fireCheckBean.setOther(formBean.getOther());
                     }
                     if (TextUtils.isEmpty(formBean.getItemOne()) && TextUtils.isEmpty(formBean.getItemTwo())) {
 
@@ -1144,29 +1160,101 @@ public abstract class BaseInspectionActivity extends BaseAppActivity<BaseInspect
                 }
             }
         } else if (AppHttpPath.IMPORTANTOR_TYPES.equals(tag) || AppHttpPath.GET_REMARK_FIRE_CHECK.equals(tag)
-                || AppHttpPath.GET_REMARK_FROM_IMPORTANTOR.equals(tag)|| AppHttpPath.GET_REMARK_FROM_INSPECTION.equals(tag)) {
+                || AppHttpPath.GET_REMARK_FROM_IMPORTANTOR.equals(tag) || AppHttpPath.GET_REMARK_FROM_INSPECTION.equals(tag)) {
             IdNameBean idNameBean = (IdNameBean) o;
             if (idNameBean != null) {
                 List<IdNameBean.DataBean> arrays = idNameBean.getData();
+                arrays.add(new IdNameBean.DataBean(arrays.size(), "其他"));
                 MultiSelectBottomSheetDialog multiSelectBottomSheetDialog =
                         new MultiSelectBottomSheetDialog(mContext,
                                 new MultiSelectBottomSheetDialog.OnConfirmCallBack() {
                                     @Override
                                     public void confirm(String names, String ids) {
                                         if (selectBean == null) {
-                                            formBean.setRemarks(ids);
-                                            formBean.setRemarkNames(names);
+                                            //开始检查 有问题的时候
+                                            if (names.contains("其他")) {
+                                                View view = LayoutInflater.from(mContext).inflate(R.layout.remark_other_view, null);
+                                                TextView otherEt = view.findViewById(R.id.remark_other_et);
+                                                AlertDialog alertDialog = DialogUtil.getDialog(mContext)
+                                                        .setTitle("其他内容")
+                                                        .setView(view)
+                                                        .setCancelable(false)
+                                                        .setPositiveButton("完成",null)
+                                                        .show();
+                                                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        if (TextUtils.isEmpty(getTextViewValue(otherEt))) {
+                                                            ToastUtils.toast(mContext, "请输入其他内容");
+                                                        } else {
+                                                            String id = "";
+                                                            if (ids.contains(",")) {
+                                                                id = ids.substring(0, ids.lastIndexOf(","));
+                                                                formBean.setRemarks(id);
+                                                            }else {
+                                                                //只选了其他
+                                                                formBean.setRemarks(id);
+
+                                                            }
+                                                            formBean.setRemarkNames(names+"("+getTextViewValue(otherEt)+")");
+                                                            mSelectTv.setText(names+"("+getTextViewValue(otherEt)+")");
+                                                            formBean.setOther(getTextViewValue(otherEt));
+                                                            alertDialog.dismiss();
+                                                        }
+                                                    }
+                                                });
+                                                setAlertDialogHeightWidth(alertDialog,-1,0);
+                                            } else {
+                                                formBean.setRemarks(ids);
+                                                formBean.setRemarkNames(names);
+                                                mSelectTv.setText(names);
+                                            }
+
                                         } else {
-                                            selectBean.setValue(names);
-                                            selectBean.setIds(ids);
+                                            if (names.contains("其他")) {
+                                                View view = LayoutInflater.from(mContext).inflate(R.layout.remark_other_view, null);
+                                                TextView otherEt = view.findViewById(R.id.remark_other_et);
+                                                AlertDialog alertDialog = DialogUtil.getDialog(mContext)
+                                                        .setTitle("其他内容")
+                                                        .setView(view)
+                                                        .setCancelable(false)
+                                                        .setPositiveButton("完成",null)
+                                                        .show();
+                                                alertDialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+                                                    @Override
+                                                    public void onClick(View v) {
+                                                        if (TextUtils.isEmpty(getTextViewValue(otherEt))) {
+                                                            ToastUtils.toast(mContext, "请输入其他内容");
+                                                        } else {
+                                                            String id = "";
+                                                            if (ids.contains(",")) {
+                                                                id = ids.substring(0, ids.lastIndexOf(","));
+                                                                selectBean.setIds(id);
+                                                            }else {
+                                                                //只选了其他
+                                                                selectBean.setIds(id);
+
+                                                            }
+                                                            selectBean.setValue(names+"("+getTextViewValue(otherEt)+")");
+                                                            mSelectTv.setText(names+"("+getTextViewValue(otherEt)+")");
+                                                            selectBean.setOther(getTextViewValue(otherEt));
+                                                            alertDialog.dismiss();
+                                                        }
+                                                    }
+                                                });
+                                                setAlertDialogHeightWidth(alertDialog,-1,0);
+                                            } else {
+                                                selectBean.setValue(names);
+                                                selectBean.setIds(ids);
+                                                mSelectTv.setText(names);
+                                            }
+
                                         }
-                                        mSelectTv.setText(names);
+
                                     }
                                 });
                 multiSelectBottomSheetDialog.setAdapterData(arrays);
             }
-        } else {
-
         }
     }
 

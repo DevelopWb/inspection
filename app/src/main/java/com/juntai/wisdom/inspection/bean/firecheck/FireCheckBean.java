@@ -76,6 +76,7 @@ public class FireCheckBean  extends BaseResult {
         private String otherProblem;
         private String remarks;
         private String remarksName;
+        private String other;
         private int qualified;
         private String photoOne;
         private String photoTwo;
@@ -117,6 +118,14 @@ public class FireCheckBean  extends BaseResult {
 
         public void setRemarksName(String remarksName) {
             this.remarksName = remarksName == null ? "" : remarksName;
+        }
+
+        public String getOther() {
+            return other == null ? "" : other;
+        }
+
+        public void setOther(String other) {
+            this.other = other == null ? "" : other;
         }
 
         private MultipartBody.Builder builder;

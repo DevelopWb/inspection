@@ -98,10 +98,13 @@ public class MultiSelectBottomSheetDialog extends BottomSheetDialog implements V
         StringBuilder sb = new StringBuilder();
         for (IdNameBean.DataBean datum : data) {
             if (datum.isSelecte()) {
-                sb.append(datum.getName() + " ");
+                sb.append(datum.getName() + "\n");
             }
         }
-        return sb.toString();
+        if (sb.toString().length()>0) {
+            return sb.toString().substring(0,sb.toString().lastIndexOf("\n"));
+        }
+       return "";
     }
 
     /**

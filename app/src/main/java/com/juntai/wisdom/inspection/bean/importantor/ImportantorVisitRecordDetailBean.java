@@ -60,12 +60,21 @@ public class ImportantorVisitRecordDetailBean extends BaseResult {
         private int inspectionId;
         private String remarks;//备注id（1,2）
         private String remarksName;//备注
+        private String other;//
         private String photoOne;
         private String photoTwo;
         private String photoThree;
         private String photoFour;
         private String photoFive;
         private String photoSix;
+
+        public String getOther() {
+            return other == null ? "" : other;
+        }
+
+        public void setOther(String other) {
+            this.other = other == null ? "" : other;
+        }
 
         public String getPhotoFour() {
             return photoFour == null ? "" : photoFour;
@@ -203,30 +212,13 @@ public class ImportantorVisitRecordDetailBean extends BaseResult {
             dest.writeInt(this.inspectionId);
             dest.writeString(this.remarks);
             dest.writeString(this.remarksName);
+            dest.writeString(this.other);
             dest.writeString(this.photoOne);
             dest.writeString(this.photoTwo);
             dest.writeString(this.photoThree);
             dest.writeString(this.photoFour);
             dest.writeString(this.photoFive);
             dest.writeString(this.photoSix);
-        }
-
-        public void readFromParcel(Parcel source) {
-            this.id = source.readInt();
-            this.nickname = source.readString();
-            this.checkTime = source.readString();
-            this.liable = source.readString();
-            this.liablePhone = source.readString();
-            this.inspectionName = source.readString();
-            this.inspectionId = source.readInt();
-            this.remarks = source.readString();
-            this.remarksName = source.readString();
-            this.photoOne = source.readString();
-            this.photoTwo = source.readString();
-            this.photoThree = source.readString();
-            this.photoFour = source.readString();
-            this.photoFive = source.readString();
-            this.photoSix = source.readString();
         }
 
         public DataBean() {
@@ -242,6 +234,7 @@ public class ImportantorVisitRecordDetailBean extends BaseResult {
             this.inspectionId = in.readInt();
             this.remarks = in.readString();
             this.remarksName = in.readString();
+            this.other = in.readString();
             this.photoOne = in.readString();
             this.photoTwo = in.readString();
             this.photoThree = in.readString();
